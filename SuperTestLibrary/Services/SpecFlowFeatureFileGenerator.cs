@@ -1,6 +1,6 @@
 ﻿namespace SuperTestLibrary.Services
 {
-    public class SpecFlowFeatureFilePromptGenerator : IPromptGenerator
+    public class SpecFlowFeatureFileGenerator : IGenerator
     {
         public Task<string> GenerateFile()
         {

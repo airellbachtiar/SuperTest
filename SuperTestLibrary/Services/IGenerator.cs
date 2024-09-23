@@ -1,6 +1,6 @@
 ﻿namespace SuperTestLibrary.Services
 {
-    public interface IPromptGenerator
+    public interface IGenerator
     {
         Task<string> GenerateFile();
     }
