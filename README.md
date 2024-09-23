@@ -1,5 +1,7 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+The SuperTest project is a graduation internship project. SuperTest is a tool that can generate test cases (SpecFlow) from defined requirements. The goal of this project is to have a tool that can automate the creation SpecFlow test cases to accelerate development.
+
+![architecture image](img/Architecture%20Image.png)
 
 # Getting Started
 TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
