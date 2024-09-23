@@ -1,7 +1,7 @@
 ﻿using ReqIFSharp;
 using HtmlAgilityPack;
 
-namespace SuperTestGUI
+namespace SuperTestGUI.Helper
 {
     public static class SpecElementWithAttributesExtensions
     {
@@ -14,7 +14,7 @@ namespace SuperTestGUI
                 {
                     if (attributeValue is AttributeValueXHTML attributeValueXhtml)
                     {
-                        return RemoveXhtmlTags(attributeValueXhtml.TheValue);
+                        return attributeValueXhtml.TheValue.RemoveXhtmlTags();
                     }
                     else
                     {

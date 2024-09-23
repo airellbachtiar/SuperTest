@@ -1,16 +1,8 @@
-﻿using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using System.Xml;
 using Microsoft.Win32;
 using ReqIFSharp;
+using SuperTestGUI.Helper;
 
 namespace SuperTestGUI
 {
@@ -20,6 +12,8 @@ namespace SuperTestGUI
     public partial class MainWindow : Window
     {
         private ReqIF reqIF = new ReqIF();
+
+        private string reqIFFileContent = string.Empty;
 
         public MainWindow()
         {
@@ -41,6 +35,8 @@ namespace SuperTestGUI
             ReqIFDeserializer deserializer = new ReqIFDeserializer();
             reqIF = deserializer.Deserialize(filepath).First();
 
+            reqIFFileContent = System.IO.File.ReadAllText(filepath);
+
             XmlDocument doc = new XmlDocument();
 
             foreach (SpecObject specObject in reqIF.CoreContent.SpecObjects)
@@ -49,6 +45,11 @@ namespace SuperTestGUI
 
                 requirementsTreeViewer.Items.Add(listString);
             }
+        }
+
+        private void GenerateFeatureFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            //TO DO: Generate feature file
         }
     }
 }

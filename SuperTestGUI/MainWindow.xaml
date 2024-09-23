@@ -26,6 +26,15 @@
             VerticalAlignment="Top"
             Content="No file chosen" />
         <TreeView x:Name="requirementsTreeViewer" Margin="243,92,92,12" />
+        <Button
+            x:Name="GenerateFeatureFileButton"
+            Width="150"
+            Height="32"
+            Margin="60,144,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="GenerateFeatureFileButton_Click"
+            Content="Generate Feature File" />
 
     </Grid>
 </Window>
