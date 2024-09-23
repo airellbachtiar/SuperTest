@@ -2,7 +2,7 @@
 {
     public class SpecFlowFeatureFileGenerator : IGenerator
     {
-        public Task<string> GenerateFile()
+        public Task<string> Generate()
         {
             //TODO: Implement this method
             throw new NotImplementedException();

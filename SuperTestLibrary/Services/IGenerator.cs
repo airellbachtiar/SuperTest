@@ -2,6 +2,6 @@
 {
     public interface IGenerator
     {
-        Task<string> GenerateFile();
+        Task<string> Generate();
     }
 }
