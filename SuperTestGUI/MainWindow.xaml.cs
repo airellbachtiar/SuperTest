@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 using Microsoft.Win32;
 using ReqIFSharp;
-using SuperTestGUI.Helper;
+using SuperTestWPF.Helper;
 using SuperTestLibrary;
 using SuperTestLibrary.Storages;
 
-namespace SuperTestGUI
+namespace SuperTestWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -38,6 +38,11 @@ namespace SuperTestGUI
             {
                 AllReqIFs.Add(_deserializer.Deserialize(reqIFFile).First());
                 AllReqIFFilesContent.Add(System.IO.File.ReadAllText(reqIFFile));
+            }
+
+            foreach (var reqIF in AllReqIFs)
+            {
+                requirementsTreeViewer.Items.Add(reqIF.TheHeader.Title);
             }
         }
 

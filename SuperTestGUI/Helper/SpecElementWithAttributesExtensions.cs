@@ -1,7 +1,7 @@
 ﻿using ReqIFSharp;
 using HtmlAgilityPack;
 
-namespace SuperTestGUI.Helper
+namespace SuperTestWPF.Helper
 {
     public static class SpecElementWithAttributesExtensions
     {

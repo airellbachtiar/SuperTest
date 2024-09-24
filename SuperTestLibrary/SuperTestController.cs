@@ -21,7 +21,6 @@ namespace SuperTestLibrary
         {
             // TODO: Implement this method
             // For now, just mock reqif files
-            await Task.Delay(5000);
             return await _reqIFStorage.GetAllReqIFsAsync();
         }
     }

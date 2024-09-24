@@ -1,6 +1,4 @@
-﻿using ReqIFSharp;
-
-namespace SuperTestLibrary.Storages
+﻿namespace SuperTestLibrary.Storages
 {
     public class GitReqIFStorage : IReqIFStorage
     {
