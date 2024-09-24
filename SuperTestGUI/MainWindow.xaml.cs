@@ -1,8 +1,9 @@
 ﻿using System.Windows;
-using System.Xml;
 using Microsoft.Win32;
 using ReqIFSharp;
 using SuperTestGUI.Helper;
+using SuperTestLibrary;
+using SuperTestLibrary.Storages;
 
 namespace SuperTestGUI
 {
@@ -15,29 +16,48 @@ namespace SuperTestGUI
 
         private string reqIFFileContent = string.Empty;
 
+        private List<ReqIF> AllReqIFs = new List<ReqIF>();
+
+        private List<string> AllReqIFFilesContent = new List<string>();
+
+        private readonly ReqIFDeserializer _deserializer = new ReqIFDeserializer();
+
+        private SuperTestController superTestController = new SuperTestController(new GitReqIFStorage("C:\\Dev\\MockReqIFGitStorage"));
+
         public MainWindow()
         {
             InitializeComponent();
+            InitializeReqIFs();
+        }
+
+        private async void InitializeReqIFs()
+        {
+            var AllReqIFFiles = await superTestController.GetAllReqIFFilesAsync();
+
+            foreach (var reqIFFile in AllReqIFFiles)
+            {
+                AllReqIFs.Add(_deserializer.Deserialize(reqIFFile).First());
+                AllReqIFFilesContent.Add(System.IO.File.ReadAllText(reqIFFile));
+            }
         }
 
         private void UploadReqIFButton_Click(object sender, RoutedEventArgs e)
         {
+            requirementsTreeViewer.Items.Clear();
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
 
             bool? response = openFileDialog.ShowDialog();
 
-            if (response != true) return;
+            if (response != true)
+                return;
 
             string filepath = openFileDialog.FileName;
-            labelReqIFFile.Content = filepath;
+            labelReqIFFile.Content = openFileDialog;
 
-            ReqIFDeserializer deserializer = new ReqIFDeserializer();
-            reqIF = deserializer.Deserialize(filepath).First();
-
+            reqIF = _deserializer.Deserialize(filepath).First();
             reqIFFileContent = System.IO.File.ReadAllText(filepath);
-
-            XmlDocument doc = new XmlDocument();
 
             foreach (SpecObject specObject in reqIF.CoreContent.SpecObjects)
             {
