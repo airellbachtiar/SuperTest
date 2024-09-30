@@ -12,6 +12,7 @@ namespace SuperTestWPF.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private string _statusMessage;
+        private string _chosenFile = "No file chosen";
         private readonly ReqIFDeserializer _deserializer;
         private ISuperTestController superTestController;
         public ObservableCollection<string> Requirements { get; }
@@ -57,6 +58,19 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public string ChosenFile
+        {
+            get { return _chosenFile; }
+            set
+            {
+                if (_chosenFile != value)
+                {
+                    _chosenFile = value;
+                    OnPropertyChanged(nameof(ChosenFile));
+                }
+            }
+        }
+
         public ICommand UploadReqIFCommand { get; }
 
         private void UploadReqIF()
@@ -74,6 +88,7 @@ namespace SuperTestWPF.ViewModels
                 return;
 
             string filepath = openFileDialog.FileName;
+            ChosenFile = filepath;
 
             Requirements.Clear();
 
