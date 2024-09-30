@@ -17,7 +17,7 @@
             Margin="60,63,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Click="UploadReqIFButton_Click"
+            Command="{Binding UploadReqIFCommand}"
             Content="Choose a File to Upload" />
         <Label
             x:Name="labelReqIFFile"
@@ -25,7 +25,10 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Content="No file chosen" />
-        <TreeView x:Name="requirementsTreeViewer" Margin="243,92,92,12" />
+        <TreeView
+            x:Name="requirementsTreeViewer"
+            Margin="243,373,92,103"
+            ItemsSource="{Binding Requirements}" />
         <Button
             x:Name="GenerateFeatureFileButton"
             Width="150"
@@ -33,8 +36,22 @@
             Margin="60,144,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            Click="GenerateFeatureFileButton_Click"
             Content="Generate Feature File" />
+        <TextBox
+            Width="238"
+            Height="29"
+            Margin="524,58,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Text="{Binding StatusMessage}"
+            TextWrapping="Wrap" />
+        <TreeView
+            Width="745"
+            Height="228"
+            Margin="243,110,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            ItemsSource="{Binding ReqIFFileTitles}" />
 
     </Grid>
 </Window>
