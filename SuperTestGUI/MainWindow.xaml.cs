@@ -4,6 +4,7 @@ using ReqIFSharp;
 using SuperTestWPF.Helper;
 using SuperTestLibrary;
 using SuperTestLibrary.Storages;
+using Microsoft.Extensions.Configuration;
 
 namespace SuperTestWPF
 {
@@ -12,7 +13,7 @@ namespace SuperTestWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ReqIF reqIF = new ReqIF();
+        private ReqIF reqIF = new ReqIF(); 
 
         private string reqIFFileContent = string.Empty;
 
@@ -22,11 +23,12 @@ namespace SuperTestWPF
 
         private readonly ReqIFDeserializer _deserializer = new ReqIFDeserializer();
 
-        private SuperTestController superTestController = new SuperTestController(new GitReqIFStorage("C:\\Dev\\MockReqIFGitStorage"));
+        private ISuperTestController superTestController;
 
-        public MainWindow()
+        public MainWindow(ISuperTestController superTestController)
         {
             InitializeComponent();
+            this.superTestController = superTestController;
             InitializeReqIFs();
         }
 
