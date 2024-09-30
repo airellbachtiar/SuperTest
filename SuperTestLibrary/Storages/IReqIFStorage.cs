@@ -1,9 +1,7 @@
-﻿using ReqIFSharp;
-
-namespace SuperTestLibrary.Storages
+﻿namespace SuperTestLibrary.Storages
 {
     public interface IReqIFStorage
     {
-        Task <List<ReqIF>> GetAllReqIFsAsync();
+        Task <IEnumerable<string>> GetAllReqIFsAsync();
     }
 }
