@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SuperTestLibrary;
 using SuperTestLibrary.Storages;
+using SuperTestWPF.ViewModels;
 using System.Windows;
 
 namespace SuperTestWPF
@@ -25,6 +26,7 @@ namespace SuperTestWPF
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton<MainWindow>();
+                    services.AddSingleton<MainWindowViewModel>();
                     services.AddLogging();
                     services.AddSingleton<ISuperTestController, SuperTestController>();
                     services.AddSingleton<IReqIFStorage>(provider =>

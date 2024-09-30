@@ -11,10 +11,13 @@ namespace SuperTestWPF
     public partial class MainWindow : Window
     {
 
-        public MainWindow(ISuperTestController superTestController)
+        private readonly MainWindowViewModel _viewModel;
+
+        public MainWindow(MainWindowViewModel viewModel)
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel(superTestController);
+            _viewModel = viewModel;
+            DataContext = _viewModel;
         }
     }
 }
