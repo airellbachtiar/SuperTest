@@ -74,6 +74,20 @@ namespace SuperTestWPF.ViewModels
         {
             StatusMessage = "Uploading ReqIF...";
 
+            string reqIfPath = GetReqIFFileFromFolder();
+
+            if (string.IsNullOrEmpty(reqIfPath))
+            {
+                StatusMessage = "No file chosen.";
+                return;
+            }
+            RequirementSpecifications.Clear();
+
+            GetRequirementsFromReqIF(reqIfPath);
+        }
+
+        private string GetReqIFFileFromFolder()
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
                 Filter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
@@ -82,13 +96,17 @@ namespace SuperTestWPF.ViewModels
             bool? response = openFileDialog.ShowDialog();
 
             if (response != true)
-                return;
+                return string.Empty;
 
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
-            RequirementSpecifications.Clear();
 
-            RequirementSpecification? requirement = _reqIfUriToRequirementSpecificationConverter.Convert(filepath);
+            return filepath;
+        }
+
+        private void GetRequirementsFromReqIF(string reqIfPath)
+        {
+            RequirementSpecification? requirement = _reqIfUriToRequirementSpecificationConverter.Convert(reqIfPath);
 
             if (requirement == null)
             {
@@ -101,7 +119,7 @@ namespace SuperTestWPF.ViewModels
                 return;
             }
 
-            foreach(var req in requirement.Requirements)
+            foreach (var req in requirement.Requirements)
             {
                 RequirementSpecifications.Add(req);
             }
