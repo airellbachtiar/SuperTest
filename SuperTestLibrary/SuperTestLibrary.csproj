@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReqIFSharp" Version="8.1.0" />
+    <PackageReference Include="Google_GenerativeAI" Version="1.0.2" />
   </ItemGroup>
+
+	<ItemGroup>
+		<None Update="Gemini15Flash.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
