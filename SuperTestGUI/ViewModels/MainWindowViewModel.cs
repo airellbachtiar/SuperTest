@@ -11,7 +11,7 @@ namespace SuperTestWPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _statusMessage;
+        private string _statusMessage = "";
         private string _chosenFile = "No file chosen";
         private readonly ReqIFDeserializer _deserializer;
         private ISuperTestController superTestController;
@@ -110,7 +110,7 @@ namespace SuperTestWPF.ViewModels
             StatusMessage = "ReqIF upload complete.";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)
         {
