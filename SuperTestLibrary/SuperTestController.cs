@@ -14,7 +14,7 @@ namespace SuperTestLibrary
         public string GenerateSpecFlowFeatureFile()
         {
             // TODO: Implement this method
-            throw new NotImplementedException();
+            return string.Empty;
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()

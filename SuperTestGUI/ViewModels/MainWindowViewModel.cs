@@ -22,6 +22,7 @@ namespace SuperTestWPF.ViewModels
         public MainWindowViewModel(ISuperTestController superTestController)
         {
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
+            GenerateSpecFlowFeatureFileCommand = new RelayCommand(GenerateSpecFlowFeatureFile);
             this._superTestController = superTestController;
             InitializeReqIFs();
         }
@@ -60,6 +61,7 @@ namespace SuperTestWPF.ViewModels
         }
 
         public ICommand UploadReqIFCommand { get; }
+        public ICommand GenerateSpecFlowFeatureFileCommand { get; }
 
         private void UploadReqIF()
         {
@@ -89,6 +91,36 @@ namespace SuperTestWPF.ViewModels
             }
 
             return filepath;
+        }
+
+        private void GenerateSpecFlowFeatureFile()
+        {
+            StatusMessage = "Generating SpecFlow feature file...";
+
+            string featureFile = _superTestController.GenerateSpecFlowFeatureFile();
+
+            if (string.IsNullOrEmpty(featureFile))
+            {
+                StatusMessage = "Failed to generate SpecFlow feature file.";
+                return;
+            }
+
+            StatusMessage = "SpecFlow feature file generated.";
+        }
+
+        private void GenerateSpecFlowFeatureFile()
+        {
+            StatusMessage = "Generating SpecFlow feature file...";
+
+            string featureFile = _superTestController.GenerateSpecFlowFeatureFile();
+
+            if (string.IsNullOrEmpty(featureFile))
+            {
+                StatusMessage = "Failed to generate SpecFlow feature file.";
+                return;
+            }
+
+            StatusMessage = "SpecFlow feature file generated.";
         }
 
         #region INotifyPropertyChanged Members

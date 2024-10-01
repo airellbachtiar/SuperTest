@@ -69,6 +69,7 @@
             Width="150"
             Height="32"
             Margin="10"
+            Command="{Binding GenerateSpecFlowFeatureFileCommand}"
             Content="Generate Feature File" />
 
         <!--  TreeView for Requirements  -->
