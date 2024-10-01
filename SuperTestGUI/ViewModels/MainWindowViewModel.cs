@@ -14,6 +14,7 @@ namespace SuperTestWPF.ViewModels
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
         private readonly ISuperTestController _superTestController;
+        private readonly ObservableCollection<string> _llmList = new ObservableCollection<string> { "GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5" };
 
         private ObservableCollection<string?> _requirementSpecifications = new ObservableCollection<string?> { };
         private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
@@ -54,31 +55,6 @@ namespace SuperTestWPF.ViewModels
                 {
                     _chosenFile = value;
                     OnPropertyChanged(nameof(ChosenFile));
-                }
-            }
-        }
-
-        public ObservableCollection<string?> RequirementSpecifications
-        {
-            get { return _requirementSpecifications; }
-            set {
-                if (_requirementSpecifications != value)
-                {
-                    _requirementSpecifications = value;
-                    OnPropertyChanged(nameof(RequirementSpecifications));
-                }
-            }
-        }
-
-        public ObservableCollection<string?> OnLoadedRequirementTitles
-        {
-            get { return _onLoadedRequirementTitles; }
-            set
-            {
-                if (_onLoadedRequirementTitles != value)
-                {
-                    _onLoadedRequirementTitles = value;
-                    OnPropertyChanged(nameof(OnLoadedRequirementTitles));
                 }
             }
         }

@@ -100,5 +100,14 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             ItemsSource="{Binding OnLoadedRequirementTitles, Converter={StaticResource ReqIFUriToRequirementHeaderConverter}}" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="Auto"
+            Margin="10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            ItemsSource="{Binding LLMList}"
+            SelectedIndex="0" />
     </Grid>
 </Window>
