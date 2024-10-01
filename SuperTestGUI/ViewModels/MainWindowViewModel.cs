@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
-using ReqIFSharp;
 using SuperTestLibrary;
-using SuperTestWPF.Helper;
+using SuperTestWPF.Converters;
+using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,35 +13,32 @@ namespace SuperTestWPF.ViewModels
     {
         private string _statusMessage = "";
         private string _chosenFile = "No file chosen";
-        private readonly ReqIFDeserializer _deserializer;
-        private ISuperTestController superTestController;
-        public ObservableCollection<string> Requirements { get; }
-        public ObservableCollection<ReqIF> ReqIFFiles { get; }
-        public ObservableCollection<string> ReqIFFileTitles { get; }
+        private readonly ISuperTestController _superTestController;
+        private readonly ReqIfUriToRequirementSpecificationConverter _reqIfUriToRequirementSpecificationConverter = new ReqIfUriToRequirementSpecificationConverter();
+
+        public ObservableCollection<string?> RequirementSpecifications { get; }
+        public ObservableCollection<string?> OnLoadedRequirementTitles { get; }
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
+            RequirementSpecifications = new ObservableCollection<string?> { };
+            OnLoadedRequirementTitles = new ObservableCollection<string?> { };
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
-            _deserializer = new ReqIFDeserializer();
-            Requirements = new ObservableCollection<string>();
-            ReqIFFiles = new ObservableCollection<ReqIF>();
-            ReqIFFileTitles = new ObservableCollection<string>();
-            this.superTestController = superTestController;
+            this._superTestController = superTestController;
             InitializeReqIFs();
         }
 
         private async void InitializeReqIFs()
         {
-            var AllReqIFFiles = await superTestController.GetAllReqIFFilesAsync();
+            var AllReqIfFiles = await _superTestController.GetAllReqIFFilesAsync();
 
-            foreach (var reqIFFile in AllReqIFFiles)
+            foreach (var reqIfFile in AllReqIfFiles)
             {
-                ReqIFFiles.Add(_deserializer.Deserialize(reqIFFile).First());
-            }
-
-            foreach (var reqIF in ReqIFFiles)
-            {
-                ReqIFFileTitles.Add(reqIF.TheHeader.Title);
+                RequirementSpecification? requirement = _reqIfUriToRequirementSpecificationConverter.Convert(reqIfFile);
+                if (requirement != null)
+                {
+                    OnLoadedRequirementTitles.Add(requirement.Title);
+                }
             }
         }
 
@@ -89,22 +86,24 @@ namespace SuperTestWPF.ViewModels
 
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
+            RequirementSpecifications.Clear();
 
-            Requirements.Clear();
+            RequirementSpecification? requirement = _reqIfUriToRequirementSpecificationConverter.Convert(filepath);
 
-            var reqIF = _deserializer.Deserialize(filepath).FirstOrDefault();
-
-            if (reqIF == null)
+            if (requirement == null)
             {
                 StatusMessage = "Failed to load ReqIF file.";
                 return;
             }
-
-            // Extract the SpecObjects and add them to the ObservableCollection
-            foreach (var specObject in reqIF.CoreContent.SpecObjects)
+            else if (requirement.Requirements == null)
             {
-                string listString = string.Join(", ", specObject.Values.Select(val => val.ObjectValue.ToString().RemoveXhtmlTags()));
-                Requirements.Add(listString);
+                StatusMessage = "Failed to load requirements.";
+                return;
+            }
+
+            foreach(var req in requirement.Requirements)
+            {
+                RequirementSpecifications.Add(req);
             }
 
             StatusMessage = "ReqIF upload complete.";

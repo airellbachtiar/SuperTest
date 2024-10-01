@@ -71,7 +71,7 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ItemsSource="{Binding Requirements}" />
+            ItemsSource="{Binding RequirementSpecifications}" />
 
         <!--  Status Message TextBox  -->
         <TextBox
@@ -91,6 +91,6 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ItemsSource="{Binding ReqIFFileTitles}" />
+            ItemsSource="{Binding OnLoadedRequirementTitles}" />
     </Grid>
 </Window>
