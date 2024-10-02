@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 using SuperTestLibrary;
-using SuperTestLibrary.Services;
+using SuperTestLibrary.LLMs;
 using SuperTestWPF.Converters;
 using SuperTestWPF.Enums;
 using SuperTestWPF.Models;

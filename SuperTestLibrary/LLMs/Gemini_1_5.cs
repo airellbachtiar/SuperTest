@@ -2,7 +2,7 @@
 using GenerativeAI.Types;
 using System.Text.Json;
 
-namespace SuperTestLibrary.Services
+namespace SuperTestLibrary.LLMs
 {
     public class Gemini_1_5 : ILLM
     {

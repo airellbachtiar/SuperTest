@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.Services;
+﻿using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary

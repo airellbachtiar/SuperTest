@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.Services;
+﻿using SuperTestLibrary.LLMs;
 
 namespace SuperTestLibrary
 {

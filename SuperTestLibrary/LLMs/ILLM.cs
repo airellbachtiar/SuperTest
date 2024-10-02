@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.Services
+﻿namespace SuperTestLibrary.LLMs
 {
     public interface ILLM
     {
