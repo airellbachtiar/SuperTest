@@ -11,7 +11,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<None Update="Gemini15Flash.json">
+		<None Update="Gemini1_5Flash.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

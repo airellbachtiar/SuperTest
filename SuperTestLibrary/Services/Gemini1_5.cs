@@ -9,11 +9,16 @@ namespace SuperTestLibrary.Services
         private class Gemini1_5Settings
         {
             public string? ApiKey { get; init; }
+            public Prompt? GenerateFeatureFile { get; init; }
+        }
+
+        private class Prompt
+        {
             public string SystemInstruction { get; init; } = string.Empty;
             public string UserPrompt { get; init; } = string.Empty;
         }
 
-        private const string ApiKeyFile = "Gemini15Flash.json";
+        private const string ApiKeyFile = "Gemini1_5Flash.json";
 
         private static readonly Gemini1_5Settings _settings;
         private static readonly GenerativeModel _gemini;
@@ -39,11 +44,14 @@ namespace SuperTestLibrary.Services
         {
         }
 
-        public async Task<string> GenerateSpecFlowFeatureFile()
+        public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
+            //TODO: Input requirements
             var chat = _gemini.StartChat(new StartChatParams());
 
-            var response = await chat.SendMessageAsync(_settings.UserPrompt);
+            var prompt = $"{_settings.GenerateFeatureFile!.UserPrompt}\n<Requirements>\n{requirements}\n</Requirements>";
+
+            var response = await chat.SendMessageAsync(prompt);
 
             return response;
         }

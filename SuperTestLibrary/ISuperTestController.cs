@@ -2,7 +2,7 @@
 {
     public interface ISuperTestController
     {
-        string GenerateSpecFlowFeatureFile();
+        Task<string> GenerateSpecFlowFeatureFileAsync(string requirements);
 
         Task<IEnumerable<string>> GetAllReqIFFilesAsync();
     }

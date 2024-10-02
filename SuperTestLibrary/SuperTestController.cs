@@ -1,4 +1,5 @@
-﻿using SuperTestLibrary.Storages;
+﻿using SuperTestLibrary.Services;
+using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary
 {
@@ -11,10 +12,10 @@ namespace SuperTestLibrary
             _reqIFStorage = reqIFStorage;
         }
 
-        public string GenerateSpecFlowFeatureFile()
+        public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
-            // TODO: Implement this method
-            return string.Empty;
+            Gemini1_5 gemini = new Gemini1_5();
+            return await gemini.GenerateSpecFlowFeatureFileAsync(requirements);
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()

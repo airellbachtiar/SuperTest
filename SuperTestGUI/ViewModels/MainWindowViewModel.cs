@@ -13,6 +13,7 @@ namespace SuperTestWPF.ViewModels
     {
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
+        private string _chosenFileContent = "";
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new ObservableCollection<string> { "GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5" };
 
@@ -85,11 +86,6 @@ namespace SuperTestWPF.ViewModels
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
 
-            if (string.IsNullOrEmpty(ChosenFile))
-            {
-                StatusMessage = "No file chosen.";
-            }
-
             return filepath;
         }
 
@@ -112,7 +108,7 @@ namespace SuperTestWPF.ViewModels
         {
             StatusMessage = "Generating SpecFlow feature file...";
 
-            string featureFile = _superTestController.GenerateSpecFlowFeatureFile();
+            string featureFile = _superTestController.GenerateSpecFlowFeatureFileAsync(_chosenFileContent).Result;
 
             if (string.IsNullOrEmpty(featureFile))
             {
