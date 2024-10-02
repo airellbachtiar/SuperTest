@@ -6,7 +6,7 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
-        private ILLM? _llm = new Gemini1_5();
+        private ILLM? _llm = new Gemini_1_5();
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {

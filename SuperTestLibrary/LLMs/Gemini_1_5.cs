@@ -4,9 +4,9 @@ using System.Text.Json;
 
 namespace SuperTestLibrary.Services
 {
-    public class Gemini1_5 : ILLM
+    public class Gemini_1_5 : ILLM
     {
-        private class Gemini1_5Settings
+        private class Gemini_1_5Settings
         {
             public string? ApiKey { get; init; }
             public Prompt? GenerateFeatureFile { get; init; }
@@ -18,17 +18,17 @@ namespace SuperTestLibrary.Services
             public string UserPrompt { get; init; } = string.Empty;
         }
 
-        private const string ApiKeyFile = "Gemini1_5Flash.json";
+        private const string ApiKeyFile = "Gemini_1_5Flash.json";
 
-        private static readonly Gemini1_5Settings _settings;
+        private static readonly Gemini_1_5Settings _settings;
         private static readonly GenerativeModel _gemini;
 
-        static Gemini1_5()
+        static Gemini_1_5()
         {
             using var fs = File.OpenRead(ApiKeyFile);
             try
             {
-                _settings = JsonSerializer.Deserialize<Gemini1_5Settings>(fs)!;
+                _settings = JsonSerializer.Deserialize<Gemini_1_5Settings>(fs)!;
             }
             catch { }
 
@@ -40,7 +40,7 @@ namespace SuperTestLibrary.Services
             _gemini = new GenerativeModel(_settings.ApiKey!);
         }
 
-        public Gemini1_5()
+        public Gemini_1_5()
         {
         }
 

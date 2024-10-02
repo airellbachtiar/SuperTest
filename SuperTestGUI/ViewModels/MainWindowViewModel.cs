@@ -144,7 +144,7 @@ namespace SuperTestWPF.ViewModels
                     //_superTestController.SetLLM(new Claude_3_5_Sonnet());
                     throw new System.NotImplementedException();
                 case LLMTypes.Gemini_1_5:
-                    _superTestController.SetLLM(new Gemini1_5());
+                    _superTestController.SetLLM(new Gemini_1_5());
                     break;
             }
 
