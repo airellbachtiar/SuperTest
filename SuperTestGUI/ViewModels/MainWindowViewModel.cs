@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using SuperTestLibrary;
+using SuperTestLibrary.Services;
 using SuperTestWPF.Converters;
+using SuperTestWPF.Enums;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
@@ -14,8 +16,9 @@ namespace SuperTestWPF.ViewModels
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
         private string _chosenFileContent = "";
+        private LLMTypes _selectedLLM = LLMTypes.GPT_4o;
         private readonly ISuperTestController _superTestController;
-        private readonly ObservableCollection<string> _llmList = new ObservableCollection<string> { "GPT-4o", "Claude 3.5 Sonnet", "Gemini 1.5" };
+        private readonly ObservableCollection<LLMTypes> _llmList = new ObservableCollection<LLMTypes> { LLMTypes.GPT_4o, LLMTypes.Claude_3_5_Sonnet, LLMTypes.Gemini_1_5 };
 
         private ObservableCollection<string?> _requirementSpecifications = new ObservableCollection<string?> { };
         private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
@@ -57,6 +60,24 @@ namespace SuperTestWPF.ViewModels
                 {
                     _chosenFile = value;
                     OnPropertyChanged(nameof(ChosenFile));
+                }
+            }
+        }
+
+        public ObservableCollection<LLMTypes> LLMList
+        {
+            get { return _llmList; }
+        }
+
+        public LLMTypes SelectedLLM
+        {
+            get { return _selectedLLM; }
+            set
+            {
+                if (_selectedLLM != value)
+                {
+                    _selectedLLM = value;
+                    OnPropertyChanged(nameof(SelectedLLM));
                 }
             }
         }
@@ -107,6 +128,25 @@ namespace SuperTestWPF.ViewModels
         private void GenerateSpecFlowFeatureFile()
         {
             StatusMessage = "Generating SpecFlow feature file...";
+
+            if(string.IsNullOrEmpty(_chosenFileContent))
+            {
+                StatusMessage = "No file chosen.";
+                return;
+            }
+
+            switch (_selectedLLM)
+            {
+                case LLMTypes.GPT_4o:
+                    //_superTestController.SetLLM(new GPT_4o());
+                    throw new System.NotImplementedException();
+                case LLMTypes.Claude_3_5_Sonnet:
+                    //_superTestController.SetLLM(new Claude_3_5_Sonnet());
+                    throw new System.NotImplementedException();
+                case LLMTypes.Gemini_1_5:
+                    _superTestController.SetLLM(new Gemini1_5());
+                    break;
+            }
 
             string featureFile = _superTestController.GenerateSpecFlowFeatureFileAsync(_chosenFileContent).Result;
 

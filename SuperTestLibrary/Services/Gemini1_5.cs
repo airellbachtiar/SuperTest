@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace SuperTestLibrary.Services
 {
-    public class Gemini1_5
+    public class Gemini1_5 : ILLM
     {
         private class Gemini1_5Settings
         {

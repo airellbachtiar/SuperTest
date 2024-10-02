@@ -109,6 +109,6 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             ItemsSource="{Binding LLMList}"
-            SelectedIndex="0" />
+            SelectedItem="{Binding SelectedLLM}" />
     </Grid>
 </Window>

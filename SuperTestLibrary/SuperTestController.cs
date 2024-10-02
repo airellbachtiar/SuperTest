@@ -6,6 +6,7 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
+        private ILLM? _llm = new Gemini1_5();
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -14,8 +15,7 @@ namespace SuperTestLibrary
 
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
-            Gemini1_5 gemini = new Gemini1_5();
-            return await gemini.GenerateSpecFlowFeatureFileAsync(requirements);
+            return await _llm.GenerateSpecFlowFeatureFileAsync(requirements);
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
@@ -23,6 +23,11 @@ namespace SuperTestLibrary
             // TODO: Implement this method
             // For now, just mock reqif files
             return await _reqIFStorage.GetAllReqIFsAsync();
+        }
+
+        public void SetLLM(ILLM llm)
+        {
+            _llm = llm;
         }
     }
 }
