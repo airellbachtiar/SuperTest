@@ -6,7 +6,7 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
-        private ILLM? _llm = new Gemini_1_5();
+        private ILargeLanguageModel? _llm = new Gemini_1_5();
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -25,7 +25,7 @@ namespace SuperTestLibrary
             return await _reqIFStorage.GetAllReqIFsAsync();
         }
 
-        public void SetLLM(ILLM llm)
+        public void SetLLM(ILargeLanguageModel llm)
         {
             _llm = llm;
         }

@@ -1,12 +1,11 @@
-﻿using GenerativeAI.Models;
-using GenerativeAI.Types;
+﻿using Claudia;
 using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
 {
-    public class Gemini_1_5 : ILargeLanguageModel
+    public class Claude_3_5_Sonnet : ILargeLanguageModel
     {
-        private class Gemini_1_5_Settings
+        private class Claude_3_5_SonnetSettings
         {
             public string? ApiKey { get; init; }
             public Prompt? GenerateFeatureFile { get; init; }
@@ -18,17 +17,18 @@ namespace SuperTestLibrary.LLMs
             public string UserPrompt { get; init; } = string.Empty;
         }
 
-        private const string ApiKeyFile = "Gemini_1_5.json";
+        private const string ApiKeyFile = "Claude_3_5_Sonnet.json";
+        private const string Claude_3_5_SonnetModel = "claude-3-5-sonnet-20240620";
 
-        private static readonly Gemini_1_5_Settings _settings;
-        private static readonly GenerativeModel _gemini;
+        private static readonly Claude_3_5_SonnetSettings _settings;
+        private static readonly Anthropic _anthropic;
 
-        static Gemini_1_5()
+        static Claude_3_5_Sonnet()
         {
             using var fs = File.OpenRead(ApiKeyFile);
             try
             {
-                _settings = JsonSerializer.Deserialize<Gemini_1_5_Settings>(fs)!;
+                _settings = JsonSerializer.Deserialize<Claude_3_5_SonnetSettings>(fs)!;
             }
             catch { }
 
@@ -37,22 +37,25 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException($"Unable to read settings from {ApiKeyFile}, unable to initialize communication with LLM.");
             }
 
-            _gemini = new GenerativeModel(_settings.ApiKey!);
-        }
-
-        public Gemini_1_5()
-        {
+            _anthropic = new Anthropic
+            {
+                ApiKey = _settings.ApiKey!
+            };
         }
 
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
-            var chat = _gemini.StartChat(new StartChatParams());
-
             var prompt = $"{_settings.GenerateFeatureFile!.UserPrompt}\n<Requirements>\n{requirements}\n</Requirements>";
+            //prompt = "Who are you?";
 
-            var response = await chat.SendMessageAsync(prompt);
+            var message = await _anthropic.Messages.CreateAsync(new()
+            {
+                Model = Claude_3_5_SonnetModel,
+                MaxTokens = 1024,
+                Messages = [new() { Role = "user", Content = prompt }]
+            });
 
-            return response;
+            return message.Content.ToString();
         }
     }
 }

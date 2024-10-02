@@ -125,7 +125,7 @@ namespace SuperTestWPF.ViewModels
             StatusMessage = "SpecFlow feature file generated.";
         }
 
-        private void GenerateSpecFlowFeatureFile()
+        private async void GenerateSpecFlowFeatureFile()
         {
             StatusMessage = "Generating SpecFlow feature file...";
 
@@ -141,14 +141,14 @@ namespace SuperTestWPF.ViewModels
                     //_superTestController.SetLLM(new GPT_4o());
                     throw new System.NotImplementedException();
                 case LLMTypes.Claude_3_5_Sonnet:
-                    //_superTestController.SetLLM(new Claude_3_5_Sonnet());
-                    throw new System.NotImplementedException();
+                    _superTestController.SetLLM(new Claude_3_5_Sonnet());
+                    break;
                 case LLMTypes.Gemini_1_5:
                     _superTestController.SetLLM(new Gemini_1_5());
                     break;
             }
 
-            string featureFile = _superTestController.GenerateSpecFlowFeatureFileAsync(_chosenFileContent).Result;
+            string featureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(_chosenFileContent);
 
             if (string.IsNullOrEmpty(featureFile))
             {
