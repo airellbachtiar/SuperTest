@@ -27,7 +27,6 @@ namespace SuperTestWPF
                 {
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<MainWindowViewModel>();
-                    services.AddLogging();
                     services.AddSingleton<ISuperTestController, SuperTestController>();
                     services.AddSingleton<IReqIFStorage>(provider =>
                     {

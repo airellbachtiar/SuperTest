@@ -16,13 +16,11 @@ namespace SuperTestWPF.ViewModels
         private readonly ISuperTestController _superTestController;
         private readonly ReqIfUriToRequirementSpecificationConverter _reqIfUriToRequirementSpecificationConverter = new ReqIfUriToRequirementSpecificationConverter();
 
-        public ObservableCollection<string?> RequirementSpecifications { get; }
-        public ObservableCollection<string?> OnLoadedRequirementTitles { get; }
+        public ObservableCollection<string?> RequirementSpecifications { get; } = new ObservableCollection<string?> { };
+        public ObservableCollection<string?> OnLoadedRequirementTitles { get; } = new ObservableCollection<string?> { };
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
-            RequirementSpecifications = new ObservableCollection<string?> { };
-            OnLoadedRequirementTitles = new ObservableCollection<string?> { };
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
             this._superTestController = superTestController;
             InitializeReqIFs();
