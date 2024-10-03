@@ -138,8 +138,8 @@ namespace SuperTestWPF.ViewModels
             switch (_selectedLLM)
             {
                 case LLMTypes.GPT_4o:
-                    //_superTestController.SetLLM(new GPT_4o());
-                    throw new System.NotImplementedException();
+                    _superTestController.SetLLM(new GPT_4o());
+                    break;
                 case LLMTypes.Claude_3_5_Sonnet:
                     _superTestController.SetLLM(new Claude_3_5_Sonnet());
                     break;
