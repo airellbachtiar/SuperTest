@@ -54,31 +54,33 @@ namespace SuperTestLibrary.LLMs
 
             var prompt = PromptBuilder(_settings.GenerateFeatureFile, requirements);
 
-            var message = _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompt);
+            var message = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompt);
 
-            return string.Empty;
+            return message.Value.Content.ToString() ?? string.Empty;
         }
 
         private string PromptBuilder(Prompt prompt, string requirements)
         {
-            var sb = new StringBuilder();
+            var promptBuilder = new StringBuilder();
 
-            sb.AppendLine(prompt.SystemInstruction);
-            sb.AppendLine();
+            promptBuilder.AppendLine(prompt.SystemInstruction);
+            promptBuilder.AppendLine();
 
-            foreach (var instruction in prompt.Instructions)
+            foreach (var instruction in prompt.Instructions.Select((value, i) => new { i, value }))
             {
-                sb.AppendLine(instruction);
+                promptBuilder.AppendLine($"{instruction.i}. {instruction.value}");
             }
 
-            sb.AppendLine();
-            sb.AppendLine(prompt.Thinking);
-            sb.AppendLine();
-            sb.AppendLine(requirements);
-            sb.AppendLine();
-            sb.AppendLine(prompt.Example);
+            promptBuilder.AppendLine();
+            promptBuilder.AppendLine(prompt.Thinking);
+            promptBuilder.AppendLine();
+            promptBuilder.AppendLine(prompt.Example);
+            promptBuilder.AppendLine();
+            promptBuilder.AppendLine("<Requirements>");
+            promptBuilder.AppendLine(requirements);
+            promptBuilder.AppendLine("</Requirements>");
 
-            return sb.ToString();
+            return promptBuilder.ToString();
         }
     }
 }

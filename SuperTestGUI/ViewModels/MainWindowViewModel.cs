@@ -20,7 +20,6 @@ namespace SuperTestWPF.ViewModels
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<LLMTypes> _llmList = new ObservableCollection<LLMTypes> { LLMTypes.GPT_4o, LLMTypes.Claude_3_5_Sonnet, LLMTypes.Gemini_1_5 };
 
-        private ObservableCollection<string?> _requirementSpecifications = new ObservableCollection<string?> { };
         private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
 
         public MainWindowViewModel(ISuperTestController superTestController)
@@ -60,6 +59,19 @@ namespace SuperTestWPF.ViewModels
                 {
                     _chosenFile = value;
                     OnPropertyChanged(nameof(ChosenFile));
+                }
+            }
+        }
+
+        public ObservableCollection<string?> OnLoadedRequirementTitles
+        {
+            get { return _onLoadedRequirementTitles; }
+            set
+            {
+                if (_onLoadedRequirementTitles != value)
+                {
+                    _onLoadedRequirementTitles = value;
+                    OnPropertyChanged(nameof(OnLoadedRequirementTitles));
                 }
             }
         }
@@ -106,23 +118,9 @@ namespace SuperTestWPF.ViewModels
 
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
+            _chosenFileContent = System.IO.File.ReadAllText(filepath);
 
             return filepath;
-        }
-
-        private void GenerateSpecFlowFeatureFile()
-        {
-            StatusMessage = "Generating SpecFlow feature file...";
-
-            string featureFile = _superTestController.GenerateSpecFlowFeatureFile();
-
-            if (string.IsNullOrEmpty(featureFile))
-            {
-                StatusMessage = "Failed to generate SpecFlow feature file.";
-                return;
-            }
-
-            StatusMessage = "SpecFlow feature file generated.";
         }
 
         private async void GenerateSpecFlowFeatureFile()
