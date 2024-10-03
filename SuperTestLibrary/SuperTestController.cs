@@ -6,7 +6,7 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
-        private ILargeLanguageModel? _llm = new Gemini_1_5();
+        private ILargeLanguageModel? _llm;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -15,6 +15,10 @@ namespace SuperTestLibrary
 
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
+            if (_llm == null)
+            {
+                throw new InvalidOperationException("No LLM has been set.");
+            }
             return await _llm.GenerateSpecFlowFeatureFileAsync(requirements);
         }
 

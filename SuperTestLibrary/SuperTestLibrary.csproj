@@ -12,10 +12,10 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<None Update="Claude_3_5_Sonnet.json">
+		<None Update="LLMs\Settings\Claude_3_5_Sonnet.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Gemini_1_5.json">
+		<None Update="LLMs\Settings\Gemini_1_5.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
