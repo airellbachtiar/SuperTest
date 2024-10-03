@@ -1,13 +1,14 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace SuperTestWPF.Models
 {
     public class RequirementSpecification : INotifyPropertyChanged
     {
         private string? _title;
-        private IEnumerable<string>? _requirements;
+        private ObservableCollection<string>? _requirements;
 
-        public RequirementSpecification(string? title, IEnumerable<string>? requirements)
+        public RequirementSpecification(string? title, ObservableCollection<string>? requirements)
         {
             Title = title;
             Requirements = requirements;
@@ -26,7 +27,7 @@ namespace SuperTestWPF.Models
             }
         }
 
-        public IEnumerable<string>? Requirements
+        public ObservableCollection<string>? Requirements
         {
             get => _requirements;
             set

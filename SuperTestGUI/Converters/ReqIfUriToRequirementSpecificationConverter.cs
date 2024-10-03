@@ -1,6 +1,7 @@
 ﻿using ReqIFSharp;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
+using System.Collections.ObjectModel;
 
 namespace SuperTestWPF.Converters
 {
@@ -28,7 +29,9 @@ namespace SuperTestWPF.Converters
                     requirements.Add(listString);
                 }
 
-                return new RequirementSpecification(header, requirements);
+                ObservableCollection<string> observableRequirements = new ObservableCollection<string>(requirements);
+
+                return new RequirementSpecification(header, observableRequirements);
             }
             catch
             {
