@@ -16,9 +16,9 @@ namespace SuperTestWPF.ViewModels
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
         private string _chosenFileContent = "";
-        private LLMTypes _selectedLLM = LLMTypes.GPT_4o;
+        private string _selectedLLM = Claude_3_5_Sonnet.ModelName;
         private readonly ISuperTestController _superTestController;
-        private readonly ObservableCollection<LLMTypes> _llmList = new ObservableCollection<LLMTypes> { LLMTypes.GPT_4o, LLMTypes.Claude_3_5_Sonnet, LLMTypes.Gemini_1_5 };
+        private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
 
         private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
 
@@ -76,12 +76,12 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        public ObservableCollection<LLMTypes> LLMList
+        public ObservableCollection<string> LLMList
         {
             get { return _llmList; }
         }
 
-        public LLMTypes SelectedLLM
+        public string SelectedLLM
         {
             get { return _selectedLLM; }
             set
@@ -96,6 +96,14 @@ namespace SuperTestWPF.ViewModels
 
         public ICommand UploadReqIFCommand { get; }
         public ICommand GenerateSpecFlowFeatureFileCommand { get; }
+
+        public void OnTreeViewItemSelected(object selectedItem)
+        {
+            if (selectedItem is ReqIFValueAndPath reqIFValueAndPath)
+            {
+                ChosenFile = reqIFValueAndPath.Path!;
+            }
+        }
 
         private void UploadReqIF()
         {
@@ -120,6 +128,8 @@ namespace SuperTestWPF.ViewModels
             ChosenFile = filepath;
             _chosenFileContent = System.IO.File.ReadAllText(filepath);
 
+            StatusMessage = "ReqIF uploaded.";
+
             return filepath;
         }
 
@@ -135,13 +145,13 @@ namespace SuperTestWPF.ViewModels
 
             switch (_selectedLLM)
             {
-                case LLMTypes.GPT_4o:
+                case GPT_4o.ModelName:
                     _superTestController.SetLLM(new GPT_4o());
                     break;
-                case LLMTypes.Claude_3_5_Sonnet:
+                case Claude_3_5_Sonnet.ModelName:
                     _superTestController.SetLLM(new Claude_3_5_Sonnet());
                     break;
-                case LLMTypes.Gemini_1_5:
+                case Gemini_1_5.ModelName:
                     _superTestController.SetLLM(new Gemini_1_5());
                     break;
             }

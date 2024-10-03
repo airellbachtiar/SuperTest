@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using ReqIFSharp;
-using SuperTestLibrary;
 using SuperTestWPF.ViewModels;
 
 namespace SuperTestWPF
@@ -14,6 +12,17 @@ namespace SuperTestWPF
         {
             InitializeComponent();
             DataContext = viewModel;
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var selectedItem = e.NewValue;
+            var viewModel = DataContext as MainWindowViewModel;
+
+            if (viewModel != null && selectedItem != null)
+            {
+                viewModel.OnTreeViewItemSelected(selectedItem);
+            }
         }
     }
 }
