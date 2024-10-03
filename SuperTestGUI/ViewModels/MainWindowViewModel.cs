@@ -11,13 +11,12 @@ namespace SuperTestWPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _statusMessage = "";
-        private string _chosenFile = "No file chosen";
+        private string _statusMessage = string.Empty;
+        private string _chosenFile = string.Empty;
         private readonly ISuperTestController _superTestController;
-        private readonly ReqIfUriToRequirementSpecificationConverter _reqIfUriToRequirementSpecificationConverter = new ReqIfUriToRequirementSpecificationConverter();
 
-        public ObservableCollection<string?> RequirementSpecifications { get; } = new ObservableCollection<string?> { };
-        public ObservableCollection<string?> OnLoadedRequirementTitles { get; } = new ObservableCollection<string?> { };
+        private ObservableCollection<string?> _requirementSpecifications = new ObservableCollection<string?> { };
+        private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
@@ -30,14 +29,7 @@ namespace SuperTestWPF.ViewModels
         {
             var AllReqIfFiles = await _superTestController.GetAllReqIFFilesAsync();
 
-            foreach (var reqIfFile in AllReqIfFiles)
-            {
-                RequirementSpecification? requirement = _reqIfUriToRequirementSpecificationConverter.Convert(reqIfFile);
-                if (requirement != null)
-                {
-                    OnLoadedRequirementTitles.Add(requirement.Title);
-                }
-            }
+            OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
         }
 
         public string StatusMessage
@@ -66,6 +58,31 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public ObservableCollection<string?> RequirementSpecifications
+        {
+            get { return _requirementSpecifications; }
+            set {
+                if (_requirementSpecifications != value)
+                {
+                    _requirementSpecifications = value;
+                    OnPropertyChanged(nameof(RequirementSpecifications));
+                }
+            }
+        }
+
+        public ObservableCollection<string?> OnLoadedRequirementTitles
+        {
+            get { return _onLoadedRequirementTitles; }
+            set
+            {
+                if (_onLoadedRequirementTitles != value)
+                {
+                    _onLoadedRequirementTitles = value;
+                    OnPropertyChanged(nameof(OnLoadedRequirementTitles));
+                }
+            }
+        }
+
         public ICommand UploadReqIFCommand { get; }
 
         private void UploadReqIF()
@@ -73,15 +90,6 @@ namespace SuperTestWPF.ViewModels
             StatusMessage = "Uploading ReqIF...";
 
             string reqIfPath = GetReqIFFileFromFolder();
-
-            if (string.IsNullOrEmpty(reqIfPath))
-            {
-                StatusMessage = "No file chosen.";
-                return;
-            }
-            RequirementSpecifications.Clear();
-
-            GetRequirementsFromReqIF(reqIfPath);
         }
 
         private string GetReqIFFileFromFolder()
@@ -99,30 +107,12 @@ namespace SuperTestWPF.ViewModels
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
 
+            if (string.IsNullOrEmpty(ChosenFile))
+            {
+                StatusMessage = "No file chosen.";
+            }
+
             return filepath;
-        }
-
-        private void GetRequirementsFromReqIF(string reqIfPath)
-        {
-            RequirementSpecification? requirement = _reqIfUriToRequirementSpecificationConverter.Convert(reqIfPath);
-
-            if (requirement == null)
-            {
-                StatusMessage = "Failed to load ReqIF file.";
-                return;
-            }
-            else if (requirement.Requirements == null)
-            {
-                StatusMessage = "Failed to load requirements.";
-                return;
-            }
-
-            foreach (var req in requirement.Requirements)
-            {
-                RequirementSpecifications.Add(req);
-            }
-
-            StatusMessage = "ReqIF upload complete.";
         }
 
         #region INotifyPropertyChanged Members

@@ -2,13 +2,21 @@
     x:Class="SuperTestWPF.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converter="clr-namespace:SuperTestWPF.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SuperTestWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:SuperTestWPF.ViewModels"
     Title="MainWindow"
     Width="1080"
     Height="720"
+    d:DataContext="{d:DesignInstance Type=viewmodels:MainWindowViewModel}"
     mc:Ignorable="d">
+
+    <Window.Resources>
+        <converter:ReqIFUriToRequirementHeaderConverter x:Key="ReqIFUriToRequirementHeaderConverter" />
+        <converter:ReqIfUriToRequirementsConverter x:Key="ReqIfUriToRequirementsConverter" />
+    </Window.Resources>
 
     <Grid>
         <!--  Define grid with rows and columns  -->
@@ -71,7 +79,7 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ItemsSource="{Binding RequirementSpecifications}" />
+            ItemsSource="{Binding ChosenFile, Converter={StaticResource ReqIfUriToRequirementsConverter}}" />
 
         <!--  Status Message TextBox  -->
         <TextBox
@@ -91,6 +99,6 @@
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ItemsSource="{Binding OnLoadedRequirementTitles}" />
+            ItemsSource="{Binding OnLoadedRequirementTitles, Converter={StaticResource ReqIFUriToRequirementHeaderConverter}}" />
     </Grid>
 </Window>

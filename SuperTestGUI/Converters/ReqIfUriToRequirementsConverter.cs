@@ -1,16 +1,25 @@
 ﻿using ReqIFSharp;
 using SuperTestWPF.Helper;
-using SuperTestWPF.Models;
 using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Windows.Data;
 
 namespace SuperTestWPF.Converters
 {
-    public class ReqIfUriToRequirementSpecificationConverter
+    public class ReqIfUriToRequirementsConverter : IValueConverter
     {
         private readonly ReqIFDeserializer _reqIfDeserializer = new ReqIFDeserializer();
 
-        public RequirementSpecification? Convert(string reqIfPath)
+        public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            //Value is a string
+            string? reqIfPath = value.ToString();
+
+            if (string.IsNullOrEmpty(reqIfPath))
+            {
+                return null;
+            }
+
             try
             {
                 ReqIF? reqIf = _reqIfDeserializer.Deserialize(reqIfPath).FirstOrDefault();
@@ -31,7 +40,7 @@ namespace SuperTestWPF.Converters
 
                 ObservableCollection<string> observableRequirements = new ObservableCollection<string>(requirements);
 
-                return new RequirementSpecification(header, observableRequirements);
+                return observableRequirements;
             }
             catch
             {
@@ -39,9 +48,9 @@ namespace SuperTestWPF.Converters
             }
         }
 
-        private bool IsReqIFContainContents(ReqIF reqIf)
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return reqIf.TheHeader != null && reqIf.CoreContent != null;
+            throw new NotImplementedException();
         }
     }
 }
