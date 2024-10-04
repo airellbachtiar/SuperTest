@@ -1,4 +1,5 @@
-﻿using OpenAI;
+﻿using DotNetEnv;
+using OpenAI;
 using System.Text;
 using System.Text.Json;
 
@@ -8,7 +9,6 @@ namespace SuperTestLibrary.LLMs
     {
         private class GPT_4o_Settings
         {
-            public string? ApiKey { get; init; }
             public Prompt? GenerateFeatureFile { get; init; }
         }
 
@@ -30,6 +30,9 @@ namespace SuperTestLibrary.LLMs
 
         static GPT_4o()
         {
+            Env.Load();
+            string? ApiKey = Env.GetString("OPENAI_API_KEY") ?? throw new InvalidOperationException("OPENAI_API_KEY is not set.");
+
             using var fs = File.OpenRead(SettingFile) ?? throw new InvalidOperationException($"Unable to locate settings from {SettingFile}.");
             try
             {
@@ -42,7 +45,8 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException($"Unable to read settings from {SettingFile}, unable to initialize communication with LLM.");
             }
 
-            _openAIClient = new OpenAIClient(_settings.ApiKey!);
+            _openAIClient = new OpenAIClient(ApiKey);
+            ApiKey = null;
         }
 
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)

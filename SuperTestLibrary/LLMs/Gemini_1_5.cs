@@ -1,4 +1,5 @@
-﻿using GenerativeAI.Models;
+﻿using DotNetEnv;
+using GenerativeAI.Models;
 using GenerativeAI.Types;
 using System.Text;
 using System.Text.Json;
@@ -9,7 +10,6 @@ namespace SuperTestLibrary.LLMs
     {
         private class Gemini_1_5_Settings
         {
-            public string? ApiKey { get; init; }
             public Prompt? GenerateFeatureFile { get; init; }
         }
 
@@ -30,6 +30,9 @@ namespace SuperTestLibrary.LLMs
 
         static Gemini_1_5()
         {
+            Env.Load();
+            string? ApiKey = Env.GetString("GEMINI_API_KEY") ?? throw new InvalidOperationException("GEMINI_API_KEY is not set.");
+
             using var fs = File.OpenRead(SettingFile) ?? throw new InvalidOperationException($"Unable to locate settings from {SettingFile}.");
             try
             {
@@ -42,7 +45,8 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException($"Unable to read settings from {SettingFile}, unable to initialize communication with LLM.");
             }
 
-            _gemini = new GenerativeModel(_settings.ApiKey!);
+            _gemini = new GenerativeModel(ApiKey);
+            ApiKey = null;
         }
 
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)

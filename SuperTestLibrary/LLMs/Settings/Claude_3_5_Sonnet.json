@@ -1,5 +1,4 @@
 {
-  "ApiKey": "<API Key>",
   "GenerateFeatureFile": {
     "SystemInstruction": "You are a SpecFlow feature file generator.\r\nYour task is to output only a SpecFlow feature file in string format.",
     "Instructions": [

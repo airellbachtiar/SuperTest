@@ -58,6 +58,7 @@ namespace SuperTestWPF.ViewModels
                 if (_chosenFile != value)
                 {
                     _chosenFile = value;
+                    _chosenFileContent = System.IO.File.ReadAllText(value);
                     OnPropertyChanged(nameof(ChosenFile));
                 }
             }

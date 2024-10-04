@@ -1,4 +1,5 @@
 ﻿using Claudia;
+using DotNetEnv;
 using System.Text;
 using System.Text.Json;
 
@@ -8,7 +9,6 @@ namespace SuperTestLibrary.LLMs
     {
         private class Claude_3_5_SonnetSettings
         {
-            public string? ApiKey { get; init; }
             public Prompt? GenerateFeatureFile { get; init; }
         }
 
@@ -30,6 +30,9 @@ namespace SuperTestLibrary.LLMs
 
         static Claude_3_5_Sonnet()
         {
+            Env.Load();
+            string? ApiKey = Env.GetString("ANTHROPIC_API_KEY") ?? throw new InvalidOperationException("ANTHROPIC_API_KEY is not set.");
+
             using var fs = File.OpenRead(SettingFile) ?? throw new InvalidOperationException($"Unable to locate settings from {SettingFile}.");
             try
             {
@@ -44,8 +47,10 @@ namespace SuperTestLibrary.LLMs
 
             _anthropic = new Anthropic
             {
-                ApiKey = _settings.ApiKey!
+                ApiKey = ApiKey!
             };
+
+            ApiKey = null;
         }
 
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
