@@ -44,7 +44,7 @@ namespace SuperTestWPF.Converters
             }
             catch
             {
-                throw new Exception("Error while converting ReqIF to RequirementSpecification");
+                return new ObservableCollection<string> { "Unable to display requirements. Invalid ReqIF file. You can still generate SpecFlow feature file." };
             }
         }
 

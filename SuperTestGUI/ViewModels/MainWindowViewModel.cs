@@ -15,8 +15,9 @@ namespace SuperTestWPF.ViewModels
     {
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
-        private string _chosenFileContent = "";
+        private string _chosenFileContent = string.Empty;
         private string _selectedLLM = Claude_3_5_Sonnet.ModelName;
+        private string _generatedSpecFlowFeatureFile = string.Empty;
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
 
@@ -95,6 +96,19 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public string GeneratedSpecFlowFeatureFile
+        {
+            get { return _generatedSpecFlowFeatureFile; }
+            set
+            {
+                if (_generatedSpecFlowFeatureFile != value)
+                {
+                    _generatedSpecFlowFeatureFile = value;
+                    OnPropertyChanged(nameof(GeneratedSpecFlowFeatureFile));
+                }
+            }
+        }
+
         public ICommand UploadReqIFCommand { get; }
         public ICommand GenerateSpecFlowFeatureFileCommand { get; }
 
@@ -164,6 +178,8 @@ namespace SuperTestWPF.ViewModels
                 StatusMessage = "Failed to generate SpecFlow feature file.";
                 return;
             }
+
+            GeneratedSpecFlowFeatureFile = featureFile;
 
             StatusMessage = "SpecFlow feature file generated.";
         }

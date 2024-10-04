@@ -85,14 +85,13 @@
 
 
         <!--  Status Message TextBox  -->
-        <TextBox
+        <Label
             Grid.Row="3"
             Grid.Column="1"
             Width="300"
             Height="29"
             Margin="10"
-            Text="{Binding StatusMessage}"
-            TextWrapping="Wrap" />
+            Content="{Binding StatusMessage}" />
 
         <!--  Second TreeView for Requirements  -->
         <TreeView
@@ -112,5 +111,18 @@
             VerticalAlignment="Center"
             ItemsSource="{Binding LLMList}"
             SelectedItem="{Binding SelectedLLM}" />
+        <RichTextBox
+            Grid.Row="2"
+            Width="180"
+            Height="255"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="10">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="{Binding GeneratedSpecFlowFeatureFile}" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>
