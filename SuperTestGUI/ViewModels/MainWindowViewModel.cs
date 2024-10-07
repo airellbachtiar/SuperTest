@@ -21,7 +21,7 @@ namespace SuperTestWPF.ViewModels
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
 
-        private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
+        private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> ();
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
