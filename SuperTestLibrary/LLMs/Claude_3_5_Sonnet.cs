@@ -1,6 +1,6 @@
 ﻿using Claudia;
 using DotNetEnv;
-using System.Text;
+using SuperTestLibrary.LLMs.PromptBuilders;
 using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
@@ -12,14 +12,6 @@ namespace SuperTestLibrary.LLMs
             public Prompt? GenerateFeatureFile { get; init; }
         }
 
-        private class Prompt
-        {
-            public string SystemInstruction { get; init; } = string.Empty;
-            public IEnumerable<string> Instructions { get; init; } = Array.Empty<string>();
-            public string Thinking { get; init; } = string.Empty;
-            public string Example { get; init; } = string.Empty;
-        }
-
         private const string SettingFile = "LLMs/Settings/Claude_3_5_Sonnet.json";
         private const string Claude_3_5_SonnetModel = "claude-3-5-sonnet-20240620";
 
@@ -27,6 +19,8 @@ namespace SuperTestLibrary.LLMs
         private static readonly Anthropic _anthropic;
 
         public const string ModelName = "Claude 3.5 Sonnet";
+
+        private readonly IPromptBuilder _promptBuilder;
 
         static Claude_3_5_Sonnet()
         {
@@ -53,6 +47,11 @@ namespace SuperTestLibrary.LLMs
             ApiKey = null;
         }
 
+        public Claude_3_5_Sonnet(IPromptBuilder promptBuilder)
+        {
+            _promptBuilder = promptBuilder;
+        }
+
         public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
             if (_settings.GenerateFeatureFile == null)
@@ -60,7 +59,7 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException("GenerateFeatureFile prompt is not set.");
             }
 
-            var prompt = PromptBuilder(_settings.GenerateFeatureFile, requirements);
+            var prompt = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
 
             var message = await _anthropic.Messages.CreateAsync(new()
             {
@@ -70,30 +69,6 @@ namespace SuperTestLibrary.LLMs
             });
 
             return message.Content.ToString();
-        }
-
-        private string PromptBuilder(Prompt prompt, string requirements)
-        {
-            var promptBuilder = new StringBuilder();
-
-            promptBuilder.AppendLine(prompt.SystemInstruction);
-            promptBuilder.AppendLine();
-
-            foreach (var instruction in prompt.Instructions.Select((value, i) => new { i, value }))
-            {
-                promptBuilder.AppendLine($"{instruction.i}. {instruction.value}");
-            }
-
-            promptBuilder.AppendLine();
-            promptBuilder.AppendLine(prompt.Thinking);
-            promptBuilder.AppendLine();
-            promptBuilder.AppendLine(prompt.Example);
-            promptBuilder.AppendLine();
-            promptBuilder.AppendLine("<Requirements>");
-            promptBuilder.AppendLine(requirements);
-            promptBuilder.AppendLine("</Requirements>");
-
-            return promptBuilder.ToString();
         }
     }
 }

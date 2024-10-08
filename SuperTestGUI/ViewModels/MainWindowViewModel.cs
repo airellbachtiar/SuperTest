@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
+using SuperTestLibrary.LLMs.PromptBuilders;
 using SuperTestWPF.Converters;
 using SuperTestWPF.Enums;
 using SuperTestWPF.Models;
@@ -161,13 +162,13 @@ namespace SuperTestWPF.ViewModels
             switch (_selectedLLM)
             {
                 case GPT_4o.ModelName:
-                    _superTestController.SetLLM(new GPT_4o());
+                    _superTestController.SetLLM(new GPT_4o(new SpecFlowFeatureFilePromptBuilder()));
                     break;
                 case Claude_3_5_Sonnet.ModelName:
-                    _superTestController.SetLLM(new Claude_3_5_Sonnet());
+                    _superTestController.SetLLM(new Claude_3_5_Sonnet(new SpecFlowFeatureFilePromptBuilder()));
                     break;
                 case Gemini_1_5.ModelName:
-                    _superTestController.SetLLM(new Gemini_1_5());
+                    _superTestController.SetLLM(new Gemini_1_5(new SpecFlowFeatureFilePromptBuilder()));
                     break;
             }
 
