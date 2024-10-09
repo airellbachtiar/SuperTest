@@ -13,7 +13,7 @@ namespace SuperTestLibrary.LLMs.PromptBuilders
 
             foreach (var instruction in prompt.Instructions.Select((value, i) => new { i, value }))
             {
-                promptBuilder.AppendLine($"{instruction.i}. {instruction.value}");
+                promptBuilder.AppendLine($"{instruction.i + 1}. {instruction.value}");
             }
 
             promptBuilder.AppendLine();
