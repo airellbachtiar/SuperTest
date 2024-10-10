@@ -4,11 +4,30 @@ namespace SuperTestLibrary.LLMs.PromptBuilders
 {
     public class SpecFlowFeatureFilePromptBuilder : IPromptBuilder
     {
-        public string BuildPrompt(Prompt prompt, string requirements)
+        Prompt? prompt;
+        string? requirements;
+
+        public IEnumerable<string> BuildPrompt(Prompt prompt, string requirements)
+        {
+            this.prompt = prompt;
+            this.requirements = requirements;
+
+            List<string> prompts = new List<string>();
+            prompts.Add(BuildContext());
+
+            if(prompt.Instructions.Any())
+            {
+                prompts.AddRange(BuildInteractions());
+            }
+
+            return prompts;
+        }
+
+        private string BuildContext()
         {
             StringBuilder promptBuilder = new StringBuilder();
 
-            promptBuilder.AppendLine(prompt.SystemInstruction);
+            promptBuilder.AppendLine(prompt!.SystemInstruction);
             promptBuilder.AppendLine();
 
             foreach (var instruction in prompt.Instructions.Select((value, i) => new { i, value }))
@@ -26,6 +45,18 @@ namespace SuperTestLibrary.LLMs.PromptBuilders
             promptBuilder.AppendLine("</Requirements>");
 
             return promptBuilder.ToString();
+        }
+
+        private IEnumerable<string> BuildInteractions()
+        {
+            List<string> interactions = new List<string>();
+
+            foreach (var interaction in prompt!.Interactions)
+            {
+                interactions.Add(interaction.Message);
+            }
+
+            return interactions;
         }
     }
 }
