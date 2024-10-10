@@ -67,7 +67,7 @@ namespace SuperTestLibrary.LLMs
 
             var message = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(messages);
 
-            return message.Value.Content.ToString() ?? string.Empty;
+            return message.Value.Content.First().Text ?? string.Empty;
         }
     }
 }
