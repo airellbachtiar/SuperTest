@@ -1,20 +1,25 @@
-﻿using SuperTestLibrary.Storages;
+﻿using SuperTestLibrary.LLMs;
+using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary
 {
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
+        private ILargeLanguageModel? _llm;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
             _reqIFStorage = reqIFStorage;
         }
 
-        public string GenerateSpecFlowFeatureFile()
+        public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
-            // TODO: Implement this method
-            throw new NotImplementedException();
+            if (_llm == null)
+            {
+                throw new InvalidOperationException("No LLM has been set.");
+            }
+            return await _llm.GenerateSpecFlowFeatureFileAsync(requirements);
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
@@ -22,6 +27,11 @@ namespace SuperTestLibrary
             // TODO: Implement this method
             // For now, just mock reqif files
             return await _reqIFStorage.GetAllReqIFsAsync();
+        }
+
+        public void SetLLM(ILargeLanguageModel llm)
+        {
+            _llm = llm;
         }
     }
 }

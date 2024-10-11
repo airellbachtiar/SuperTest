@@ -1,9 +1,12 @@
-﻿namespace SuperTestLibrary
+﻿using SuperTestLibrary.LLMs;
+
+namespace SuperTestLibrary
 {
     public interface ISuperTestController
     {
-        string GenerateSpecFlowFeatureFile();
+        Task<string> GenerateSpecFlowFeatureFileAsync(string requirements);
 
         Task<IEnumerable<string>> GetAllReqIFFilesAsync();
+        void SetLLM(ILargeLanguageModel llm);
     }
 }

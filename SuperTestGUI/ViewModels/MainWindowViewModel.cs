@@ -1,10 +1,12 @@
 ﻿using Microsoft.Win32;
 using SuperTestLibrary;
-using SuperTestWPF.Converters;
+using SuperTestLibrary.LLMs;
+using SuperTestLibrary.LLMs.PromptBuilders;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
 
 namespace SuperTestWPF.ViewModels
@@ -13,14 +15,17 @@ namespace SuperTestWPF.ViewModels
     {
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
+        private string _selectedLLM = Claude_3_5_Sonnet.ModelName;
+        private string _generatedSpecFlowFeatureFile = string.Empty;
         private readonly ISuperTestController _superTestController;
+        private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
 
-        private ObservableCollection<string?> _requirementSpecifications = new ObservableCollection<string?> { };
-        private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> { };
+        private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> ();
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
+            GenerateSpecFlowFeatureFileCommand = new RelayCommand(GenerateSpecFlowFeatureFile);
             this._superTestController = superTestController;
             InitializeReqIFs();
         }
@@ -58,18 +63,6 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        public ObservableCollection<string?> RequirementSpecifications
-        {
-            get { return _requirementSpecifications; }
-            set {
-                if (_requirementSpecifications != value)
-                {
-                    _requirementSpecifications = value;
-                    OnPropertyChanged(nameof(RequirementSpecifications));
-                }
-            }
-        }
-
         public ObservableCollection<string?> OnLoadedRequirementTitles
         {
             get { return _onLoadedRequirementTitles; }
@@ -83,7 +76,47 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public ObservableCollection<string> LLMList
+        {
+            get { return _llmList; }
+        }
+
+        public string SelectedLLM
+        {
+            get { return _selectedLLM; }
+            set
+            {
+                if (_selectedLLM != value)
+                {
+                    _selectedLLM = value;
+                    OnPropertyChanged(nameof(SelectedLLM));
+                }
+            }
+        }
+
+        public string GeneratedSpecFlowFeatureFile
+        {
+            get { return _generatedSpecFlowFeatureFile; }
+            set
+            {
+                if (_generatedSpecFlowFeatureFile != value)
+                {
+                    _generatedSpecFlowFeatureFile = value;
+                    OnPropertyChanged(nameof(GeneratedSpecFlowFeatureFile));
+                }
+            }
+        }
+
         public ICommand UploadReqIFCommand { get; }
+        public ICommand GenerateSpecFlowFeatureFileCommand { get; }
+
+        public void OnTreeViewItemSelected(object selectedItem)
+        {
+            if (selectedItem is ReqIFValueAndPath reqIFValueAndPath)
+            {
+                ChosenFile = reqIFValueAndPath.Path!;
+            }
+        }
 
         private void UploadReqIF()
         {
@@ -107,12 +140,76 @@ namespace SuperTestWPF.ViewModels
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
 
+            StatusMessage = "ReqIF uploaded.";
+
+            return filepath;
+        }
+
+        private async void GenerateSpecFlowFeatureFile()
+        {
+            StatusMessage = "Generating SpecFlow feature file...";
+
             if (string.IsNullOrEmpty(ChosenFile))
             {
                 StatusMessage = "No file chosen.";
+                return;
             }
 
-            return filepath;
+            string chosenFileContent = GetFileContent();
+
+            switch (_selectedLLM)
+            {
+                case GPT_4o.ModelName:
+                    _superTestController.SetLLM(new GPT_4o(new SpecFlowFeatureFilePromptBuilder()));
+                    break;
+                case Claude_3_5_Sonnet.ModelName:
+                    _superTestController.SetLLM(new Claude_3_5_Sonnet(new SpecFlowFeatureFilePromptBuilder()));
+                    break;
+                case Gemini_1_5.ModelName:
+                    _superTestController.SetLLM(new Gemini_1_5(new SpecFlowFeatureFilePromptBuilder()));
+                    break;
+            }
+
+            string featureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
+
+            if (string.IsNullOrEmpty(featureFile))
+            {
+                StatusMessage = "Failed to generate SpecFlow feature file.";
+                return;
+            }
+
+            GeneratedSpecFlowFeatureFile = featureFile;
+
+            StatusMessage = "SpecFlow feature file generated.";
+        }
+
+        private string GetFileContent()
+        {
+            try
+            {
+                if (File.Exists(ChosenFile))
+                {
+                    return File.ReadAllText(ChosenFile);
+                }
+                else
+                {
+                    StatusMessage = "File does not exist.";
+                }
+            }
+            catch (IOException ex)
+            {
+                StatusMessage = $"IOException: {ex.Message} while reading {ChosenFile}";
+            }
+            catch (System.UnauthorizedAccessException ex)
+            {
+                StatusMessage = $"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}";
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Exception: {ex.Message} while processing {ChosenFile}";
+            }
+
+            return string.Empty;
         }
 
         #region INotifyPropertyChanged Members

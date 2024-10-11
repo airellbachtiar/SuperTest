@@ -69,36 +69,60 @@
             Width="150"
             Height="32"
             Margin="10"
+            Command="{Binding GenerateSpecFlowFeatureFileCommand}"
             Content="Generate Feature File" />
 
-        <!--  TreeView for Requirements  -->
+        <!--  TreeView for ReqIF File Titles  -->
         <TreeView
-            x:Name="requirementsTreeViewer"
             Grid.Row="2"
-            Grid.Column="1"
-            Margin="10"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            ItemsSource="{Binding ChosenFile, Converter={StaticResource ReqIfUriToRequirementsConverter}}" />
-
-        <!--  Status Message TextBox  -->
-        <TextBox
-            Grid.Row="3"
-            Grid.Column="1"
-            Width="300"
-            Height="29"
-            Margin="10"
-            Text="{Binding StatusMessage}"
-            TextWrapping="Wrap" />
-
-        <!--  Second TreeView for ReqIF File Titles  -->
-        <TreeView
-            Grid.Row="4"
             Grid.Column="1"
             Width="Auto"
             Margin="10"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ItemsSource="{Binding OnLoadedRequirementTitles, Converter={StaticResource ReqIFUriToRequirementHeaderConverter}}" />
+            ItemsSource="{Binding OnLoadedRequirementTitles, Converter={StaticResource ReqIFUriToRequirementHeaderConverter}}"
+            SelectedItemChanged="TreeView_SelectedItemChanged" />
+
+
+        <!--  Status Message TextBox  -->
+        <Label
+            Grid.Row="3"
+            Grid.Column="1"
+            Width="300"
+            Height="29"
+            Margin="10"
+            Content="{Binding StatusMessage}" />
+
+        <!--  Second TreeView for Requirements  -->
+        <TreeView
+            x:Name="requirementsTreeViewer"
+            Grid.Row="4"
+            Grid.Column="1"
+            Margin="10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            ItemsSource="{Binding ChosenFile, Converter={StaticResource ReqIfUriToRequirementsConverter}}" />
+        <ComboBox
+            Grid.Row="1"
+            Grid.Column="1"
+            Width="Auto"
+            Margin="10"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            ItemsSource="{Binding LLMList}"
+            SelectedItem="{Binding SelectedLLM}" />
+        <RichTextBox
+            Grid.Row="2"
+            Width="180"
+            Height="255"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="10">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text="{Binding GeneratedSpecFlowFeatureFile}" />
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
     </Grid>
 </Window>
