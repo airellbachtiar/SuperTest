@@ -2,12 +2,11 @@
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.LLMs.PromptBuilders;
-using SuperTestWPF.Converters;
-using SuperTestWPF.Enums;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Windows.Input;
 
 namespace SuperTestWPF.ViewModels
@@ -16,7 +15,6 @@ namespace SuperTestWPF.ViewModels
     {
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
-        private string _chosenFileContent = string.Empty;
         private string _selectedLLM = Claude_3_5_Sonnet.ModelName;
         private string _generatedSpecFlowFeatureFile = string.Empty;
         private readonly ISuperTestController _superTestController;
@@ -60,7 +58,6 @@ namespace SuperTestWPF.ViewModels
                 if (_chosenFile != value)
                 {
                     _chosenFile = value;
-                    _chosenFileContent = System.IO.File.ReadAllText(value);
                     OnPropertyChanged(nameof(ChosenFile));
                 }
             }
@@ -142,7 +139,6 @@ namespace SuperTestWPF.ViewModels
 
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
-            _chosenFileContent = System.IO.File.ReadAllText(filepath);
 
             StatusMessage = "ReqIF uploaded.";
 
@@ -153,11 +149,13 @@ namespace SuperTestWPF.ViewModels
         {
             StatusMessage = "Generating SpecFlow feature file...";
 
-            if(string.IsNullOrEmpty(_chosenFileContent))
+            if (string.IsNullOrEmpty(ChosenFile))
             {
                 StatusMessage = "No file chosen.";
                 return;
             }
+
+            string chosenFileContent = GetFileContent();
 
             switch (_selectedLLM)
             {
@@ -172,7 +170,7 @@ namespace SuperTestWPF.ViewModels
                     break;
             }
 
-            string featureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(_chosenFileContent);
+            string featureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
 
             if (string.IsNullOrEmpty(featureFile))
             {
@@ -183,6 +181,35 @@ namespace SuperTestWPF.ViewModels
             GeneratedSpecFlowFeatureFile = featureFile;
 
             StatusMessage = "SpecFlow feature file generated.";
+        }
+
+        private string GetFileContent()
+        {
+            try
+            {
+                if (File.Exists(ChosenFile))
+                {
+                    return File.ReadAllText(ChosenFile);
+                }
+                else
+                {
+                    StatusMessage = "File does not exist.";
+                }
+            }
+            catch (IOException ex)
+            {
+                StatusMessage = $"IOException: {ex.Message} while reading {ChosenFile}";
+            }
+            catch (System.UnauthorizedAccessException ex)
+            {
+                StatusMessage = $"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}";
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Exception: {ex.Message} while processing {ChosenFile}";
+            }
+
+            return string.Empty;
         }
 
         #region INotifyPropertyChanged Members
