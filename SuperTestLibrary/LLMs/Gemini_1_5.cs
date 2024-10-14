@@ -1,6 +1,7 @@
 ﻿using DotNetEnv;
 using GenerativeAI.Models;
 using GenerativeAI.Types;
+using SuperTestLibrary.LLMs.Models;
 using SuperTestLibrary.LLMs.PromptBuilders;
 using System.Text.Json;
 

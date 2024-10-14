@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.LLMs
+﻿namespace SuperTestLibrary.LLMs.Models
 {
     public class Interaction
     {
