@@ -28,7 +28,10 @@ namespace SuperTestLibrary.Services
             };
 
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
-            return await _llm.Call(prompts);
+            var response = await _llm.Call(prompts);
+
+            // TO DO: return multiple feature files
+            return GetSpecFlowFeatureFiles(response).FirstOrDefault() ?? string.Empty;
         }
 
         private IEnumerable<string> SetupPrompt(string jsonPromptPath)
@@ -41,6 +44,17 @@ namespace SuperTestLibrary.Services
             var prompts = promptBuilder.BuildPrompt(prompt, _requirements);
 
             return prompts;
+        }
+
+        private IEnumerable<string> GetSpecFlowFeatureFiles(string response)
+        {
+            var specFlowFeatureFiles = JsonSerializer.Deserialize<SpecFlowFeatureFileResponse>(response);
+
+            if (specFlowFeatureFiles != null)
+            {
+                return specFlowFeatureFiles.FeatureFiles.Values;
+            }
+            else return Enumerable.Empty<string>();
         }
     }
 }

@@ -48,22 +48,7 @@ namespace SuperTestLibrary.LLMs
                 Messages = prompts.ToArray()
             });
 
-            return GetSpecFlowFeatureFiles(message).FirstOrDefault() ?? string.Empty;
-        }
-
-        private static IEnumerable<string> GetSpecFlowFeatureFiles(MessageResponse? messageResponse)
-        {
-            if ( messageResponse != null)
-            {
-                var response = JsonSerializer.Deserialize<SpecFlowFeatureFileResponse>(messageResponse.Content.ToString());
-
-                if (response != null)
-                {
-                    return response.FeatureFiles.Values;
-                }
-            }
-
-            return [];
+            return message.Content.ToString() ?? string.Empty;
         }
     }
 }

@@ -37,22 +37,7 @@ namespace SuperTestLibrary.LLMs
 
             var response = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompts);
 
-            return GetSpecFlowFeatureFiles(response).FirstOrDefault() ?? string.Empty;
-        }
-
-        private static IEnumerable<string> GetSpecFlowFeatureFiles(ClientResult<ChatCompletion>? messageResponse)
-        {
-            if (messageResponse != null)
-            {
-                var response = JsonSerializer.Deserialize<SpecFlowFeatureFileResponse>(messageResponse.Value.Content.First().Text);
-
-                if (response != null)
-                {
-                    return response.FeatureFiles.Values;
-                }
-            }
-
-            return Enumerable.Empty<string>();
+            return response.Value.Content.First().Text ?? string.Empty;
         }
     }
 }
