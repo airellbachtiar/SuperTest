@@ -91,7 +91,7 @@ namespace SuperTestLibrary.LLMs
 
                 if (response != null)
                 {
-                    return response.FeatureFiles ?? [];
+                    return response.FeatureFiles.Values;
                 }
             }
 

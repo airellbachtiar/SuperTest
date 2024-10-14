@@ -2,6 +2,6 @@
 {
     public class SpecFlowFeatureFileResponse
     {
-        public IEnumerable<string> FeatureFiles { get; init; } = Array.Empty<string>();
+        public Dictionary<string, string> FeatureFiles { get; init; } = [];
     }
 }
