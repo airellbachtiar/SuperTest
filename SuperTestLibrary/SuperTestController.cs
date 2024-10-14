@@ -1,4 +1,5 @@
 ﻿using SuperTestLibrary.LLMs;
+using SuperTestLibrary.Services;
 using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary
@@ -7,6 +8,7 @@ namespace SuperTestLibrary
     {
         private readonly IReqIFStorage _reqIFStorage;
         private ILargeLanguageModel? _llm;
+        private IGenerator? _specFlowFeatureFileGenerator;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -19,13 +21,17 @@ namespace SuperTestLibrary
             {
                 throw new InvalidOperationException("No LLM has been set.");
             }
-            return await _llm.GenerateSpecFlowFeatureFileAsync(requirements);
+
+            if (_specFlowFeatureFileGenerator == null)
+            {
+                throw new InvalidOperationException("No generator has been set.");
+            }
+
+            return await _specFlowFeatureFileGenerator.Generate(_llm, requirements);
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
         {
-            // TODO: Implement this method
-            // For now, just mock reqif files
             return await _reqIFStorage.GetAllReqIFsAsync();
         }
 
@@ -33,5 +39,11 @@ namespace SuperTestLibrary
         {
             _llm = llm;
         }
+
+        public void SetGenerator(IGenerator generator)
+        {
+            _specFlowFeatureFileGenerator = generator;
+        }
     }
+
 }

@@ -14,17 +14,17 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<None Update="LLMs\Settings\Claude_3_5_Sonnet.json">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="LLMs\Settings\Gemini_1_5.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="LLMs\Settings\GPT_4o.json">
+		<None Update="Services\Prompts\SpecFlowFeatureFileGemini_1_5.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update=".env">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Services\Prompts\SpecFlowFeatureFileGPT_4o.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Services\Prompts\SpecFlowFeatureFileClaude_3_5_Sonnet.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

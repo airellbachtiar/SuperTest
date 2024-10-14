@@ -1,7 +1,9 @@
-﻿namespace SuperTestLibrary.Services
+﻿using SuperTestLibrary.LLMs;
+
+namespace SuperTestLibrary.Services
 {
     public interface IGenerator
     {
-        Task<string> Generate();
+        Task<string> Generate(ILargeLanguageModel largeLanguageModel, string additionalMessage);
     }
 }

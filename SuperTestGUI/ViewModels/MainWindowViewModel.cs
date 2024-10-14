@@ -1,7 +1,8 @@
 ﻿using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.LLMs.PromptBuilders;
+using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Prompts.Builders;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
@@ -157,16 +158,18 @@ namespace SuperTestWPF.ViewModels
 
             string chosenFileContent = GetFileContent();
 
+            _superTestController.SetGenerator(new SpecFlowFeatureFileGenerator());
+
             switch (_selectedLLM)
             {
                 case GPT_4o.ModelName:
-                    _superTestController.SetLLM(new GPT_4o(new SpecFlowFeatureFilePromptBuilder()));
+                    _superTestController.SetLLM(new GPT_4o());
                     break;
                 case Claude_3_5_Sonnet.ModelName:
-                    _superTestController.SetLLM(new Claude_3_5_Sonnet(new SpecFlowFeatureFilePromptBuilder()));
+                    _superTestController.SetLLM(new Claude_3_5_Sonnet());
                     break;
                 case Gemini_1_5.ModelName:
-                    _superTestController.SetLLM(new Gemini_1_5(new SpecFlowFeatureFilePromptBuilder()));
+                    _superTestController.SetLLM(new Gemini_1_5());
                     break;
             }
 
@@ -200,7 +203,7 @@ namespace SuperTestWPF.ViewModels
             {
                 StatusMessage = $"IOException: {ex.Message} while reading {ChosenFile}";
             }
-            catch (System.UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException ex)
             {
                 StatusMessage = $"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}";
             }
