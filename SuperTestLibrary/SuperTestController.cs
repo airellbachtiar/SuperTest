@@ -1,5 +1,6 @@
 ﻿using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Prompts;
 using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary
@@ -15,7 +16,7 @@ namespace SuperTestLibrary
             _reqIFStorage = reqIFStorage;
         }
 
-        public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
+        public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
             if (_llm == null)
             {

@@ -1,6 +1,7 @@
 ﻿using System.Text;
+using SuperTestLibrary.Services.Prompts.Builders;
 
-namespace SuperTestLibrary.Services.Prompts.Builders
+namespace SuperTestLibrary.Services.Prompts
 {
     public class SpecFlowFeatureFilePromptBuilder : IPromptBuilder
     {
