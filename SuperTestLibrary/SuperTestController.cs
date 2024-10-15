@@ -28,6 +28,11 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No generator has been set.");
             }
 
+            if(string.IsNullOrWhiteSpace(requirements))
+            {
+                throw new InvalidOperationException("No requirements provided.");
+            }
+
             return await _specFlowFeatureFileGenerator.Generate(_llm, requirements);
         }
 

@@ -92,7 +92,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Given(@"I have an invalid set of requirements")]
         public void GivenIHaveAnInvalidSetOfRequirements()
         {
-            _requirements = null;
+            _requirements = null; // Invalid requirements
             MockLargeLanguageModel();
             ControllerSetup();
         }
@@ -106,7 +106,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"provide an appropriate error message")]
         public void ThenProvideAnAppropriateErrorMessage()
         {
-            Assert.Contains("requirements are invalid.", _errorMessage);
+            Assert.Contains("No requirements provided.", _errorMessage);
         }
 
         [Given(@"I have an empty set of requirements")]
@@ -126,7 +126,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"provide feedback that no feature file can be generated")]
         public void ThenProvideFeedbackThatNoFeatureFileCanBeGenerated()
         {
-            Assert.Contains("requirements are empty.", _errorMessage);
+            Assert.Contains("No requirements provided.", _errorMessage);
         }
 
         private void MockLargeLanguageModel()
