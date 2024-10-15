@@ -173,7 +173,10 @@ namespace SuperTestWPF.ViewModels
                     break;
             }
 
-            string featureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
+            var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
+
+            // TODO: Support multiple output
+            string? featureFile = featureFileResponse.FeatureFiles.Values.FirstOrDefault();
 
             if (string.IsNullOrEmpty(featureFile))
             {
