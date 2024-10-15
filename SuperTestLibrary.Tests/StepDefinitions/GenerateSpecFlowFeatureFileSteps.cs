@@ -72,8 +72,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"the application should use the selected LLM for feature file generation")]
         public void ThenTheApplicationShouldUseTheSelectedLLMForFeatureFileGeneration()
         {
-            // TODO: Implement this
-            //Assert.NotNull(_superTestController.SelectedLLM);
+            Assert.NotNull(_superTestController.SelectedLLM);
         }
 
         [When(@"I select a SpecFlow feature file generator")]
@@ -85,8 +84,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"the application should use the selected generator for creating feature files")]
         public void ThenTheApplicationShouldUseTheSelectedGeneratorForCreatingFeatureFiles()
         {
-            // TODO: Implement this
-            //Assert.NotNull(_superTestController.SelectedGenerator);
+            Assert.NotNull(_superTestController.SelectedGenerator);
         }
 
         [Given(@"I have an invalid set of requirements")]

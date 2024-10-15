@@ -50,6 +50,9 @@ namespace SuperTestLibrary
         {
             _specFlowFeatureFileGenerator = generator;
         }
+
+        public IGenerator? SelectedGenerator { get => _specFlowFeatureFileGenerator; }
+        public ILargeLanguageModel? SelectedLLM { get => _llm; }
     }
 
 }
