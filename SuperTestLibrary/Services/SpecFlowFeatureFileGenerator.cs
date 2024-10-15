@@ -19,11 +19,11 @@ namespace SuperTestLibrary.Services
             _requirements = requirements;
 
             string jsonPromptPath = string.Empty;
-            jsonPromptPath = _llm switch
+            jsonPromptPath = _llm.Id switch
             {
-                Claude_3_5_Sonnet => jsonPromptPath = _jsonPromptClaude_3_5_Sonnet,
-                GPT_4o => jsonPromptPath = _jsonPromptGPT_4o,
-                Gemini_1_5 => throw new InvalidOperationException("Gemini 1.5 does not support generating SpecFlow feature files."),
+                "Claude 3.5 Sonnet" => jsonPromptPath = _jsonPromptClaude_3_5_Sonnet,
+                "GPT-4o" => jsonPromptPath = _jsonPromptGPT_4o,
+                "Gemini 1.5" => throw new InvalidOperationException("Gemini 1.5 does not support generating SpecFlow feature files."),
                 _ => throw new InvalidOperationException("Unknown LLM."),
             };
 
