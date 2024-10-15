@@ -41,7 +41,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         {
             try
             {
-                _generatedFeatureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(_requirements);
+                _generatedFeatureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(_requirements!);
             }
             catch (Exception ex)
             {
@@ -53,8 +53,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         public void ThenTheApplicationShouldGenerateAValidSpecFlowFeatureFile()
         {
             Assert.NotNull(_generatedFeatureFile);
-            // TODO: Implement validation logic
-            //Assert.IsTrue(_superTestController.ValidateFeatureFile(_generatedFeatureFile));
+            Assert.True(_featureFileGenerator.ValidateFeatureFile(_generatedFeatureFile));
         }
 
         [Then(@"the generated file should reflect the provided requirements")]

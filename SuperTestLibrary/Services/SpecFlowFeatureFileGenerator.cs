@@ -1,4 +1,5 @@
-﻿using SuperTestLibrary.LLMs;
+﻿using Gherkin;
+using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services.Prompts;
 using SuperTestLibrary.Services.Prompts.Builders;
 using System.Text.Json;
@@ -30,7 +31,16 @@ namespace SuperTestLibrary.Services
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
             var response = await _llm.Call(prompts);
 
-            return GetSpecFlowFeatureFiles(response);
+            SpecFlowFeatureFileResponse specFlowFeatureFile = GetSpecFlowFeatureFiles(response);
+
+            if(ValidateFeatureFile(specFlowFeatureFile))
+            {
+                return specFlowFeatureFile;
+            }
+            else
+            {
+                throw new InvalidOperationException("Generated feature file is invalid.");
+            }
         }
 
         private IEnumerable<string> SetupPrompt(string jsonPromptPath)
@@ -54,6 +64,29 @@ namespace SuperTestLibrary.Services
                 return specFlowFeatureFiles;
             }
             else return new SpecFlowFeatureFileResponse();
+        }
+
+        public bool ValidateFeatureFile(SpecFlowFeatureFileResponse response)
+        {
+            var parser = new Parser();
+            try
+            {
+                foreach (var featureFile in response.FeatureFiles)
+                {
+                    var gherkinDocument = parser.Parse(new StringReader(featureFile.Value));
+
+                    // If no exception is thrown, the feature file is valid.
+                    if (gherkinDocument.Feature == null)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
