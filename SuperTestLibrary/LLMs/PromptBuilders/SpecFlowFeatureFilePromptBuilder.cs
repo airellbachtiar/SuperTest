@@ -4,8 +4,8 @@ namespace SuperTestLibrary.LLMs.PromptBuilders
 {
     public class SpecFlowFeatureFilePromptBuilder : IPromptBuilder
     {
-        Prompt? prompt;
-        string? requirements;
+        private Prompt? prompt;
+        private string? requirements;
 
         public IEnumerable<string> BuildPrompt(Prompt prompt, string requirements)
         {
