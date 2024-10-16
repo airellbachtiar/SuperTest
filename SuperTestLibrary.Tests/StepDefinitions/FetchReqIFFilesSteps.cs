@@ -5,7 +5,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
     [Binding]
     public class FetchReqIFFilesSteps
     {
-        private GitReqIFStorage gitReqIFStorage = new GitReqIFStorage("");
+        private GitReqIFStorage gitReqIFStorage = new(string.Empty);
         private IEnumerable<string> _reqifFilesPath = [];
         private string _errorMessage = string.Empty;
 
@@ -60,7 +60,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         {
             try
             {
-                gitReqIFStorage.FetchReqIFFileAsync(fileName, directory).Wait();
+                gitReqIFStorage.ReadReqIFFileAsync(fileName, directory).Wait();
             }
             catch (Exception ex)
             {

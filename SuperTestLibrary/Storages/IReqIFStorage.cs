@@ -3,6 +3,6 @@
     public interface IReqIFStorage
     {
         Task <IEnumerable<string>> GetAllReqIFsAsync();
-        Task<string> FetchReqIFFileAsync(string fileName, string directory);
+        Task<string> ReadReqIFFileAsync(string fileName, string directory);
     }
 }

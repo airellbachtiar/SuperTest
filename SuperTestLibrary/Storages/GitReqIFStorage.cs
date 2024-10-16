@@ -25,7 +25,7 @@ namespace SuperTestLibrary.Storages
             }
         }
 
-        public async Task<string> FetchReqIFFileAsync(string fileName, string directory)
+        public async Task<string> ReadReqIFFileAsync(string fileName, string directory)
         {
             try
             {
