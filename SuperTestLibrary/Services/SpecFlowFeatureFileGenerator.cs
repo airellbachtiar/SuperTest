@@ -11,6 +11,8 @@ namespace SuperTestLibrary.Services
         private ILargeLanguageModel? _llm;
         private string _requirements = string.Empty;
 
+        private int _retryCounter = 0;
+
         private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/SpecFlowFeatureFileClaude_3_5_Sonnet.json";
         private const string _jsonPromptGPT_4o = "Services/Prompts/SpecFlowFeatureFileGPT_4o.json";
 
@@ -33,13 +35,20 @@ namespace SuperTestLibrary.Services
 
             SpecFlowFeatureFileResponse specFlowFeatureFile = GetSpecFlowFeatureFiles(response);
 
-            if(ValidateFeatureFile(specFlowFeatureFile))
+            if (ValidateFeatureFile(specFlowFeatureFile))
             {
                 return specFlowFeatureFile;
             }
             else
             {
-                throw new InvalidOperationException("Generated feature file is invalid.");
+                if (_retryCounter >= 3)
+                {
+                    _retryCounter = 0;
+                    throw new InvalidOperationException("Unable to generate valid SpecFlow feature file after 3 attempts.");
+                }
+
+                _retryCounter++;
+                return await Generate(largeLanguageModel, requirements);
             }
         }
 
