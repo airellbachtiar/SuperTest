@@ -1,4 +1,5 @@
 ﻿using Moq;
+using SuperTestLibrary.Helpers;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
 using SuperTestLibrary.Services.Prompts;
@@ -53,7 +54,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         public void ThenTheApplicationShouldGenerateAValidSpecFlowFeatureFile()
         {
             Assert.NotNull(_generatedFeatureFile);
-            Assert.True(_featureFileGenerator.ValidateFeatureFile(_generatedFeatureFile));
+            Assert.True(ValidateFeatureFile.Validate(_generatedFeatureFile));
         }
 
         [Then(@"the generated file should reflect the provided requirements")]

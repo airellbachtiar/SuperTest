@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using SuperTestLibrary.Services.Prompts.Builders;
 
-namespace SuperTestLibrary.Services.Prompts
+namespace SuperTestLibrary.Services.Prompts.Builders
 {
     public class SpecFlowFeatureFilePromptBuilder : IPromptBuilder
     {
@@ -13,17 +12,13 @@ namespace SuperTestLibrary.Services.Prompts
             this.prompt = prompt;
             this.requirements = requirements;
 
-            if(prompt == null)
-            {
-                throw new ArgumentNullException(nameof(prompt));
-            }
+            ArgumentNullException.ThrowIfNull(prompt);
 
-            List<string> prompts = new List<string>();
-            prompts.Add(BuildContext());
+            List<string> prompts = [BuildContext()];
 
             if (prompt.Instructions.Any())
             {
-                prompts.AddRange(BuildInteractions());
+                prompts.AddRange(BuildInteractions);
             }
 
             return prompts;
@@ -31,7 +26,7 @@ namespace SuperTestLibrary.Services.Prompts
 
         private string BuildContext()
         {
-            StringBuilder promptBuilder = new StringBuilder();
+            StringBuilder promptBuilder = new();
 
             promptBuilder.AppendLine(prompt!.SystemInstruction);
             promptBuilder.AppendLine();
@@ -53,16 +48,19 @@ namespace SuperTestLibrary.Services.Prompts
             return promptBuilder.ToString();
         }
 
-        private IEnumerable<string> BuildInteractions()
+        private IEnumerable<string> BuildInteractions
         {
-            List<string> interactions = new List<string>();
-
-            foreach (var interaction in prompt!.Interactions)
+            get
             {
-                interactions.Add(interaction.Message);
-            }
+                List<string> interactions = [];
 
-            return interactions;
+                foreach (var interaction in prompt!.Interactions)
+                {
+                    interactions.Add(interaction.Message);
+                }
+
+                return interactions;
+            }
         }
     }
 }

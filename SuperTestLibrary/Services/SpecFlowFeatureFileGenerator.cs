@@ -1,9 +1,3 @@
-﻿using Gherkin;
-using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services.Prompts;
-using SuperTestLibrary.Services.Prompts.Builders;
-using System.Text.Json;
-
 namespace SuperTestLibrary.Services
 {
     public class SpecFlowFeatureFileGenerator : IGenerator
@@ -15,13 +9,12 @@ namespace SuperTestLibrary.Services
         private const string _jsonPromptGPT_4o = "Services/Prompts/SpecFlowFeatureFileGPT_4o.json";
         private const string _jsonPromptGemini_1_5 = "Services/Prompts/SpecFlowFeatureFileGemini_1_5.json";
 
-        public async Task<SpecFlowFeatureFileResponse> Generate(ILargeLanguageModel largeLanguageModel, string requirements)
+        public async Task<string> Generate(ILargeLanguageModel largeLanguageModel, string requirements)
         {
             _llm = largeLanguageModel;
             _requirements = requirements;
 
-            string jsonPromptPath = string.Empty;
-            jsonPromptPath = _llm.Id switch
+            string jsonPromptPath = _llm.Id switch
             {
                 "Claude 3.5 Sonnet" => _jsonPromptClaude_3_5_Sonnet,
                 "GPT-4o" => _jsonPromptGPT_4o,
@@ -30,7 +23,7 @@ namespace SuperTestLibrary.Services
             };
 
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
-            var response = await _llm.Call(prompts);
+            string response = await _llm.Call(prompts);
 
             var specFlowFeatureFile = GetSpecFlowFeatureFiles(response);
 
@@ -42,6 +35,11 @@ namespace SuperTestLibrary.Services
             {
                 throw new InvalidOperationException("Invalid SpecFlow feature file generated.");
             }
+            if (string.IsNullOrEmpty(response))
+            {
+                throw new InvalidOperationException("Unable to generate SpecFlow feature file.");
+            }
+            return response;
         }
 
         private IEnumerable<string> SetupPrompt(string jsonPromptPath)
@@ -49,9 +47,7 @@ namespace SuperTestLibrary.Services
             using var fs = File.OpenRead(jsonPromptPath) ?? throw new FileNotFoundException($"Unable to locate generate SpecFlow feature file prompts for {_llm}.");
             Prompt prompt = JsonSerializer.Deserialize<Prompt>(fs)! ?? throw new InvalidOperationException("Unable to read generate SpecFlow feature file prompts for Claude 3.5 Sonnet.");
 
-            IPromptBuilder promptBuilder = new SpecFlowFeatureFilePromptBuilder();
-
-            var prompts = promptBuilder.BuildPrompt(prompt, _requirements);
+            var prompts = new SpecFlowFeatureFilePromptBuilder().BuildPrompt(prompt, _requirements);
 
             return prompts;
         }

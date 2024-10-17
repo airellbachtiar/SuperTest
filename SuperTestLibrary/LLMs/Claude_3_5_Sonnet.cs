@@ -1,7 +1,5 @@
 ﻿using Claudia;
 using DotNetEnv;
-using SuperTestLibrary.Services.Prompts;
-using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
 {

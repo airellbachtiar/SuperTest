@@ -1,4 +1,5 @@
-﻿using SuperTestLibrary.LLMs;
+﻿using SuperTestLibrary.Helpers;
+using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
 using SuperTestLibrary.Services.Prompts;
 using SuperTestLibrary.Storages;
@@ -8,9 +9,8 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
-
-        private const int _generateRetryMaxCount = 3;
-        private int _generateRetryCount = 0;
+        private ILargeLanguageModel? _llm;
+        private IGenerator? _specFlowFeatureFileGenerator;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
