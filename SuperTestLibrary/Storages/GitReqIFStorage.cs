@@ -1,4 +1,5 @@
-﻿namespace SuperTestLibrary.Storages
+﻿
+namespace SuperTestLibrary.Storages
 {
     public class GitReqIFStorage : IReqIFStorage
     {
@@ -14,9 +15,26 @@
 
         public async Task<IEnumerable<string>> GetAllReqIFsAsync()
         {
-            //TODO: Implement this method
-            //For now, mock a list of ReqIF files
-            return await Task.Run(() => Directory.GetFiles(_gitLocation, ReqIFExtensionFilter));
+            try
+            {
+                return await Task.Run(() => Directory.GetFiles(_gitLocation, ReqIFExtensionFilter));
+            }
+            catch (Exception ex)
+            {
+                throw new DirectoryNotFoundException($"Directory not found. Unable to fetch ReqIF files from {_gitLocation}. {ex.Message}");
+            }
+        }
+
+        public async Task<string> ReadReqIFFileAsync(string fileName, string directory)
+        {
+            try
+            {
+                return await Task.Run(() => File.ReadAllText(Path.Combine(directory, fileName)));
+            }
+            catch (Exception ex)
+            {
+                throw new FileNotFoundException($"File not found. Unable to fetch ReqIF file {fileName} from {directory}. {ex.Message}");
+            }
         }
     }
 }

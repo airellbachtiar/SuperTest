@@ -59,13 +59,24 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException("GenerateFeatureFile prompt is not set.");
             }
 
-            var prompt = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
+            var prompts = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
+
+            List<Message> messages = new List<Message>();
+
+            foreach (var prompt in prompts)
+            {
+                messages.Add(new()
+                {
+                    Role = "user",
+                    Content = prompt
+                });
+            }
 
             var message = await _anthropic.Messages.CreateAsync(new()
             {
                 Model = Claude_3_5_SonnetModel,
                 MaxTokens = 1024,
-                Messages = [new() { Role = "user", Content = prompt }]
+                Messages = messages.ToArray()
             });
 
             return message.Content.ToString();

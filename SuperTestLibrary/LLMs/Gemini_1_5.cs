@@ -55,11 +55,16 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException("GenerateFeatureFile prompt is not set.");
             }
 
-            var prompt = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
+            var prompts = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
 
             var chat = _gemini.StartChat(new StartChatParams());
 
-            var response = await chat.SendMessageAsync(prompt);
+            string response = string.Empty;
+
+            foreach (var prompt in prompts)
+            {
+                response = await chat.SendMessageAsync(prompt);
+            }
 
             return response;
         }

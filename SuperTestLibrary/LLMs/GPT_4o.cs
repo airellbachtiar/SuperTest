@@ -1,5 +1,6 @@
 ﻿using DotNetEnv;
 using OpenAI;
+using OpenAI.Chat;
 using SuperTestLibrary.LLMs.PromptBuilders;
 using System.Text.Json;
 
@@ -55,11 +56,18 @@ namespace SuperTestLibrary.LLMs
                 throw new InvalidOperationException("GenerateFeatureFile prompt is not set.");
             }
 
-            var prompt = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
+            var prompts = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
 
-            var message = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompt);
+            List<ChatMessage> messages = new List<ChatMessage>();
 
-            return message.Value.Content.ToString() ?? string.Empty;
+            foreach (var prompt in prompts)
+            {
+                messages.Add(new UserChatMessage(prompt));
+            }
+
+            var message = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(messages);
+
+            return message.Value.Content.First().Text ?? string.Empty;
         }
     }
 }
