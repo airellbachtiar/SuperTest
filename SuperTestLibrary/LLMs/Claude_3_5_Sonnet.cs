@@ -41,7 +41,7 @@ namespace SuperTestLibrary.LLMs
             var message = await _anthropic.Messages.CreateAsync(new()
             {
                 Model = Claude_3_5_SonnetModel,
-                MaxTokens = 1024,
+                MaxTokens = 8112,
                 Messages = prompts.ToArray()
             });
 

@@ -10,8 +10,8 @@ namespace SuperTestLibrary.Services
         private readonly string _requirements;
         private string _featureFile = string.Empty;
 
-        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/EvaluateSpecFlowFeatureFileClaude_3_5_Sonnet.json";
-        private const string _jsonPromptGPT_4o = "Services/Prompts/EvaluateSpecFlowFeatureFileGPT_4o.json";
+        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/EvaluateSpecFlowFeatureFile/Claude_3_5_Sonnet.json";
+        private const string _jsonPromptGPT_4o = "Services/Prompts/EvaluateSpecFlowFeatureFile/GPT_4o.json";
 
         public EvaluateSpecFlowFeatureFileGenerator(string requirements)
         {
@@ -43,7 +43,7 @@ namespace SuperTestLibrary.Services
 
             var prompts = new EvaluateSpecFlowFeatureFilePromptBuilder(_requirements, _featureFile).BuildPrompt(prompt);
 
-            return [];
+            return prompts;
         }
     }
 }

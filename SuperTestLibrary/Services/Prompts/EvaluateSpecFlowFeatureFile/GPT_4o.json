@@ -19,6 +19,7 @@
   "Instructions": [
     "Each criterion should be score using the scoring scale that has been defined previously.",
     "The total score should be in percentage of the maximum achievable score. \nFor example, a feature file that used all the criteria has a maximum score of 30 – since there are 6 criteria. If there is a feature file that does not use 1 of the circumstantial criteria, the total score should be 25 –since only 5 sub criteria are used. If a feature file does not use all the circumstantial criteria, the maximum score should be 20 – since there are only 4 criteria used.",
-    "You will only output the evaluation score in JSON format for each criterion. Include recommendations for the whole feature file. Example JSON: {\\”Readability\\”: 2, \\“Consistency\\”: 1, \\”Focus\\”: 3, \\”Structure\\”: 3, \\”Maintainability\\”: 1, \\”Coverage\\”: 4, \\“Score\\”: {\\”MaximumScore\\”: 30, \\”TotalScore\\”: 14}, \\”Summary\\”: \\”Write summary and recommendation here.\\”}"
+    "You will only output the evaluation score in JSON format for each criterion. Include recommendations for the whole feature file. Example JSON: {\\”Readability\\”: 2, \\“Consistency\\”: 1, \\”Focus\\”: 3, \\”Structure\\”: 3, \\”Maintainability\\”: 1, \\”Coverage\\”: 4, \\“Score\\”: {\\”MaximumScore\\”: 30, \\”TotalScore\\”: 14}, \\”Summary\\”: \\”Write summary and recommendation here.\\”}",
+    "Do not include JSON code block."
   ]
 }

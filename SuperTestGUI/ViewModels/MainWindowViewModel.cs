@@ -14,9 +14,11 @@ namespace SuperTestWPF.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private string _statusMessage = string.Empty;
+        private string _featureFileScore = string.Empty;
         private string _chosenFile = string.Empty;
         private string _selectedLLM = Claude_3_5_Sonnet.ModelName;
         private string _generatedSpecFlowFeatureFile = string.Empty;
+        private string _featureFileSummary = string.Empty;
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
 
@@ -27,8 +29,8 @@ namespace SuperTestWPF.ViewModels
 
         //Generator
         private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new SpecFlowFeatureFileGenerator();
-
-        private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> ();
+        private ObservableCollection<string?> _onLoadedRequirementTitles = [];
+        private ObservableCollection<string?> _featureFileScoreDetails = [];
 
         private int retryCount = 0;
         private const int maxRetryCount = 3;
@@ -74,6 +76,32 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public string FeatureFileScore
+        {
+            get { return _featureFileScore; }
+            set
+            {
+                if (_featureFileScore != value)
+                {
+                    _featureFileScore = value;
+                    OnPropertyChanged(nameof(FeatureFileScore));
+                }
+            }
+        }
+
+        public string FeatureFileSummary
+        {
+            get { return _featureFileSummary; }
+            set
+            {
+                if (_featureFileSummary != value)
+                {
+                    _featureFileSummary = value;
+                    OnPropertyChanged(nameof(FeatureFileSummary));
+                }
+            }
+        }
+
         public ObservableCollection<string?> OnLoadedRequirementTitles
         {
             get { return _onLoadedRequirementTitles; }
@@ -83,6 +111,19 @@ namespace SuperTestWPF.ViewModels
                 {
                     _onLoadedRequirementTitles = value;
                     OnPropertyChanged(nameof(OnLoadedRequirementTitles));
+                }
+            }
+        }
+
+        public ObservableCollection<string?> FeatureFileScoreDetail
+        {
+            get { return _featureFileScoreDetails; }
+            set
+            {
+                if (_featureFileScoreDetails != value)
+                {
+                    _featureFileScoreDetails = value;
+                    OnPropertyChanged(nameof(FeatureFileScoreDetail));
                 }
             }
         }
@@ -132,13 +173,12 @@ namespace SuperTestWPF.ViewModels
         private void UploadReqIF()
         {
             StatusMessage = "Uploading ReqIF...";
-
-            string reqIfPath = GetReqIFFileFromFolder();
+            _ = GetReqIFFileFromFolder();
         }
 
         private string GetReqIFFileFromFolder()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            OpenFileDialog openFileDialog = new()
             {
                 Filter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
             };
@@ -166,7 +206,7 @@ namespace SuperTestWPF.ViewModels
                 return;
             }
 
-            string chosenFileContent = GetFileContent();
+            string requirements = GetFileContent();
 
             SetGenerator();
             await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
@@ -208,7 +248,11 @@ namespace SuperTestWPF.ViewModels
 
                 GeneratedSpecFlowFeatureFile = featureFile;
 
-                StatusMessage = "SpecFlow feature file generated.";
+                StatusMessage = "Evaluating SpecFlow feature file...";
+
+            await EvaluateFeatureFileScore(requirements, featureFile);
+
+            StatusMessage = "Finish.";
             }
             catch
             {
@@ -251,6 +295,28 @@ namespace SuperTestWPF.ViewModels
             }
 
             return string.Empty;
+        }
+
+        private async Task EvaluateFeatureFileScore(string requirements, string featureFile)
+        {
+            _superTestController.SetLLM(new GPT_4o());
+            _superTestController.SetGenerator(new EvaluateSpecFlowFeatureFileGenerator(requirements));
+            var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile);
+
+            int totalScore = evaluationResponse.Score.TotalScore;
+            int maximumScore = evaluationResponse.Score.MaximumScore;
+
+            FeatureFileScoreDetail.Add($"Readability = {evaluationResponse.Readability}/5 ");
+            FeatureFileScoreDetail.Add($"Consistency = {evaluationResponse.Consistency}/5 ");
+            FeatureFileScoreDetail.Add($"Focus = {evaluationResponse.Focus}/5 ");
+            FeatureFileScoreDetail.Add($"Structure = {evaluationResponse.Structure}/5 ");
+            FeatureFileScoreDetail.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
+            FeatureFileScoreDetail.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
+            FeatureFileScoreDetail.Add($"Total Score = {totalScore}/{maximumScore} ");
+
+            FeatureFileSummary = evaluationResponse.Summary;
+
+            FeatureFileScore = $"Feature file score (GPT-4o): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good";
         }
 
         #region INotifyPropertyChanged Members
