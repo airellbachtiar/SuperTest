@@ -10,7 +10,8 @@ namespace SuperTestLibrary
     {
         private readonly IReqIFStorage _reqIFStorage;
         private ILargeLanguageModel? _llm;
-        private IGenerator? _specFlowFeatureFileGenerator;
+        private IGenerator? _generator;
+        private int _retryCounter = 0;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -27,7 +28,7 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            string response = await _specFlowFeatureFileGenerator!.Generate(_llm!, requirements);
+            string response = await _generator!.Generate(_llm!, requirements);
 
             SpecFlowFeatureFileResponse specFlowFeatureFile = GetSpecFlowFeatureFiles.ConvertJson(response);
 
@@ -60,7 +61,7 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No feature file provided.");
             }
 
-            string response = await _specFlowFeatureFileGenerator!.Generate(_llm!, featureFile);
+            string response = await _generator!.Generate(_llm!, featureFile);
 
             return GetSpecFlowFeatureFileEvaluation.ConvertJson(response);
         }
