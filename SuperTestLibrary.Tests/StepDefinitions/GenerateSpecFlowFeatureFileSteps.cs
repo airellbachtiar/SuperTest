@@ -2,7 +2,7 @@
 using SuperTestLibrary.Helpers;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
-using SuperTestLibrary.Services.Prompts;
+using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary.Tests.StepDefinitions

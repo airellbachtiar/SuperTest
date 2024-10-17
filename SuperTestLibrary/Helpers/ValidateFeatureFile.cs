@@ -1,5 +1,5 @@
 ﻿using Gherkin;
-using SuperTestLibrary.Services.Prompts;
+using SuperTestLibrary.Services.Prompts.ResponseModels;
 
 namespace SuperTestLibrary.Helpers
 {
