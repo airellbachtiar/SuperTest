@@ -18,6 +18,9 @@
 		<None Update=".env">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Services\Prompts\EvaluateSpecFlowFeatureFile\Claude_3_5_Sonnet.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Services\Prompts\GenerateSpecFlowFeatureFile\Claude_3_5_Sonnet.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

@@ -61,9 +61,24 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No feature file provided.");
             }
 
-            string response = await _generator!.Generate(_llm!, featureFile);
+            string responseJson = await _generator!.Generate(_llm!, featureFile);
 
-            return GetSpecFlowFeatureFileEvaluation.ConvertJson(response);
+            try
+            {
+                var response = GetSpecFlowFeatureFileEvaluation.ConvertJson(responseJson);
+                _retryCounter = 0;
+                return response;
+            }
+            catch (Exception e)
+            {
+                _retryCounter++;
+                if (_retryCounter >= 3)
+                {
+                    _retryCounter = 0;
+                    throw new InvalidOperationException("Unable to evaluate SpecFlow feature file after 3 attempts.", e);
+                }
+                return await EvaluateSpecFlowFeatureFileAsync(featureFile);
+            }
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()

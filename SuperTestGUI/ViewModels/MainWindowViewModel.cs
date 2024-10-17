@@ -14,9 +14,8 @@ namespace SuperTestWPF.ViewModels
     public class MainWindowViewModel : INotifyPropertyChanged
     {
         private string _statusMessage = string.Empty;
-        private string _featureFileScore = string.Empty;
         private string _chosenFile = string.Empty;
-        private string _selectedLLM = Claude_3_5_Sonnet.ModelName;
+        private string _selectedLLM = GPT_4o.ModelName;
         private string _generatedSpecFlowFeatureFile = string.Empty;
         private string _featureFileSummary = string.Empty;
         private readonly ISuperTestController _superTestController;
@@ -31,9 +30,6 @@ namespace SuperTestWPF.ViewModels
         private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new SpecFlowFeatureFileGenerator();
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
         private ObservableCollection<string?> _featureFileScoreDetails = [];
-
-        private int retryCount = 0;
-        private const int maxRetryCount = 3;
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
@@ -72,19 +68,6 @@ namespace SuperTestWPF.ViewModels
                 {
                     _chosenFile = value;
                     OnPropertyChanged(nameof(ChosenFile));
-                }
-            }
-        }
-
-        public string FeatureFileScore
-        {
-            get { return _featureFileScore; }
-            set
-            {
-                if (_featureFileScore != value)
-                {
-                    _featureFileScore = value;
-                    OnPropertyChanged(nameof(FeatureFileScore));
                 }
             }
         }
@@ -198,6 +181,10 @@ namespace SuperTestWPF.ViewModels
 
         private async void GenerateSpecFlowFeatureFile()
         {
+            FeatureFileScoreDetail.Clear();
+            FeatureFileSummary = string.Empty;
+            GeneratedSpecFlowFeatureFile = string.Empty;
+
             StatusMessage = "Generating SpecFlow feature file...";
 
             if (string.IsNullOrEmpty(ChosenFile))
@@ -247,12 +234,14 @@ namespace SuperTestWPF.ViewModels
                 }
 
                 GeneratedSpecFlowFeatureFile = featureFile;
+                GeneratedSpecFlowFeatureFile = featureFile;
 
-                StatusMessage = "Evaluating SpecFlow feature file...";
+                    StatusMessage = "Evaluating SpecFlow feature file using GPT-4o...";
+                await EvaluateFeatureFileScore(gpt_4o, requirements, featureFile);
+                StatusMessage = "Evaluating SpecFlow feature file using Claude 3.5 Sonnet...";
+                await EvaluateFeatureFileScore(claude_3_5_Sonnet, requirements, featureFile);
 
-            await EvaluateFeatureFileScore(requirements, featureFile);
-
-            StatusMessage = "Finish.";
+                StatusMessage = "Finish.";
             }
             catch
             {
@@ -266,6 +255,12 @@ namespace SuperTestWPF.ViewModels
                     StatusMessage = "Failed to generate SpecFlow feature file.";
                 }
             }
+            }
+            catch (Exception e)
+            {
+                StatusMessage = $"Error: {e.Message}";
+            }
+            
         }
 
         private string GetFileContent()
@@ -297,15 +292,16 @@ namespace SuperTestWPF.ViewModels
             return string.Empty;
         }
 
-        private async Task EvaluateFeatureFileScore(string requirements, string featureFile)
+        private async Task EvaluateFeatureFileScore(ILargeLanguageModel largeLanguageModel, string requirements, string featureFile)
         {
-            _superTestController.SetLLM(new GPT_4o());
+            _superTestController.SetLLM(largeLanguageModel);
             _superTestController.SetGenerator(new EvaluateSpecFlowFeatureFileGenerator(requirements));
             var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile);
 
             int totalScore = evaluationResponse.Score.TotalScore;
             int maximumScore = evaluationResponse.Score.MaximumScore;
 
+            FeatureFileScoreDetail.Add($"{largeLanguageModel.Id} Evaluation:");
             FeatureFileScoreDetail.Add($"Readability = {evaluationResponse.Readability}/5 ");
             FeatureFileScoreDetail.Add($"Consistency = {evaluationResponse.Consistency}/5 ");
             FeatureFileScoreDetail.Add($"Focus = {evaluationResponse.Focus}/5 ");
@@ -313,10 +309,10 @@ namespace SuperTestWPF.ViewModels
             FeatureFileScoreDetail.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
             FeatureFileScoreDetail.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
             FeatureFileScoreDetail.Add($"Total Score = {totalScore}/{maximumScore} ");
+            FeatureFileScoreDetail.Add($"Feature file score ({largeLanguageModel.Id}): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good");
+            FeatureFileScoreDetail.Add(string.Empty);
 
-            FeatureFileSummary = evaluationResponse.Summary;
-
-            FeatureFileScore = $"Feature file score (GPT-4o): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good";
+            FeatureFileSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n\n";
         }
 
         #region INotifyPropertyChanged Members
