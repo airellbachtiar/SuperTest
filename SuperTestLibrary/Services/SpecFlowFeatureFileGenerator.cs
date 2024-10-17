@@ -51,7 +51,7 @@ namespace SuperTestLibrary.Services
         {
             var prompt = GetPrompt.ConvertJson(jsonPromptPath);
 
-            var prompts = new SpecFlowFeatureFilePromptBuilder().BuildPrompt(prompt, _requirements);
+            var prompts = new SpecFlowFeatureFilePromptBuilder(_requirements).BuildPrompt(prompt);
 
             return prompts;
         }

@@ -7,10 +7,14 @@ namespace SuperTestLibrary.Services.Prompts.Builders
         private Prompt? prompt;
         private string? requirements;
 
-        public IEnumerable<string> BuildPrompt(Prompt prompt, string requirements)
+        public SpecFlowFeatureFilePromptBuilder(string requirements)
+        {
+            this.requirements = requirements;
+        }
+
+        public IEnumerable<string> BuildPrompt(Prompt prompt)
         {
             this.prompt = prompt;
-            this.requirements = requirements;
 
             ArgumentNullException.ThrowIfNull(prompt);
 
