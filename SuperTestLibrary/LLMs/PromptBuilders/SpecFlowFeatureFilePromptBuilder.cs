@@ -12,6 +12,11 @@ namespace SuperTestLibrary.LLMs.PromptBuilders
             this.prompt = prompt;
             this.requirements = requirements;
 
+            if(prompt == null)
+            {
+                throw new ArgumentNullException(nameof(prompt));
+            }
+
             List<string> prompts = new List<string>();
             prompts.Add(BuildContext());
 
