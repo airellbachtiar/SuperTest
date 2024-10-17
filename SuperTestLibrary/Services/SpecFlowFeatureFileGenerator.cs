@@ -1,3 +1,8 @@
+using SuperTestLibrary.LLMs;
+using SuperTestLibrary.Services.Prompts;
+using SuperTestLibrary.Services.Prompts.Builders;
+using System.Text.Json;
+
 namespace SuperTestLibrary.Services
 {
     public class SpecFlowFeatureFileGenerator : IGenerator
@@ -5,8 +10,8 @@ namespace SuperTestLibrary.Services
         private ILargeLanguageModel? _llm;
         private string _requirements = string.Empty;
 
-        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/SpecFlowFeatureFileClaude_3_5_Sonnet.json";
-        private const string _jsonPromptGPT_4o = "Services/Prompts/SpecFlowFeatureFileGPT_4o.json";
+        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/GenerateSpecFlowFeatureFile/Claude_3_5_Sonnet.json";
+        private const string _jsonPromptGPT_4o = "Services/Prompts/GenerateSpecFlowFeatureFile/GPT_4o.json";
         private const string _jsonPromptGemini_1_5 = "Services/Prompts/SpecFlowFeatureFileGemini_1_5.json";
 
         public async Task<string> Generate(ILargeLanguageModel largeLanguageModel, string requirements)
@@ -44,8 +49,7 @@ namespace SuperTestLibrary.Services
 
         private IEnumerable<string> SetupPrompt(string jsonPromptPath)
         {
-            using var fs = File.OpenRead(jsonPromptPath) ?? throw new FileNotFoundException($"Unable to locate generate SpecFlow feature file prompts for {_llm}.");
-            Prompt prompt = JsonSerializer.Deserialize<Prompt>(fs)! ?? throw new InvalidOperationException("Unable to read generate SpecFlow feature file prompts for Claude 3.5 Sonnet.");
+            var prompt = GetPrompt.ConvertJson(jsonPromptPath);
 
             var prompts = new SpecFlowFeatureFilePromptBuilder().BuildPrompt(prompt, _requirements);
 
