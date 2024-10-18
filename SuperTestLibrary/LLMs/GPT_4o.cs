@@ -1,6 +1,7 @@
 ﻿using DotNetEnv;
 using OpenAI;
 using OpenAI.Chat;
+using SuperTestLibrary.LLMs.Models;
 using SuperTestLibrary.LLMs.PromptBuilders;
 using System.Text.Json;
 

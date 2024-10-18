@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using SuperTestLibrary.LLMs.Models;
 
 namespace SuperTestLibrary.LLMs.PromptBuilders
 {
