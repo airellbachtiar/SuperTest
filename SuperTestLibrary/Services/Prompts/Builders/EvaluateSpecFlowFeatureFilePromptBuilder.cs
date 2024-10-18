@@ -42,15 +42,23 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             promptBuilder.AppendLine(prompt!.SystemInstruction);
             promptBuilder.AppendLine();
 
-            foreach(var score in prompt.ScoringScale)
+            promptBuilder.AppendLine("The scoring scale should be score as follows:");
+
+            foreach (var score in prompt.ScoringScale)
             {
                 promptBuilder.AppendLine(score);
             }
+
+            promptBuilder.AppendLine();
+
+            promptBuilder.AppendLine("Feature file evaluation has these following criteria:");
 
             foreach (var instruction in prompt.Criteria.Select((value, i) => new { i, value }))
             {
                 promptBuilder.AppendLine($"{instruction.i + 1}. {instruction.value}");
             }
+
+            promptBuilder.AppendLine();
 
             foreach (var instruction in prompt.Instructions)
             {
