@@ -33,7 +33,7 @@ namespace SuperTestLibrary.Services
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
             var response = await _llm.Call(prompts);
 
-            SpecFlowFeatureFileResponse specFlowFeatureFile = GetSpecFlowFeatureFiles(response);
+            var specFlowFeatureFile = GetSpecFlowFeatureFiles(response);
 
             if (ValidateFeatureFile(specFlowFeatureFile))
             {
