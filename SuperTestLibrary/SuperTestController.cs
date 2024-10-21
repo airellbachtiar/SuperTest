@@ -8,8 +8,6 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
-        private ILargeLanguageModel? _llm;
-        private IGenerator? _specFlowFeatureFileGenerator;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -18,12 +16,12 @@ namespace SuperTestLibrary
 
         public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
-            if (_llm == null)
+            if (SelectedLLM == null)
             {
                 throw new InvalidOperationException("No LLM has been set.");
             }
 
-            if (_specFlowFeatureFileGenerator == null)
+            if (SelectedGenerator == null)
             {
                 throw new InvalidOperationException("No generator has been set.");
             }
@@ -33,7 +31,7 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            return await _specFlowFeatureFileGenerator.Generate(_llm, requirements);
+            return await SelectedGenerator.Generate(SelectedLLM, requirements);
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
@@ -41,18 +39,8 @@ namespace SuperTestLibrary
             return await _reqIFStorage.GetAllReqIFsAsync();
         }
 
-        public void SetLLM(ILargeLanguageModel llm)
-        {
-            _llm = llm;
-        }
-
-        public void SetGenerator(IGenerator generator)
-        {
-            _specFlowFeatureFileGenerator = generator;
-        }
-
-        public IGenerator? SelectedGenerator { get => _specFlowFeatureFileGenerator; }
-        public ILargeLanguageModel? SelectedLLM { get => _llm; }
+        public IGenerator? SelectedGenerator { get; set; }
+        public ILargeLanguageModel? SelectedLLM { get; set; }
     }
 
 }

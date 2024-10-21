@@ -33,7 +33,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Given(@"I have chosen an LLM for generation")]
         public void GivenIHaveChosenAnLLMForGeneration()
         {
-            _superTestController.SetLLM(_mockLargeLanguageModel.Object);
+            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
         }
 
         [When(@"I request to generate a SpecFlow feature file")]
@@ -65,7 +65,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [When(@"I select an LLM from the available options")]
         public void WhenISelectAnLLMFromTheAvailableOptions()
         {
-            _superTestController.SetLLM(_mockLargeLanguageModel.Object);
+            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
         }
 
         [Then(@"the application should use the selected LLM for feature file generation")]
@@ -77,7 +77,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [When(@"I select a SpecFlow feature file generator")]
         public void WhenISelectASpecFlowFeatureFileGenerator()
         {
-            _superTestController.SetGenerator(_featureFileGenerator);
+            _superTestController.SelectedGenerator = _featureFileGenerator;
         }
 
         [Then(@"the application should use the selected generator for creating feature files")]
@@ -134,8 +134,8 @@ namespace SuperTestLibrary.Tests.StepDefinitions
 
         private void ControllerSetup()
         {
-            _superTestController.SetLLM(_mockLargeLanguageModel.Object);
-            _superTestController.SetGenerator(_featureFileGenerator);
+            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
+            _superTestController.SelectedGenerator = _featureFileGenerator;
         }
     }
 }

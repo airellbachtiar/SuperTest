@@ -158,18 +158,18 @@ namespace SuperTestWPF.ViewModels
 
             string chosenFileContent = GetFileContent();
 
-            _superTestController.SetGenerator(new SpecFlowFeatureFileGenerator());
+            _superTestController.SelectedGenerator = new SpecFlowFeatureFileGenerator();
 
             switch (_selectedLLM)
             {
                 case GPT_4o.ModelName:
-                    _superTestController.SetLLM(new GPT_4o());
+                    _superTestController.SelectedLLM = new GPT_4o();
                     break;
                 case Claude_3_5_Sonnet.ModelName:
-                    _superTestController.SetLLM(new Claude_3_5_Sonnet());
+                    _superTestController.SelectedLLM = new Claude_3_5_Sonnet();
                     break;
                 case Gemini_1_5.ModelName:
-                    _superTestController.SetLLM(new Gemini_1_5());
+                    _superTestController.SelectedLLM = new Gemini_1_5();
                     break;
             }
 

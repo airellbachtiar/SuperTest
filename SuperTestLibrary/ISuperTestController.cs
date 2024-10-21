@@ -6,11 +6,9 @@ namespace SuperTestLibrary
 {
     public interface ISuperTestController
     {
-        IGenerator? SelectedGenerator { get; }
-        ILargeLanguageModel? SelectedLLM { get; }
+        IGenerator? SelectedGenerator { get; set; }
+        ILargeLanguageModel? SelectedLLM { get; set; }
         Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements);
         Task<IEnumerable<string>> GetAllReqIFFilesAsync();
-        void SetLLM(ILargeLanguageModel llm);
-        void SetGenerator(IGenerator generator);
     }
 }
