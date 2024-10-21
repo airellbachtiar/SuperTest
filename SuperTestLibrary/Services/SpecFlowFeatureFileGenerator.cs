@@ -13,6 +13,7 @@ namespace SuperTestLibrary.Services
 
         private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/SpecFlowFeatureFileClaude_3_5_Sonnet.json";
         private const string _jsonPromptGPT_4o = "Services/Prompts/SpecFlowFeatureFileGPT_4o.json";
+        private const string _jsonPromptGemini_1_5 = "Services/Prompts/SpecFlowFeatureFileGemini_1_5.json";
 
         public async Task<SpecFlowFeatureFileResponse> Generate(ILargeLanguageModel largeLanguageModel, string requirements)
         {
@@ -22,9 +23,9 @@ namespace SuperTestLibrary.Services
             string jsonPromptPath = string.Empty;
             jsonPromptPath = _llm.Id switch
             {
-                "Claude 3.5 Sonnet" => jsonPromptPath = _jsonPromptClaude_3_5_Sonnet,
-                "GPT-4o" => jsonPromptPath = _jsonPromptGPT_4o,
-                "Gemini 1.5" => throw new InvalidOperationException("Gemini 1.5 does not support generating SpecFlow feature files."),
+                "Claude 3.5 Sonnet" => _jsonPromptClaude_3_5_Sonnet,
+                "GPT-4o" => _jsonPromptGPT_4o,
+                "Gemini 1.5" => _jsonPromptGemini_1_5,
                 _ => throw new InvalidOperationException("Unknown LLM."),
             };
 

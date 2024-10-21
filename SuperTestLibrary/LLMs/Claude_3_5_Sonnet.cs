@@ -17,8 +17,7 @@ namespace SuperTestLibrary.LLMs
 
         static Claude_3_5_Sonnet()
         {
-            Env.Load();
-            string? ApiKey = Env.GetString("ANTHROPIC_API_KEY") ?? throw new InvalidOperationException("ANTHROPIC_API_KEY is not set.");
+            string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_ANTHROPIC_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_ANTHROPIC_API_KEY is not set.");
 
             _anthropic = new Anthropic
             {

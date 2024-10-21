@@ -14,8 +14,7 @@ namespace SuperTestLibrary.LLMs
 
         static Gemini_1_5()
         {
-            Env.Load();
-            string? ApiKey = Env.GetString("GEMINI_API_KEY") ?? throw new InvalidOperationException("GEMINI_API_KEY is not set.");
+            string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_GEMINI_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_GEMINI_API_KEY is not set.");
 
             _gemini = new GenerativeModel(ApiKey);
             ApiKey = null;

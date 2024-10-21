@@ -19,8 +19,7 @@ namespace SuperTestLibrary.LLMs
 
         static GPT_4o()
         {
-            Env.Load();
-            string? ApiKey = Env.GetString("OPENAI_API_KEY") ?? throw new InvalidOperationException("OPENAI_API_KEY is not set.");
+            string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_OPENAI_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_OPENAI_API_KEY is not set.");
 
             _openAIClient = new OpenAIClient(ApiKey);
             ApiKey = null;
