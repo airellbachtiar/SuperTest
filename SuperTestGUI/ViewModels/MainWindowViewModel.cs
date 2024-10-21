@@ -19,15 +19,17 @@ namespace SuperTestWPF.ViewModels
         private string _generatedSpecFlowFeatureFile = string.Empty;
         private string _featureFileSummary = string.Empty;
         private readonly ISuperTestController _superTestController;
-        private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
+        private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
+        private const int maxRetryCount = 3;
+        private int retryCount = 0;
 
         // LLM
-        private readonly GPT_4o _gpt_4o = new GPT_4o();
-        private readonly Claude_3_5_Sonnet _claude_3_5_Sonnet = new Claude_3_5_Sonnet();
-        private readonly Gemini_1_5 _gemini_1_5 = new Gemini_1_5();
+        private readonly GPT_4o _gpt_4o = new();
+        private readonly Claude_3_5_Sonnet _claude_3_5_Sonnet = new();
+        private readonly Gemini_1_5 _gemini_1_5 = new();
 
         //Generator
-        private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new SpecFlowFeatureFileGenerator();
+        private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new();
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
         private ObservableCollection<string?> _featureFileScoreDetails = [];
 
@@ -195,16 +197,16 @@ namespace SuperTestWPF.ViewModels
 
             string requirements = GetFileContent();
 
-            SetGenerator();
-            await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
+            SetLLM();
+            _superTestController.SelectedGenerator = _specFlowFeatureFileGenerator;
+
+            await GenerateSpecFlowFeatureFileCheck(requirements);
             retryCount = 0;
         }
 
-        public void SetGenerator()
+        public void SetLLM()
         {
-            _superTestController.SelectedGenerator = _specFlowFeatureFileGenerator;
-
-            switch (_selectedLLM)
+            switch (SelectedLLM)
             {
                 case GPT_4o.ModelName:
                     _superTestController.SelectedLLM = _gpt_4o;
@@ -218,11 +220,11 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        public async Task GenerateSpecFlowFeatureFileCheck(string chosenFileContent)
+        public async Task GenerateSpecFlowFeatureFileCheck(string requirements)
         {
             try
             {
-                var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
+                var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(requirements);
 
                 // TODO: Support multiple output
                 string? featureFile = featureFileResponse.FeatureFiles.Values.FirstOrDefault();
@@ -236,29 +238,25 @@ namespace SuperTestWPF.ViewModels
                 GeneratedSpecFlowFeatureFile = featureFile;
                 GeneratedSpecFlowFeatureFile = featureFile;
 
-                    StatusMessage = "Evaluating SpecFlow feature file using GPT-4o...";
-                await EvaluateFeatureFileScore(gpt_4o, requirements, featureFile);
+                StatusMessage = "Evaluating SpecFlow feature file using GPT-4o...";
+                await EvaluateFeatureFileScore(_gpt_4o, requirements, featureFile);
                 StatusMessage = "Evaluating SpecFlow feature file using Claude 3.5 Sonnet...";
-                await EvaluateFeatureFileScore(claude_3_5_Sonnet, requirements, featureFile);
+                await EvaluateFeatureFileScore(_claude_3_5_Sonnet, requirements, featureFile);
 
                 StatusMessage = "Finish.";
             }
-            catch
+            catch (Exception e)
             {
                 if (retryCount < maxRetryCount)
                 {
+                    StatusMessage = $"Generation encounters error. ({retryCount + 1})";
                     retryCount++;
-                    await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
+                    await GenerateSpecFlowFeatureFileCheck(requirements);
                 }
                 else
                 {
-                    StatusMessage = "Failed to generate SpecFlow feature file.";
+                    StatusMessage = $"Error: Failed to generate SpecFlow feature file after 3 tries. {e.Message}";
                 }
-            }
-            }
-            catch (Exception e)
-            {
-                StatusMessage = $"Error: {e.Message}";
             }
             
         }
@@ -294,8 +292,8 @@ namespace SuperTestWPF.ViewModels
 
         private async Task EvaluateFeatureFileScore(ILargeLanguageModel largeLanguageModel, string requirements, string featureFile)
         {
-            _superTestController.SetLLM(largeLanguageModel);
-            _superTestController.SetGenerator(new EvaluateSpecFlowFeatureFileGenerator(requirements));
+            _superTestController.SelectedLLM = largeLanguageModel;
+            _superTestController.SelectedGenerator = new EvaluateSpecFlowFeatureFileGenerator(requirements);
             var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile);
 
             int totalScore = evaluationResponse.Score.TotalScore;

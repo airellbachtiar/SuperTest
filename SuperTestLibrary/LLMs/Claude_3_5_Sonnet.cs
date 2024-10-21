@@ -1,5 +1,4 @@
 ﻿using Claudia;
-using DotNetEnv;
 
 namespace SuperTestLibrary.LLMs
 {

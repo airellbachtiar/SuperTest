@@ -1,5 +1,4 @@
-﻿using DotNetEnv;
-using OpenAI;
+﻿using OpenAI;
 using OpenAI.Chat;
 
 namespace SuperTestLibrary.LLMs

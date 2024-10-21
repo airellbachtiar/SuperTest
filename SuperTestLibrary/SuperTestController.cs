@@ -9,9 +9,6 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
-        private ILargeLanguageModel? _llm;
-        private IGenerator? _generator;
-        private int _retryCounter = 0;
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -28,27 +25,18 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            string response = await _generator!.Generate(_llm!, requirements);
+            string response = await SelectedGenerator!.Generate(SelectedLLM!, requirements);
 
-            SpecFlowFeatureFileResponse specFlowFeatureFile = GetSpecFlowFeatureFiles.ConvertJson(response);
+            var specFlowFeatureFile = GetSpecFlowFeatureFiles.ConvertJson(response);
 
             if (ValidateFeatureFile.Validate(specFlowFeatureFile))
             {
-                _retryCounter = 0;
                 return specFlowFeatureFile;
             }
             else
             {
-                if (_retryCounter >= 3)
-                {
-                    _retryCounter = 0;
-                    throw new InvalidOperationException("Unable to generate valid SpecFlow feature file after 3 attempts.");
-                }
-
-                _retryCounter++;
-                return await GenerateSpecFlowFeatureFileAsync(requirements);
+                throw new InvalidOperationException("Unable to generate valid SpecFlow feature file.");
             }
-            return await SelectedGenerator.Generate(SelectedLLM, requirements);
         }
 
         public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string featureFile)
@@ -61,29 +49,38 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No feature file provided.");
             }
 
-            string responseJson = await _generator!.Generate(_llm!, featureFile);
+            string responseJson = await SelectedGenerator!.Generate(SelectedLLM!, featureFile);
 
             try
             {
                 var response = GetSpecFlowFeatureFileEvaluation.ConvertJson(responseJson);
-                _retryCounter = 0;
                 return response;
             }
             catch (Exception e)
             {
-                _retryCounter++;
-                if (_retryCounter >= 3)
-                {
-                    _retryCounter = 0;
-                    throw new InvalidOperationException("Unable to evaluate SpecFlow feature file after 3 attempts.", e);
-                }
-                return await EvaluateSpecFlowFeatureFileAsync(featureFile);
+                throw new InvalidOperationException("Unable to evaluate SpecFlow feature file after 3 attempts.", e);
             }
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
         {
             return await _reqIFStorage.GetAllReqIFsAsync();
+        }
+
+        private void CheckLLM()
+        {
+            if (SelectedLLM == null)
+            {
+                throw new InvalidOperationException("No LLM selected.");
+            }
+        }
+
+        private void CheckGenerator()
+        {
+            if (SelectedGenerator == null)
+            {
+                throw new InvalidOperationException("No generator selected.");
+            }
         }
 
         public IGenerator? SelectedGenerator { get; set; }
