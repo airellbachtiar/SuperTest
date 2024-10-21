@@ -9,6 +9,9 @@ namespace SuperTestLibrary
     {
         private readonly IReqIFStorage _reqIFStorage;
 
+        private const int _generateRetryMaxCount = 3;
+        private int _generateRetryCount = 0;
+
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
             _reqIFStorage = reqIFStorage;
@@ -31,7 +34,25 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            return await SelectedGenerator.Generate(SelectedLLM, requirements);
+            try
+            {
+                var response = await SelectedGenerator.Generate(SelectedLLM, requirements);
+                _generateRetryCount = 0;
+                return response;
+            }
+            catch
+            {
+                if (_generateRetryCount < _generateRetryMaxCount)
+                {
+                    _generateRetryCount++;
+                    return await GenerateSpecFlowFeatureFileAsync(requirements);
+                }
+                else
+                {
+                    _generateRetryCount = 0;
+                    throw;
+                }
+            }
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
