@@ -23,6 +23,9 @@ namespace SuperTestWPF.ViewModels
 
         private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> ();
 
+        private int retryCount = 0;
+        private const int maxRetryCount = 3;
+
         public MainWindowViewModel(ISuperTestController superTestController)
         {
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
@@ -158,6 +161,13 @@ namespace SuperTestWPF.ViewModels
 
             string chosenFileContent = GetFileContent();
 
+            SetGenerator();
+            await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
+            retryCount = 0;
+        }
+
+        public void SetGenerator()
+        {
             _superTestController.SelectedGenerator = new SpecFlowFeatureFileGenerator();
 
             switch (_selectedLLM)
@@ -172,21 +182,39 @@ namespace SuperTestWPF.ViewModels
                     _superTestController.SelectedLLM = new Gemini_1_5();
                     break;
             }
+        }
 
-            var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
-
-            // TODO: Support multiple output
-            string? featureFile = featureFileResponse.FeatureFiles.Values.FirstOrDefault();
-
-            if (string.IsNullOrEmpty(featureFile))
+        public async Task GenerateSpecFlowFeatureFileCheck(string chosenFileContent)
+        {
+            try
             {
-                StatusMessage = "Failed to generate SpecFlow feature file.";
-                return;
+                var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
+
+                // TODO: Support multiple output
+                string? featureFile = featureFileResponse.FeatureFiles.Values.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(featureFile))
+                {
+                    StatusMessage = "Failed to generate SpecFlow feature file.";
+                    return;
+                }
+
+                GeneratedSpecFlowFeatureFile = featureFile;
+
+                StatusMessage = "SpecFlow feature file generated.";
             }
-
-            GeneratedSpecFlowFeatureFile = featureFile;
-
-            StatusMessage = "SpecFlow feature file generated.";
+            catch
+            {
+                if (retryCount < maxRetryCount)
+                {
+                    retryCount++;
+                    await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
+                }
+                else
+                {
+                    StatusMessage = "Failed to generate SpecFlow feature file.";
+                }
+            }
         }
 
         private string GetFileContent()

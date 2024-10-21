@@ -34,25 +34,7 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            try
-            {
-                var response = await SelectedGenerator.Generate(SelectedLLM, requirements);
-                _generateRetryCount = 0;
-                return response;
-            }
-            catch
-            {
-                if (_generateRetryCount < _generateRetryMaxCount)
-                {
-                    _generateRetryCount++;
-                    return await GenerateSpecFlowFeatureFileAsync(requirements);
-                }
-                else
-                {
-                    _generateRetryCount = 0;
-                    throw;
-                }
-            }
+            return await SelectedGenerator.Generate(SelectedLLM, requirements);
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
