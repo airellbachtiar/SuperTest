@@ -14,7 +14,7 @@ namespace SuperTestLibrary.Services
             _requirements = requirements;
         }
 
-        public async Task<string> Generate(ILargeLanguageModel largeLanguageModel, string featureFile)
+        public async Task<string> GenerateAsync(ILargeLanguageModel largeLanguageModel, string featureFile)
         {
             string jsonPromptPath = string.Empty;
             if (!string.IsNullOrEmpty(_requirements)) {

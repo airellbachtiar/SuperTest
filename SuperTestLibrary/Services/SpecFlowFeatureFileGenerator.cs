@@ -13,7 +13,7 @@ namespace SuperTestLibrary.Services
         private const string _jsonPromptGPT_4o = "Services/Prompts/GenerateSpecFlowFeatureFile/GPT_4o.json";
         private const string _jsonPromptGemini_1_5 = "Services/Prompts/GenerateSpecFlowFeatureFile/Gemini_1_5.json";
 
-        public async Task<string> Generate(ILargeLanguageModel largeLanguageModel, string requirements)
+        public async Task<string> GenerateAsync(ILargeLanguageModel largeLanguageModel, string requirements)
         {
             _llm = largeLanguageModel;
             _requirements = requirements;

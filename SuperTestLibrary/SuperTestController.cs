@@ -25,7 +25,7 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            string response = await SelectedGenerator!.Generate(SelectedLLM!, requirements);
+            string response = await SelectedGenerator!.GenerateAsync(SelectedLLM!, requirements);
 
             var specFlowFeatureFile = GetSpecFlowFeatureFiles.ConvertJson(response);
 
@@ -49,7 +49,7 @@ namespace SuperTestLibrary
                 throw new InvalidOperationException("No feature file provided.");
             }
 
-            string responseJson = await SelectedGenerator!.Generate(SelectedLLM!, featureFile);
+            string responseJson = await SelectedGenerator!.GenerateAsync(SelectedLLM!, featureFile);
 
             try
             {
