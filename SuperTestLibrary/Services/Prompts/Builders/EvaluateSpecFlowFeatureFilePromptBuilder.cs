@@ -53,9 +53,9 @@ namespace SuperTestLibrary.Services.Prompts.Builders
 
             promptBuilder.AppendLine("Feature file evaluation has these following criteria:");
 
-            foreach (var instruction in prompt.Criteria.Select((value, i) => new { i, value }))
+            foreach (var criteria in prompt.Criteria)
             {
-                promptBuilder.AppendLine($"{instruction.i + 1}. {instruction.value}");
+                promptBuilder.AppendLine(criteria);
             }
 
             promptBuilder.AppendLine();
