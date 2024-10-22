@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace SuperTestLibrary.Helpers
 {
-    public static class GetSpecFlowScenarioEvaluation
+    public class GetSpecFlowScenarioEvaluation
     {
         public static EvaluateSpecFlowScenarioResponse ConvertJson(string response)
         {
