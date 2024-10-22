@@ -32,6 +32,10 @@ namespace SuperTestLibrary.Services
                     _ => throw new InvalidOperationException("Unknown LLM."),
                 };
             }
+            else
+            {
+                throw new InvalidOperationException("No requirements provided.");
+            }
 
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
             return await _llm.Call(prompts);
