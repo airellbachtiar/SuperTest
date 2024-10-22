@@ -4,7 +4,7 @@ namespace SuperTestLibrary.Services.Prompts.ResponseModels
 {
     public class SpecFlowScenarioEvaluation
     {
-        public string ScenarioID { get; init; } = string.Empty;
+        public string ScenarioName { get; init; } = string.Empty;
         public ClarityAndReadabilityScenarioCriteria ClarityAndReadability { get; init; } = new();
         public StructureAndFocusScenarioCriteria StructureAndFocus { get; init; } = new();
         public MaintainabilityScenarioCriteria Maintainability { get; init; } = new();
