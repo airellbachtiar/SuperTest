@@ -2,14 +2,14 @@
 
 namespace SuperTestLibrary.Services
 {
-    public class EvaluateSpecFlowFeatureFileGenerator : EvaluateSpecFlowFile, IGenerator
+    internal class EvaluateSpecFlowScenarioGenerator : EvaluateSpecFlowFile, IGenerator
     {
         private readonly string _requirements;
 
-        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/EvaluateSpecFlowFeatureFile/Claude_3_5_Sonnet.json";
-        private const string _jsonPromptGPT_4o = "Services/Prompts/EvaluateSpecFlowFeatureFile/GPT_4o.json";
+        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/EvaluateSpecFlowScenario/Claude_3_5_Sonnet.json";
+        private const string _jsonPromptGPT_4o = "Services/Prompts/EvaluateSpecFlowScenario/GPT_4o.json";
 
-        public EvaluateSpecFlowFeatureFileGenerator(string requirements)
+        public EvaluateSpecFlowScenarioGenerator(string requirements)
         {
             _requirements = requirements;
         }
@@ -17,7 +17,8 @@ namespace SuperTestLibrary.Services
         public async Task<string> Generate(ILargeLanguageModel largeLanguageModel, string featureFile)
         {
             string jsonPromptPath = string.Empty;
-            if (!string.IsNullOrEmpty(_requirements)) {
+            if (!string.IsNullOrEmpty(_requirements))
+            {
                 jsonPromptPath = largeLanguageModel.Id switch
                 {
                     "Claude 3.5 Sonnet" => _jsonPromptClaude_3_5_Sonnet,
