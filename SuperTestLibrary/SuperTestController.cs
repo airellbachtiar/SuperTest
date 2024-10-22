@@ -62,6 +62,29 @@ namespace SuperTestLibrary
             }
         }
 
+        public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string featureFile)
+        {
+            CheckLLM();
+            CheckGenerator();
+
+            if (string.IsNullOrWhiteSpace(featureFile))
+            {
+                throw new InvalidOperationException("No feature file provided.");
+            }
+
+            string responseJson = await SelectedGenerator!.GenerateAsync(SelectedLLM!, featureFile);
+
+            try
+            {
+                var response = GetSpecFlowScenarioEvaluation.ConvertJson(responseJson);
+                return response;
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException("Unable to evaluate SpecFlow scenario after 3 attempts.", e);
+            }
+        }
+
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
         {
             return await _reqIFStorage.GetAllReqIFsAsync();
