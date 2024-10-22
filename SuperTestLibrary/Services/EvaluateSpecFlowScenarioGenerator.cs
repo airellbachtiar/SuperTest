@@ -2,7 +2,7 @@
 
 namespace SuperTestLibrary.Services
 {
-    internal class EvaluateSpecFlowScenarioGenerator : EvaluateSpecFlowFile, IGenerator
+    public class EvaluateSpecFlowScenarioGenerator : EvaluateSpecFlowFile, IGenerator
     {
         private readonly string _requirements;
 
