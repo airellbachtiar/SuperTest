@@ -86,13 +86,11 @@
 
 
         <!--  Status Message TextBox  -->
-        <Label
-            Grid.Row="3"
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            Height="30"
-            Margin="10"
-            Content="{Binding StatusMessage}" />
+        <TextBlock
+            Grid.Row="2"
+            Margin="10,10,10,10"
+            Text="{Binding StatusMessage}"
+            TextWrapping="Wrap" />
 
         <!--  Second TreeView for Requirements  -->
         <TreeView
@@ -120,7 +118,7 @@
             <TextBlock
                 Width="auto"
                 Height="auto"
-                Text="{Binding GeneratedSpecFlowFeatureFile}"
+                Text="{Binding GeneratedSpecFlowFeatureFileContent}"
                 TextWrapping="Wrap" />
         </ScrollViewer>
         <ListBox
@@ -156,6 +154,18 @@
             Margin="10"
             Command="{Binding DisplayScenarioScoreCommand}"
             Content="Scenario Score" />
+        <Button
+            Grid.Row="3"
+            Grid.Column="1"
+            Margin="10"
+            Command="{Binding CopyFeatureFileCommand}"
+            Content="Copy Feature File" />
+        <Button
+            Grid.Row="3"
+            Grid.Column="2"
+            Margin="10"
+            Command="{Binding SaveFeatureFileCommand}"
+            Content="Save Feature File" />
 
     </Grid>
 </Window>

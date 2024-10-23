@@ -7,6 +7,7 @@ using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Windows;
 using System.Windows.Input;
 
 namespace SuperTestWPF.ViewModels
@@ -16,7 +17,8 @@ namespace SuperTestWPF.ViewModels
         private string _statusMessage = string.Empty;
         private string _chosenFile = string.Empty;
         private string _selectedLLM = GPT_4o.ModelName;
-        private string _generatedSpecFlowFeatureFile = string.Empty;
+        private string _generatedSpecFlowFeatureFileContent = string.Empty;
+        private string _generatedSpecFlowFeatureFileName = string.Empty;
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
@@ -45,6 +47,8 @@ namespace SuperTestWPF.ViewModels
             GenerateSpecFlowFeatureFileCommand = new RelayCommand(GenerateSpecFlowFeatureFile);
             DisplayFeatureFileScoreCommand = new RelayCommand(DisplayFeatureFileScore);
             DisplayScenarioScoreCommand = new RelayCommand(DisplayScenarioScore);
+            CopyFeatureFileCommand = new RelayCommand(CopyFeatureFile);
+            SaveFeatureFileCommand = new RelayCommand(SaveFeatureFile);
 
             this._superTestController = superTestController;
             InitializeReqIFs();
@@ -140,15 +144,15 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        public string GeneratedSpecFlowFeatureFile
+        public string GeneratedSpecFlowFeatureFileContent
         {
-            get { return _generatedSpecFlowFeatureFile; }
+            get { return _generatedSpecFlowFeatureFileContent; }
             set
             {
-                if (_generatedSpecFlowFeatureFile != value)
+                if (_generatedSpecFlowFeatureFileContent != value)
                 {
-                    _generatedSpecFlowFeatureFile = value;
-                    OnPropertyChanged(nameof(GeneratedSpecFlowFeatureFile));
+                    _generatedSpecFlowFeatureFileContent = value;
+                    OnPropertyChanged(nameof(GeneratedSpecFlowFeatureFileContent));
                 }
             }
         }
@@ -157,6 +161,8 @@ namespace SuperTestWPF.ViewModels
         public ICommand GenerateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
         public ICommand DisplayScenarioScoreCommand { get; }
+        public ICommand CopyFeatureFileCommand { get; }
+        public ICommand SaveFeatureFileCommand { get; }
 
         public void OnTreeViewItemSelected(object selectedItem)
         {
@@ -201,7 +207,8 @@ namespace SuperTestWPF.ViewModels
             _scenarioEvaluationSummary = string.Empty;
             EvaluationSummary = string.Empty;
 
-            GeneratedSpecFlowFeatureFile = string.Empty;
+            GeneratedSpecFlowFeatureFileContent = string.Empty;
+            _generatedSpecFlowFeatureFileName = string.Empty;
 
             StatusMessage = "Generating SpecFlow feature file...";
 
@@ -248,14 +255,16 @@ namespace SuperTestWPF.ViewModels
 
                 // TODO: Support multiple output
                 string? featureFile = featureFileResponse.FeatureFiles.Values.FirstOrDefault();
+                string? featureFileName = featureFileResponse.FeatureFiles.Keys.FirstOrDefault();
 
-                if (string.IsNullOrEmpty(featureFile))
+                if (string.IsNullOrEmpty(featureFile) || string.IsNullOrEmpty(featureFileName))
                 {
                     StatusMessage = "Feature file is empty. Failed to generate feature file.";
                     return;
                 }
 
-                GeneratedSpecFlowFeatureFile = featureFile;
+                GeneratedSpecFlowFeatureFileContent = featureFile;
+                _generatedSpecFlowFeatureFileName = featureFileName;
             }
             catch (Exception e)
             {
@@ -339,7 +348,7 @@ namespace SuperTestWPF.ViewModels
         private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel)
         {
             _superTestController.SelectedLLM = largeLanguageModel;
-            var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(GeneratedSpecFlowFeatureFile);
+            var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(GeneratedSpecFlowFeatureFileContent);
 
             var score = evaluationResponse.Score;
 
@@ -364,7 +373,7 @@ namespace SuperTestWPF.ViewModels
         private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel)
         {
             _superTestController.SelectedLLM = largeLanguageModel;
-            var evaluationResponse = await _superTestController.EvaluateSpecFlowScenarioAsync(GeneratedSpecFlowFeatureFile);
+            var evaluationResponse = await _superTestController.EvaluateSpecFlowScenarioAsync(GeneratedSpecFlowFeatureFileContent);
 
             _scenarioEvaluationScoreDetails.Add("=========================================================================");
 
@@ -417,6 +426,19 @@ namespace SuperTestWPF.ViewModels
         {
             EvaluationSummary = _scenarioEvaluationSummary;
             EvaluationScoreDetails = _scenarioEvaluationScoreDetails;
+        }
+
+        private void CopyFeatureFile()
+        {
+            Clipboard.SetText(GeneratedSpecFlowFeatureFileContent);
+            StatusMessage = "Feature file copied to clipboard.";
+        }
+
+        private void SaveFeatureFile()
+        {
+            string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads";
+            File.WriteAllText($"{downloadPath}/{_generatedSpecFlowFeatureFileName}", GeneratedSpecFlowFeatureFileContent);
+            StatusMessage = $"Feature file saved to \"{downloadPath}/{_generatedSpecFlowFeatureFileName}\".";
         }
 
         #region INotifyPropertyChanged Members
