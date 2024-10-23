@@ -2,6 +2,7 @@
 {
     public interface ILargeLanguageModel
     {
-        Task<string> GenerateSpecFlowFeatureFileAsync(string requirements);
+        string Id { get; }
+        Task<string> Call(IEnumerable<string> messages);
     }
 }

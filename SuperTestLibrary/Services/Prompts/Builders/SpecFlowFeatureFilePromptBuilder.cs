@@ -1,7 +1,7 @@
 ﻿using System.Text;
-using SuperTestLibrary.LLMs.Models;
+using SuperTestLibrary.Services.Prompts.Builders;
 
-namespace SuperTestLibrary.LLMs.PromptBuilders
+namespace SuperTestLibrary.Services.Prompts
 {
     public class SpecFlowFeatureFilePromptBuilder : IPromptBuilder
     {
@@ -21,7 +21,7 @@ namespace SuperTestLibrary.LLMs.PromptBuilders
             List<string> prompts = new List<string>();
             prompts.Add(BuildContext());
 
-            if(prompt.Instructions.Any())
+            if (prompt.Instructions.Any())
             {
                 prompts.AddRange(BuildInteractions());
             }

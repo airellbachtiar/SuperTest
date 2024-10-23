@@ -1,7 +1,8 @@
 ﻿using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.LLMs.PromptBuilders;
+using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Prompts.Builders;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
@@ -20,7 +21,18 @@ namespace SuperTestWPF.ViewModels
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new ObservableCollection<string>([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
 
+        // LLM
+        private readonly GPT_4o _gpt_4o = new GPT_4o();
+        private readonly Claude_3_5_Sonnet _claude_3_5_Sonnet = new Claude_3_5_Sonnet();
+        private readonly Gemini_1_5 _gemini_1_5 = new Gemini_1_5();
+
+        //Generator
+        private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new SpecFlowFeatureFileGenerator();
+
         private ObservableCollection<string?> _onLoadedRequirementTitles = new ObservableCollection<string?> ();
+
+        private int retryCount = 0;
+        private const int maxRetryCount = 3;
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
@@ -157,30 +169,60 @@ namespace SuperTestWPF.ViewModels
 
             string chosenFileContent = GetFileContent();
 
+            SetGenerator();
+            await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
+            retryCount = 0;
+        }
+
+        public void SetGenerator()
+        {
+            _superTestController.SelectedGenerator = _specFlowFeatureFileGenerator;
+
             switch (_selectedLLM)
             {
                 case GPT_4o.ModelName:
-                    _superTestController.SetLLM(new GPT_4o(new SpecFlowFeatureFilePromptBuilder()));
+                    _superTestController.SelectedLLM = _gpt_4o;
                     break;
                 case Claude_3_5_Sonnet.ModelName:
-                    _superTestController.SetLLM(new Claude_3_5_Sonnet(new SpecFlowFeatureFilePromptBuilder()));
+                    _superTestController.SelectedLLM = _claude_3_5_Sonnet;
                     break;
                 case Gemini_1_5.ModelName:
-                    _superTestController.SetLLM(new Gemini_1_5(new SpecFlowFeatureFilePromptBuilder()));
+                    _superTestController.SelectedLLM = _gemini_1_5;
                     break;
             }
+        }
 
-            string featureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
-
-            if (string.IsNullOrEmpty(featureFile))
+        public async Task GenerateSpecFlowFeatureFileCheck(string chosenFileContent)
+        {
+            try
             {
-                StatusMessage = "Failed to generate SpecFlow feature file.";
-                return;
+                var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(chosenFileContent);
+
+                // TODO: Support multiple output
+                string? featureFile = featureFileResponse.FeatureFiles.Values.FirstOrDefault();
+
+                if (string.IsNullOrEmpty(featureFile))
+                {
+                    StatusMessage = "Failed to generate SpecFlow feature file.";
+                    return;
+                }
+
+                GeneratedSpecFlowFeatureFile = featureFile;
+
+                StatusMessage = "SpecFlow feature file generated.";
             }
-
-            GeneratedSpecFlowFeatureFile = featureFile;
-
-            StatusMessage = "SpecFlow feature file generated.";
+            catch
+            {
+                if (retryCount < maxRetryCount)
+                {
+                    retryCount++;
+                    await GenerateSpecFlowFeatureFileCheck(chosenFileContent);
+                }
+                else
+                {
+                    StatusMessage = "Failed to generate SpecFlow feature file.";
+                }
+            }
         }
 
         private string GetFileContent()
@@ -200,7 +242,7 @@ namespace SuperTestWPF.ViewModels
             {
                 StatusMessage = $"IOException: {ex.Message} while reading {ChosenFile}";
             }
-            catch (System.UnauthorizedAccessException ex)
+            catch (UnauthorizedAccessException ex)
             {
                 StatusMessage = $"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}";
             }

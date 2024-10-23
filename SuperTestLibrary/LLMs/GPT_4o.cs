@@ -1,74 +1,42 @@
 ﻿using DotNetEnv;
 using OpenAI;
 using OpenAI.Chat;
-using SuperTestLibrary.LLMs.Models;
-using SuperTestLibrary.LLMs.PromptBuilders;
+using SuperTestLibrary.Services.Prompts;
+using System.ClientModel;
 using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
 {
     public class GPT_4o : ILargeLanguageModel
     {
-        private class GPT_4o_Settings
-        {
-            public Prompt? GenerateFeatureFile { get; init; }
-        }
-
-        private const string SettingFile = "LLMs/Settings/GPT_4o.json";
         private const string GPT_4o_Model = "gpt-4o";
 
-        private static readonly GPT_4o_Settings _settings;
         private static readonly OpenAIClient _openAIClient;
 
         public const string ModelName = "GPT-4o";
 
-        private readonly IPromptBuilder _promptBuilder;
+        public string Id => ModelName;
 
         static GPT_4o()
         {
-            Env.Load();
-            string? ApiKey = Env.GetString("OPENAI_API_KEY") ?? throw new InvalidOperationException("OPENAI_API_KEY is not set.");
-
-            using var fs = File.OpenRead(SettingFile) ?? throw new InvalidOperationException($"Unable to locate settings from {SettingFile}.");
-            try
-            {
-                _settings = JsonSerializer.Deserialize<GPT_4o_Settings>(fs)!;
-            }
-            catch { }
-
-            if (_settings == null)
-            {
-                throw new InvalidOperationException($"Unable to read settings from {SettingFile}, unable to initialize communication with LLM.");
-            }
+            string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_OPENAI_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_OPENAI_API_KEY is not set.");
 
             _openAIClient = new OpenAIClient(ApiKey);
             ApiKey = null;
         }
 
-        public GPT_4o(IPromptBuilder promptBuilder)
+        public async Task<string> Call(IEnumerable<string> messages)
         {
-            _promptBuilder = promptBuilder;
-        }
+            List<ChatMessage> prompts = new List<ChatMessage>();
 
-        public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
-        {
-            if (_settings.GenerateFeatureFile == null)
+            foreach (var messageContent in messages)
             {
-                throw new InvalidOperationException("GenerateFeatureFile prompt is not set.");
+                prompts.Add(new UserChatMessage(messageContent));
             }
 
-            var prompts = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
+            var response = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompts);
 
-            List<ChatMessage> messages = new List<ChatMessage>();
-
-            foreach (var prompt in prompts)
-            {
-                messages.Add(new UserChatMessage(prompt));
-            }
-
-            var message = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(messages);
-
-            return message.Value.Content.First().Text ?? string.Empty;
+            return response.Value.Content.First().Text ?? string.Empty;
         }
     }
 }

@@ -1,44 +1,23 @@
 ﻿using Claudia;
 using DotNetEnv;
-using SuperTestLibrary.LLMs.Models;
-using SuperTestLibrary.LLMs.PromptBuilders;
+using SuperTestLibrary.Services.Prompts;
 using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
 {
     public class Claude_3_5_Sonnet : ILargeLanguageModel
     {
-        private class Claude_3_5_SonnetSettings
-        {
-            public Prompt? GenerateFeatureFile { get; init; }
-        }
-
-        private const string SettingFile = "LLMs/Settings/Claude_3_5_Sonnet.json";
         private const string Claude_3_5_SonnetModel = "claude-3-5-sonnet-20240620";
 
-        private static readonly Claude_3_5_SonnetSettings _settings;
         private static readonly Anthropic _anthropic;
 
         public const string ModelName = "Claude 3.5 Sonnet";
 
-        private readonly IPromptBuilder _promptBuilder;
+        public string Id => ModelName;
 
         static Claude_3_5_Sonnet()
         {
-            Env.Load();
-            string? ApiKey = Env.GetString("ANTHROPIC_API_KEY") ?? throw new InvalidOperationException("ANTHROPIC_API_KEY is not set.");
-
-            using var fs = File.OpenRead(SettingFile) ?? throw new InvalidOperationException($"Unable to locate settings from {SettingFile}.");
-            try
-            {
-                _settings = JsonSerializer.Deserialize<Claude_3_5_SonnetSettings>(fs)!;
-            }
-            catch { }
-
-            if (_settings == null)
-            {
-                throw new InvalidOperationException($"Unable to read settings from {SettingFile}, unable to initialize communication with LLM.");
-            }
+            string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_ANTHROPIC_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_ANTHROPIC_API_KEY is not set.");
 
             _anthropic = new Anthropic
             {
@@ -48,28 +27,16 @@ namespace SuperTestLibrary.LLMs
             ApiKey = null;
         }
 
-        public Claude_3_5_Sonnet(IPromptBuilder promptBuilder)
+        public async Task<string> Call(IEnumerable<string> messages)
         {
-            _promptBuilder = promptBuilder;
-        }
+            List<Message> prompts = new List<Message>();
 
-        public async Task<string> GenerateSpecFlowFeatureFileAsync(string requirements)
-        {
-            if (_settings.GenerateFeatureFile == null)
+            foreach (var messageContent in messages)
             {
-                throw new InvalidOperationException("GenerateFeatureFile prompt is not set.");
-            }
-
-            var prompts = _promptBuilder.BuildPrompt(_settings.GenerateFeatureFile, requirements);
-
-            List<Message> messages = new List<Message>();
-
-            foreach (var prompt in prompts)
-            {
-                messages.Add(new()
+                prompts.Add(new()
                 {
                     Role = "user",
-                    Content = prompt
+                    Content = messageContent
                 });
             }
 
@@ -77,25 +44,10 @@ namespace SuperTestLibrary.LLMs
             {
                 Model = Claude_3_5_SonnetModel,
                 MaxTokens = 1024,
-                Messages = messages.ToArray()
+                Messages = prompts.ToArray()
             });
 
-            return GetSpecFlowFeatureFiles(message).FirstOrDefault() ?? string.Empty;
-        }
-
-        private static IEnumerable<string> GetSpecFlowFeatureFiles(MessageResponse? messageResponse)
-        {
-            if ( messageResponse != null)
-            {
-                var response = JsonSerializer.Deserialize<SpecFlowFeatureFileResponse>(messageResponse.Content.ToString());
-
-                if (response != null)
-                {
-                    return response.FeatureFiles.Values;
-                }
-            }
-
-            return [];
+            return message.Content.ToString() ?? string.Empty;
         }
     }
 }

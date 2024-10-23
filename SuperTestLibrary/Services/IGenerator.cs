@@ -1,7 +1,10 @@
-﻿namespace SuperTestLibrary.Services
+﻿using SuperTestLibrary.LLMs;
+using SuperTestLibrary.Services.Prompts;
+
+namespace SuperTestLibrary.Services
 {
     public interface IGenerator
     {
-        Task<string> Generate();
+        Task<SpecFlowFeatureFileResponse> Generate(ILargeLanguageModel largeLanguageModel, string additionalMessage);
     }
 }
