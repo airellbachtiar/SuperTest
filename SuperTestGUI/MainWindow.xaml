@@ -35,7 +35,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
             <!--  Column for buttons  -->
             <ColumnDefinition Width="*" />
             <!--  Column for TreeView and TextBox  -->
@@ -118,7 +118,7 @@
             <TextBlock
                 Width="auto"
                 Height="auto"
-                Text="{Binding GeneratedSpecFlowFeatureFileContent}"
+                Text="{Binding SelectedSpecFlowFeatureFile.FeatureFileContent}"
                 TextWrapping="Wrap" />
         </ScrollViewer>
         <ListBox
@@ -166,6 +166,11 @@
             Margin="10"
             Command="{Binding SaveFeatureFileCommand}"
             Content="Save Feature File" />
+        <ListBox
+            Grid.Row="4"
+            Margin="10"
+            ItemsSource="{Binding SpecFlowFeatureFiles}"
+            SelectedItem="{Binding SelectedSpecFlowFeatureFile}" />
 
     </Grid>
 </Window>
