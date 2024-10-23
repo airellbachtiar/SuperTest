@@ -18,6 +18,9 @@
       "Message": "Cross check the response you gave with the original set of requirements. If there is/are scenario that is not in the requirement list, separate it and comment it using '#' at the beginning of the line. Indicate at the beginning that the commented scenario(s) is a recommendation."
     },
     {
+      "Message": "Consider your response, if able, categorize the feature files and separate it based on its feature."
+    },
+    {
       "Message": "Ensure that the response you gave have valid JSON format with keys: \"FeatureFiles\" (Dictionary where the key is the SpecFlow feature file name). Make sure to output valid JSON, inside a string field you should only use single quotes, the double quotes are for begin/end of the field only. Make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence."
     }
   ]
