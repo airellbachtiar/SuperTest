@@ -2,6 +2,7 @@ using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
+using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
@@ -20,8 +21,6 @@ namespace SuperTestWPF.ViewModels
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
-        private const int maxRetryCount = 3;
-        private int retryCount = 0;
 
         // LLM
         private readonly GPT_4o _gpt_4o = new();
@@ -43,7 +42,7 @@ namespace SuperTestWPF.ViewModels
         public MainWindowViewModel(ISuperTestController superTestController)
         {
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
-            GenerateSpecFlowFeatureFileCommand = new RelayCommand(GenerateSpecFlowFeatureFile);
+            GenerateAndEvaluateSpecFlowFeatureFileCommand = new RelayCommand(GenerateAndEvaluateSpecFlowFeatureFile);
             DisplayFeatureFileScoreCommand = new RelayCommand(DisplayFeatureFileScore);
             DisplayScenarioScoreCommand = new RelayCommand(DisplayScenarioScore);
             CopyFeatureFileCommand = new RelayCommand(CopyFeatureFile);
@@ -171,7 +170,7 @@ namespace SuperTestWPF.ViewModels
         }
 
         public ICommand UploadReqIFCommand { get; }
-        public ICommand GenerateSpecFlowFeatureFileCommand { get; }
+        public ICommand GenerateAndEvaluateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
         public ICommand DisplayScenarioScoreCommand { get; }
         public ICommand CopyFeatureFileCommand { get; }
@@ -219,7 +218,7 @@ namespace SuperTestWPF.ViewModels
             return filepath;
         }
 
-        private async void GenerateSpecFlowFeatureFile()
+        private async void GenerateAndEvaluateSpecFlowFeatureFile()
         {
             SelectedSpecFlowFeatureFile = new();
             SpecFlowFeatureFiles.Clear();
@@ -237,11 +236,13 @@ namespace SuperTestWPF.ViewModels
             SetLLM();
             _superTestController.SelectedGenerator = _specFlowFeatureFileGenerator;
 
-            await GenerateSpecFlowFeatureFileCheck(requirements);
-            SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
-            await EvaluateSpecFlowFeatureFile(requirements);
-
-            retryCount = 0;
+            try
+            {
+                await GenerateSpecFlowFeatureFile(requirements);
+                SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
+                await EvaluateSpecFlowFeatureFile(requirements);
+            }
+            catch {}
         }
 
         public void SetLLM()
@@ -260,12 +261,11 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        private async Task GenerateSpecFlowFeatureFileCheck(string requirements)
+        private async Task GenerateSpecFlowFeatureFile(string requirements)
         {
             try
             {
-                var featureFileResponse = await _superTestController.GenerateSpecFlowFeatureFileAsync(requirements);
-
+                var featureFileResponse = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowFeatureFileAsync(requirements), TimeSpan.FromSeconds(1));
                 foreach (var featureFileModel in featureFileResponse.FeatureFiles)
                 {
                     SpecFlowFeatureFiles.Add(new SpecFlowFeatureFileModel(featureFileModel.Key, featureFileModel.Value));
@@ -277,63 +277,36 @@ namespace SuperTestWPF.ViewModels
                 }
                 StatusMessage = "Finished generating!";
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                if (retryCount < maxRetryCount)
-                {
-                    StatusMessage = $"Generation encounters error. ({retryCount + 1})";
-                    retryCount++;
-                    await GenerateSpecFlowFeatureFileCheck(requirements);
-                }
-                else
-                {
-                    retryCount = 0;
-                    StatusMessage = $"Error: Failed to generate SpecFlow feature file after 3 tries. {e.Message}";
-                }
+                StatusMessage = $"Exception: {ex.Message} while generating SpecFlow feature file.";
             }
         }
 
         private async Task EvaluateSpecFlowFeatureFile(string requirements)
         {
-            try
+            var evaluateSpecFlowFeatureFileGeneratpr = new EvaluateSpecFlowFeatureFileGenerator(requirements);
+            var evaluateSpecFlowScenarioGenerator = new EvaluateSpecFlowScenarioGenerator(requirements);
+
+            foreach (var featureFile in SpecFlowFeatureFiles)
             {
-                var evaluateSpecFlowFeatureFileGeneratpr = new EvaluateSpecFlowFeatureFileGenerator(requirements);
-                var evaluateSpecFlowScenarioGenerator = new EvaluateSpecFlowScenarioGenerator(requirements);
-                
-                foreach (var featureFile in SpecFlowFeatureFiles)
-                {
-                    // Evaluate feature file
-                    _superTestController.SelectedGenerator = evaluateSpecFlowFeatureFileGeneratpr;
-                    StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...";
-                    await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile);
+                // Evaluate feature file
+                _superTestController.SelectedGenerator = evaluateSpecFlowFeatureFileGeneratpr;
+                StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...";
+                await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile);
 
-                    StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...";
-                    await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile);
+                StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...";
+                await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile);
 
-                    //Evaluate scenario
-                    _superTestController.SelectedGenerator = evaluateSpecFlowScenarioGenerator;
-                    StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...";
-                    await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile);
+                //Evaluate scenario
+                _superTestController.SelectedGenerator = evaluateSpecFlowScenarioGenerator;
+                StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...";
+                await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile);
 
-                    StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...";
-                    await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile);
-                }
-                StatusMessage = "Finished evaluating!";
+                StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...";
+                await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile);
             }
-            catch (Exception e)
-            {
-                if (retryCount < maxRetryCount)
-                {
-                    StatusMessage = $"Evaluation encounters error. ({retryCount + 1})";
-                    retryCount++;
-                    await EvaluateSpecFlowFeatureFile(requirements);
-                }
-                else
-                {
-                    retryCount = 0;
-                    StatusMessage = $"Error: Failed to evaluate SpecFlow feature file after 3 tries. {e.Message}";
-                }
-            }
+            StatusMessage = "Finished evaluating!";
         }
 
         private string GetFileContent()
@@ -367,73 +340,88 @@ namespace SuperTestWPF.ViewModels
 
         private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile)
         {
-            _superTestController.SelectedLLM = largeLanguageModel;
-            var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile.FeatureFileContent);
+            try
+            {
+                _superTestController.SelectedLLM = largeLanguageModel;
+                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
-            int totalScore = evaluationResponse.Score.TotalScore;
-            int maximumScore = evaluationResponse.Score.MaximumScore;
+                int totalScore = evaluationResponse.Score.TotalScore;
+                int maximumScore = evaluationResponse.Score.MaximumScore;
 
-            featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Readability = {evaluationResponse.Readability}/5 ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Consistency = {evaluationResponse.Consistency}/5 ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Focus = {evaluationResponse.Focus}/5 ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Structure = {evaluationResponse.Structure}/5 ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add(string.Empty);
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-            featureFile.FeatureFileEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-            featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
+                featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Readability = {evaluationResponse.Readability}/5 ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Consistency = {evaluationResponse.Consistency}/5 ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Focus = {evaluationResponse.Focus}/5 ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Structure = {evaluationResponse.Structure}/5 ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add(string.Empty);
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
+                featureFile.FeatureFileEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
+                featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
 
-            featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
-            featureFile.FeatureFileEvaluationSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n";
-            featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
+                featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
+                featureFile.FeatureFileEvaluationSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n";
+                featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
+            
+            }
+            catch (Exception ex)
+            {
+                StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
+            }
         }
 
         private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile)
         {
-            _superTestController.SelectedLLM = largeLanguageModel;
-            var evaluationResponse = await _superTestController.EvaluateSpecFlowScenarioAsync(featureFile.FeatureFileContent);
+            try
+            {
+                _superTestController.SelectedLLM = largeLanguageModel;
+                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
-            featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
+                featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
 
-            featureFile.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
+                featureFile.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
 
             foreach (var scenario in evaluationResponse.ScenarioEvaluations)
             {
                 var score = scenario.Score;
 
+                    featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
+                    featureFile.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tHuman Friendly Language = {scenario.ClarityAndReadability.HumanFriendlyLanguage}/5 ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tConcise and Relevant Scenarios = {scenario.ClarityAndReadability.ConciseAndRelevantScenarios}/5 ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tLogical Flow = {scenario.ClarityAndReadability.LogicalFlow}/5 ");
+
+                    featureFile.ScenarioEvaluationScoreDetails.Add("Structure and Focus");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tFocused Scenario = {scenario.StructureAndFocus.FocusedScenario}/5 ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Structure = {scenario.StructureAndFocus.ScenarioStructure}/5 ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Outlines = {scenario.StructureAndFocus.ScenarioOutlines}/5 ");
+
+                    featureFile.ScenarioEvaluationScoreDetails.Add("Maintainability");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tMinimal Coupling to Implementation = {scenario.Maintainability.MinimalCouplingToImplementation}/5 ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tIndependent Scenarios = {scenario.Maintainability.IndependentScenarios}/5 ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tTest Data Management = {scenario.Maintainability.TestDataManagement}/5 ");
+
+                    featureFile.ScenarioEvaluationScoreDetails.Add("Traceability");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
+
+                featureFile.ScenarioEvaluationScoreDetails.Add(string.Empty);
+                featureFile.ScenarioEvaluationScoreDetails.Add($"Total Score = {totalScore}/{maximumScore} ");
+                featureFile.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good");
                 featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
-                featureFile.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tHuman Friendly Language = {scenario.ClarityAndReadability.HumanFriendlyLanguage}/5 ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tConcise and Relevant Scenarios = {scenario.ClarityAndReadability.ConciseAndRelevantScenarios}/5 ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tLogical Flow = {scenario.ClarityAndReadability.LogicalFlow}/5 ");
 
-                featureFile.ScenarioEvaluationScoreDetails.Add("Structure and Focus");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tFocused Scenario = {scenario.StructureAndFocus.FocusedScenario}/5 ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Structure = {scenario.StructureAndFocus.ScenarioStructure}/5 ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Outlines = {scenario.StructureAndFocus.ScenarioOutlines}/5 ");
-
-                featureFile.ScenarioEvaluationScoreDetails.Add("Maintainability");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tMinimal Coupling to Implementation = {scenario.Maintainability.MinimalCouplingToImplementation}/5 ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tIndependent Scenarios = {scenario.Maintainability.IndependentScenarios}/5 ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tTest Data Management = {scenario.Maintainability.TestDataManagement}/5 ");
-
-                featureFile.ScenarioEvaluationScoreDetails.Add("Traceability");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
-
-                _scenarioEvaluationScoreDetails.Add(string.Empty);
-                _scenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-                _scenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-                _scenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
-
-                featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
-                featureFile.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
-                featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
+                    featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
+                    featureFile.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
+                    featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
+                }
+                featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
             }
-            featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
+            catch (Exception ex)
+            {
+                StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
+            }
         }
 
         private void DisplayFeatureFileScore()

@@ -71,7 +71,7 @@
             Grid.Column="0"
             Height="30"
             Margin="10"
-            Command="{Binding GenerateSpecFlowFeatureFileCommand}"
+            Command="{Binding GenerateAndEvaluateSpecFlowFeatureFileCommand}"
             Content="Generate Feature File" />
 
         <!--  TreeView for ReqIF File Titles  -->
