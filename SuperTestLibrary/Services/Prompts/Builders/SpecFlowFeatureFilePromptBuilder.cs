@@ -35,6 +35,8 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             promptBuilder.AppendLine(prompt!.SystemInstruction);
             promptBuilder.AppendLine();
 
+            promptBuilder.AppendLine("Instructions:");
+
             foreach (var instruction in prompt.Instructions.Select((value, i) => new { i, value }))
             {
                 promptBuilder.AppendLine($"{instruction.i + 1}. {instruction.value}");
@@ -45,9 +47,8 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             promptBuilder.AppendLine();
             promptBuilder.AppendLine(prompt.Example);
             promptBuilder.AppendLine();
-            promptBuilder.AppendLine("<Requirements>");
+            promptBuilder.AppendLine("Convert this requirements to a SpecFlow featureFile:");
             promptBuilder.AppendLine(requirements);
-            promptBuilder.AppendLine("</Requirements>");
 
             return promptBuilder.ToString();
         }
