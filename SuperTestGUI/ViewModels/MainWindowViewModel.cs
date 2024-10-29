@@ -1,7 +1,10 @@
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore;
 using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
@@ -10,6 +13,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using LiveChartsCore.Kernel.Sketches;
 
 namespace SuperTestWPF.ViewModels
 {
@@ -38,6 +42,9 @@ namespace SuperTestWPF.ViewModels
 
         //Switch score details display
         private bool _isDisplayingFeatureFileScore = true;
+
+        // Score Plot
+        private ObservableCollection<ISeries> _scenarioScores = [];
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
@@ -169,6 +176,21 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public ObservableCollection<ISeries> ScenarioScores
+        {
+            get { return _scenarioScores; }
+            set
+            {
+                if (_scenarioScores != value)
+                {
+                    _scenarioScores = value;
+                    OnPropertyChanged(nameof(ScenarioScores));
+                }
+            }
+        }
+
+        public ICartesianAxis[] ScenarioScoresYAxes { get; set; } = [ new Axis { Name = "Score (%)", MinLimit = 0, MaxLimit = 100 } ];
+
         public ICommand UploadReqIFCommand { get; }
         public ICommand GenerateAndEvaluateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
@@ -285,6 +307,8 @@ namespace SuperTestWPF.ViewModels
 
         private async Task EvaluateSpecFlowFeatureFile(string requirements)
         {
+            ScenarioScores.Clear();
+
             var evaluateSpecFlowFeatureFileGeneratpr = new EvaluateSpecFlowFeatureFileGenerator(requirements);
             var evaluateSpecFlowScenarioGenerator = new EvaluateSpecFlowScenarioGenerator(requirements);
 
@@ -382,9 +406,11 @@ namespace SuperTestWPF.ViewModels
 
                 featureFile.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
 
-            foreach (var scenario in evaluationResponse.ScenarioEvaluations)
-            {
-                var score = scenario.Score;
+                UpdatePlot(evaluationResponse, largeLanguageModel);
+
+                foreach (var scenario in evaluationResponse.ScenarioEvaluations)
+                {
+                    var score = scenario.Score;
 
                     featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
                     featureFile.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
@@ -421,6 +447,17 @@ namespace SuperTestWPF.ViewModels
             {
                 StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
             }
+        }
+
+        private void UpdatePlot(EvaluateSpecFlowScenarioResponse evaluations, ILargeLanguageModel largeLanguageModel)
+        {
+            ScenarioScores.Add(new ColumnSeries<double>
+            {
+                Values = evaluations.ScenarioEvaluations.Select(s => s.Score.Percentage).ToArray(),
+                Name = largeLanguageModel.Id,
+                Stroke = null,
+                IgnoresBarPosition = true
+            });
         }
 
         private void DisplayFeatureFileScore()
