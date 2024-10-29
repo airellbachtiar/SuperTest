@@ -381,8 +381,7 @@ namespace SuperTestWPF.ViewModels
 
             foreach (var scenario in evaluationResponse.ScenarioEvaluations)
             {
-                int totalScore = scenario.Score.TotalScore;
-                int maximumScore = scenario.Score.MaximumScore;
+                var score = scenario.Score;
 
                 _scenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
                 _scenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
@@ -405,8 +404,8 @@ namespace SuperTestWPF.ViewModels
                 _scenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
 
                 _scenarioEvaluationScoreDetails.Add(string.Empty);
-                _scenarioEvaluationScoreDetails.Add($"Total Score = {totalScore}/{maximumScore} ");
-                _scenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good");
+                _scenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
+                _scenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
                 _scenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
 
                 _scenarioEvaluationSummary += "=========================================================================\n";

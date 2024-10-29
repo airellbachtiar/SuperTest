@@ -13,7 +13,7 @@ namespace SuperTestLibrary.Helpers
 
                 if (specFlowFeatureFileEvaluation != null)
                 {
-                    specFlowFeatureFileEvaluation.CalculateScore();
+                    specFlowFeatureFileEvaluation.AssignScore();
                     return specFlowFeatureFileEvaluation;
                 }
                 else return new EvaluateSpecFlowFeatureFileResponse();

@@ -13,6 +13,7 @@ namespace SuperTestLibrary.Helpers
 
                 if (specFlowScenarioEvaluation != null)
                 {
+                    specFlowScenarioEvaluation.AssignScores();
                     return specFlowScenarioEvaluation;
                 }
                 else return new EvaluateSpecFlowScenarioResponse();

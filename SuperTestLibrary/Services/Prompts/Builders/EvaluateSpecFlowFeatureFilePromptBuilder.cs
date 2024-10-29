@@ -51,7 +51,7 @@ namespace SuperTestLibrary.Services.Prompts.Builders
 
             promptBuilder.AppendLine();
 
-            promptBuilder.AppendLine("Feature file evaluation has these following criteria:");
+            promptBuilder.AppendLine("The evaluation has these following criteria:");
 
             foreach (var criteria in prompt.Criteria)
             {
@@ -59,6 +59,7 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             }
 
             promptBuilder.AppendLine();
+            promptBuilder.AppendLine("Instructions:");
 
             foreach (var instruction in prompt.Instructions)
             {
