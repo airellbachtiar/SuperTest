@@ -296,8 +296,7 @@ namespace SuperTestWPF.ViewModels
             _superTestController.SelectedGenerator = new EvaluateSpecFlowFeatureFileGenerator(requirements);
             var evaluationResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile);
 
-            int totalScore = evaluationResponse.Score.TotalScore;
-            int maximumScore = evaluationResponse.Score.MaximumScore;
+            var score = evaluationResponse.Score;
 
             FeatureFileScoreDetail.Add($"{largeLanguageModel.Id} Evaluation:");
             FeatureFileScoreDetail.Add($"Readability = {evaluationResponse.Readability}/5 ");
@@ -306,8 +305,8 @@ namespace SuperTestWPF.ViewModels
             FeatureFileScoreDetail.Add($"Structure = {evaluationResponse.Structure}/5 ");
             FeatureFileScoreDetail.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
             FeatureFileScoreDetail.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
-            FeatureFileScoreDetail.Add($"Total Score = {totalScore}/{maximumScore} ");
-            FeatureFileScoreDetail.Add($"Feature file score ({largeLanguageModel.Id}): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good");
+            FeatureFileScoreDetail.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
+            FeatureFileScoreDetail.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
             FeatureFileScoreDetail.Add(string.Empty);
 
             FeatureFileSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n\n";
