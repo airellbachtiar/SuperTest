@@ -2,7 +2,7 @@
 
 namespace SuperTestLibrary.Services.Prompts.Builders
 {
-    public class SpecFlowFeatureFilePromptBuilder : IPromptBuilder
+    public class SpecFlowFeatureFilePromptBuilder : PromptBuilderBase, IPromptBuilder
     {
         private Prompt? prompt;
         private string? requirements;
@@ -22,7 +22,7 @@ namespace SuperTestLibrary.Services.Prompts.Builders
 
             if (prompt.Instructions.Any())
             {
-                prompts.AddRange(BuildInteractions);
+                prompts.AddRange(BuildInteractions(prompt));
             }
 
             return prompts;
@@ -51,21 +51,6 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             promptBuilder.AppendLine(requirements);
 
             return promptBuilder.ToString();
-        }
-
-        private IEnumerable<string> BuildInteractions
-        {
-            get
-            {
-                List<string> interactions = [];
-
-                foreach (var interaction in prompt!.Interactions)
-                {
-                    interactions.Add(interaction.Message);
-                }
-
-                return interactions;
-            }
         }
     }
 }

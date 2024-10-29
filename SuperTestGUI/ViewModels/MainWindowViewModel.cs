@@ -345,8 +345,7 @@ namespace SuperTestWPF.ViewModels
                 _superTestController.SelectedLLM = largeLanguageModel;
                 var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
-                int totalScore = evaluationResponse.Score.TotalScore;
-                int maximumScore = evaluationResponse.Score.MaximumScore;
+                var score = evaluationResponse.Score;
 
                 featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
                 featureFile.FeatureFileEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
@@ -407,10 +406,10 @@ namespace SuperTestWPF.ViewModels
                     featureFile.ScenarioEvaluationScoreDetails.Add("Traceability");
                     featureFile.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
 
-                featureFile.ScenarioEvaluationScoreDetails.Add(string.Empty);
-                featureFile.ScenarioEvaluationScoreDetails.Add($"Total Score = {totalScore}/{maximumScore} ");
-                featureFile.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {(Convert.ToDouble(totalScore) / Convert.ToDouble(maximumScore)) * 100}% good");
-                featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
+                    featureFile.ScenarioEvaluationScoreDetails.Add(string.Empty);
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
+                    featureFile.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
+                    featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------"); 
 
                     featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
                     featureFile.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
