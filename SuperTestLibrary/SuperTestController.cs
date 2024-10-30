@@ -17,54 +17,65 @@ namespace SuperTestLibrary
 
         public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
-            CheckLLM();
-            CheckGenerator();
+            ValidateInput(requirements, "requirements");
 
-            if (string.IsNullOrWhiteSpace(requirements))
-            {
-                throw new InvalidOperationException("No requirements provided.");
-            }
-
-            string response = await SelectedGenerator!.Generate(SelectedLLM!, requirements);
-
+            string response = await GenerateAsync(requirements);
             var specFlowFeatureFile = GetSpecFlowFeatureFiles.ConvertJson(response);
 
             if (ValidateFeatureFile.Validate(specFlowFeatureFile))
             {
                 return specFlowFeatureFile;
             }
-            else
-            {
-                throw new InvalidOperationException("Unable to generate valid SpecFlow feature file.");
-            }
+
+            throw new InvalidOperationException("Unable to generate valid SpecFlow feature file.");
         }
 
         public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string featureFile)
         {
-            CheckLLM();
-            CheckGenerator();
+            ValidateInput(featureFile, "feature file");
+            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluation, EvaluateSpecFlowFeatureFileResponse>(featureFile, "Unable to evaluate SpecFlow feature file after 3 attempts.");
+        }
 
-            if (string.IsNullOrWhiteSpace(featureFile))
-            {
-                throw new InvalidOperationException("No feature file provided.");
-            }
-
-            string responseJson = await SelectedGenerator!.Generate(SelectedLLM!, featureFile);
-
-            try
-            {
-                var response = GetSpecFlowFeatureFileEvaluation.ConvertJson(responseJson);
-                return response;
-            }
-            catch (Exception e)
-            {
-                throw new InvalidOperationException("Unable to evaluate SpecFlow feature file after 3 attempts.", e);
-            }
+        public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string featureFile)
+        {
+            ValidateInput(featureFile, "feature file");
+            return await EvaluateAsync<GetSpecFlowScenarioEvaluation, EvaluateSpecFlowScenarioResponse>(featureFile, "Unable to evaluate SpecFlow scenario after 3 attempts.");
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
         {
             return await _reqIFStorage.GetAllReqIFsAsync();
+        }
+
+        private async Task<string> GenerateAsync(string input)
+        {
+            CheckLLM();
+            CheckGenerator();
+            return await SelectedGenerator!.GenerateAsync(SelectedLLM!, input);
+        }
+
+        private async Task<TResponse> EvaluateAsync<TConverter, TResponse>(string input, string errorMessage)
+        where TConverter : class
+        {
+            string responseJson = await GenerateAsync(input);
+
+            try
+            {
+                var response = (TResponse)typeof(TConverter).GetMethod("ConvertJson")!.Invoke(null, [responseJson])!;
+                return response!;
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException(errorMessage, e);
+            }
+        }
+
+        private void ValidateInput(string input, string inputName)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                throw new InvalidOperationException($"No {inputName} provided.");
+            }
         }
 
         private void CheckLLM()

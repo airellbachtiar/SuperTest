@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace SuperTestLibrary.Helpers
 {
-    public static class GetSpecFlowFeatureFileEvaluation
+    public class GetSpecFlowFeatureFileEvaluation
     {
         public static EvaluateSpecFlowFeatureFileResponse ConvertJson(string response)
         {
@@ -13,7 +13,7 @@ namespace SuperTestLibrary.Helpers
 
                 if (specFlowFeatureFileEvaluation != null)
                 {
-                    specFlowFeatureFileEvaluation.CalculateScore();
+                    specFlowFeatureFileEvaluation.AssignScore();
                     return specFlowFeatureFileEvaluation;
                 }
                 else return new EvaluateSpecFlowFeatureFileResponse();

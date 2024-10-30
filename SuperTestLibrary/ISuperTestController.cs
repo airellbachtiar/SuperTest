@@ -10,6 +10,7 @@ namespace SuperTestLibrary
         ILargeLanguageModel? SelectedLLM { get; set; }
         Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements);
         Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string featureFile);
+        Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string featureFile);
         Task<IEnumerable<string>> GetAllReqIFFilesAsync();
     }
 }
