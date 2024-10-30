@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SuperTestLibrary.Services.Prompts.Builders
 {
-    public class EvaluateSpecFlowFeatureFilePromptBuilder : IPromptBuilder
+    public class EvaluateSpecFlowFeatureFilePromptBuilder : PromptBuilderBase, IPromptBuilder
     {
         private Prompt? prompt;
         private string? requirements;
@@ -32,6 +32,12 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             }
 
             List<string> prompts = [BuildContext()];
+
+            if (prompt.Instructions.Any())
+            {
+                prompts.AddRange(BuildInteractions(prompt));
+            }
+
             return prompts;
         }
 
