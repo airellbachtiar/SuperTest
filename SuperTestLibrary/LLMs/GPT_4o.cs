@@ -1,9 +1,5 @@
-﻿using DotNetEnv;
-using OpenAI;
+﻿using OpenAI;
 using OpenAI.Chat;
-using SuperTestLibrary.Services.Prompts;
-using System.ClientModel;
-using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
 {

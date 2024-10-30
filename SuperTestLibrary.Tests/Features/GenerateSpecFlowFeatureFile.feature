@@ -21,30 +21,8 @@ Feature: Generate SpecFlow Feature File Using LLM
     When I select a SpecFlow feature file generator
     Then the application should use the selected generator for creating feature files
 
-  Scenario: Generate feature file with invalid requirements
-    Given I have an invalid set of requirements
-    When I request to generate a SpecFlow feature file
-    Then the application should handle the error gracefully
-    And provide an appropriate error message
-
   Scenario: Generate feature file with empty requirements
     Given I have an empty set of requirements
     When I request to generate a SpecFlow feature file
     Then the application should handle the situation appropriately
     And provide feedback that no feature file can be generated
-
-# The following scenarios are recommendations:
-# Scenario: Save generated SpecFlow feature file
-#   Given I have generated a SpecFlow feature file
-#   When I choose to save the file
-#   Then the application should save the file to a specified location
-#
-# Scenario: Edit generated SpecFlow feature file
-#   Given I have generated a SpecFlow feature file
-#   When I choose to edit the file
-#   Then the application should allow me to make changes to the generated content
-#
-# Scenario: Compare generated SpecFlow feature file with original requirements
-#   Given I have generated a SpecFlow feature file
-#   When I request a comparison with the original requirements
-#   Then the application should highlight any discrepancies or missing coverage

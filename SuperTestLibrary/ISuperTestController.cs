@@ -1,6 +1,6 @@
 ﻿using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
-using SuperTestLibrary.Services.Prompts;
+using SuperTestLibrary.Services.Prompts.ResponseModels;
 
 namespace SuperTestLibrary
 {
@@ -9,6 +9,7 @@ namespace SuperTestLibrary
         IGenerator? SelectedGenerator { get; set; }
         ILargeLanguageModel? SelectedLLM { get; set; }
         Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements);
+        Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string featureFile);
         Task<IEnumerable<string>> GetAllReqIFFilesAsync();
     }
 }

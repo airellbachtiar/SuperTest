@@ -1,7 +1,4 @@
 ﻿using Claudia;
-using DotNetEnv;
-using SuperTestLibrary.Services.Prompts;
-using System.Text.Json;
 
 namespace SuperTestLibrary.LLMs
 {
@@ -43,7 +40,7 @@ namespace SuperTestLibrary.LLMs
             var message = await _anthropic.Messages.CreateAsync(new()
             {
                 Model = Claude_3_5_SonnetModel,
-                MaxTokens = 1024,
+                MaxTokens = 8192,
                 Messages = prompts.ToArray()
             });
 

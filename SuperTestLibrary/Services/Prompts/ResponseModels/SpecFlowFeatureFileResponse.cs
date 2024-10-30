@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.Services.Prompts
+﻿namespace SuperTestLibrary.Services.Prompts.ResponseModels
 {
     public class SpecFlowFeatureFileResponse
     {

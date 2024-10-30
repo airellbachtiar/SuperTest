@@ -1,5 +1,4 @@
-﻿using DotNetEnv;
-using GenerativeAI.Models;
+﻿using GenerativeAI.Models;
 using GenerativeAI.Types;
 
 namespace SuperTestLibrary.LLMs
@@ -16,7 +15,13 @@ namespace SuperTestLibrary.LLMs
         {
             string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_GEMINI_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_GEMINI_API_KEY is not set.");
 
-            _gemini = new GenerativeModel(ApiKey);
+            _gemini = new GeminiProModel(ApiKey)
+            {
+                Config =
+                {
+                    MaxOutputTokens = 20000
+                }
+            };
             ApiKey = null;
         }
 
