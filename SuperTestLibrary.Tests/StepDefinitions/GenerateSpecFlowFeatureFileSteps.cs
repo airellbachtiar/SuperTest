@@ -1,7 +1,7 @@
 ﻿using Moq;
 using SuperTestLibrary.Helpers;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
 

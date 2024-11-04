@@ -1,6 +1,6 @@
 ﻿using SuperTestLibrary.LLMs;
 
-namespace SuperTestLibrary.Services
+namespace SuperTestLibrary.Services.Generators
 {
     public interface IGenerator
     {

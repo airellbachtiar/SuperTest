@@ -1,5 +1,5 @@
 ﻿using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 
 namespace SuperTestLibrary

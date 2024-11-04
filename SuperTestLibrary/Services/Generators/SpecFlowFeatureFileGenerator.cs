@@ -2,7 +2,7 @@ using SuperTestLibrary.Helpers;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services.Prompts.Builders;
 
-namespace SuperTestLibrary.Services
+namespace SuperTestLibrary.Services.Generators
 {
     public class SpecFlowFeatureFileGenerator : IGenerator
     {

@@ -1,15 +1,15 @@
 ﻿using SuperTestLibrary.LLMs;
 
-namespace SuperTestLibrary.Services
+namespace SuperTestLibrary.Services.Generators
 {
-    public class EvaluateSpecFlowScenarioGenerator : EvaluateSpecFlowFile, IGenerator
+    public class EvaluateSpecFlowFeatureFileGenerator : EvaluateSpecFlowFile, IGenerator
     {
         private readonly string _requirements;
 
-        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/EvaluateSpecFlowScenario/Claude_3_5_Sonnet.json";
-        private const string _jsonPromptGPT_4o = "Services/Prompts/EvaluateSpecFlowScenario/GPT_4o.json";
+        private const string _jsonPromptClaude_3_5_Sonnet = "Services/Prompts/EvaluateSpecFlowFeatureFile/Claude_3_5_Sonnet.json";
+        private const string _jsonPromptGPT_4o = "Services/Prompts/EvaluateSpecFlowFeatureFile/GPT_4o.json";
 
-        public EvaluateSpecFlowScenarioGenerator(string requirements)
+        public EvaluateSpecFlowFeatureFileGenerator(string requirements)
         {
             _requirements = requirements;
         }

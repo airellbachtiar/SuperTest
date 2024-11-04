@@ -1,7 +1,7 @@
 ﻿using SuperTestLibrary.Helpers;
 using SuperTestLibrary.Services.Prompts.Builders;
 
-namespace SuperTestLibrary.Services
+namespace SuperTestLibrary.Services.Generators
 {
     public class EvaluateSpecFlowFile
     {
