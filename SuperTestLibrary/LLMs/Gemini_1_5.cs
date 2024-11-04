@@ -25,7 +25,7 @@ namespace SuperTestLibrary.LLMs
             ApiKey = null;
         }
 
-        public async Task<string> Call(IEnumerable<string> messages)
+        public async Task<string> CallAsync(IEnumerable<string> messages)
         {
             var chat = _gemini.StartChat(new StartChatParams());
 

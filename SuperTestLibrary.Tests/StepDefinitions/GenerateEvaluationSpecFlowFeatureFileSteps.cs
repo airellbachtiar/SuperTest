@@ -1,6 +1,7 @@
 ﻿using Moq;
 using SuperTestLibrary.LLMs;
 using SuperTestLibrary.Services;
+using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
 
@@ -26,7 +27,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         public void SetupGenerateEvaluationScoreForAValidSpecFlowFeatureFile()
         {
             _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
-            _mockLargeLanguageModel.Setup(llm => llm.Call(It.IsAny<IEnumerable<string>>())).ReturnsAsync(_llmResponse);
+            _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(_llmResponse);
             _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
         }
 
@@ -116,7 +117,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         public void SetupGenerateEvaluationScoreWithDetailedFeedback()
         {
             _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
-            _mockLargeLanguageModel.Setup(llm => llm.Call(It.IsAny<IEnumerable<string>>())).ReturnsAsync(_llmResponse);
+            _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(_llmResponse);
             _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
         }
 

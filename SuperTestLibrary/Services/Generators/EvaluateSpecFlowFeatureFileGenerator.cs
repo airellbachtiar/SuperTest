@@ -1,8 +1,9 @@
-﻿using SuperTestLibrary.LLMs;
+﻿using SuperTestLibrary.Helpers;
+using SuperTestLibrary.LLMs;
 
 namespace SuperTestLibrary.Services.Generators
 {
-    public class EvaluateSpecFlowFeatureFileGenerator : EvaluateSpecFlowFile, IGenerator
+    public class EvaluateSpecFlowFeatureFileGenerator : IGenerator
     {
         private readonly string _requirements;
 
@@ -31,9 +32,9 @@ namespace SuperTestLibrary.Services.Generators
                 throw new InvalidOperationException("No requirements provided.");
             }
 
-            IEnumerable<string> prompts = SetupPrompt(jsonPromptPath, _requirements, featureFile);
+            IEnumerable<string> prompts = GetEvaluateSpecFlowPromptBuilder.SetupPrompt(jsonPromptPath, _requirements, featureFile);
 
-            return await largeLanguageModel.Call(prompts);
+            return await largeLanguageModel.CallAsync(prompts);
         }
     }
 }

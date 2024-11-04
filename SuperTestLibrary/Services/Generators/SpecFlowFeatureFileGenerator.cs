@@ -27,13 +27,13 @@ namespace SuperTestLibrary.Services.Generators
             };
 
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
-            string response = await _llm.Call(prompts);
+            string response = await _llm.CallAsync(prompts);
             return response;
         }
 
         private IEnumerable<string> SetupPrompt(string jsonPromptPath)
         {
-            var prompt = GetPrompt.ConvertJson(jsonPromptPath);
+            var prompt = GetPromptFromJson.ConvertJson(jsonPromptPath);
 
             var prompts = new SpecFlowFeatureFilePromptBuilder(_requirements).BuildPrompt(prompt);
 

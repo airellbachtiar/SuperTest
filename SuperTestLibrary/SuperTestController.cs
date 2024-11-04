@@ -20,7 +20,7 @@ namespace SuperTestLibrary
             ValidateInput(requirements, "requirements");
 
             string response = await GenerateAsync(requirements);
-            var specFlowFeatureFile = GetSpecFlowFeatureFiles.ConvertJson(response);
+            var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response);
 
             if (ValidateFeatureFile.Validate(specFlowFeatureFile))
             {
@@ -33,13 +33,13 @@ namespace SuperTestLibrary
         public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string featureFile)
         {
             ValidateInput(featureFile, "feature file");
-            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluation, EvaluateSpecFlowFeatureFileResponse>(featureFile, "Unable to evaluate SpecFlow feature file after 3 attempts.");
+            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>(featureFile, "Unable to evaluate SpecFlow feature file after 3 attempts.");
         }
 
         public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string featureFile)
         {
             ValidateInput(featureFile, "feature file");
-            return await EvaluateAsync<GetSpecFlowScenarioEvaluation, EvaluateSpecFlowScenarioResponse>(featureFile, "Unable to evaluate SpecFlow scenario after 3 attempts.");
+            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>(featureFile, "Unable to evaluate SpecFlow scenario after 3 attempts.");
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()

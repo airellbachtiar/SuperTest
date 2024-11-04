@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace SuperTestLibrary.Helpers
 {
-    public static class GetPrompt
+    public static class GetPromptFromJson
     {
         public static Prompt ConvertJson(string jsonPromptPath)
         {
