@@ -9,6 +9,10 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
+        private readonly SpecFlowFeatureFileGenerator specFlowFeatureFileGenerator = new();
+        private readonly EvaluateSpecFlowFeatureFileGenerator evaluateSpecFlowFeatureFileGenerator = new();
+        private readonly EvaluateSpecFlowScenarioGenerator evaluateSpecFlowScenarioGenerator = new();
+        private readonly SpecFlowBindingFileGenerator specFlowBindingFileGenerator = new();
 
         public SuperTestController(IReqIFStorage reqIFStorage)
         {
@@ -18,8 +22,9 @@ namespace SuperTestLibrary
         public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements)
         {
             ValidateInput(requirements, "requirements");
-
-            string response = await GenerateAsync(requirements);
+            specFlowFeatureFileGenerator.Requirements = requirements;
+            SelectedGenerator = specFlowFeatureFileGenerator;
+            string response = await GenerateAsync();
             var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response);
 
             if (ValidateFeatureFile.Validate(specFlowFeatureFile))
@@ -30,16 +35,41 @@ namespace SuperTestLibrary
             throw new InvalidOperationException("Unable to generate valid SpecFlow feature file.");
         }
 
-        public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string featureFile)
+        public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string requirements, string featureFile)
         {
+            ValidateInput(requirements, "requirements");
             ValidateInput(featureFile, "feature file");
-            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>(featureFile, "Unable to evaluate SpecFlow feature file after 3 attempts.");
+            evaluateSpecFlowFeatureFileGenerator.FeatureFile = featureFile;
+            evaluateSpecFlowFeatureFileGenerator.Requirements = requirements;
+
+            SelectedGenerator = evaluateSpecFlowFeatureFileGenerator;
+            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>("Unable to evaluate SpecFlow feature file after 3 attempts.");
         }
 
-        public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string featureFile)
+        public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string requirements, string featureFile)
+        {
+            ValidateInput(requirements, "requirements");
+            ValidateInput(featureFile, "feature file");
+            evaluateSpecFlowScenarioGenerator.FeatureFile = featureFile;
+            evaluateSpecFlowScenarioGenerator.Requirements = requirements;
+
+            SelectedGenerator = evaluateSpecFlowScenarioGenerator;
+            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>("Unable to evaluate SpecFlow scenario after 3 attempts.");
+        }
+
+        public async Task<SpecFlowBindingFileResponse> GenerateSpecFlowBindingFileAsync(string featureFile, Dictionary<string, string> generatedCSharpCode)
         {
             ValidateInput(featureFile, "feature file");
-            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>(featureFile, "Unable to evaluate SpecFlow scenario after 3 attempts.");
+            specFlowBindingFileGenerator.FeatureFile = featureFile;
+            specFlowBindingFileGenerator.GeneratedCSharpCode = generatedCSharpCode;
+
+            SelectedGenerator = specFlowBindingFileGenerator;
+            string response = await GenerateAsync();
+            var specFlowBindingFile = GetSpecFlowBindingFileResponse.ConvertJson(response);
+
+            // TODO: Validate binding file
+
+            return specFlowBindingFile;
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
@@ -47,17 +77,17 @@ namespace SuperTestLibrary
             return await _reqIFStorage.GetAllReqIFsAsync();
         }
 
-        private async Task<string> GenerateAsync(string input)
+        private async Task<string> GenerateAsync()
         {
             CheckLLM();
             CheckGenerator();
-            return await SelectedGenerator!.GenerateAsync(SelectedLLM!, input);
+            return await SelectedGenerator!.GenerateAsync(SelectedLLM!);
         }
 
-        private async Task<TResponse> EvaluateAsync<TConverter, TResponse>(string input, string errorMessage)
+        private async Task<TResponse> EvaluateAsync<TConverter, TResponse>(string errorMessage)
         where TConverter : class
         {
-            string responseJson = await GenerateAsync(input);
+            string responseJson = await GenerateAsync();
 
             try
             {
@@ -94,7 +124,7 @@ namespace SuperTestLibrary
             }
         }
 
-        public IGenerator? SelectedGenerator { get; set; }
+        public IGenerator? SelectedGenerator { get; private set; }
         public ILargeLanguageModel? SelectedLLM { get; set; }
     }
 

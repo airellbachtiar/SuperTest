@@ -1,7 +1,6 @@
 using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services.Generators;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
@@ -27,9 +26,6 @@ namespace SuperTestWPF.ViewModels
         private readonly Claude_3_5_Sonnet _claude_3_5_Sonnet = new();
         private readonly Gemini_1_5 _gemini_1_5 = new();
 
-        //Generator
-        private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new();
-
         //SpecFlowFeatureFileModel
         private ObservableCollection<SpecFlowFeatureFileModel> _specFlowFeatureFiles = [];
         private SpecFlowFeatureFileModel _selectedSpecFlowFeatureFile = new();
@@ -52,7 +48,7 @@ namespace SuperTestWPF.ViewModels
             InitializeReqIFs();
         }
 
-        private async void InitializeReqIFs()
+        private async Task InitializeReqIFs()
         {
             var AllReqIfFiles = await _superTestController.GetAllReqIFFilesAsync();
 
@@ -234,7 +230,6 @@ namespace SuperTestWPF.ViewModels
             string requirements = GetFileContent();
 
             SetLLM();
-            _superTestController.SelectedGenerator = _specFlowFeatureFileGenerator;
 
             try
             {
@@ -285,26 +280,21 @@ namespace SuperTestWPF.ViewModels
 
         private async Task EvaluateSpecFlowFeatureFile(string requirements)
         {
-            var evaluateSpecFlowFeatureFileGeneratpr = new EvaluateSpecFlowFeatureFileGenerator(requirements);
-            var evaluateSpecFlowScenarioGenerator = new EvaluateSpecFlowScenarioGenerator(requirements);
-
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
                 // Evaluate feature file
-                _superTestController.SelectedGenerator = evaluateSpecFlowFeatureFileGeneratpr;
                 StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...";
-                await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile);
+                await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile, requirements);
 
                 StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...";
-                await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile);
+                await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile, requirements);
 
                 //Evaluate scenario
-                _superTestController.SelectedGenerator = evaluateSpecFlowScenarioGenerator;
                 StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...";
-                await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile);
+                await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile, requirements);
 
                 StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...";
-                await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile);
+                await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile, requirements);
             }
             StatusMessage = "Finished evaluating!";
         }
@@ -338,12 +328,12 @@ namespace SuperTestWPF.ViewModels
             return string.Empty;
         }
 
-        private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile)
+        private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile, string requirements)
         {
             try
             {
                 _superTestController.SelectedLLM = largeLanguageModel;
-                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
+                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
                 var score = evaluationResponse.Score;
 
@@ -371,12 +361,12 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile)
+        private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile, string requirements)
         {
             try
             {
                 _superTestController.SelectedLLM = largeLanguageModel;
-                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
+                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
                 featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
 

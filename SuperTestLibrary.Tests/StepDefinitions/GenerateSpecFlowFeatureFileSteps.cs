@@ -1,7 +1,6 @@
 ﻿using Moq;
 using SuperTestLibrary.Helpers;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
 
@@ -12,9 +11,8 @@ namespace SuperTestLibrary.Tests.StepDefinitions
     public class GenerateSpecFlowFeatureFileStepDefinitions
     {
         private readonly SuperTestController _superTestController = new SuperTestController(new Mock<IReqIFStorage>().Object);
-        private SpecFlowFeatureFileGenerator _featureFileGenerator = new SpecFlowFeatureFileGenerator();
         private readonly Mock<ILargeLanguageModel> _mockLargeLanguageModel = new Mock<ILargeLanguageModel>();
-        private string? _requirements = "The application should generate SpecFlow feature file";
+        private string _requirements = "The application should generate SpecFlow feature file";
         private SpecFlowFeatureFileResponse? _generatedFeatureFile;
         private string _errorMessage = string.Empty;
 
@@ -27,7 +25,6 @@ namespace SuperTestLibrary.Tests.StepDefinitions
             _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
             _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(_llmResponse);
             _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
-            _superTestController.SelectedGenerator = _featureFileGenerator;
         }
 
         #region Generate SpecFlow feature file using LLM
@@ -48,7 +45,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         {
             try
             {
-                _generatedFeatureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(_requirements!);
+                _generatedFeatureFile = await _superTestController.GenerateSpecFlowFeatureFileAsync(_requirements);
             }
             catch (Exception ex)
             {
@@ -90,20 +87,6 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         }
         #endregion
 
-        #region Choose SpecFlow feature file generator
-        [When(@"I select a SpecFlow feature file generator")]
-        public void WhenISelectASpecFlowFeatureFileGenerator()
-        {
-            _superTestController.SelectedGenerator = _featureFileGenerator;
-        }
-
-        [Then(@"the application should use the selected generator for creating feature files")]
-        public void ThenTheApplicationShouldUseTheSelectedGeneratorForCreatingFeatureFiles()
-        {
-            Assert.NotNull(_superTestController.SelectedGenerator);
-        }
-        #endregion
-
         #region Generate feature file with empty requirements
         [Given(@"I have an empty set of requirements")]
         public void GivenIHaveAnEmptySetOfRequirements()
@@ -120,7 +103,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"provide feedback that no feature file can be generated")]
         public void ThenProvideFeedbackThatNoFeatureFileCanBeGenerated()
         {
-            Assert.Contains("No requirements provided.", _errorMessage);
+            Assert.Contains("No requirements provided", _errorMessage);
         }
         #endregion
     }

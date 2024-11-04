@@ -1,7 +1,4 @@
-﻿using static System.Formats.Asn1.AsnWriter;
-using System.Runtime.ConstrainedExecution;
-
-namespace SuperTestLibrary.Services.Prompts.ResponseModels
+﻿namespace SuperTestLibrary.Services.Prompts.ResponseModels
 {
     public class EvaluationMetric
     {

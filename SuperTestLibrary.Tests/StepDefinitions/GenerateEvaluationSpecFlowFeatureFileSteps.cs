@@ -1,7 +1,5 @@
 ﻿using Moq;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services;
-using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
 
@@ -34,7 +32,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Given(@"I have a set of requirements")]
         public void GivenIHaveASetOfRequirements()
         {
-            _superTestController.SelectedGenerator = new EvaluateSpecFlowFeatureFileGenerator(_requirements);
+            // No action needed
         }
 
         [Given(@"I have a valid SpecFlow feature file")]
@@ -48,7 +46,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         {
             try
             {
-                _evaluateSpecFlowFeatureFileResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(_featureFile);
+                _evaluateSpecFlowFeatureFileResponse = await _superTestController.EvaluateSpecFlowFeatureFileAsync(_requirements, _featureFile);
             }
             catch (Exception ex)
             {
@@ -74,7 +72,6 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         public void GivenIDontHaveAnyRequirements()
         {
             _requirements = string.Empty;
-            _superTestController.SelectedGenerator = new EvaluateSpecFlowFeatureFileGenerator(_requirements);
         }
 
         [Then(@"the application should return an error")]
@@ -86,7 +83,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"the error should indicate that requirements are missing")]
         public void ThenTheErrorShouldIndicateThatRequirementsAreMissing()
         {
-            Assert.Contains("No requirements provided.", _errorMessage);
+            Assert.Contains("No requirements provided", _errorMessage);
         }
         #endregion
 
@@ -96,7 +93,6 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         {
             _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
             _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
-            _superTestController.SelectedGenerator = new EvaluateSpecFlowFeatureFileGenerator(_requirements);
         }
 
         [Given(@"I don't have a SpecFlow feature file")]
@@ -108,7 +104,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         [Then(@"the error should indicate that a SpecFlow feature file is missing")]
         public void ThenTheErrorShouldIndicateThatASpecFlowFeatureFileIsMissing()
         {
-            Assert.Contains("No feature file provided.", _errorMessage);
+            Assert.Contains("No feature file provided", _errorMessage);
         }
         #endregion
 

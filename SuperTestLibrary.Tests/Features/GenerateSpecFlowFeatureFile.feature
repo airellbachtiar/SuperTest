@@ -16,11 +16,6 @@ Feature: Generate SpecFlow Feature File Using LLM
     When I select an LLM from the available options
     Then the application should use the selected LLM for feature file generation
 
-  Scenario: Choose SpecFlow feature file generator
-    Given I am using the application
-    When I select a SpecFlow feature file generator
-    Then the application should use the selected generator for creating feature files
-
   Scenario: Generate feature file with empty requirements
     Given I have an empty set of requirements
     When I request to generate a SpecFlow feature file
