@@ -1,54 +1,38 @@
-﻿using System.Text;
+﻿using SuperTestLibrary.Helpers;
+using System.Text;
 
 namespace SuperTestLibrary.Services.Prompts.Builders
 {
-    public class SpecFlowFeatureFilePromptBuilder : PromptBuilderBase, IPromptBuilder
+    public class SpecFlowFeatureFilePromptBuilder : PromptBuilderBase
     {
-        private Prompt? prompt;
-        private string? requirements;
+        private readonly string? _requirements;
 
         public SpecFlowFeatureFilePromptBuilder(string requirements)
         {
-            this.requirements = requirements;
+            _requirements = requirements;
         }
 
-        public IEnumerable<string> BuildPrompt(Prompt prompt)
+        protected override string BuildContext()
         {
-            this.prompt = prompt;
+            var promptBuilder = new StringBuilder();
 
-            ArgumentNullException.ThrowIfNull(prompt);
-
-            List<string> prompts = [BuildContext()];
-
-            if (prompt.Instructions.Any())
-            {
-                prompts.AddRange(BuildInteractions(prompt));
-            }
-
-            return prompts;
-        }
-
-        private string BuildContext()
-        {
-            StringBuilder promptBuilder = new();
-
-            promptBuilder.AppendLine(prompt!.SystemInstruction);
+            promptBuilder.AppendLine(_prompt!.SystemInstruction);
             promptBuilder.AppendLine();
 
             promptBuilder.AppendLine("Instructions:");
 
-            foreach (var instruction in prompt.Instructions.Select((value, i) => new { i, value }))
+            foreach (var (instruction, index) in _prompt.Instructions.Select((value, i) => (value, i)))
             {
-                promptBuilder.AppendLine($"{instruction.i + 1}. {instruction.value}");
+                promptBuilder.AppendLine($"{index + 1}. {instruction}");
             }
 
             promptBuilder.AppendLine();
-            promptBuilder.AppendLine(prompt.Thinking);
+            promptBuilder.AppendLine(_prompt.Thinking);
             promptBuilder.AppendLine();
-            promptBuilder.AppendLine(prompt.Example);
+            promptBuilder.AppendLine(_prompt.Example);
             promptBuilder.AppendLine();
             promptBuilder.AppendLine("Convert this requirements to a SpecFlow featureFile:");
-            promptBuilder.AppendLine(requirements);
+            promptBuilder.AppendLine(_requirements);
 
             return promptBuilder.ToString();
         }
