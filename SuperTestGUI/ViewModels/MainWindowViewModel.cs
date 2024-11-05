@@ -237,10 +237,7 @@ namespace SuperTestWPF.ViewModels
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
                 await EvaluateSpecFlowFeatureFile(requirements);
             }
-            catch
-            {
-                StatusMessage = "Failed to generate and evaluate SpecFlow feature file.";
-            }
+            catch { return; }
         }
 
         public void SetLLM()
@@ -283,6 +280,12 @@ namespace SuperTestWPF.ViewModels
 
         private async Task EvaluateSpecFlowFeatureFile(string requirements)
         {
+            if (!SpecFlowFeatureFiles.Any())
+            {
+                StatusMessage = "No feature file to evaluate.";
+                return;
+            }
+
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
                 // Evaluate feature file

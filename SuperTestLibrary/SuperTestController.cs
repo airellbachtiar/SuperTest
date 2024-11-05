@@ -27,8 +27,11 @@ namespace SuperTestLibrary
             string response = await GenerateAsync();
             var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response);
 
-            if (ValidateFeatureFile.Validate(specFlowFeatureFile))
+            var gherkinDocument = GetGherkinDocument.ConvertSpecFlowFeatureFileResponse(specFlowFeatureFile);
+
+            if (gherkinDocument != null)
             {
+                specFlowFeatureFile.GherkinDocument = gherkinDocument;
                 return specFlowFeatureFile;
             }
 
@@ -100,7 +103,7 @@ namespace SuperTestLibrary
             }
         }
 
-        private void ValidateInput(string input, string inputName)
+        private static void ValidateInput(string input, string inputName)
         {
             if (string.IsNullOrWhiteSpace(input))
             {

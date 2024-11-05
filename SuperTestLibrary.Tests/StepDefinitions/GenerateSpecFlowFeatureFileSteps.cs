@@ -57,7 +57,7 @@ namespace SuperTestLibrary.Tests.StepDefinitions
         public void ThenTheApplicationShouldGenerateAValidSpecFlowFeatureFile()
         {
             Assert.NotNull(_generatedFeatureFile);
-            Assert.True(ValidateFeatureFile.Validate(_generatedFeatureFile));
+            Assert.NotNull(GetGherkinDocument.ConvertSpecFlowFeatureFileResponse(_generatedFeatureFile));
         }
 
         [Then(@"the generated file should reflect the provided requirements")]
