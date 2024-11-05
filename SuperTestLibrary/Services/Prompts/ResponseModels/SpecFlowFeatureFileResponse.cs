@@ -6,6 +6,6 @@ namespace SuperTestLibrary.Services.Prompts.ResponseModels
     {
         // Key: FeatureFileName, Value: FeatureFileContent
         public Dictionary<string, string> FeatureFiles { get; init; } = [];
-        public GherkinDocument? GherkinDocument { get; set; } = null;
+        public List<GherkinDocument?> GherkinDocuments { get; set; } = [];
     }
 }

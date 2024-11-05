@@ -27,11 +27,11 @@ namespace SuperTestLibrary
             string response = await GenerateAsync();
             var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response);
 
-            var gherkinDocument = GetGherkinDocument.ConvertSpecFlowFeatureFileResponse(specFlowFeatureFile);
+            var gherkinDocuments = GetGherkinDocuments.ConvertSpecFlowFeatureFileResponse(specFlowFeatureFile);
 
-            if (gherkinDocument != null)
+            if (gherkinDocuments.Count != 0)
             {
-                specFlowFeatureFile.GherkinDocument = gherkinDocument;
+                specFlowFeatureFile.GherkinDocuments = gherkinDocuments;
                 return specFlowFeatureFile;
             }
 

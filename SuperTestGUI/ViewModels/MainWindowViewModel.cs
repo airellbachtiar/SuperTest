@@ -261,9 +261,29 @@ namespace SuperTestWPF.ViewModels
             try
             {
                 var featureFileResponse = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowFeatureFileAsync(requirements), TimeSpan.FromSeconds(1));
-                foreach (var featureFileModel in featureFileResponse.FeatureFiles)
+                
+                for (int i = 0; i < featureFileResponse.FeatureFiles.Count; i++)
                 {
-                    SpecFlowFeatureFiles.Add(new SpecFlowFeatureFileModel(featureFileModel.Key, featureFileModel.Value));
+                    var featureFileModel = featureFileResponse.FeatureFiles.ElementAt(i);
+                    var gherkinDocument = featureFileResponse.GherkinDocuments[i];
+                    string featureFileTitle = "Feature: ";
+
+                    if (gherkinDocument != null)
+                    {
+                        featureFileTitle += gherkinDocument.Feature.Name;
+
+                        if (!string.IsNullOrEmpty(gherkinDocument.Feature.Description))
+                        {
+                            featureFileTitle += $"\n\n\t{gherkinDocument.Feature.Description}";
+                        }
+                    }
+                    
+                    var featureFile = new SpecFlowFeatureFileModel(featureFileModel.Key, featureFileModel.Value)
+                    {
+                        FeatureFileTitle = featureFileTitle,
+                        GherkinDocument = featureFileResponse.GherkinDocuments[i]
+                    };
+                    SpecFlowFeatureFiles.Add(featureFile);
                 }
 
                 if (!SpecFlowFeatureFiles.Any())
