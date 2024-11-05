@@ -277,11 +277,36 @@ namespace SuperTestWPF.ViewModels
                             featureFileTitle += $"\n\n\t{gherkinDocument.Feature.Description}";
                         }
                     }
-                    
+
+                    var scenarios = new ObservableCollection<ScenarioModel>();
+
+                    if (gherkinDocument?.Feature?.Children != null)
+                    {
+                        foreach (var child in gherkinDocument.Feature.Children)
+                        {
+                            if (child is Gherkin.Ast.Scenario scenario)
+                            {
+                                ObservableCollection<StepModel> steps = [];
+                                foreach (var step in scenario.Steps)
+                                {
+                                    steps.Add(new StepModel(step.Keyword, step.Text));
+                                }
+                                scenarios.Add(new ScenarioModel
+                                {
+                                    Name = scenario.Name,
+                                    Keyword = scenario.Keyword,
+                                    IsAccepted = true,
+                                    Steps = steps
+                                });
+                            }
+                        }
+                    }
+
                     var featureFile = new SpecFlowFeatureFileModel(featureFileModel.Key, featureFileModel.Value)
                     {
                         FeatureFileTitle = featureFileTitle,
-                        GherkinDocument = featureFileResponse.GherkinDocuments[i]
+                        GherkinDocument = featureFileResponse.GherkinDocuments[i],
+                        Scenarios = scenarios
                     };
                     SpecFlowFeatureFiles.Add(featureFile);
                 }
@@ -475,6 +500,7 @@ namespace SuperTestWPF.ViewModels
 
         private void SaveFeatureFile()
         {
+            // TODO: Save filtered feature file
             if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
             string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
             File.WriteAllText($"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}", SelectedSpecFlowFeatureFile.FeatureFileContent);

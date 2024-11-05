@@ -14,6 +14,7 @@ namespace SuperTestWPF.Models
         public string ScenarioEvaluationSummary { get; set; } = string.Empty;
 
         public GherkinDocument? GherkinDocument { get; set; } = null;
+        public ObservableCollection<ScenarioModel> Scenarios { get; set; } = [];
 
         public SpecFlowFeatureFileModel(string featureFileName, string featureFileContent)
         {
