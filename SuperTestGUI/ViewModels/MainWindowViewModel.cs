@@ -45,7 +45,7 @@ namespace SuperTestWPF.ViewModels
             SaveFeatureFileCommand = new RelayCommand(SaveFeatureFile);
 
             this._superTestController = superTestController;
-            InitializeReqIFs();
+            _ = InitializeReqIFs();
         }
 
         private async Task InitializeReqIFs()
@@ -237,7 +237,10 @@ namespace SuperTestWPF.ViewModels
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
                 await EvaluateSpecFlowFeatureFile(requirements);
             }
-            catch {}
+            catch
+            {
+                StatusMessage = "Failed to generate and evaluate SpecFlow feature file.";
+            }
         }
 
         public void SetLLM()
@@ -450,7 +453,7 @@ namespace SuperTestWPF.ViewModels
         private void SaveFeatureFile()
         {
             if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
-            string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads";
+            string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
             File.WriteAllText($"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}", SelectedSpecFlowFeatureFile.FeatureFileContent);
             StatusMessage = $"Feature file saved to \"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}\".";
         }
