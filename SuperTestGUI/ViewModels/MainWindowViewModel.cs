@@ -7,7 +7,6 @@ using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Windows;
 using System.Windows.Input;
 
 namespace SuperTestWPF.ViewModels
@@ -20,6 +19,7 @@ namespace SuperTestWPF.ViewModels
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
+        private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
 
         // LLM
         private readonly GPT_4o _gpt_4o = new();
@@ -42,8 +42,8 @@ namespace SuperTestWPF.ViewModels
             GenerateAndEvaluateSpecFlowFeatureFileCommand = new RelayCommand(GenerateAndEvaluateSpecFlowFeatureFile);
             DisplayFeatureFileScoreCommand = new RelayCommand(DisplayFeatureFileScore);
             DisplayScenarioScoreCommand = new RelayCommand(DisplayScenarioScore);
-            CopyFeatureFileCommand = new RelayCommand(CopyFeatureFile);
-            SaveFeatureFileCommand = new RelayCommand(SaveFeatureFile);
+            SelectSaveLocationCommand = new RelayCommand(SelectSaveLocation);
+            SaveFeatureFilesCommand = new RelayCommand(SaveFeatureFiles);
             SwitchFeatureFileViewCommand = new RelayCommand(SwitchFeatureFileView);
 
             this._superTestController = superTestController;
@@ -79,6 +79,19 @@ namespace SuperTestWPF.ViewModels
                 {
                     _chosenFile = value;
                     OnPropertyChanged(nameof(ChosenFile));
+                }
+            }
+        }
+
+        public string SavePath
+        {
+            get { return _savePath; }
+            set
+            {
+                if (_savePath != value)
+                {
+                    _savePath = value;
+                    OnPropertyChanged(nameof(SavePath));
                 }
             }
         }
@@ -184,8 +197,8 @@ namespace SuperTestWPF.ViewModels
         public ICommand GenerateAndEvaluateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
         public ICommand DisplayScenarioScoreCommand { get; }
-        public ICommand CopyFeatureFileCommand { get; }
-        public ICommand SaveFeatureFileCommand { get; }
+        public ICommand SelectSaveLocationCommand { get; }
+        public ICommand SaveFeatureFilesCommand { get; }
         public ICommand SwitchFeatureFileViewCommand { get; }
 
         public void OnTreeViewItemSelected(object selectedItem)
@@ -502,20 +515,27 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        private void CopyFeatureFile()
+        private void SelectSaveLocation()
         {
-            if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
-            Clipboard.SetText(_selectedSpecFlowFeatureFile.FeatureFileContent);
-            StatusMessages.Add("Feature file copied to clipboard.");
+            var folderDialog = new OpenFolderDialog
+            { 
+                DefaultDirectory = SavePath
+            };
+
+            if (folderDialog.ShowDialog() == true)
+            {
+                SavePath = folderDialog.FolderName;
+            }
         }
 
-        private void SaveFeatureFile()
+        private void SaveFeatureFiles()
         {
             // TODO: Save filtered feature file
-            if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
-            string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
-            File.WriteAllText($"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}", SelectedSpecFlowFeatureFile.FeatureFileContent);
-            StatusMessages.Add($"Feature file saved to \"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}\".");
+            foreach (var featureFile in SpecFlowFeatureFiles)
+            {
+                File.WriteAllText($"{SavePath}/{featureFile.FeatureFileName}", featureFile.FeatureFileContent);
+                StatusMessages.Add($"Feature file saved to \"{SavePath}/{featureFile.FeatureFileName}\".");
+            }
         }
 
         private void SwitchFeatureFileView()
