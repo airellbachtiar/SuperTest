@@ -530,11 +530,13 @@ namespace SuperTestWPF.ViewModels
 
         private void SaveFeatureFiles()
         {
-            // TODO: Save filtered feature file
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
-                File.WriteAllText($"{SavePath}/{featureFile.FeatureFileName}", featureFile.FeatureFileContent);
-                StatusMessages.Add($"Feature file saved to \"{SavePath}/{featureFile.FeatureFileName}\".");
+                string savePath = $"{SavePath}/{featureFile.FeatureFileName}";
+                string featureFileContent = GetReviewedFeatureFile.GetAcceptedScenarios(featureFile);
+
+                File.WriteAllText(savePath, featureFileContent);
+                StatusMessages.Add($"Feature file saved to \"{savePath}\".");
             }
         }
 
