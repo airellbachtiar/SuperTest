@@ -14,7 +14,7 @@ namespace SuperTestWPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _statusMessage = string.Empty;
+        private ObservableCollection<string> _statusMessages = [];
         private string _chosenFile = string.Empty;
         private string _selectedLLM = GPT_4o.ModelName;
         private readonly ISuperTestController _superTestController;
@@ -57,15 +57,15 @@ namespace SuperTestWPF.ViewModels
             OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
         }
 
-        public string StatusMessage
+        public ObservableCollection<string> StatusMessages
         {
-            get { return _statusMessage; }
+            get { return _statusMessages; }
             set
             {
-                if (_statusMessage != value)
+                if (_statusMessages != value)
                 {
-                    _statusMessage = value;
-                    OnPropertyChanged(nameof(StatusMessage));
+                    _statusMessages = value;
+                    OnPropertyChanged(nameof(StatusMessages));
                 }
             }
         }
@@ -206,7 +206,7 @@ namespace SuperTestWPF.ViewModels
 
         private void UploadReqIF()
         {
-            StatusMessage = "Uploading ReqIF...";
+            StatusMessages.Add("Uploading ReqIF...");
             _ = GetReqIFFileFromFolder();
         }
 
@@ -225,7 +225,7 @@ namespace SuperTestWPF.ViewModels
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
 
-            StatusMessage = "ReqIF uploaded.";
+            StatusMessages.Add("ReqIF uploaded.");
 
             return filepath;
         }
@@ -235,11 +235,11 @@ namespace SuperTestWPF.ViewModels
             SelectedSpecFlowFeatureFile = new();
             SpecFlowFeatureFiles.Clear();
 
-            StatusMessage = "Generating SpecFlow feature file...";
+            StatusMessages.Add("Generating SpecFlow feature file...");
 
             if (string.IsNullOrEmpty(ChosenFile))
             {
-                StatusMessage = "No file chosen.";
+                StatusMessages.Add("No file chosen.");
                 return;
             }
 
@@ -324,13 +324,13 @@ namespace SuperTestWPF.ViewModels
 
                 if (!SpecFlowFeatureFiles.Any())
                 {
-                    StatusMessage = "Feature file is empty. Failed to generate feature file.";
+                    StatusMessages.Add("Feature file is empty. Failed to generate feature file.");
                 }
-                StatusMessage = "Finished generating!";
+                StatusMessages.Add("Finished generating!");
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while generating SpecFlow feature file.";
+                StatusMessages.Add($"Exception: {ex.Message} while generating SpecFlow feature file.");
             }
         }
 
@@ -338,27 +338,27 @@ namespace SuperTestWPF.ViewModels
         {
             if (!SpecFlowFeatureFiles.Any())
             {
-                StatusMessage = "No feature file to evaluate.";
+                StatusMessages.Add("No feature file to evaluate.");
                 return;
             }
 
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
                 // Evaluate feature file
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...";
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
                 await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile, requirements);
 
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...";
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...");
                 await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile, requirements);
 
                 //Evaluate scenario
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...";
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
                 await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile, requirements);
 
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...";
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...");
                 await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile, requirements);
             }
-            StatusMessage = "Finished evaluating!";
+            StatusMessages.Add("Finished evaluating!");
         }
 
         private string GetFileContent()
@@ -371,20 +371,20 @@ namespace SuperTestWPF.ViewModels
                 }
                 else
                 {
-                    StatusMessage = "File does not exist.";
+                    StatusMessages.Add("File does not exist.");
                 }
             }
             catch (IOException ex)
             {
-                StatusMessage = $"IOException: {ex.Message} while reading {ChosenFile}";
+                StatusMessages.Add($"IOException: {ex.Message} while reading {ChosenFile}");
             }
             catch (UnauthorizedAccessException ex)
             {
-                StatusMessage = $"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}";
+                StatusMessages.Add($"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}");
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while processing {ChosenFile}";
+                StatusMessages.Add($"Exception: {ex.Message} while processing {ChosenFile}");
             }
 
             return string.Empty;
@@ -419,7 +419,7 @@ namespace SuperTestWPF.ViewModels
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
+                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
             }
         }
 
@@ -471,7 +471,7 @@ namespace SuperTestWPF.ViewModels
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
+                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
             }
         }
 
@@ -506,7 +506,7 @@ namespace SuperTestWPF.ViewModels
         {
             if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
             Clipboard.SetText(_selectedSpecFlowFeatureFile.FeatureFileContent);
-            StatusMessage = "Feature file copied to clipboard.";
+            StatusMessages.Add("Feature file copied to clipboard.");
         }
 
         private void SaveFeatureFile()
@@ -515,7 +515,7 @@ namespace SuperTestWPF.ViewModels
             if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
             string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
             File.WriteAllText($"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}", SelectedSpecFlowFeatureFile.FeatureFileContent);
-            StatusMessage = $"Feature file saved to \"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}\".";
+            StatusMessages.Add($"Feature file saved to \"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}\".");
         }
 
         private void SwitchFeatureFileView()

@@ -89,11 +89,10 @@
 
 
         <!--  Status Message TextBox  -->
-        <TextBlock
+        <ListBox
             Grid.Row="2"
             Margin="10,10,10,10"
-            Text="{Binding StatusMessage}"
-            TextWrapping="Wrap" />
+            ItemsSource="{Binding StatusMessages}" />
 
         <!--  Second TreeView for Requirements  -->
         <TreeView
