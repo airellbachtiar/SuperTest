@@ -34,6 +34,7 @@ namespace SuperTestWPF.ViewModels
 
         //Switch score details display
         private bool _isDisplayingFeatureFileScore = true;
+        private bool _isFeatureFileContentVisible = false;
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
@@ -43,6 +44,7 @@ namespace SuperTestWPF.ViewModels
             DisplayScenarioScoreCommand = new RelayCommand(DisplayScenarioScore);
             CopyFeatureFileCommand = new RelayCommand(CopyFeatureFile);
             SaveFeatureFileCommand = new RelayCommand(SaveFeatureFile);
+            SwitchFeatureFileViewCommand = new RelayCommand(SwitchFeatureFileView);
 
             this._superTestController = superTestController;
             _ = InitializeReqIFs();
@@ -90,6 +92,19 @@ namespace SuperTestWPF.ViewModels
                 {
                     _evaluationSummary = value;
                     OnPropertyChanged(nameof(EvaluationSummary));
+                }
+            }
+        }
+
+        public bool IsFeatureFileContentVisible
+        {
+            get { return _isFeatureFileContentVisible; }
+            set
+            {
+                if (_isFeatureFileContentVisible != value)
+                {
+                    _isFeatureFileContentVisible = value;
+                    OnPropertyChanged(nameof(IsFeatureFileContentVisible));
                 }
             }
         }
@@ -171,6 +186,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand DisplayScenarioScoreCommand { get; }
         public ICommand CopyFeatureFileCommand { get; }
         public ICommand SaveFeatureFileCommand { get; }
+        public ICommand SwitchFeatureFileViewCommand { get; }
 
         public void OnTreeViewItemSelected(object selectedItem)
         {
@@ -266,16 +282,11 @@ namespace SuperTestWPF.ViewModels
                 {
                     var featureFileModel = featureFileResponse.FeatureFiles.ElementAt(i);
                     var gherkinDocument = featureFileResponse.GherkinDocuments[i];
-                    string featureFileTitle = "Feature: ";
+                    string featureFileTitle = string.Empty;
 
                     if (gherkinDocument != null)
                     {
-                        featureFileTitle += gherkinDocument.Feature.Name;
-
-                        if (!string.IsNullOrEmpty(gherkinDocument.Feature.Description))
-                        {
-                            featureFileTitle += $"\n\n\t{gherkinDocument.Feature.Description}";
-                        }
+                        featureFileTitle = gherkinDocument.Feature.Name;
                     }
 
                     var scenarios = new ObservableCollection<ScenarioModel>();
@@ -505,6 +516,11 @@ namespace SuperTestWPF.ViewModels
             string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
             File.WriteAllText($"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}", SelectedSpecFlowFeatureFile.FeatureFileContent);
             StatusMessage = $"Feature file saved to \"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}\".";
+        }
+
+        private void SwitchFeatureFileView()
+        {
+            IsFeatureFileContentVisible = !IsFeatureFileContentVisible;
         }
 
         #region INotifyPropertyChanged Members
