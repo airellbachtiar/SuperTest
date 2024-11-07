@@ -155,7 +155,10 @@
                         <DataTemplate>
                             <StackPanel Margin="5" Orientation="Vertical">
                                 <!--  Display the scenario title  -->
-                                <TextBlock Margin="0,5,0,5" FontWeight="Bold">
+                                <TextBlock
+                                    Margin="0,5,0,5"
+                                    FontWeight="Bold"
+                                    MouseDown="TextBlock_SelectedScenarioChanged">
                                     <Run Text="{Binding Keyword, Mode=OneWay}" />
                                     <Run Text=": " />
                                     <Run Text="{Binding Name, Mode=OneWay}" />

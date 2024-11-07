@@ -20,6 +20,7 @@ namespace SuperTestWPF.ViewModels
         private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
+        private ScenarioModel _selectedScenario = new();
 
         // LLM
         private readonly GPT_4o _gpt_4o = new();
@@ -193,6 +194,28 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public ScenarioModel SelectedScenario
+        {
+            get { return _selectedScenario; }
+            set
+            {
+                if (_selectedScenario != value)
+                {
+                    if (_selectedScenario != null)
+                    {
+                        _selectedScenario.IsSelected = false;
+                    }
+                    _selectedScenario = value;
+                    if (_selectedScenario != null)
+                    {
+                        _selectedScenario.IsSelected = true;
+                    }
+                    DisplayScoreDetails();
+                    OnPropertyChanged(nameof(SelectedScenario));
+                }
+            }
+        }
+
         public ICommand UploadReqIFCommand { get; }
         public ICommand GenerateAndEvaluateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
@@ -264,6 +287,7 @@ namespace SuperTestWPF.ViewModels
             {
                 await GenerateSpecFlowFeatureFile(requirements);
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
+                SelectedScenario = SelectedSpecFlowFeatureFile.Scenarios.FirstOrDefault() ?? new();
                 await EvaluateSpecFlowFeatureFile(requirements);
             }
             catch { return; }
@@ -295,43 +319,14 @@ namespace SuperTestWPF.ViewModels
                 {
                     var featureFileModel = featureFileResponse.FeatureFiles.ElementAt(i);
                     var gherkinDocument = featureFileResponse.GherkinDocuments[i];
-                    string featureFileTitle = string.Empty;
 
-                    if (gherkinDocument != null)
+                    if (gherkinDocument == null)
                     {
-                        featureFileTitle = gherkinDocument.Feature.Name;
+                        StatusMessages.Add($"Gherkin document is missing at {featureFileModel.Key}.");
+                        continue;
                     }
 
-                    var scenarios = new ObservableCollection<ScenarioModel>();
-
-                    if (gherkinDocument?.Feature?.Children != null)
-                    {
-                        foreach (var child in gherkinDocument.Feature.Children)
-                        {
-                            if (child is Gherkin.Ast.Scenario scenario)
-                            {
-                                ObservableCollection<StepModel> steps = [];
-                                foreach (var step in scenario.Steps)
-                                {
-                                    steps.Add(new StepModel(step.Keyword, step.Text));
-                                }
-                                scenarios.Add(new ScenarioModel
-                                {
-                                    Name = scenario.Name,
-                                    Keyword = scenario.Keyword,
-                                    IsAccepted = true,
-                                    Steps = steps
-                                });
-                            }
-                        }
-                    }
-
-                    var featureFile = new SpecFlowFeatureFileModel(featureFileModel.Key, featureFileModel.Value)
-                    {
-                        FeatureFileTitle = featureFileTitle,
-                        GherkinDocument = featureFileResponse.GherkinDocuments[i],
-                        Scenarios = scenarios
-                    };
+                    var featureFile = GetSpecFlowFeatureFileModel.ConvertSpecFlowFeatureFileResponse(featureFileModel, gherkinDocument);
                     SpecFlowFeatureFiles.Add(featureFile);
                 }
 
@@ -425,9 +420,7 @@ namespace SuperTestWPF.ViewModels
                 featureFile.FeatureFileEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
                 featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
 
-                featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
                 featureFile.FeatureFileEvaluationSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n";
-                featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
             
             }
             catch (Exception ex)
@@ -443,44 +436,39 @@ namespace SuperTestWPF.ViewModels
                 _superTestController.SelectedLLM = largeLanguageModel;
                 var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
-                featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
+                foreach (var scenario in evaluationResponse.ScenarioEvaluations)
+                {
+                    var scenarioModel = featureFile.Scenarios.First(s => s.Name == scenario.ScenarioName);
+                    var score = scenario.Score;
 
-                featureFile.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tHuman Friendly Language = {scenario.ClarityAndReadability.HumanFriendlyLanguage}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tConcise and Relevant Scenarios = {scenario.ClarityAndReadability.ConciseAndRelevantScenarios}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tLogical Flow = {scenario.ClarityAndReadability.LogicalFlow}/5 ");
 
-            foreach (var scenario in evaluationResponse.ScenarioEvaluations)
-            {
-                var score = scenario.Score;
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Structure and Focus");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tFocused Scenario = {scenario.StructureAndFocus.FocusedScenario}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tScenario Structure = {scenario.StructureAndFocus.ScenarioStructure}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tScenario Outlines = {scenario.StructureAndFocus.ScenarioOutlines}/5 ");
 
-                    featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tHuman Friendly Language = {scenario.ClarityAndReadability.HumanFriendlyLanguage}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tConcise and Relevant Scenarios = {scenario.ClarityAndReadability.ConciseAndRelevantScenarios}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tLogical Flow = {scenario.ClarityAndReadability.LogicalFlow}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Maintainability");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tMinimal Coupling to Implementation = {scenario.Maintainability.MinimalCouplingToImplementation}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tIndependent Scenarios = {scenario.Maintainability.IndependentScenarios}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tTest Data Management = {scenario.Maintainability.TestDataManagement}/5 ");
 
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Structure and Focus");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tFocused Scenario = {scenario.StructureAndFocus.FocusedScenario}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Structure = {scenario.StructureAndFocus.ScenarioStructure}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Outlines = {scenario.StructureAndFocus.ScenarioOutlines}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Traceability");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
 
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Maintainability");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tMinimal Coupling to Implementation = {scenario.Maintainability.MinimalCouplingToImplementation}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tIndependent Scenarios = {scenario.Maintainability.IndependentScenarios}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tTest Data Management = {scenario.Maintainability.TestDataManagement}/5 ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add(string.Empty);
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
+                    scenarioModel.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
 
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Traceability");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
-
-                    featureFile.ScenarioEvaluationScoreDetails.Add(string.Empty);
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-                    featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------"); 
-
-                    featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
-                    featureFile.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
-                    featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
+                    scenarioModel.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
                 }
-                featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
             }
             catch (Exception ex)
             {
@@ -510,8 +498,9 @@ namespace SuperTestWPF.ViewModels
             }
             else
             {
-                EvaluationSummary = SelectedSpecFlowFeatureFile.ScenarioEvaluationSummary ?? string.Empty;
-                EvaluationScoreDetails = SelectedSpecFlowFeatureFile.ScenarioEvaluationScoreDetails ?? [];
+                if (SelectedScenario == null) return;
+                EvaluationSummary = SelectedScenario.ScenarioEvaluationSummary ?? string.Empty;
+                EvaluationScoreDetails = SelectedScenario.ScenarioEvaluationScoreDetails ?? [];
             }
         }
 
