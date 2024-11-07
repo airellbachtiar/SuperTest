@@ -7,21 +7,14 @@ namespace SuperTestLibrary.Helpers
     {
         public static EvaluateSpecFlowFeatureFileResponse ConvertJson(string response)
         {
-            try
-            {
-                var specFlowFeatureFileEvaluation = JsonSerializer.Deserialize<EvaluateSpecFlowFeatureFileResponse>(response);
+            var specFlowFeatureFileEvaluation = JsonSerializer.Deserialize<EvaluateSpecFlowFeatureFileResponse>(response);
 
-                if (specFlowFeatureFileEvaluation != null)
-                {
-                    specFlowFeatureFileEvaluation.AssignScore();
-                    return specFlowFeatureFileEvaluation;
-                }
-                else return new EvaluateSpecFlowFeatureFileResponse();
-            }
-            catch
+            if (specFlowFeatureFileEvaluation != null)
             {
-                throw;
+                specFlowFeatureFileEvaluation.AssignScore();
+                return specFlowFeatureFileEvaluation;
             }
+            else return new EvaluateSpecFlowFeatureFileResponse();
         }
     }
 }

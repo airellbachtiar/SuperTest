@@ -404,24 +404,7 @@ namespace SuperTestWPF.ViewModels
             {
                 _superTestController.SelectedLLM = largeLanguageModel;
                 var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
-
-                var score = evaluationResponse.Score;
-
-                featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Readability = {evaluationResponse.Readability}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Consistency = {evaluationResponse.Consistency}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Focus = {evaluationResponse.Focus}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Structure = {evaluationResponse.Structure}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add(string.Empty);
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-                featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
-
-                featureFile.FeatureFileEvaluationSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n";
-            
+                AssignSpecFlowFeatureFileEvaluation.Assign(largeLanguageModel, featureFile, evaluationResponse);
             }
             catch (Exception ex)
             {
@@ -439,35 +422,7 @@ namespace SuperTestWPF.ViewModels
                 foreach (var scenario in evaluationResponse.ScenarioEvaluations)
                 {
                     var scenarioModel = featureFile.Scenarios.First(s => s.Name == scenario.ScenarioName);
-                    var score = scenario.Score;
-
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tHuman Friendly Language = {scenario.ClarityAndReadability.HumanFriendlyLanguage}/5 ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tConcise and Relevant Scenarios = {scenario.ClarityAndReadability.ConciseAndRelevantScenarios}/5 ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tLogical Flow = {scenario.ClarityAndReadability.LogicalFlow}/5 ");
-
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Structure and Focus");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tFocused Scenario = {scenario.StructureAndFocus.FocusedScenario}/5 ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tScenario Structure = {scenario.StructureAndFocus.ScenarioStructure}/5 ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tScenario Outlines = {scenario.StructureAndFocus.ScenarioOutlines}/5 ");
-
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Maintainability");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tMinimal Coupling to Implementation = {scenario.Maintainability.MinimalCouplingToImplementation}/5 ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tIndependent Scenarios = {scenario.Maintainability.IndependentScenarios}/5 ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tTest Data Management = {scenario.Maintainability.TestDataManagement}/5 ");
-
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add("Traceability");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
-
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add(string.Empty);
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-                    scenarioModel.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
-
-                    scenarioModel.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
+                    AssignScenarioEvaluation.Assign(largeLanguageModel, scenarioModel, scenario);
                 }
             }
             catch (Exception ex)

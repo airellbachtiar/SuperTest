@@ -14,7 +14,6 @@ namespace SuperTestLibrary.Helpers
             {
                 var gherkinDocument = parser.Parse(new StringReader(featureFile.Value));
 
-                // If no exception is thrown, the feature file is valid.
                 if (gherkinDocument.Feature == null)
                 {
                     gherkinDocuments.Add(null);
