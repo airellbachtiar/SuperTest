@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TrafficSim" GeneratedClassName="Sim">
+  <Profiles />
+  <Settings>
+    <Setting Name="HOLODECK_PORT" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">50051</Value>
+    </Setting>
+    <Setting Name="StartLocX" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="StartLocY" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="StartWidth" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">1280</Value>
+    </Setting>
+    <Setting Name="StartHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="GrpcServerPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3456</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

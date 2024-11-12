@@ -1,0 +1,41 @@
+{
+  "Version": 2,
+  "Name": "Traffic",
+  "BuildProcedure": {
+    "BuildActions": [
+      {
+        "$type": "CSharpStatemachineGenerator.ComponentBuildAction, CSharpStatemachineGenerator.gen",
+        "BaseNamespace": "Traffic.Generated",
+        "IncludedNamespaces": {
+          "PropertyType": "Custom",
+          "CustomTypeObject": {
+            "$type": "System.Collections.ObjectModel.ObservableCollection`1[[System.String, System.Private.CoreLib]], System.ObjectModel",
+            "$values": []
+          }
+        },
+        "ShouldGenerateStateViewerDefinition": true,
+        "StateViewerDefinitionPath": "Traffic\\Logs\\",
+        "TargetFolder": "Traffic\\Generated\\",
+        "Id": "0dc3832e-1dc3-4f14-b516-9dee14626b54",
+        "Name": "C# state machine generator (Decomp1)",
+        "IsEnabled": true,
+        "Source": "b7a24a85-ba33-452a-957c-2821f5491488"
+      },
+      {
+        "$type": "FluidsSimulator.gen.FluidSimulatorBuildAction, FluidsSimulator.gen",
+        "Platform": 0,
+        "SimulatorOutputFile": "FluidSim.cs",
+        "FluidsDatabaseOutputFile": "Fluids.xml",
+        "HalOutputFile": "",
+        "UiOutputFile": "FluidSimUI.xaml",
+        "Namespace": "TrafficSim.Generated",
+        "TargetFolder": "TrafficSim\\Generated\\",
+        "Id": "0102c7a3-f6ec-411e-a017-4cca8fd77057",
+        "Name": "Fluid2 simulator (FluidSystem)",
+        "IsEnabled": true,
+        "Source": "957d0a6b-f787-4346-ab6a-02d1d0e80ca3"
+      }
+    ]
+  },
+  "TargetRoot": ""
+}

@@ -1,0 +1,24 @@
+{
+  "0dc3832e-1dc3-4f14-b516-9dee14626b54": {
+    "Name": "C# state machine generator (Decomp1)",
+    "GeneratedFiles": [
+      "Controller\\Controller.cs",
+      "Controller\\ControllerContext.cs",
+      "Controller\\StateId.cs",
+      "Controller\\States1.cs",
+      "Controller\\States1Operational.cs",
+      "Controller\\States1OperationalPedWalkBlinkingStates.cs",
+      "Controller\\TransitionId.cs",
+      "Decomp1Factory.cs",
+      "Factory.cs",
+      "HAL1\\HAL1.cs",
+      "HAL1\\HAL1Communication.cs",
+      "HalFactory.cs",
+      "HMI\\HMI.cs",
+      "HMI\\HMIContext.cs",
+      "HMI\\StateId.cs",
+      "HMI\\TransitionId.cs",
+      "Interfaces\\StartStop.cs"
+    ]
+  }
+}
