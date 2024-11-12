@@ -1,17 +1,12 @@
-﻿using System;
-using Logger;
-using Microsoft.AspNetCore.SignalR;
+﻿using Logger;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Windows.Threading;
 using Tools.Commands;
-using UnitsNet;
 using Traffic.Generated.Interfaces;
 
 namespace Traffic.ViewModel;
-
-
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
@@ -42,7 +37,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         Hmi.Update();
     }
 
-
     private void HmiOnPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         OnPropertyChanged(nameof(Hmi));
@@ -57,7 +51,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public ICommand StopCommand { get; }
 
     #endregion
-
 
     private void Start()
     {

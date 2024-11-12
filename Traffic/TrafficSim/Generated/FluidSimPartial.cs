@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MathNet.Numerics.LinearAlgebra.Double;
+﻿using MathNet.Numerics.LinearAlgebra.Double;
 using Resources.Solver;
 
 namespace TrafficSim.Generated
@@ -7,7 +6,6 @@ namespace TrafficSim.Generated
     public partial class PandISimulator
     {
         private readonly DecomposingSolver _solver = new();
-
 
         private void InitComponents()
         {
@@ -17,7 +15,6 @@ namespace TrafficSim.Generated
 
             PedGreen.Resistance = 1;
             PedRed.Resistance = 1;
-
         }
 
         private double[] SolveEquations(DenseMatrix matrix, DenseVector rhs, List<(int row, int col)> potentialNonZero)
@@ -25,8 +22,6 @@ namespace TrafficSim.Generated
             return _solver.Solve(matrix, rhs, potentialNonZero);
         }
 
-        private void CalculationStepFinished()
-        {
-        }
+        private void CalculationStepFinished() { }
     }
 }

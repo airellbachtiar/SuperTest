@@ -1,10 +1,7 @@
 ﻿using Logger;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StatemachineFramework.Logging;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 using Traffic.Services;
 using Traffic.ViewModel;

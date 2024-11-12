@@ -1,5 +1,4 @@
 ﻿using TrafficSim.Generated;
-using System;
 
 namespace TrafficSim.Services;
 
@@ -12,7 +11,5 @@ public class HolodeckFluidStateSyncService
         _fluidSimulator = fluidSimulator;
     }
 
-    public void Cycle()
-    {
-    }
+    public void Cycle() { }
 }

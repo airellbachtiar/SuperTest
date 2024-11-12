@@ -32,32 +32,22 @@ public class GrpcBusServer : IGrpcBus
 
     public void SetPosition(PositionRequest request)
     {
-        //var motionDevice = _motionSimulator.Loads[request.Address.Id];
-        //motionDevice.MoveTo(request.SetPoint, request.Speed, request.Acceleration, motionDevice.DefaultDeceleration);
+        throw new NotImplementedException();
     }
 
     public PositionResponse GetPosition(Address address)
     {
-        //var motionDevice = _motionSimulator.Loads[address.Id];
-        //return new PositionResponse
-        //{
-        //    ActualPosition = motionDevice.Position,
-        //    ActualSpeed = motionDevice.Velocity,
-        //    Done = motionDevice.Done
-        //};
-        return null;
+        throw new NotImplementedException();
     }
 
     public void SetVelocity(VelocityRequest request)
     {
-        //var motionDevice = _motionSimulator.Loads[request.Address.Id];
-        //motionDevice.Move(request.Speed, request.Acceleration);
+        throw new NotImplementedException();
     }
 
     public void Stop(Address address)
     {
-        //var motionDevice = _motionSimulator.Loads[address.Id];
-        //motionDevice.Stop(motionDevice.DefaultDeceleration);
+        throw new NotImplementedException();
     }
 
     public void SetDigitalOutput(DigitalOutputRequest request)
@@ -70,30 +60,7 @@ public class GrpcBusServer : IGrpcBus
 
     public DigitalInputResponse GetDigitalInput(Address address)
     {
-        //if (_motionSimulator.DigitalSensors.TryGetValue(address.Id, out var digitalSensor))
-        //{
-        //    return new DigitalInputResponse { Value = digitalSensor.Active };
-        //}
-        
-        //if (_motionSimulator.DetectionSensors.TryGetValue(address.Id, out var sensor))
-        //{
-        //    return new DigitalInputResponse { Value = sensor.Detected };
-        //}
-
-        //if (_motionSimulator.Switches.TryGetValue(address.Id, out var @switch))
-        //{
-        //    return new DigitalInputResponse { Value = @switch.On };
-        //}
-        // IMPORTANT
-        var di = (ISimDigitalInput)_fluidSimulator.SimComponents
-            .OfType<ElementBase>()
-            .First(e => e.Id == address.Id && e is ISimDigitalInput);
-
-        var response = new DigitalInputResponse
-        {
-            Value = di.GetValue()
-        };
-        return response;
+        throw new NotImplementedException();
     }
 
     public void SetPinIoModule(IoOutputRequest request)
@@ -113,71 +80,26 @@ public class GrpcBusServer : IGrpcBus
 
     public AnalogInputResponse GetAnalogInput(Address address)
     {
-        var simDevice = (ISimAnalogInput)_fluidSimulator.SimComponents
-            .OfType<ElementBase>()
-            .First(e => e is ISimAnalogInput && e.Id == address.Id);
-
-        var response = new AnalogInputResponse
-        {
-            Value = simDevice.GetValue()
-        };
-
-        return response;
+        throw new NotImplementedException();
     }
 
     public PumpResponse GetPumpState(Address address)
     {
-        var pump = _fluidSimulator.SimComponents
-            .OfType<Pump>()
-            .First(pump => pump.Id == address.Id);
-
-        return new PumpResponse
-        {
-            ActualFlow = pump.PumpFlow
-        };
+        throw new NotImplementedException();
     }
 
     public void SetPumpState(PumpRequest request)
     {
-        var pump = _fluidSimulator.SimComponents
-            .OfType<Pump>()
-            .First(element => element.Id == request.Address.Id);
-
-        pump.PumpFlow = request.Flow;
-        if (request.On)
-        {
-            pump.On();
-        }
-        else
-        {
-            pump.Off();
-        }
+        throw new NotImplementedException();
     }
 
     public VesselResponse GetVesselState(Address address)
     {
-        var vessel = _fluidSimulator.SimComponents
-            .OfType<Vessel>()
-            .First(vessel => vessel.Id == address.Id);
-
-        var pressure = vessel.GasPressure;
-        var temperature = vessel.LiquidTemperatureCelsius;
-        var volume = vessel.LitersLiquid;
-
-        return new VesselResponse
-        {
-            ActualPressure = pressure,
-            ActualTemperature = temperature,
-            ActualVolume = volume
-        };
+        throw new NotImplementedException();
     }
 
     public void SetVesselTemperature(VesselRequest request)
     {
-        var vessel = _fluidSimulator.SimComponents
-            .OfType<Vessel>()
-            .First(vessel => vessel.Id == request.Address.Id);
-
-        vessel.Temperature = request.Temperature;
+        throw new NotImplementedException();
     }
 }

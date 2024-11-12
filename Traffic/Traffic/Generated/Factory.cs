@@ -22,12 +22,6 @@
 
 #pragma warning disable CS8618
 
-using System;
-using System.Collections.Generic;
-using InterfaceServices;
-using StatemachineFramework.Components;
-using StatemachineFramework.Runner;
-
 namespace Traffic.Generated;
 
 public class Factory

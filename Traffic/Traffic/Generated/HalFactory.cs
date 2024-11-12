@@ -20,9 +20,6 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
-using System.Collections.Generic;
-using HalFramework;
-using InterfaceServices;
 using Traffic.Generated.HAL1;
 
 namespace Traffic.Generated;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Logger;
+﻿using Logger;
 
 namespace Traffic.Logger
 {

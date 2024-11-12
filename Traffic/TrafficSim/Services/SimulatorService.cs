@@ -1,6 +1,5 @@
 ﻿using TrafficSim.Generated;
 using SimulatorsBase;
-using System;
 using Resources.Fluids;
 using HolodeckGrpcServer.Interfaces;
 using HolodeckGrpcServer;
@@ -16,7 +15,7 @@ public class SimulatorService : SimulatorBase, IHoloSource
     public event EventHandler<HolodeckEventArgs>? MessageFromHolodeck;
     public event EventHandler? StopListeners;
 
-    private readonly TrafficSim.Services.GrpcBusServer _grpcBus;
+    private readonly GrpcBusServer _grpcBus;
     private readonly ILogger _logger;
     private readonly Hoster _hoster;
     private HolodeckFluidStateSyncService _interlockService;
@@ -32,7 +31,7 @@ public class SimulatorService : SimulatorBase, IHoloSource
         _logger = logger;
 
         FluidDatabase.InitializeDatabase("fluids.xml");
-        _grpcBus = new TrafficSim.Services.GrpcBusServer(fluidSimulator);
+        _grpcBus = new GrpcBusServer(fluidSimulator);
 
         _hoster = new Hoster();
         var services = new GrpcServiceContainer();
@@ -69,6 +68,6 @@ public class SimulatorService : SimulatorBase, IHoloSource
 
     public IHoloMotion GetMotion()
     {
-        return null;
+        throw new NotImplementedException();
     }
 }

@@ -21,11 +21,9 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
-using System;
 using InterfaceServices.Model;
 using Traffic.Generated.Interfaces;
 using HalFramework.Interfaces.Reference;
-using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 

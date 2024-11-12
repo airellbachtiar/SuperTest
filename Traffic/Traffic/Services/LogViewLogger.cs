@@ -19,19 +19,11 @@ public class LogViewLogger : IStatemachineLogger
         _logger.Log(LogLevel.Information, $"{e.Statemachine.Name}: {e.FromState.Name} -> {e.ToState.Name}");
     }
 
-    public void LogStandardTransition(StandardTransitionEventArgs e)
-    {
-    }
+    public void LogStandardTransition(StandardTransitionEventArgs e) { }
 
-    public void LogInterfaceTransition(InterfaceTransitionEventArgs e)
-    {
-    }
+    public void LogInterfaceTransition(InterfaceTransitionEventArgs e) { }
 
-    public void LogInterfaceTransition(CompoundInterfaceTransitionEventArgs e)
-    {
-    }
+    public void LogInterfaceTransition(CompoundInterfaceTransitionEventArgs e) { }
 
-    public void Flush()
-    {
-    }
+    public void Flush() { }
 }

@@ -16,8 +16,6 @@
 
 #pragma warning disable CS8618
 
-using System;
-using System.Collections.Generic;
 using HalFramework;
 using Comm.Grpc.Common;
 using Comm.Grpc;

@@ -79,22 +79,5 @@ public class DecompositionBuilderService : IDecompositionBuilder
         }
     }
 
-    private void AddHalLogging()
-    {
-        //var kpiLoggerFactory = (IHalElement halElement, string signalName) => new BinaryKpiLogger(
-        //    @"..\..\..\Logs\StateViewerDefinition.json",
-        //    halElement.FullyQualifiedName,
-        //    halElement.TypeId,
-        //    halElement.InstanceId,
-        //    signalName,
-        //    storageDirectory: "logs",
-        //    minutesBeforeSave: 1
-        //    );
-
-        //foreach (var hal in Hals)
-        //{
-        //    hal.AddLogger(_logger);
-        //    hal.AddKpiLogger(kpiLoggerFactory);
-        //}
-    }
+    private void AddHalLogging() { }
 }

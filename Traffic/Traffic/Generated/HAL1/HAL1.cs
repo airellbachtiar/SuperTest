@@ -17,13 +17,7 @@
 
 #pragma warning disable CS8618
 
-using System;
-using HalFramework;
-using ExtensionMethods;
-using InterfaceServices;
 using InterfaceServices.Model;
-using StatemachineFramework.Components;
-using HalReference.Components.PandI;
 
 namespace Traffic.Generated.HAL1;
 

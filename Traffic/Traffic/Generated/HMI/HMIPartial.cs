@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.SignalR;
 using Component = StatemachineFramework.Components.Component;
 
 namespace Traffic.Generated.HMI;
@@ -28,16 +24,9 @@ public partial class HMI : INotifyPropertyChanged
 
     const double Epsilon = 0.0001;
 
-    public void Update()
-    {
-        
-    }
+    public void Update() { }
     
-    
-    public void SendAllStatesToClients()
-    {
-        
-    }
+    public void SendAllStatesToClients() { }
 
     public void InitAllStates()
     {
