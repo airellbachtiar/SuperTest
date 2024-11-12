@@ -18,6 +18,12 @@
 		<None Update="Services\Prompts\EvaluateSpecFlowFeatureFile\Claude_3_5_Sonnet.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Services\Prompts\GenerateSpecFlowBindingFile\Claude_3_5_Sonnet.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Services\Prompts\GenerateSpecFlowBindingFile\GPT_4o.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="Services\Prompts\GenerateSpecFlowFeatureFile\Claude_3_5_Sonnet.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

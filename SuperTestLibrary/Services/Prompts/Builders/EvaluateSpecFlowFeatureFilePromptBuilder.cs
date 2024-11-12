@@ -1,56 +1,31 @@
-﻿
-using System.Text;
+﻿using System.Text;
 
 namespace SuperTestLibrary.Services.Prompts.Builders
 {
-    public class EvaluateSpecFlowFeatureFilePromptBuilder : PromptBuilderBase, IPromptBuilder
+    public class EvaluateSpecFlowFeatureFilePromptBuilder : PromptBuilderBase
     {
-        private Prompt? prompt;
-        private string? requirements;
-        private string featureFile;
+        private readonly string? _requirements;
+        private readonly string _featureFile;
 
         public EvaluateSpecFlowFeatureFilePromptBuilder(string requirements, string featureFile)
         {
-            if (string.IsNullOrEmpty(featureFile))
-            {
-                throw new ArgumentNullException(nameof(featureFile));
-            }
+            ArgumentNullException.ThrowIfNull(requirements);
+            ArgumentNullException.ThrowIfNull(featureFile);
 
-            this.featureFile = featureFile;
-            this.requirements = requirements;
+            _featureFile = featureFile;
+            _requirements = requirements;
         }
 
-        public IEnumerable<string> BuildPrompt(Prompt prompt)
-        {
-            this.prompt = prompt;
-
-            ArgumentNullException.ThrowIfNull(prompt);
-
-            if (string.IsNullOrEmpty(requirements))
-            {
-                throw new ArgumentNullException(nameof(requirements));
-            }
-
-            List<string> prompts = [BuildContext()];
-
-            if (prompt.Instructions.Any())
-            {
-                prompts.AddRange(BuildInteractions(prompt));
-            }
-
-            return prompts;
-        }
-
-        private string BuildContext()
+        protected override string BuildContext()
         {
             StringBuilder promptBuilder = new();
 
-            promptBuilder.AppendLine(prompt!.SystemInstruction);
+            promptBuilder.AppendLine(_prompt!.SystemInstruction);
             promptBuilder.AppendLine();
 
             promptBuilder.AppendLine("The scoring scale should be score as follows:");
 
-            foreach (var score in prompt.ScoringScale)
+            foreach (var score in _prompt.ScoringScale)
             {
                 promptBuilder.AppendLine(score);
             }
@@ -59,7 +34,7 @@ namespace SuperTestLibrary.Services.Prompts.Builders
 
             promptBuilder.AppendLine("The evaluation has these following criteria:");
 
-            foreach (var criteria in prompt.Criteria)
+            foreach (var criteria in _prompt.Criteria)
             {
                 promptBuilder.AppendLine(criteria);
             }
@@ -67,17 +42,17 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             promptBuilder.AppendLine();
             promptBuilder.AppendLine("Instructions:");
 
-            foreach (var instruction in prompt.Instructions)
+            foreach (var instruction in _prompt.Instructions)
             {
                 promptBuilder.AppendLine(instruction);
             }
 
             promptBuilder.AppendLine();
             promptBuilder.AppendLine("Feature file:");
-            promptBuilder.AppendLine(featureFile);
+            promptBuilder.AppendLine(_featureFile);
             promptBuilder.AppendLine();
             promptBuilder.AppendLine("Requirements:");
-            promptBuilder.AppendLine(requirements);
+            promptBuilder.AppendLine(_requirements);
 
             return promptBuilder.ToString();
         }

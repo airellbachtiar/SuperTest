@@ -21,7 +21,7 @@ namespace SuperTestLibrary.LLMs
             ApiKey = null;
         }
 
-        public async Task<string> Call(IEnumerable<string> messages)
+        public async Task<string> CallAsync(IEnumerable<string> messages)
         {
             List<ChatMessage> prompts = new List<ChatMessage>();
 

@@ -1,34 +1,31 @@
 using Microsoft.Win32;
 using SuperTestLibrary;
 using SuperTestLibrary.LLMs;
-using SuperTestLibrary.Services;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Windows;
 using System.Windows.Input;
 
 namespace SuperTestWPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private string _statusMessage = string.Empty;
+        private ObservableCollection<string> _statusMessages = [];
         private string _chosenFile = string.Empty;
         private string _selectedLLM = GPT_4o.ModelName;
         private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
+        private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
+        private ScenarioModel _selectedScenario = new();
 
         // LLM
         private readonly GPT_4o _gpt_4o = new();
         private readonly Claude_3_5_Sonnet _claude_3_5_Sonnet = new();
         private readonly Gemini_1_5 _gemini_1_5 = new();
-
-        //Generator
-        private readonly SpecFlowFeatureFileGenerator _specFlowFeatureFileGenerator = new();
 
         //SpecFlowFeatureFileModel
         private ObservableCollection<SpecFlowFeatureFileModel> _specFlowFeatureFiles = [];
@@ -38,6 +35,7 @@ namespace SuperTestWPF.ViewModels
 
         //Switch score details display
         private bool _isDisplayingFeatureFileScore = true;
+        private bool _isFeatureFileContentVisible = false;
 
         public MainWindowViewModel(ISuperTestController superTestController)
         {
@@ -45,29 +43,30 @@ namespace SuperTestWPF.ViewModels
             GenerateAndEvaluateSpecFlowFeatureFileCommand = new RelayCommand(GenerateAndEvaluateSpecFlowFeatureFile);
             DisplayFeatureFileScoreCommand = new RelayCommand(DisplayFeatureFileScore);
             DisplayScenarioScoreCommand = new RelayCommand(DisplayScenarioScore);
-            CopyFeatureFileCommand = new RelayCommand(CopyFeatureFile);
-            SaveFeatureFileCommand = new RelayCommand(SaveFeatureFile);
+            SelectSaveLocationCommand = new RelayCommand(SelectSaveLocation);
+            SaveFeatureFilesCommand = new RelayCommand(SaveFeatureFiles);
+            SwitchFeatureFileViewCommand = new RelayCommand(SwitchFeatureFileView);
 
             this._superTestController = superTestController;
-            InitializeReqIFs();
+            _ = InitializeReqIFs();
         }
 
-        private async void InitializeReqIFs()
+        private async Task InitializeReqIFs()
         {
             var AllReqIfFiles = await _superTestController.GetAllReqIFFilesAsync();
 
             OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
         }
 
-        public string StatusMessage
+        public ObservableCollection<string> StatusMessages
         {
-            get { return _statusMessage; }
+            get { return _statusMessages; }
             set
             {
-                if (_statusMessage != value)
+                if (_statusMessages != value)
                 {
-                    _statusMessage = value;
-                    OnPropertyChanged(nameof(StatusMessage));
+                    _statusMessages = value;
+                    OnPropertyChanged(nameof(StatusMessages));
                 }
             }
         }
@@ -85,6 +84,19 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public string SavePath
+        {
+            get { return _savePath; }
+            set
+            {
+                if (_savePath != value)
+                {
+                    _savePath = value;
+                    OnPropertyChanged(nameof(SavePath));
+                }
+            }
+        }
+
         public string EvaluationSummary
         {
             get { return _evaluationSummary; }
@@ -94,6 +106,19 @@ namespace SuperTestWPF.ViewModels
                 {
                     _evaluationSummary = value;
                     OnPropertyChanged(nameof(EvaluationSummary));
+                }
+            }
+        }
+
+        public bool IsFeatureFileContentVisible
+        {
+            get { return _isFeatureFileContentVisible; }
+            set
+            {
+                if (_isFeatureFileContentVisible != value)
+                {
+                    _isFeatureFileContentVisible = value;
+                    OnPropertyChanged(nameof(IsFeatureFileContentVisible));
                 }
             }
         }
@@ -169,12 +194,35 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
+        public ScenarioModel SelectedScenario
+        {
+            get { return _selectedScenario; }
+            set
+            {
+                if (_selectedScenario != value)
+                {
+                    if (_selectedScenario != null)
+                    {
+                        _selectedScenario.IsSelected = false;
+                    }
+                    _selectedScenario = value;
+                    if (_selectedScenario != null)
+                    {
+                        _selectedScenario.IsSelected = true;
+                    }
+                    DisplayScoreDetails();
+                    OnPropertyChanged(nameof(SelectedScenario));
+                }
+            }
+        }
+
         public ICommand UploadReqIFCommand { get; }
         public ICommand GenerateAndEvaluateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
         public ICommand DisplayScenarioScoreCommand { get; }
-        public ICommand CopyFeatureFileCommand { get; }
-        public ICommand SaveFeatureFileCommand { get; }
+        public ICommand SelectSaveLocationCommand { get; }
+        public ICommand SaveFeatureFilesCommand { get; }
+        public ICommand SwitchFeatureFileViewCommand { get; }
 
         public void OnTreeViewItemSelected(object selectedItem)
         {
@@ -194,7 +242,7 @@ namespace SuperTestWPF.ViewModels
 
         private void UploadReqIF()
         {
-            StatusMessage = "Uploading ReqIF...";
+            StatusMessages.Add("Uploading ReqIF...");
             _ = GetReqIFFileFromFolder();
         }
 
@@ -213,7 +261,7 @@ namespace SuperTestWPF.ViewModels
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
 
-            StatusMessage = "ReqIF uploaded.";
+            StatusMessages.Add("ReqIF uploaded.");
 
             return filepath;
         }
@@ -223,26 +271,26 @@ namespace SuperTestWPF.ViewModels
             SelectedSpecFlowFeatureFile = new();
             SpecFlowFeatureFiles.Clear();
 
-            StatusMessage = "Generating SpecFlow feature file...";
+            StatusMessages.Add("Generating SpecFlow feature file...");
 
             if (string.IsNullOrEmpty(ChosenFile))
             {
-                StatusMessage = "No file chosen.";
+                StatusMessages.Add("No file chosen.");
                 return;
             }
 
             string requirements = GetFileContent();
 
             SetLLM();
-            _superTestController.SelectedGenerator = _specFlowFeatureFileGenerator;
 
             try
             {
                 await GenerateSpecFlowFeatureFile(requirements);
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
+                SelectedScenario = SelectedSpecFlowFeatureFile.Scenarios.FirstOrDefault() ?? new();
                 await EvaluateSpecFlowFeatureFile(requirements);
             }
-            catch {}
+            catch { return; }
         }
 
         public void SetLLM()
@@ -266,47 +314,59 @@ namespace SuperTestWPF.ViewModels
             try
             {
                 var featureFileResponse = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowFeatureFileAsync(requirements), TimeSpan.FromSeconds(1));
-                foreach (var featureFileModel in featureFileResponse.FeatureFiles)
+                
+                for (int i = 0; i < featureFileResponse.FeatureFiles.Count; i++)
                 {
-                    SpecFlowFeatureFiles.Add(new SpecFlowFeatureFileModel(featureFileModel.Key, featureFileModel.Value));
+                    var featureFileModel = featureFileResponse.FeatureFiles.ElementAt(i);
+                    var gherkinDocument = featureFileResponse.GherkinDocuments[i];
+
+                    if (gherkinDocument == null)
+                    {
+                        StatusMessages.Add($"Gherkin document is missing at {featureFileModel.Key}.");
+                        continue;
+                    }
+
+                    var featureFile = GetSpecFlowFeatureFileModel.ConvertSpecFlowFeatureFileResponse(featureFileModel, gherkinDocument);
+                    SpecFlowFeatureFiles.Add(featureFile);
                 }
 
                 if (!SpecFlowFeatureFiles.Any())
                 {
-                    StatusMessage = "Feature file is empty. Failed to generate feature file.";
+                    StatusMessages.Add("Feature file is empty. Failed to generate feature file.");
                 }
-                StatusMessage = "Finished generating!";
+                StatusMessages.Add("Finished generating!");
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while generating SpecFlow feature file.";
+                StatusMessages.Add($"Exception: {ex.Message} while generating SpecFlow feature file.");
             }
         }
 
         private async Task EvaluateSpecFlowFeatureFile(string requirements)
         {
-            var evaluateSpecFlowFeatureFileGeneratpr = new EvaluateSpecFlowFeatureFileGenerator(requirements);
-            var evaluateSpecFlowScenarioGenerator = new EvaluateSpecFlowScenarioGenerator(requirements);
+            if (!SpecFlowFeatureFiles.Any())
+            {
+                StatusMessages.Add("No feature file to evaluate.");
+                return;
+            }
 
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
                 // Evaluate feature file
-                _superTestController.SelectedGenerator = evaluateSpecFlowFeatureFileGeneratpr;
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...";
-                await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile);
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
+                await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile, requirements);
 
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...";
-                await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile);
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...");
+                await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile, requirements);
 
                 //Evaluate scenario
-                _superTestController.SelectedGenerator = evaluateSpecFlowScenarioGenerator;
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...";
-                await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile);
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
+                await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile, requirements);
 
-                StatusMessage = $"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...";
-                await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile);
+                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...");
+                await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile, requirements);
             }
-            StatusMessage = "Finished evaluating!";
+            StatusMessages.Add("Finished evaluating!");
         }
 
         private string GetFileContent()
@@ -319,107 +379,55 @@ namespace SuperTestWPF.ViewModels
                 }
                 else
                 {
-                    StatusMessage = "File does not exist.";
+                    StatusMessages.Add("File does not exist.");
                 }
             }
             catch (IOException ex)
             {
-                StatusMessage = $"IOException: {ex.Message} while reading {ChosenFile}";
+                StatusMessages.Add($"IOException: {ex.Message} while reading {ChosenFile}");
             }
             catch (UnauthorizedAccessException ex)
             {
-                StatusMessage = $"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}";
+                StatusMessages.Add($"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}");
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while processing {ChosenFile}";
+                StatusMessages.Add($"Exception: {ex.Message} while processing {ChosenFile}");
             }
 
             return string.Empty;
         }
 
-        private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile)
+        private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile, string requirements)
         {
             try
             {
                 _superTestController.SelectedLLM = largeLanguageModel;
-                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
-
-                var score = evaluationResponse.Score;
-
-                featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Readability = {evaluationResponse.Readability}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Consistency = {evaluationResponse.Consistency}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Focus = {evaluationResponse.Focus}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Structure = {evaluationResponse.Structure}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Maintainability = {evaluationResponse.Maintainability}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Coverage = {evaluationResponse.Coverage}/5 ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add(string.Empty);
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-                featureFile.FeatureFileEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-                featureFile.FeatureFileEvaluationScoreDetails.Add("=========================================================================");
-
-                featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
-                featureFile.FeatureFileEvaluationSummary += $"Evaluation from {largeLanguageModel.Id}:\n{evaluationResponse.Summary}\n";
-                featureFile.FeatureFileEvaluationSummary += "=========================================================================\n";
-            
+                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
+                AssignSpecFlowFeatureFileEvaluation.Assign(largeLanguageModel, featureFile, evaluationResponse);
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
+                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
             }
         }
 
-        private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile)
+        private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile, string requirements)
         {
             try
             {
                 _superTestController.SelectedLLM = largeLanguageModel;
-                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
+                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
 
-                featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
-
-                featureFile.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
-
-            foreach (var scenario in evaluationResponse.ScenarioEvaluations)
-            {
-                var score = scenario.Score;
-
-                    featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tHuman Friendly Language = {scenario.ClarityAndReadability.HumanFriendlyLanguage}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tConcise and Relevant Scenarios = {scenario.ClarityAndReadability.ConciseAndRelevantScenarios}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tLogical Flow = {scenario.ClarityAndReadability.LogicalFlow}/5 ");
-
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Structure and Focus");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tFocused Scenario = {scenario.StructureAndFocus.FocusedScenario}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Structure = {scenario.StructureAndFocus.ScenarioStructure}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tScenario Outlines = {scenario.StructureAndFocus.ScenarioOutlines}/5 ");
-
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Maintainability");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tMinimal Coupling to Implementation = {scenario.Maintainability.MinimalCouplingToImplementation}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tIndependent Scenarios = {scenario.Maintainability.IndependentScenarios}/5 ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tTest Data Management = {scenario.Maintainability.TestDataManagement}/5 ");
-
-                    featureFile.ScenarioEvaluationScoreDetails.Add("Traceability");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"\tTraceability = {scenario.Traceability.TraceabilityToRequirements}/5 ");
-
-                    featureFile.ScenarioEvaluationScoreDetails.Add(string.Empty);
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-                    featureFile.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
-                    featureFile.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------"); 
-
-                    featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
-                    featureFile.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
-                    featureFile.ScenarioEvaluationSummary += "=========================================================================\n";
+                foreach (var scenario in evaluationResponse.ScenarioEvaluations)
+                {
+                    var scenarioModel = featureFile.Scenarios.First(s => s.Name == scenario.ScenarioName);
+                    AssignScenarioEvaluation.Assign(largeLanguageModel, scenarioModel, scenario);
                 }
-                featureFile.ScenarioEvaluationScoreDetails.Add("=========================================================================");
             }
             catch (Exception ex)
             {
-                StatusMessage = $"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}";
+                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
             }
         }
 
@@ -445,24 +453,40 @@ namespace SuperTestWPF.ViewModels
             }
             else
             {
-                EvaluationSummary = SelectedSpecFlowFeatureFile.ScenarioEvaluationSummary ?? string.Empty;
-                EvaluationScoreDetails = SelectedSpecFlowFeatureFile.ScenarioEvaluationScoreDetails ?? [];
+                if (SelectedScenario == null) return;
+                EvaluationSummary = SelectedScenario.ScenarioEvaluationSummary ?? string.Empty;
+                EvaluationScoreDetails = SelectedScenario.ScenarioEvaluationScoreDetails ?? [];
             }
         }
 
-        private void CopyFeatureFile()
+        private void SelectSaveLocation()
         {
-            if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
-            Clipboard.SetText(_selectedSpecFlowFeatureFile.FeatureFileContent);
-            StatusMessage = "Feature file copied to clipboard.";
+            var folderDialog = new OpenFolderDialog
+            { 
+                DefaultDirectory = SavePath
+            };
+
+            if (folderDialog.ShowDialog() == true)
+            {
+                SavePath = folderDialog.FolderName;
+            }
         }
 
-        private void SaveFeatureFile()
+        private void SaveFeatureFiles()
         {
-            if (string.IsNullOrEmpty(SelectedSpecFlowFeatureFile.ToString())) return;
-            string downloadPath = Environment.GetEnvironmentVariable("USERPROFILE") + @"\" + "Downloads";
-            File.WriteAllText($"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}", SelectedSpecFlowFeatureFile.FeatureFileContent);
-            StatusMessage = $"Feature file saved to \"{downloadPath}/{SelectedSpecFlowFeatureFile.FeatureFileName}\".";
+            foreach (var featureFile in SpecFlowFeatureFiles)
+            {
+                string savePath = $"{SavePath}/{featureFile.FeatureFileName}";
+                string featureFileContent = GetReviewedFeatureFile.GetAcceptedScenarios(featureFile);
+
+                File.WriteAllText(savePath, featureFileContent);
+                StatusMessages.Add($"Feature file saved to \"{savePath}\".");
+            }
+        }
+
+        private void SwitchFeatureFileView()
+        {
+            IsFeatureFileContentVisible = !IsFeatureFileContentVisible;
         }
 
         #region INotifyPropertyChanged Members

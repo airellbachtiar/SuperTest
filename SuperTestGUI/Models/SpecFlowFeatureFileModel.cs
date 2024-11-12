@@ -1,5 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics.Metrics;
+﻿using Gherkin.Ast;
+using System.Collections.ObjectModel;
 
 namespace SuperTestWPF.Models
 {
@@ -7,10 +7,12 @@ namespace SuperTestWPF.Models
     {
         public string FeatureFileName { get; set; } = string.Empty;
         public string FeatureFileContent { get; set; } = string.Empty;
+        public string FeatureFileTitle { get; set; } = string.Empty;
         public ObservableCollection<string> FeatureFileEvaluationScoreDetails { get; set; } = [];
-        public ObservableCollection<string> ScenarioEvaluationScoreDetails { get; set; } = [];
         public string FeatureFileEvaluationSummary { get; set; } = string.Empty;
-        public string ScenarioEvaluationSummary { get; set; } = string.Empty;
+
+        public GherkinDocument? GherkinDocument { get; set; } = null;
+        public ObservableCollection<ScenarioModel> Scenarios { get; set; } = [];
 
         public SpecFlowFeatureFileModel(string featureFileName, string featureFileContent)
         {

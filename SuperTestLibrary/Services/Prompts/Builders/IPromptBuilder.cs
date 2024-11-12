@@ -2,6 +2,6 @@
 {
     public interface IPromptBuilder
     {
-        IEnumerable<string> BuildPrompt(Prompt prompts);
+        IEnumerable<string> BuildPrompt(Prompt prompt);
     }
 }
