@@ -5,9 +5,9 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperTestLibrary", "SuperTestLibrary\SuperTestLibrary.csproj", "{8A842672-D739-45D2-9A89-2E2581510F5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperTestWPF", "SuperTestGUI\SuperTestWPF.csproj", "{433A13CA-A8CB-4FA5-AEB6-0F256F29861B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperTestWPF", "SuperTestWPF\SuperTestWPF.csproj", "{433A13CA-A8CB-4FA5-AEB6-0F256F29861B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperTestLibrary.Tests", "SuperTestLibrary.Tests\SuperTestLibrary.Tests.csproj", "{C295B876-E265-4F0D-9015-CCFF3C7E0457}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperTestLibrary.SpecFlowTests", "SuperTestLibrary.SpecFlowTests\SuperTestLibrary.SpecFlowTests.csproj", "{C295B876-E265-4F0D-9015-CCFF3C7E0457}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
