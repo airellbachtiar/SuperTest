@@ -9,6 +9,7 @@ namespace SuperTestLibrary.Services.Generators
 
         protected override string _jsonPromptClaude_3_5_Sonnet => "Services/Prompts/EvaluateSpecFlowFeatureFile/Claude_3_5_Sonnet.json";
         protected override string _jsonPromptGPT_4o => "Services/Prompts/EvaluateSpecFlowFeatureFile/GPT_4o.json";
+        protected override string _jsonPromptGemini_1_5 => throw new NotImplementedException("Gemini 1.5 is not supported for evaluating SpecFlow feature file.");
 
         protected override IEnumerable<string> SetupPrompt(string jsonPromptPath)
         {

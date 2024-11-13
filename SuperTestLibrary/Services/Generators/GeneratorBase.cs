@@ -10,7 +10,7 @@ namespace SuperTestLibrary.Services.Generators
             {
                 "Claude 3.5 Sonnet" => _jsonPromptClaude_3_5_Sonnet,
                 "GPT-4o" => _jsonPromptGPT_4o,
-                "Gemini 1.5" => throw new InvalidOperationException("Gemini 1.5 does not support generating SpecFlow feature files."),
+                "Gemini 1.5" => _jsonPromptGemini_1_5,
                 _ => throw new InvalidOperationException("Unknown LLM."),
             };
 
@@ -23,5 +23,6 @@ namespace SuperTestLibrary.Services.Generators
 
         protected abstract string _jsonPromptClaude_3_5_Sonnet { get; }
         protected abstract string _jsonPromptGPT_4o { get; }
+        protected abstract string _jsonPromptGemini_1_5 { get; }
     }
 }

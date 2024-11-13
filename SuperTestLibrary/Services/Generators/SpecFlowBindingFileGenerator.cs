@@ -10,6 +10,7 @@ namespace SuperTestLibrary.Services.Generators
 
         protected override string _jsonPromptClaude_3_5_Sonnet => "Services/Prompts/SpecFlowBindingFile/Claude_3_5_Sonnet.json";
         protected override string _jsonPromptGPT_4o => "Services/Prompts/SpecFlowBindingFile/GPT_4o.json";
+        protected override string _jsonPromptGemini_1_5 => throw new NotImplementedException("Gemini 1.5 is not supported for generating binding file.");
 
         protected override IEnumerable<string> SetupPrompt(string jsonPromptPath)
         {
