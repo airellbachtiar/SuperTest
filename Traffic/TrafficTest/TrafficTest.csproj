@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <OutputType>Library</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +32,10 @@
   <ItemGroup>
     <Folder Include="Features\" />
     <Folder Include="StepDefinitions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TrafficSim\TrafficSim.csproj" />
   </ItemGroup>
 
 </Project>
