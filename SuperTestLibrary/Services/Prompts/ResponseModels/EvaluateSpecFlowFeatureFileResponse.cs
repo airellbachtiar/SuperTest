@@ -23,22 +23,7 @@
                 { nameof(Coverage), Coverage }
             };
 
-            foreach (var property in propertiesToEvaluate)
-            {
-                if (property.Value == null)
-                {
-                    throw new InvalidOperationException($"The field '{property.Key}' has not been assigned.");
-                }
-                else if (property.Value > maxScorePerCategory)
-                {
-                    throw new InvalidOperationException($"The field '{property.Key}' has an invalid value.");
-                }
-            }
-
-            var evaluatedProperties = propertiesToEvaluate.ToDictionary(
-                kvp => kvp.Key,
-                kvp => kvp.Value ?? 0
-            );
+            var evaluatedProperties = CheckUnassignedValue(propertiesToEvaluate);
 
             Score = CalculateScore(evaluatedProperties);
         }

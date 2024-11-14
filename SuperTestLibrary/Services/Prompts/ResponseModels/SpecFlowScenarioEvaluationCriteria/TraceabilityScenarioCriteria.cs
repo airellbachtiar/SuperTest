@@ -2,6 +2,6 @@
 {
     public class TraceabilityScenarioCriteria
     {
-        public int TraceabilityToRequirements { get; init; } = 0;
+        public int? TraceabilityToRequirements { get; init; } = 0;
     }
 }

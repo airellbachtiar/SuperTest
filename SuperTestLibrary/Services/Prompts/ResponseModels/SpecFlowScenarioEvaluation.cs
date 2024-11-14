@@ -14,7 +14,7 @@ namespace SuperTestLibrary.Services.Prompts.ResponseModels
 
         public void AssignScore()
         {
-            var propertiesToEvaluate = new Dictionary<string, int>
+            var propertiesToEvaluate = new Dictionary<string, int?>
             {
                 { nameof(ClarityAndReadability.HumanFriendlyLanguage), ClarityAndReadability.HumanFriendlyLanguage },
                 { nameof(ClarityAndReadability.ConciseAndRelevantScenarios), ClarityAndReadability.ConciseAndRelevantScenarios },
@@ -28,7 +28,9 @@ namespace SuperTestLibrary.Services.Prompts.ResponseModels
                 { nameof(Traceability.TraceabilityToRequirements), Traceability.TraceabilityToRequirements }
             };
 
-            Score = CalculateScore(propertiesToEvaluate);
+            var evaluatedProperties = CheckUnassignedValue(propertiesToEvaluate);
+
+            Score = CalculateScore(evaluatedProperties);
         }
     }
 }

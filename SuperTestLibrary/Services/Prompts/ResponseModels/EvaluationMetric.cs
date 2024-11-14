@@ -22,5 +22,27 @@
 
             return score;
         }
+
+        internal Dictionary<string, int> CheckUnassignedValue(Dictionary<string, int?> propertiesToEvaluate)
+        {
+            foreach (var property in propertiesToEvaluate)
+            {
+                if (property.Value == null)
+                {
+                    throw new InvalidOperationException($"The field '{property.Key}' has not been assigned.");
+                }
+                else if (property.Value > maxScorePerCategory)
+                {
+                    throw new InvalidOperationException($"The field '{property.Key}' has an invalid value.");
+                }
+            }
+
+            var evaluatedProperties = propertiesToEvaluate.ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value ?? 0
+            );
+
+            return evaluatedProperties;
+        }
     }
 }
