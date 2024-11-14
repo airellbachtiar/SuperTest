@@ -26,4 +26,10 @@
     <Using Include="NUnit.Framework" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Update="TestData\ValidSpecFlowFeaturePrompt.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 </Project>
