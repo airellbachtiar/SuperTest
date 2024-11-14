@@ -2,7 +2,7 @@
 {
     public class EvaluationMetric
     {
-        private const int maxScorePerCategory = 5;
+        internal const int maxScorePerCategory = 5;
 
         internal EvaluationScore CalculateScore(Dictionary<string, int> criteria)
         {

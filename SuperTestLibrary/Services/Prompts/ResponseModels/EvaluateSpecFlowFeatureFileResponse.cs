@@ -2,20 +2,18 @@
 {
     public class EvaluateSpecFlowFeatureFileResponse : EvaluationMetric
     {
-        public int Readability { get; init; }
-        public int Consistency { get; init; }
-        public int Focus { get; init; }
-        public int Structure { get; init; }
-        public int Maintainability { get; init; }
-        public int Coverage { get; init; }
+        public int? Readability { get; init; }
+        public int? Consistency { get; init; }
+        public int? Focus { get; init; }
+        public int? Structure { get; init; }
+        public int? Maintainability { get; init; }
+        public int? Coverage { get; init; }
         public EvaluationScore Score { get; set; } = new();
-        public string Summary { get; init; } = string.Empty;
-
-        private const int maxScorePerCategory = 5;
+        public string? Summary { get; init; } = string.Empty;
 
         public void AssignScore()
         {
-            var propertiesToEvaluate = new Dictionary<string, int>
+            var propertiesToEvaluate = new Dictionary<string, int?>
             {
                 { nameof(Readability), Readability },
                 { nameof(Consistency), Consistency },
@@ -25,7 +23,24 @@
                 { nameof(Coverage), Coverage }
             };
 
-            Score = CalculateScore(propertiesToEvaluate);
+            foreach (var property in propertiesToEvaluate)
+            {
+                if (property.Value == null)
+                {
+                    throw new InvalidOperationException($"The field '{property.Key}' has not been assigned.");
+                }
+                else if (property.Value > maxScorePerCategory)
+                {
+                    throw new InvalidOperationException($"The field '{property.Key}' has an invalid value.");
+                }
+            }
+
+            var evaluatedProperties = propertiesToEvaluate.ToDictionary(
+                kvp => kvp.Key,
+                kvp => kvp.Value ?? 0
+            );
+
+            Score = CalculateScore(evaluatedProperties);
         }
     }
 }
