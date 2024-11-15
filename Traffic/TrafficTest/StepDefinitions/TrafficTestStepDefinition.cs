@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FlaUI.Core.AutomationElements;
+using NUnit.Framework;
 using TrafficSim.Testing;
 
 namespace TrafficTest.StepDefinitions
@@ -23,6 +24,21 @@ namespace TrafficTest.StepDefinitions
         [When("the system initializes")]
         public void WhenTheSystemInitializes()
         {
+            string automationId = "StartButton";
+            var mainWindow = SpecFlowHooks.App.GetMainWindow(SpecFlowHooks.Automation)
+                            ?? throw new Exception("Main window could not be found.");
+
+            // Find the button using its AutomationId
+            var button = mainWindow.FindFirstDescendant(cf => cf.ByAutomationId(automationId))?.AsButton()
+                         ?? throw new Exception($"Button with AutomationId '{automationId}' could not be found.");
+
+            // Simulate button click
+            button.Click();
+        }
+
+        [Then("the traffic light should be red")]
+        public void ThenTheTrafficLightShouldBeRed()
+        {
             while (true)
             {
                 if (_testAccess.GetCarRedCloseState() == "Open")
@@ -32,11 +48,6 @@ namespace TrafficTest.StepDefinitions
                     break;
                 }
             }
-        }
-
-        [Then("the traffic light should be red")]
-        public async void ThenTheTrafficLightShouldBeRed()
-        {
         }
         #endregion
 

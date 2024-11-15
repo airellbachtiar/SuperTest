@@ -14,12 +14,14 @@
             Margin="65,46,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            AutomationProperties.AutomationId="StartButton"
             Command="{Binding StartCommand}"
             Content="Start" />
         <Button
             Margin="126,46,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
+            AutomationProperties.AutomationId="StopButton"
             Command="{Binding StopCommand}"
             Content="Stop" />
 
