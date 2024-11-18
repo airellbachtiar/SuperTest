@@ -3,6 +3,6 @@
     public interface ITestAccess
     {
         string GetCarRedCloseState();
-        string GetPedestrianCloseState();
+        string GetPedestrianRedCloseState();
     }
 }

@@ -16,9 +16,9 @@ namespace TrafficSim.Testing
             return _simulatorService.FluidSimulator.CarRed.IsClosed ? "Close" : "Open";
         }
 
-        public string GetPedestrianCloseState()
+        public string GetPedestrianRedCloseState()
         {
-            throw new NotImplementedException();
+            return _simulatorService.FluidSimulator.PedRed.IsClosed ? "Close" : "Open";
         }
     }
 }
