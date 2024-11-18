@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.LLMs;
+﻿using LlmLibrary;
 using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 

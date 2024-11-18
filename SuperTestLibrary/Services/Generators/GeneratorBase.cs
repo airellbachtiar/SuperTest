@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.LLMs;
+﻿using LlmLibrary;
 
 namespace SuperTestLibrary.Services.Generators
 {

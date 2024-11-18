@@ -1,7 +1,7 @@
 ﻿using OpenAI;
 using OpenAI.Chat;
 
-namespace SuperTestLibrary.LLMs
+namespace LlmLibrary.Models
 {
     public class GPT_4o : ILargeLanguageModel
     {

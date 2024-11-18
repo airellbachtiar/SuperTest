@@ -1,6 +1,6 @@
 using Gherkin;
 using Moq;
-using SuperTestLibrary.LLMs;
+using LlmLibrary;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria;
 using SuperTestLibrary.Storages;

@@ -1,7 +1,7 @@
 ﻿using GenerativeAI.Models;
 using GenerativeAI.Types;
 
-namespace SuperTestLibrary.LLMs
+namespace LlmLibrary.Models
 {
     public class Gemini_1_5 : ILargeLanguageModel
     {

@@ -1,6 +1,6 @@
 ﻿using Claudia;
 
-namespace SuperTestLibrary.LLMs
+namespace LlmLibrary.Models
 {
     public class Claude_3_5_Sonnet : ILargeLanguageModel
     {
