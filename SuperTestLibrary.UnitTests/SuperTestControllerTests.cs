@@ -36,11 +36,14 @@ namespace SuperTestLibrary.UnitTests
             SpecFlowFeatureFileResponse result = await _controller.GenerateSpecFlowFeatureFileAsync(Requirement.ValidRequirement);
 
             // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.FeatureFiles, Is.Not.Empty);
-            Assert.That(result.FeatureFiles.Count, Is.EqualTo(1));
-            Assert.That(result.GherkinDocuments, Is.Not.Empty);
-            Assert.That(result.GherkinDocuments.Count, Is.EqualTo(1));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.FeatureFiles, Is.Not.Empty);
+                Assert.That(result.FeatureFiles, Has.Count.EqualTo(1));
+                Assert.That(result.GherkinDocuments, Is.Not.Empty);
+                Assert.That(result.GherkinDocuments, Has.Count.EqualTo(1));
+            });
         }
 
         [Test]
@@ -106,17 +109,20 @@ namespace SuperTestLibrary.UnitTests
             // Act
             EvaluateSpecFlowFeatureFileResponse result = await _controller.EvaluateSpecFlowFeatureFileAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile);
 
-            // Assert
-            Assert.That(result.Readability, Is.EqualTo(expectedResult.Readability));
-            Assert.That(result.Consistency, Is.EqualTo(expectedResult.Consistency));
-            Assert.That(result.Focus, Is.EqualTo(expectedResult.Focus));
-            Assert.That(result.Structure, Is.EqualTo(expectedResult.Structure));
-            Assert.That(result.Maintainability, Is.EqualTo(expectedResult.Maintainability));
-            Assert.That(result.Coverage, Is.EqualTo(expectedResult.Coverage));
-            Assert.That(result.Summary, Is.EqualTo(expectedResult.Summary));
-            Assert.That(result.Score.MaximumScore, Is.EqualTo(expectedResult.Score.MaximumScore));
-            Assert.That(result.Score.TotalScore, Is.EqualTo(expectedResult.Score.TotalScore));
-            Assert.That(result.Score.Percentage, Is.EqualTo(expectedResult.Score.Percentage));
+            Assert.Multiple(() =>
+            {
+                // Assert
+                Assert.That(result.Readability, Is.EqualTo(expectedResult.Readability));
+                Assert.That(result.Consistency, Is.EqualTo(expectedResult.Consistency));
+                Assert.That(result.Focus, Is.EqualTo(expectedResult.Focus));
+                Assert.That(result.Structure, Is.EqualTo(expectedResult.Structure));
+                Assert.That(result.Maintainability, Is.EqualTo(expectedResult.Maintainability));
+                Assert.That(result.Coverage, Is.EqualTo(expectedResult.Coverage));
+                Assert.That(result.Summary, Is.EqualTo(expectedResult.Summary));
+                Assert.That(result.Score.MaximumScore, Is.EqualTo(expectedResult.Score.MaximumScore));
+                Assert.That(result.Score.TotalScore, Is.EqualTo(expectedResult.Score.TotalScore));
+                Assert.That(result.Score.Percentage, Is.EqualTo(expectedResult.Score.Percentage));
+            });
         }
 
         [Test]
@@ -210,24 +216,27 @@ namespace SuperTestLibrary.UnitTests
             EvaluateSpecFlowScenarioResponse result = await _controller.EvaluateSpecFlowScenarioAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile);
 
             // Assert
-            Assert.That(result, Is.Not.Null);
-            Assert.That(result.ScenarioEvaluations, Is.Not.Empty);
-            Assert.That(result.ScenarioEvaluations.Count, Is.EqualTo(1));
-            Assert.That(result.ScenarioEvaluations[0].ScenarioName, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ScenarioName));
-            Assert.That(result.ScenarioEvaluations[0].ClarityAndReadability.HumanFriendlyLanguage, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ClarityAndReadability.HumanFriendlyLanguage));
-            Assert.That(result.ScenarioEvaluations[0].ClarityAndReadability.ConciseAndRelevantScenarios, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ClarityAndReadability.ConciseAndRelevantScenarios));
-            Assert.That(result.ScenarioEvaluations[0].ClarityAndReadability.LogicalFlow, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ClarityAndReadability.LogicalFlow));
-            Assert.That(result.ScenarioEvaluations[0].StructureAndFocus.FocusedScenario, Is.EqualTo(expectedResult.ScenarioEvaluations[0].StructureAndFocus.FocusedScenario));
-            Assert.That(result.ScenarioEvaluations[0].StructureAndFocus.ScenarioStructure, Is.EqualTo(expectedResult.ScenarioEvaluations[0].StructureAndFocus.ScenarioStructure));
-            Assert.That(result.ScenarioEvaluations[0].StructureAndFocus.ScenarioOutlines, Is.EqualTo(expectedResult.ScenarioEvaluations[0].StructureAndFocus.ScenarioOutlines));
-            Assert.That(result.ScenarioEvaluations[0].Maintainability.MinimalCouplingToImplementation, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Maintainability.MinimalCouplingToImplementation));
-            Assert.That(result.ScenarioEvaluations[0].Maintainability.IndependentScenarios, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Maintainability.IndependentScenarios));
-            Assert.That(result.ScenarioEvaluations[0].Maintainability.TestDataManagement, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Maintainability.TestDataManagement));
-            Assert.That(result.ScenarioEvaluations[0].Traceability.TraceabilityToRequirements, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Traceability.TraceabilityToRequirements));
-            Assert.That(result.ScenarioEvaluations[0].Summary, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Summary));
-            Assert.That(result.ScenarioEvaluations[0].Score.MaximumScore, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Score.MaximumScore));
-            Assert.That(result.ScenarioEvaluations[0].Score.TotalScore, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Score.TotalScore));
-            Assert.That(result.ScenarioEvaluations[0].Score.Percentage, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Score.Percentage));
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.ScenarioEvaluations, Is.Not.Empty);
+                Assert.That(result.ScenarioEvaluations, Has.Count.EqualTo(1));
+                Assert.That(result.ScenarioEvaluations[0].ScenarioName, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ScenarioName));
+                Assert.That(result.ScenarioEvaluations[0].ClarityAndReadability.HumanFriendlyLanguage, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ClarityAndReadability.HumanFriendlyLanguage));
+                Assert.That(result.ScenarioEvaluations[0].ClarityAndReadability.ConciseAndRelevantScenarios, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ClarityAndReadability.ConciseAndRelevantScenarios));
+                Assert.That(result.ScenarioEvaluations[0].ClarityAndReadability.LogicalFlow, Is.EqualTo(expectedResult.ScenarioEvaluations[0].ClarityAndReadability.LogicalFlow));
+                Assert.That(result.ScenarioEvaluations[0].StructureAndFocus.FocusedScenario, Is.EqualTo(expectedResult.ScenarioEvaluations[0].StructureAndFocus.FocusedScenario));
+                Assert.That(result.ScenarioEvaluations[0].StructureAndFocus.ScenarioStructure, Is.EqualTo(expectedResult.ScenarioEvaluations[0].StructureAndFocus.ScenarioStructure));
+                Assert.That(result.ScenarioEvaluations[0].StructureAndFocus.ScenarioOutlines, Is.EqualTo(expectedResult.ScenarioEvaluations[0].StructureAndFocus.ScenarioOutlines));
+                Assert.That(result.ScenarioEvaluations[0].Maintainability.MinimalCouplingToImplementation, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Maintainability.MinimalCouplingToImplementation));
+                Assert.That(result.ScenarioEvaluations[0].Maintainability.IndependentScenarios, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Maintainability.IndependentScenarios));
+                Assert.That(result.ScenarioEvaluations[0].Maintainability.TestDataManagement, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Maintainability.TestDataManagement));
+                Assert.That(result.ScenarioEvaluations[0].Traceability.TraceabilityToRequirements, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Traceability.TraceabilityToRequirements));
+                Assert.That(result.ScenarioEvaluations[0].Summary, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Summary));
+                Assert.That(result.ScenarioEvaluations[0].Score.MaximumScore, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Score.MaximumScore));
+                Assert.That(result.ScenarioEvaluations[0].Score.TotalScore, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Score.TotalScore));
+                Assert.That(result.ScenarioEvaluations[0].Score.Percentage, Is.EqualTo(expectedResult.ScenarioEvaluations[0].Score.Percentage));
+            });
         }
 
         [Test]
@@ -274,6 +283,33 @@ namespace SuperTestLibrary.UnitTests
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
                 await _controller.EvaluateSpecFlowScenarioAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile));
+        }
+        #endregion
+
+        #region Integration Tests
+        [Test]
+        public async Task GenerateSpecFlowFeatureFileAsync_ValidInput_IntegrationTest()
+        {
+            // Arrange
+            var realReqIFStorage = new GitReqIFStorage("C:\\Dev\\GitLocalFolderTest");
+            var controller = new SuperTestController(realReqIFStorage)
+            {
+                SelectedLLM = _mockLLM.Object
+            };
+            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
+
+            // Act
+            var reqIfFiles = await controller.GetAllReqIFFilesAsync();
+            SpecFlowFeatureFileResponse result = await controller.GenerateSpecFlowFeatureFileAsync(reqIfFiles.First());
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.FeatureFiles, Is.Not.Empty);
+                Assert.That(result.GherkinDocuments, Is.Not.Empty);
+            });
         }
         #endregion
     }
