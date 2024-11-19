@@ -13,80 +13,37 @@ namespace TrafficTest
     public class SpecFlowHooks
     {
         public static Application App { get; private set; }
-        public static Application AppSim { get; private set; }
         public static UIA3Automation Automation { get; private set; }
+
+        private static Application AppSim { get; set; }
 
         public static TestSim.TestSimClient Client { get; private set; }
         private static GrpcChannel _channel;
 
-        [BeforeTestRun]
+        [BeforeScenario]
         public static void BeforeTestRun()
         {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var workingDir = Path.Combine(baseDirectory, "..", "..", "..", "..", "Traffic", "bin", "Debug", "net8.0-windows");
-            var appPath = Path.Combine(workingDir, "Traffic.exe");
+            // Start and attach to the Traffic application
+            var trafficAppPath = GetApplicationPath("Traffic", "net8.0-windows", "Traffic.exe");
+            App = StartAndAttachToApplication(trafficAppPath);
+            FocusMainWindow(App);
 
-            if (!File.Exists(appPath))
-            {
-                throw new FileNotFoundException($"The application was not found at: {appPath}");
-            }
+            // Start and attach to the TrafficSim application
+            var trafficSimAppPath = GetApplicationPath("TrafficSim", "net6.0-windows", "TrafficSim.exe");
+            AppSim = StartAndAttachToApplication(trafficSimAppPath);
 
-            //Run the application (using FlaUI not working)
-            var processStartInfo = new ProcessStartInfo
-            {
-                FileName = appPath,
-                WorkingDirectory = workingDir,
-                UseShellExecute = false
-            };
-
-            var process = Process.Start(processStartInfo) ?? throw new Exception("Failed to start the application.");
-
-            // Attach to the process using FlaUI
-            App = Application.Attach(process);
-            Automation = new UIA3Automation();
-            var mainWindow = App.GetMainWindow(Automation) ?? throw new Exception("Main window could not be found.");
-            mainWindow.Focus();
-
-            // Run TrafficSim
-            var workingDirSim = Path.Combine(baseDirectory, "..", "..", "..", "..", "TrafficSim", "bin", "Debug", "net6.0-windows");
-            var appPathSim = Path.Combine(workingDirSim, "TrafficSim.exe");
-
-            if (!File.Exists(appPathSim))
-            {
-                throw new FileNotFoundException($"The application was not found at: {appPathSim}");
-            }
-
-            //Run the application (using FlaUI not working)
-            var processStartInfoSim = new ProcessStartInfo
-            {
-                FileName = appPathSim,
-                WorkingDirectory = workingDirSim,
-                UseShellExecute = false
-            };
-
-            var processSim = Process.Start(processStartInfoSim) ?? throw new Exception("Failed to start the application.");
-            AppSim = Application.Attach(processSim);
-
+            // Set up gRPC channel and client
             _channel = GrpcChannel.ForAddress($"http://localhost:{Test.Default.TestPort}");
             Client = new TestSim.TestSimClient(_channel);
         }
 
-        [AfterTestRun]
+        [AfterScenario]
         public static void AfterTestRun()
         {
             try
             {
-                App?.Close();
-                AppSim?.Close();
-                if (!App.HasExited)
-                {
-                    App.Kill();
-                }
-
-                if (!AppSim.HasExited)
-                {
-                    AppSim.Kill();
-                }
+                CloseApplication(App, "Traffic");
+                CloseApplication(AppSim, "TrafficSim");
             }
             catch (Exception ex)
             {
@@ -94,11 +51,84 @@ namespace TrafficTest
             }
             finally
             {
-                Automation?.Dispose();
-                App?.Dispose();
-                AppSim?.Dispose();
-                _channel?.Dispose();
+                CleanupResources();
             }
+        }
+
+        /// <summary>
+        /// Constructs the path to an application executable.
+        /// </summary>
+        private static string GetApplicationPath(string appName, string framework, string executable)
+        {
+            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            var workingDir = Path.Combine(baseDirectory, "..", "..", "..", "..", appName, "bin", "Debug", framework);
+            var appPath = Path.Combine(workingDir, executable);
+
+            if (!File.Exists(appPath))
+            {
+                throw new FileNotFoundException($"The application was not found at: {appPath}");
+            }
+
+            return appPath;
+        }
+
+        /// <summary>
+        /// Starts and attaches to an application process using FlaUI.
+        /// </summary>
+        private static Application StartAndAttachToApplication(string appPath)
+        {
+            var processStartInfo = new ProcessStartInfo
+            {
+                FileName = appPath,
+                WorkingDirectory = Path.GetDirectoryName(appPath),
+                UseShellExecute = false
+            };
+
+            var process = Process.Start(processStartInfo) ?? throw new Exception("Failed to start the application.");
+            return Application.Attach(process);
+        }
+
+        /// <summary>
+        /// Focuses the main window of the application.
+        /// </summary>
+        private static void FocusMainWindow(Application app)
+        {
+            Automation = new UIA3Automation();
+            var mainWindow = app.GetMainWindow(Automation) ?? throw new Exception("Main window could not be found.");
+            mainWindow.Focus();
+        }
+
+        /// <summary>
+        /// Closes the application gracefully and kills it if necessary.
+        /// </summary>
+        private static void CloseApplication(Application app, string appName)
+        {
+            if (app == null) return;
+
+            try
+            {
+                app.Close();
+                if (!app.HasExited)
+                {
+                    app.Kill();
+                    Console.WriteLine($"{appName} application had to be forcibly terminated.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while closing {appName} application: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Disposes of all shared resources.
+        /// </summary>
+        private static void CleanupResources()
+        {
+            Automation?.Dispose();
+            App?.Dispose();
+            AppSim?.Dispose();
+            _channel?.Dispose();
         }
     }
 }
