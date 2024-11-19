@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="TrafficSim.Logger.LogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:logger1="clr-namespace:TrafficSim.Logger"
+             xmlns:converters="clr-namespace:TrafficSim.Logger.Converters"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance logger1:LogViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:LogLevelToBrushConverter x:Key="LogLevelToBrushConverter"/>
+        <Style TargetType="ItemsControl" x:Key="LogViewerStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <ScrollViewer CanContentScroll="True">
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel IsItemsHost="True"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate DataType="{x:Type logger1:LogEntry}">
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding DateTime}" Grid.Column="0" FontWeight="Bold" Margin="5,0,5,0"/>
+                <TextBlock Text="{Binding Index}" Grid.Column="1" FontWeight="Bold" Margin="0,0,2,0" />
+                <TextBlock Text="{Binding Message}" Foreground="{Binding Level, Converter={StaticResource LogLevelToBrushConverter}}" Grid.Column="2" TextWrapping="Wrap"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type logger1:CollapsibleLogEntry}">
+            <Grid IsSharedSizeScope="True">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="Index" Width="Auto"/>
+                    <ColumnDefinition SharedSizeGroup="Date" Width="Auto"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="{Binding DateTime}" Grid.Row="0" Grid.Column="0" FontWeight="Bold" Margin="5,0,5,0"/>
+                <TextBlock Text="{Binding Index}" Grid.Row="0" Grid.Column="1" FontWeight="Bold" Margin="0,0,2,0" />
+                <TextBlock Text="{Binding Message}" Foreground="{Binding Level, Converter={StaticResource LogLevelToBrushConverter}}" Grid.Row="0" Grid.Column="2" TextWrapping="Wrap"/>
+                <ToggleButton x:Name="Expander" Grid.Row="1" Grid.Column="0" VerticalAlignment="Top" Content="+" HorizontalAlignment="Right"/>
+                <ItemsControl ItemsSource="{Binding Contents}" Style="{StaticResource LogViewerStyle}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" x:Name="Contents" Visibility="Collapsed"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <Trigger SourceName="Expander" Property="IsChecked" Value="True">
+                    <Setter TargetName="Contents" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="Expander" Property="Content" Value="-"/>
+                </Trigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <TextBlock Text="{Binding LogEntries.Count, StringFormat='{}{0} Items'}" HorizontalAlignment="Right" Margin="0,5,15,0" />
+        <ItemsControl ItemsSource="{Binding LogEntries}" Style="{StaticResource LogViewerStyle}"/>
+    </Grid>
+</UserControl>

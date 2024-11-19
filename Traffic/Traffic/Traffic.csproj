@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Sioux.SuperInfra.Comm.Grpc" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.ExtensionMethods" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.GrpcBusServer" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.HalFramework" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.HalReference" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.Logger" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.StatemachineFramework" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.StatemachineFramework.Loggers" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.StatemachineFramework.Loggers.StateViewer" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.Tools" Version="2.0.1.1149" />
+    <PackageReference Include="UnitsNet" Version="5.60.0" />
+  </ItemGroup>
+
+</Project>

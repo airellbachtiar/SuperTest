@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dirkster.AvalonDock" Version="4.72.1" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.3" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.65.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.65.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Sioux.SuperInfra.ExtensionMethods" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.GrpcBusServer" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.HalExtrasSimComponents" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.Logger" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.PandISimComponents" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.SimulatorsBase" Version="2.0.1.1149" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Sim.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Sim.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Sim.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Sim.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+	<ItemGroup>
+		<Protobuf Include="Services\Proto\TestSim.proto" GrpcServices="Server" />
+	</ItemGroup>
+
+	
+</Project>

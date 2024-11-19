@@ -1,0 +1,182 @@
+{
+  "Components": [
+    {
+      "ComponentId": 1,
+      "Name": "Controller",
+      "ParentComponentId": null,
+      "StateMachines": [
+        {
+          "States": [
+            {
+              "StateId": 0,
+              "SubStates": [],
+              "Type": "State",
+              "Name": "Initial1"
+            },
+            {
+              "StateId": 1,
+              "SubStates": [],
+              "Type": "State",
+              "Name": "PoweredDown"
+            },
+            {
+              "StateId": 2,
+              "SubStates": [
+                {
+                  "States": [
+                    {
+                      "StateId": 3,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "Initial2"
+                    },
+                    {
+                      "StateId": 4,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "CarsDrive"
+                    },
+                    {
+                      "StateId": 5,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "CarsShouldStop"
+                    },
+                    {
+                      "StateId": 6,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "CarsStopped"
+                    },
+                    {
+                      "StateId": 7,
+                      "SubStates": [
+                        {
+                          "States": [
+                            {
+                              "StateId": 8,
+                              "SubStates": [],
+                              "Type": "State",
+                              "Name": "Initial3"
+                            },
+                            {
+                              "StateId": 9,
+                              "SubStates": [],
+                              "Type": "State",
+                              "Name": "GreenOff"
+                            },
+                            {
+                              "StateId": 10,
+                              "SubStates": [],
+                              "Type": "State",
+                              "Name": "GreenOn"
+                            }
+                          ],
+                          "Type": "StateMachine",
+                          "Name": "BlinkingStates"
+                        }
+                      ],
+                      "Type": "State",
+                      "Name": "PedWalk"
+                    },
+                    {
+                      "StateId": 11,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "PedShouldStop"
+                    }
+                  ],
+                  "Type": "StateMachine",
+                  "Name": "States"
+                }
+              ],
+              "Type": "State",
+              "Name": "Operational"
+            }
+          ],
+          "Type": "StateMachine",
+          "Name": "States1"
+        }
+      ]
+    },
+    {
+      "ComponentId": 22,
+      "Name": "HMI",
+      "ParentComponentId": null,
+      "StateMachines": []
+    },
+    {
+      "ComponentId": 17,
+      "Name": "HAL1.CarRed",
+      "ParentComponentId": null,
+      "StateMachines": []
+    },
+    {
+      "ComponentId": 18,
+      "Name": "HAL1.CarYellow",
+      "ParentComponentId": null,
+      "StateMachines": []
+    },
+    {
+      "ComponentId": 19,
+      "Name": "HAL1.CarGreen",
+      "ParentComponentId": null,
+      "StateMachines": []
+    },
+    {
+      "ComponentId": 20,
+      "Name": "HAL1.PedRed",
+      "ParentComponentId": null,
+      "StateMachines": []
+    },
+    {
+      "ComponentId": 21,
+      "Name": "HAL1.PedGreen",
+      "ParentComponentId": null,
+      "StateMachines": []
+    }
+  ],
+  "Interfaces": [
+    {
+      "Id": 2,
+      "Name": "StartStop",
+      "Events": [
+        {
+          "Id": 0,
+          "Name": "Start"
+        },
+        {
+          "Id": 1,
+          "Name": "Stop"
+        }
+      ]
+    },
+    {
+      "Id": 30001,
+      "Name": "NormallyClosedValveItf",
+      "Events": [
+        {
+          "Id": 0,
+          "Name": "Open"
+        },
+        {
+          "Id": 1,
+          "Name": "Close"
+        }
+      ]
+    }
+  ],
+  "Hals": [
+    {
+      "TypeId": 3,
+      "Name": "HAL1",
+      "HalElements": [
+        17,
+        18,
+        19,
+        20,
+        21
+      ]
+    }
+  ]
+}
