@@ -5,11 +5,27 @@ package TestBus;
 service TestSim 
 {
 	rpc Test (Empty) returns (TestResponse);
+
+	rpc GetCarRedLightState (Empty) returns (LightResponse);
+
+	rpc GetCarYellowLightState (Empty) returns (LightResponse);
+
+	rpc GetCarGreenLightState (Empty) returns (LightResponse);
+
+	rpc GetPedestrianRedLightState (Empty) returns (LightResponse);
+
+	rpc GetPedestrianGreenLightState (Empty) returns (LightResponse);
 }
 
 message TestResponse
 {
 	uint32 responseCode = 1;
+}
+
+message LightResponse
+{
+	string lightName = 1;
+	string lightState = 2;
 }
 
 

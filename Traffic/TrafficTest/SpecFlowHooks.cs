@@ -1,6 +1,8 @@
 ﻿using FlaUI.Core;
 using FlaUI.UIA3;
+using Grpc.Net.Client;
 using System.Diagnostics;
+using TestBus;
 
 #pragma warning disable CS8618
 #pragma warning disable CS8602
@@ -13,6 +15,9 @@ namespace TrafficTest
         public static Application App { get; private set; }
         public static Application AppSim { get; private set; }
         public static UIA3Automation Automation { get; private set; }
+
+        public static TestSim.TestSimClient Client { get; private set; }
+        private static GrpcChannel _channel;
 
         [BeforeTestRun]
         public static void BeforeTestRun()
@@ -61,6 +66,9 @@ namespace TrafficTest
 
             var processSim = Process.Start(processStartInfoSim) ?? throw new Exception("Failed to start the application.");
             AppSim = Application.Attach(processSim);
+
+            _channel = GrpcChannel.ForAddress($"http://localhost:{Test.Default.TestPort}");
+            Client = new TestSim.TestSimClient(_channel);
         }
 
         [AfterTestRun]
@@ -89,6 +97,7 @@ namespace TrafficTest
                 Automation?.Dispose();
                 App?.Dispose();
                 AppSim?.Dispose();
+                _channel?.Dispose();
             }
         }
     }
