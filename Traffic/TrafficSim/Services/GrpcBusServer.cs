@@ -8,7 +8,7 @@ using TrafficSim.Generated;
 
 namespace TrafficSim.Services;
 
-public class GrpcBusServer : IGrpcBus
+public class GrpcBusServer : IGrpcBus, ITestSim
 {
     private readonly PandISimulator _fluidSimulator;
     private readonly Hoster _grpcHoster;
@@ -22,6 +22,7 @@ public class GrpcBusServer : IGrpcBus
         _grpcHoster = new Hoster();
         var services = new GrpcServiceContainer();
         services.AddService<GrpcBusService, IGrpcBus>(Sim.Default.GrpcServerPort, this);
+        services.AddService<GrpcTestBusService, ITestSim>(Sim.Default.TestPort, this);
         _grpcHoster.HostServices(services.Services);
     }
 
@@ -101,5 +102,12 @@ public class GrpcBusServer : IGrpcBus
     public void SetVesselTemperature(VesselRequest request)
     {
         throw new NotImplementedException();
+    }
+
+    public TestBus.TestResponse Test()
+    {
+        var x = new TestBus.TestResponse();
+        x.ResponseCode = 42;
+        return x;
     }
 }

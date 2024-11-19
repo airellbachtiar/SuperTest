@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+package TestBus;
+
+service TestSim 
+{
+	rpc Test (Empty) returns (TestResponse);
+}
+
+message TestResponse
+{
+	uint32 responseCode = 1;
+}
+
+
+message Empty{}
+

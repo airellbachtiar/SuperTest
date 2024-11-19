@@ -12,7 +12,7 @@ namespace TrafficSim {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
     internal sealed partial class Sim : global::System.Configuration.ApplicationSettingsBase {
         
         private static Sim defaultInstance = ((Sim)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Sim())));
@@ -92,6 +92,18 @@ namespace TrafficSim {
             }
             set {
                 this["GrpcServerPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3457")]
+        public int TestPort {
+            get {
+                return ((int)(this["TestPort"]));
+            }
+            set {
+                this["TestPort"] = value;
             }
         }
     }

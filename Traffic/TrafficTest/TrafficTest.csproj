@@ -22,6 +22,12 @@
 
   <ItemGroup>
     <PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.27.3" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.66.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.67.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
     <PackageReference Include="SpecFlow.NUnit" Version="3.9.40" />
@@ -32,11 +38,14 @@
 
   <ItemGroup>
     <Folder Include="Features\" />
+    <Folder Include="Proto\" />
     <Folder Include="StepDefinitions\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TrafficSim\TrafficSim.csproj" />
+    <Protobuf Include="..\TrafficSim\Services\Proto\TestSim.proto" GrpcServices="Client">
+      <Link>Proto\TestSim.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

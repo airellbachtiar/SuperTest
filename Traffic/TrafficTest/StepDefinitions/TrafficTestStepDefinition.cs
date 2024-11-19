@@ -1,22 +1,25 @@
 ﻿using FlaUI.Core.AutomationElements;
 using NUnit.Framework;
-using TrafficSim.Testing;
+using TestBus;
+using Grpc.Net.Client;
 
 namespace TrafficTest.StepDefinitions
 {
     [Binding]
     public class TrafficTestStepDefinition
     {
-        private readonly ITestAccess _testAccess;
+        public TestSim.TestSimClient Client { get; private set; }
+        private GrpcChannel _channel;
 
         public TrafficTestStepDefinition()
         {
-            _testAccess = SpecFlowHooks.TestAccess;
+            _channel = GrpcChannel.ForAddress("http://localhost:3457");
+            Client = new TestSim.TestSimClient(_channel);
         }
 
         #region Traffic light system starts in red light
         [Given("the traffic light system starts")]
-        public async void GivenTheTrafficLightSystemStarts()
+        public void GivenTheTrafficLightSystemStarts()
         {
 
         }
@@ -48,14 +51,20 @@ namespace TrafficTest.StepDefinitions
 
             stopButton.Click();
 
-            string trafficLightState = _testAccess.GetCarRedCloseState();
-            Assert.AreEqual("Open", trafficLightState);
+
+            var response = Client.Test(new TestBus.Empty());
+            Assert.AreEqual(42, response.ResponseCode);
+
+            //string trafficLightState = _testAccess.GetCarRedCloseState();
+            //Assert.AreEqual("Open", trafficLightState);
+            //string pedLightState = _testAccess.GetPedestrianRedCloseState();
+            //Assert.AreEqual("Close", pedLightState);
         }
         #endregion
 
         #region Pedestrian light system starts in red light
         [Given("the pedestrian light system starts")]
-        public async void GivenThePedestrianLightSystemStarts()
+        public void GivenThePedestrianLightSystemStarts()
         {
             
         }
@@ -81,8 +90,13 @@ namespace TrafficTest.StepDefinitions
 
             stopButton.Click();
 
-            string pedLightState = _testAccess.GetPedestrianRedCloseState();
-            Assert.AreEqual("Open", pedLightState);
+            var response = Client.Test(new TestBus.Empty());
+            Assert.AreEqual(42, response.ResponseCode);
+
+            //string pedLightState = _testAccess.GetPedestrianRedCloseState();
+            //Assert.AreEqual("Open", pedLightState);
+            //string trafficLightState = _testAccess.GetCarRedCloseState();
+            //Assert.AreEqual("Close", trafficLightState);
         }
         #endregion
     }

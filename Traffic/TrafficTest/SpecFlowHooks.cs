@@ -1,27 +1,22 @@
 ﻿using FlaUI.Core;
 using FlaUI.UIA3;
-using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using TrafficSim.Testing;
+
+#pragma warning disable CS8618
+#pragma warning disable CS8602
 
 namespace TrafficTest
 {
     [Binding]
     public class SpecFlowHooks
     {
-        private static ServiceProvider _serviceProvider;
-        public static ITestAccess TestAccess { get; private set; }
-
         public static Application App { get; private set; }
+        public static Application AppSim { get; private set; }
         public static UIA3Automation Automation { get; private set; }
 
         [BeforeTestRun]
         public static void BeforeTestRun()
         {
-            // Set up the service provider and register TestAccess
-            _serviceProvider = TestServiceProvider.ConfigureServices();
-            TestAccess = _serviceProvider.GetService<ITestAccess>();
-
             var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
             var workingDir = Path.Combine(baseDirectory, "..", "..", "..", "..", "Traffic", "bin", "Debug", "net8.0-windows");
             var appPath = Path.Combine(workingDir, "Traffic.exe");
@@ -46,6 +41,26 @@ namespace TrafficTest
             Automation = new UIA3Automation();
             var mainWindow = App.GetMainWindow(Automation) ?? throw new Exception("Main window could not be found.");
             mainWindow.Focus();
+
+            // Run TrafficSim
+            var workingDirSim = Path.Combine(baseDirectory, "..", "..", "..", "..", "TrafficSim", "bin", "Debug", "net6.0-windows");
+            var appPathSim = Path.Combine(workingDirSim, "TrafficSim.exe");
+
+            if (!File.Exists(appPathSim))
+            {
+                throw new FileNotFoundException($"The application was not found at: {appPathSim}");
+            }
+
+            //Run the application (using FlaUI not working)
+            var processStartInfoSim = new ProcessStartInfo
+            {
+                FileName = appPathSim,
+                WorkingDirectory = workingDirSim,
+                UseShellExecute = false
+            };
+
+            var processSim = Process.Start(processStartInfoSim) ?? throw new Exception("Failed to start the application.");
+            AppSim = Application.Attach(processSim);
         }
 
         [AfterTestRun]
@@ -54,9 +69,15 @@ namespace TrafficTest
             try
             {
                 App?.Close();
+                AppSim?.Close();
                 if (!App.HasExited)
                 {
                     App.Kill();
+                }
+
+                if (!AppSim.HasExited)
+                {
+                    AppSim.Kill();
                 }
             }
             catch (Exception ex)
@@ -67,7 +88,7 @@ namespace TrafficTest
             {
                 Automation?.Dispose();
                 App?.Dispose();
-                _serviceProvider.Dispose();
+                AppSim?.Dispose();
             }
         }
     }

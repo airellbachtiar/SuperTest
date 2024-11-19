@@ -20,5 +20,8 @@
     <Setting Name="GrpcServerPort" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">3456</Value>
     </Setting>
+    <Setting Name="TestPort" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3457</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
