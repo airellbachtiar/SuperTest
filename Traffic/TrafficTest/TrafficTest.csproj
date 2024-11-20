@@ -37,9 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
     <Folder Include="Proto\" />
-    <Folder Include="StepDefinitions\" />
   </ItemGroup>
 
   <ItemGroup>

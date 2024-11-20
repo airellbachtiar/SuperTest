@@ -1,4 +1,5 @@
 ﻿using FlaUI.Core;
+using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
 using Grpc.Net.Client;
 using System.Diagnostics;
@@ -15,7 +16,7 @@ namespace TrafficTest
         public static Application App { get; private set; }
         public static UIA3Automation Automation { get; private set; }
 
-        private static Application AppSim { get; set; }
+        public static Application AppSim { get; set; }
 
         public static TestSim.TestSimClient Client { get; private set; }
         private static GrpcChannel _channel;
@@ -53,6 +54,19 @@ namespace TrafficTest
             {
                 CleanupResources();
             }
+        }
+
+        public static void ClickButton(string automationId)
+        {
+            var mainWindow = SpecFlowHooks.App.GetMainWindow(SpecFlowHooks.Automation)
+                            ?? throw new Exception("Main window could not be found.");
+
+            // Find the button using its AutomationId
+            var button = mainWindow.FindFirstDescendant(cf => cf.ByAutomationId(automationId))?.AsButton()
+                         ?? throw new Exception($"Button with AutomationId '{automationId}' could not be found.");
+
+            // Simulate button click
+            button.Click();
         }
 
         /// <summary>
