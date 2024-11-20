@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using TrafficSim.Logger;
 using TrafficSim.Services;
-using TrafficSim.Testing;
 
 namespace TrafficSim;
 
@@ -21,7 +20,6 @@ public static class BuildExtensions
         services.AddSingleton<PandISimulator>();
         services.AddSingleton<HolodeckFluidStateSyncService>();
         services.AddSingleton<SimulatorService>();
-        services.AddSingleton<TestAccess>();
         return services;
     }
 }
