@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using SuperTestLibrary;
 using SuperTestLibrary.Storages;
 using SuperTestWPF.ViewModels;
@@ -25,6 +26,11 @@ namespace SuperTestWPF
                 })
                 .ConfigureServices((context, services) =>
                 {
+                    services.AddLogging(configure =>
+                    {
+                        configure.AddConsole();
+                        configure.AddDebug();
+                    });
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<MainWindowViewModel>();
                     services.AddSingleton<ISuperTestController, SuperTestController>();

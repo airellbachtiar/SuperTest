@@ -88,7 +88,32 @@
                 <ListBox
                     Grid.Row="2"
                     Margin="10,10,10,10"
-                    ItemsSource="{Binding StatusMessages}" />
+                    ItemsSource="{Binding LogMessages}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Message}">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Level}" Value="Information">
+                                                <Setter Property="Foreground" Value="Green" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Level}" Value="Warning">
+                                                <Setter Property="Foreground" Value="Orange" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Level}" Value="Error">
+                                                <Setter Property="Foreground" Value="Red" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Level}" Value="Debug">
+                                                <Setter Property="Foreground" Value="Blue" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
                 <!--  Second TreeView for Requirements  -->
                 <TreeView

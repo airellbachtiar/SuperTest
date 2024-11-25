@@ -9,12 +9,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using SuperTestWPF.Logger;
 
 namespace SuperTestWPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<string> _statusMessages = [];
         private string _chosenFile = string.Empty;
         private string _selectedLLM = GPT_4o.ModelName;
         private readonly ISuperTestController _superTestController;
@@ -38,7 +40,11 @@ namespace SuperTestWPF.ViewModels
         private bool _isDisplayingFeatureFileScore = true;
         private bool _isFeatureFileContentVisible = false;
 
-        public MainWindowViewModel(ISuperTestController superTestController)
+        // Logger
+        private readonly ILogger<MainWindowViewModel> _logger;
+        public ObservableCollection<LogEntry> LogMessages { get; } = [];
+
+        public MainWindowViewModel(IServiceProvider serviceProvider)
         {
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
             GenerateAndEvaluateSpecFlowFeatureFileCommand = new RelayCommand(GenerateAndEvaluateSpecFlowFeatureFile);
@@ -54,7 +60,12 @@ namespace SuperTestWPF.ViewModels
             UploadFeatureFileCommand = new RelayCommand(UploadFeatureFile);
             ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
 
-            this._superTestController = superTestController;
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+            loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
+
+            _logger = serviceProvider.GetRequiredService<ILogger<MainWindowViewModel>>();
+
+            _superTestController = serviceProvider.GetRequiredService<ISuperTestController>();
             _ = InitializeReqIFs();
         }
 
@@ -63,19 +74,6 @@ namespace SuperTestWPF.ViewModels
             var AllReqIfFiles = await _superTestController.GetAllReqIFFilesAsync();
 
             OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
-        }
-
-        public ObservableCollection<string> StatusMessages
-        {
-            get { return _statusMessages; }
-            set
-            {
-                if (_statusMessages != value)
-                {
-                    _statusMessages = value;
-                    OnPropertyChanged(nameof(StatusMessages));
-                }
-            }
         }
 
         public string ChosenFile
@@ -249,7 +247,7 @@ namespace SuperTestWPF.ViewModels
 
         private void UploadReqIF()
         {
-            StatusMessages.Add("Uploading ReqIF...");
+            _logger.LogInformation("Uploading ReqIF...");
             _ = GetReqIFFileFromFolder();
         }
 
@@ -268,7 +266,8 @@ namespace SuperTestWPF.ViewModels
             string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
 
-            StatusMessages.Add("ReqIF uploaded.");
+            //StatusMessages.Add("ReqIF uploaded.");
+            _logger.LogInformation("ReqIF uploaded.");
 
             return filepath;
         }
@@ -278,11 +277,11 @@ namespace SuperTestWPF.ViewModels
             SelectedSpecFlowFeatureFile = new();
             SpecFlowFeatureFiles.Clear();
 
-            StatusMessages.Add("Generating SpecFlow feature file...");
+            _logger.LogInformation("Generating SpecFlow feature file...");
 
             if (string.IsNullOrEmpty(ChosenFile))
             {
-                StatusMessages.Add("No file chosen.");
+                _logger.LogWarning("No file chosen.");
                 return;
             }
 
@@ -329,7 +328,7 @@ namespace SuperTestWPF.ViewModels
 
                     if (gherkinDocument == null)
                     {
-                        StatusMessages.Add($"Gherkin document is missing at {featureFileModel.Key}.");
+                        _logger.LogWarning($"Gherkin document is missing at {featureFileModel.Key}.");
                         continue;
                     }
 
@@ -339,13 +338,13 @@ namespace SuperTestWPF.ViewModels
 
                 if (!SpecFlowFeatureFiles.Any())
                 {
-                    StatusMessages.Add("Feature file is empty. Failed to generate feature file.");
+                    _logger.LogWarning("Feature file is empty. Failed to generate feature file.");
                 }
-                StatusMessages.Add("Finished generating!");
+                else _logger.LogInformation("Feature file generated.");
             }
             catch (Exception ex)
             {
-                StatusMessages.Add($"Exception: {ex.Message} while generating SpecFlow feature file.");
+                _logger.LogError(ex, "Exception while generating SpecFlow feature file.");
             }
         }
 
@@ -353,27 +352,27 @@ namespace SuperTestWPF.ViewModels
         {
             if (!SpecFlowFeatureFiles.Any())
             {
-                StatusMessages.Add("No feature file to evaluate.");
+                _logger.LogWarning("No feature file to evaluate.");
                 return;
             }
 
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
                 // Evaluate feature file
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
+                _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
                 await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile, requirements);
 
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...");
+                _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...");
                 await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile, requirements);
 
                 //Evaluate scenario
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
+                _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
                 await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile, requirements);
 
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...");
+                _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...");
                 await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile, requirements);
             }
-            StatusMessages.Add("Finished evaluating!");
+            _logger.LogInformation("Finished evaluating feature file!");
         }
 
         private string GetFileContent()
@@ -386,20 +385,20 @@ namespace SuperTestWPF.ViewModels
                 }
                 else
                 {
-                    StatusMessages.Add("File does not exist.");
+                    _logger.LogWarning("File does not exist.");
                 }
             }
             catch (IOException ex)
             {
-                StatusMessages.Add($"IOException: {ex.Message} while reading {ChosenFile}");
+                _logger.LogError(ex, $"IOException while reading {ChosenFile}");
             }
             catch (UnauthorizedAccessException ex)
             {
-                StatusMessages.Add($"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}");
+                _logger.LogError(ex, $"UnauthorizedAccessException while reading {ChosenFile}");
             }
             catch (Exception ex)
             {
-                StatusMessages.Add($"Exception: {ex.Message} while processing {ChosenFile}");
+                _logger.LogError(ex, $"Exception while reading {ChosenFile}");
             }
 
             return string.Empty;
@@ -415,7 +414,7 @@ namespace SuperTestWPF.ViewModels
             }
             catch (Exception ex)
             {
-                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
+                _logger.LogError(ex, $"Exception while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
             }
         }
 
@@ -434,7 +433,7 @@ namespace SuperTestWPF.ViewModels
             }
             catch (Exception ex)
             {
-                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
+                _logger.LogError(ex, $"Exception while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
             }
         }
 
@@ -487,7 +486,7 @@ namespace SuperTestWPF.ViewModels
                 string featureFileContent = GetReviewedFeatureFile.GetAcceptedScenarios(featureFile);
 
                 File.WriteAllText(savePath, featureFileContent);
-                StatusMessages.Add($"Feature file saved to \"{savePath}\".");
+                _logger.LogInformation($"Feature file saved to \"{savePath}\".");
             }
         }
 
