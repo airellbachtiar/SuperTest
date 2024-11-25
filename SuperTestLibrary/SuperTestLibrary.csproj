@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Gherkin" Version="29.0.0" />
+    <PackageReference Include="Gherkin" Version="30.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +42,10 @@
 		<None Update="Services\Prompts\EvaluateSpecFlowScenario\Claude_3_5_Sonnet.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\Logger\" />
 	</ItemGroup>
 
 </Project>
