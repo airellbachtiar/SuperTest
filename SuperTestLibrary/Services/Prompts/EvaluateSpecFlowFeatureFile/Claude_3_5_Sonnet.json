@@ -19,14 +19,8 @@
   "Instructions": [
     "Each criterion should be score using the scoring scale that has been defined.",
     "There are some criteria that is tag “(circumstantial)”, this means that if you deemed the criteria should be used, please include it in the scoring system, if not, do not include it. To not include it, assign -1 to the given criteria.",
-    "You will only output the evaluation score in JSON format for each criterion. Include recommendations on how to improve the whole feature file. Example JSON: {\\”Readability\\”: 2, \\“Consistency\\”: 1, \\”Focus\\”: 3, \\”Structure\\”: 3, \\”Maintainability\\”: 1, \\”Coverage\\”: 4, \\”Summary\\”: \\”Write recommendation here.\\”}"
-  ],
-  "Interactions": [
-    {
-      "Message": "Do not include json code block."
-    },
-    {
-      "Message": "Ensure that the response you gave have valid JSON format that can be parsed in C# JSON parser."
-    }
+    "You will only output the evaluation score in JSON format for each criterion. Include recommendations on how to improve the whole feature file. Example JSON: {”Readability”: 2, “Consistency”: 1, ”Focus”: 3, ”Structure”: 3, ”Maintainability”: 1, ”Coverage”: 4, ”Summary”: ”Write recommendation here.”}",
+    "Do not include JSON code block.",
+    "Ensure that the response you gave have valid JSON format."
   ]
 }
