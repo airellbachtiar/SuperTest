@@ -1,6 +1,6 @@
 ﻿using SuperTestLibrary.Storages;
 
-namespace SuperTestLibrary.Tests.StepDefinitions
+namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
     [Binding]
     public class FetchReqIFFilesSteps

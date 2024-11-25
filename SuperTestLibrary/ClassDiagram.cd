@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SuperTestLibrary.Helpers.GetEvaluateSpecFlowPromptBuilder" Collapsed="true">
+    <Position X="20.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Helpers\GetEvaluateSpecFlowPromptBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetGherkinDocuments" Collapsed="true">
+    <Position X="22" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GetGherkinDocuments.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetListOfInteractions" Collapsed="true">
+    <Position X="23.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>Helpers\GetListOfInteractions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetPromptFromJson" Collapsed="true">
+    <Position X="25.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GetPromptFromJson.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetSpecFlowBindingFileResponse" Collapsed="true">
+    <Position X="27.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GetSpecFlowBindingFileResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetSpecFlowFeatureFileEvaluationResponse" Collapsed="true">
+    <Position X="22" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GetSpecFlowFeatureFileEvaluationResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetSpecFlowFeatureFileResponse" Collapsed="true">
+    <Position X="29" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GetSpecFlowFeatureFileResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Helpers.GetSpecFlowScenarioEvaluationResponse" Collapsed="true">
+    <Position X="20.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Helpers\GetSpecFlowScenarioEvaluationResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.LLMs.Claude_3_5_Sonnet" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="5.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAABgAAAAAAAAQAAAAAAAAAgAAAA=</HashCode>
+      <FileName>LLMs\Claude_3_5_Sonnet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SuperTestLibrary.LLMs.Gemini_1_5" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAhAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>LLMs\Gemini_1_5.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SuperTestLibrary.LLMs.GPT_4o" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAgAAABgAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>LLMs\GPT_4o.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Generators.EvaluateSpecFlowFeatureFileGenerator" Collapsed="true">
+    <Position X="6.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAkAAABQAAIAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Services\Generators\EvaluateSpecFlowFeatureFileGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Generators.EvaluateSpecFlowScenarioGenerator" Collapsed="true">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAkAAABQAAIAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Services\Generators\EvaluateSpecFlowScenarioGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Generators.GeneratorBase" Collapsed="true">
+    <Position X="5.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAkAAABAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Services\Generators\GeneratorBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Generators.SpecFlowBindingFileGenerator" Collapsed="true">
+    <Position X="2" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAkAAABQEAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Services\Generators\SpecFlowBindingFileGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Generators.SpecFlowFeatureFileGenerator" Collapsed="true">
+    <Position X="4.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAkAAABAAAIAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Services\Generators\SpecFlowFeatureFileGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.Builders.EvaluateSpecFlowFeatureFilePromptBuilder" Collapsed="true">
+    <Position X="7.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAABAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\Builders\EvaluateSpecFlowFeatureFilePromptBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.Builders.PromptBuilderBase" Collapsed="true">
+    <Position X="5.25" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAACAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\Builders\PromptBuilderBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.Builders.SpecFlowBindingFilePromptBuilder" Collapsed="true">
+    <Position X="3" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAAAABAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\Builders\SpecFlowBindingFilePromptBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.Builders.SpecFlowFeatureFilePromptBuilder" Collapsed="true">
+    <Position X="5.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAACAAAAAAAAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\Builders\SpecFlowFeatureFilePromptBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria.ClarityAndReadabilityScenarioCriteria" Collapsed="true">
+    <Position X="15" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAIIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowScenarioEvaluationCriteria\ClarityAndReadabilityScenarioCriteria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria.MaintainabilityScenarioCriteria" Collapsed="true">
+    <Position X="15" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQIAAAAAAABAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowScenarioEvaluationCriteria\MaintainabilityScenarioCriteria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria.StructureAndFocusScenarioCriteria" Collapsed="true">
+    <Position X="15" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAABAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowScenarioEvaluationCriteria\StructureAndFocusScenarioCriteria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria.TraceabilityScenarioCriteria" Collapsed="true">
+    <Position X="15" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowScenarioEvaluationCriteria\TraceabilityScenarioCriteria.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.EvaluateSpecFlowFeatureFileResponse" Collapsed="true">
+    <Position X="17.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCAAAAECAAACAgAAgAAAAgEAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\EvaluateSpecFlowFeatureFileResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.EvaluateSpecFlowScenarioResponse" Collapsed="true">
+    <Position X="13.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\EvaluateSpecFlowScenarioResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.EvaluationMetric" Collapsed="true">
+    <Position X="16.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\EvaluationMetric.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.EvaluationScore" Collapsed="true">
+    <Position X="16.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\EvaluationScore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowBindingFileResponse" Collapsed="true">
+    <Position X="2" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowBindingFileResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowFeatureFileResponse" Collapsed="true">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowFeatureFileResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluation" Collapsed="true">
+    <Position X="15" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAACAAAAAgAAgAAAAAAgAAAAAAAEAAgQAAAAAA=</HashCode>
+      <FileName>Services\Prompts\ResponseModels\SpecFlowScenarioEvaluation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.Interaction" Collapsed="true">
+    <Position X="9.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Services\Prompts\Interaction.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Services.Prompts.Prompt" Collapsed="true">
+    <Position X="7.5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAABAAAAAIAAAAAAAAIAAAAAEAQAABAAAA=</HashCode>
+      <FileName>Services\Prompts\Prompt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperTestLibrary.Storages.GitReqIFStorage" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="12.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAEAAAAAAAAAgAAAAAAAAFAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Storages\GitReqIFStorage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="SuperTestLibrary.SuperTestController" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="10" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>GQAgBAACAAAAAIAAiAQAAAAAAAAQABEAAAABQAAEAgA=</HashCode>
+      <FileName>SuperTestController.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="SuperTestLibrary.LLMs.ILargeLanguageModel" Collapsed="true">
+    <Position X="5.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>LLMs\ILargeLanguageModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SuperTestLibrary.Services.Generators.IGenerator" Collapsed="true">
+    <Position X="5.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Generators\IGenerator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SuperTestLibrary.Services.Prompts.Builders.IPromptBuilder" Collapsed="true">
+    <Position X="5.25" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Prompts\Builders\IPromptBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SuperTestLibrary.Storages.IReqIFStorage" Collapsed="true">
+    <Position X="12.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Storages\IReqIFStorage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="SuperTestLibrary.ISuperTestController" Collapsed="true">
+    <Position X="10" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAIAAgAAAAAAAAAAAABEAAAABAAAAAgA=</HashCode>
+      <FileName>ISuperTestController.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

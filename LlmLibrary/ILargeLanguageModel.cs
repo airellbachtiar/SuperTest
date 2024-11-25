@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.LLMs
+﻿namespace LlmLibrary
 {
     public interface ILargeLanguageModel
     {

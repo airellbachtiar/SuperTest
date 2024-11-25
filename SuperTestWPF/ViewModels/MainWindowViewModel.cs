@@ -1,6 +1,7 @@
 using Microsoft.Win32;
 using SuperTestLibrary;
-using SuperTestLibrary.LLMs;
+using LlmLibrary;
+using LlmLibrary.Models;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;

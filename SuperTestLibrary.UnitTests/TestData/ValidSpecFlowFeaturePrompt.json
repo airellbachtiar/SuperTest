@@ -1,0 +1,25 @@
+{
+  "SystemInstruction": "This is the role.",
+  "Instructions": [
+    "First instruction",
+    "Second instruction"
+  ],
+  "Thinking": "This is the thinking.",
+  "Example": "This is an example.",
+  "Interactions": [
+    {
+      "Message": "Interaction 1"
+    },
+    {
+      "Message": "Interaction 2"
+    }
+  ],
+  "ScoringScale": [
+    "•\t1 = Good",
+    "•\t0 = Bad"
+  ],
+  "Criteria": [
+    "1.\tFirst Criteria",
+    "2.\tSecond Criteria"
+  ]
+}

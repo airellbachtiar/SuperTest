@@ -1,5 +1,5 @@
-﻿using SuperTestLibrary.Helpers;
-using SuperTestLibrary.LLMs;
+﻿using LlmLibrary;
+using SuperTestLibrary.Helpers;
 using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
@@ -46,7 +46,7 @@ namespace SuperTestLibrary
             evaluateSpecFlowFeatureFileGenerator.Requirements = requirements;
 
             SelectedGenerator = evaluateSpecFlowFeatureFileGenerator;
-            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>("Unable to evaluate SpecFlow feature file after 3 attempts.");
+            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>("Unable to evaluate SpecFlow feature file.");
         }
 
         public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string requirements, string featureFile)
@@ -57,7 +57,7 @@ namespace SuperTestLibrary
             evaluateSpecFlowScenarioGenerator.Requirements = requirements;
 
             SelectedGenerator = evaluateSpecFlowScenarioGenerator;
-            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>("Unable to evaluate SpecFlow scenario after 3 attempts.");
+            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>("Unable to evaluate SpecFlow scenario.");
         }
 
         public async Task<SpecFlowBindingFileResponse> GenerateSpecFlowBindingFileAsync(string featureFile, Dictionary<string, string> generatedCSharpCode)

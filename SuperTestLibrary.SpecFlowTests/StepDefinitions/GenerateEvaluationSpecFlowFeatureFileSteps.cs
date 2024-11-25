@@ -1,9 +1,9 @@
 ﻿using Moq;
-using SuperTestLibrary.LLMs;
+using LlmLibrary;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
 
-namespace SuperTestLibrary.Tests.StepDefinitions
+namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
     [Binding]
     [Scope(Feature = "Evaluate SpecFlow Feature File")]
