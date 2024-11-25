@@ -70,8 +70,6 @@ namespace SuperTestLibrary
             string response = await GenerateAsync();
             var specFlowBindingFile = GetSpecFlowBindingFileResponse.ConvertJson(response);
 
-            // TODO: Validate binding file
-
             return specFlowBindingFile;
         }
 

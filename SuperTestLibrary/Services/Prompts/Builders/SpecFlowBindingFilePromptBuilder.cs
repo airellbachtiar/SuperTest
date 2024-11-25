@@ -30,7 +30,6 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             promptBuilder.AppendLine();
             promptBuilder.AppendLine(_prompt.Thinking);
             promptBuilder.AppendLine();
-            promptBuilder.AppendLine("I will provide you with SpecFlow feature file and some C# codes.");
             promptBuilder.AppendLine("Feature File:");
             promptBuilder.AppendLine(_featureFile);
             promptBuilder.AppendLine();
@@ -40,9 +39,9 @@ namespace SuperTestLibrary.Services.Prompts.Builders
                 promptBuilder.AppendLine("C# Code:");
                 foreach (var file in _generatedCSharpCode)
                 {
-                    promptBuilder.AppendLine($"// File: {file.Key}");
+                    promptBuilder.AppendLine($"<FILE: {file.Key} />");
                     promptBuilder.AppendLine(file.Value);
-                    promptBuilder.AppendLine("// END OF FILE");
+                    promptBuilder.AppendLine("<END OF FILE />");
                     promptBuilder.AppendLine();
                 }
             }
