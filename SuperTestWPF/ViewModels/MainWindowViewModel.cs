@@ -48,6 +48,12 @@ namespace SuperTestWPF.ViewModels
             SaveFeatureFilesCommand = new RelayCommand(SaveFeatureFiles);
             SwitchFeatureFileViewCommand = new RelayCommand(SwitchFeatureFileView);
 
+            // Binding Generator
+            GenerateBindingsCommand = new RelayCommand(GenerateBindings);
+            UploadFilesCommand = new RelayCommand(UploadFiles);
+            UploadFeatureFileCommand = new RelayCommand(UploadFeatureFile);
+            ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
+
             this._superTestController = superTestController;
             _ = InitializeReqIFs();
         }
@@ -500,5 +506,139 @@ namespace SuperTestWPF.ViewModels
         }
 
         #endregion
+
+
+        // Binding Generator
+        private ObservableCollection<string> _bindingLogs = [];
+        private ObservableCollection<FileInformation> _uploadedFiles = [];
+        private string _generatedBindingFile = string.Empty;
+        private string _uploadedFeatureFile = string.Empty;
+
+        public ICommand GenerateBindingsCommand { get; }
+        public ICommand UploadFilesCommand { get; }
+        public ICommand UploadFeatureFileCommand { get; }
+        public ICommand ClearAllUploadedFilesCommand { get; }
+
+        public ObservableCollection<string> BindingLogs
+        {
+            get { return _bindingLogs; }
+            set
+            {
+                if (_bindingLogs != value)
+                {
+                    _bindingLogs = value;
+                    OnPropertyChanged(nameof(BindingLogs));
+                }
+            }
+        }
+
+        public ObservableCollection<FileInformation> UploadedFiles
+        {
+            get { return _uploadedFiles; }
+            set
+            {
+                if (_uploadedFiles != value)
+                {
+                    _uploadedFiles = value;
+                    OnPropertyChanged(nameof(UploadedFiles));
+                }
+            }
+        }
+
+        public string GeneratedBindingFile
+        {
+            get { return _generatedBindingFile; }
+            set
+            {
+                if (_generatedBindingFile != value)
+                {
+                    _generatedBindingFile = value;
+                    OnPropertyChanged(nameof(GeneratedBindingFile));
+                }
+            }
+        }
+
+        public string UploadedFeatureFile
+        {
+            get { return _uploadedFeatureFile; }
+            set
+            {
+                if (_uploadedFeatureFile != value)
+                {
+                    _uploadedFeatureFile = value;
+                    OnPropertyChanged(nameof(UploadedFeatureFile));
+                }
+            }
+        }
+
+        private async void GenerateBindings()
+        {
+            GeneratedBindingFile = string.Empty;
+            if (UploadedFiles.Count == 0)
+            {
+                BindingLogs.Add("No files uploaded.");
+                return;
+            }
+
+            SetLLM();
+
+            BindingLogs.Add($"Generating binding file...");
+            var generatedBindingFile = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowBindingFileAsync(UploadedFeatureFile, UploadedFiles.ToDictionary(f => f.Value!, f => f.Path!)), TimeSpan.FromSeconds(1));
+            GeneratedBindingFile = generatedBindingFile.BindingFiles.First().Value;
+            BindingLogs.Add($"Binding file generated.");
+        }
+
+        private void UploadFiles()
+        {
+            var files = GetFilesFromFolder();
+            foreach (var file in files)
+            {
+                UploadedFiles.Add(new FileInformation(file.Key, file.Value));
+            }
+        }
+
+        private void UploadFeatureFile()
+        {
+            _ = GetFeatureFileFromFolder();
+            BindingLogs.Add("Feature file uploaded.");
+        }
+
+        private string GetFeatureFileFromFolder()
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Filter = "Feature File (*.feature)|*.feature|Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
+            };
+
+            bool? response = openFileDialog.ShowDialog();
+
+            if (response != true)
+                return string.Empty;
+
+            string filepath = openFileDialog.FileName;
+            UploadedFeatureFile = filepath;
+
+            return filepath;
+        }
+
+        private static Dictionary<string, string> GetFilesFromFolder()
+        {
+            OpenFileDialog openFileDialog = new()
+            {
+                Multiselect = true,
+                Filter = "All Files (*.*)|*.*"
+            };
+            bool? response = openFileDialog.ShowDialog();
+            if (response != true)
+                return [];
+
+            return openFileDialog.FileNames.ToDictionary(f => Path.GetFullPath(f), f => File.ReadAllText(f));
+        }
+
+        private void ClearAllUpLoadedFiles()
+        {
+            UploadedFiles.Clear();
+            UploadedFeatureFile = string.Empty;
+        }
     }
 }
