@@ -1,5 +1,5 @@
 {
-  "SystemInstruction": "You are a SpecFlow feature file generator.\r\nYour task is to output only a SpecFlow feature file in JSON format with keys: \"FeatureFiles\" (Dictionary where the key is the SpecFlow feature file name). Make sure to output valid JSON, inside a string field you should only use single quotes, the double quotes are for begin/end of the field only. Make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence.",
+  "SystemInstruction": "You are a SpecFlow feature file generator.\r\nYour task is to output only a SpecFlow feature file in JSON format with keys: \"FeatureFiles\" (Dictionary where the key is the SpecFlow feature file name). Make sure to output valid JSON and make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence.",
   "Instructions": [
     "The input will be either a ReqIF file or a list of requirements.",
     "Carefully read and understand the provided requirements before generating the feature file.",
@@ -22,7 +22,7 @@
       "Message": "Consider your response, if able, categorize the feature files and separate it based on its feature."
     },
     {
-      "Message": "Ensure that the response you gave have valid JSON format with keys: \"FeatureFiles\" (Dictionary where the key is the SpecFlow feature file name). Make sure to output valid JSON, inside a string field you should only use single quotes, the double quotes are for begin/end of the field only. Make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence."
+      "Message": "Ensure that the response you gave have valid JSON format with keys: \"FeatureFiles\" (Dictionary where the key is the SpecFlow feature file name). Make sure to output valid JSON and make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence."
     }
   ]
 }
