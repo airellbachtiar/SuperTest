@@ -508,7 +508,6 @@ namespace SuperTestWPF.ViewModels
 
 
         // Binding Generator
-        private ObservableCollection<string> _bindingLogs = [];
         private ObservableCollection<FileInformation> _uploadedFiles = [];
         private string _generatedBindingFile = string.Empty;
         private string _uploadedFeatureFile = string.Empty;
@@ -517,19 +516,6 @@ namespace SuperTestWPF.ViewModels
         public ICommand UploadFilesCommand { get; }
         public ICommand UploadFeatureFileCommand { get; }
         public ICommand ClearAllUploadedFilesCommand { get; }
-
-        public ObservableCollection<string> BindingLogs
-        {
-            get { return _bindingLogs; }
-            set
-            {
-                if (_bindingLogs != value)
-                {
-                    _bindingLogs = value;
-                    OnPropertyChanged(nameof(BindingLogs));
-                }
-            }
-        }
 
         public ObservableCollection<FileInformation> UploadedFiles
         {
@@ -575,16 +561,16 @@ namespace SuperTestWPF.ViewModels
             GeneratedBindingFile = string.Empty;
             if (UploadedFiles.Count == 0)
             {
-                BindingLogs.Add("No files uploaded.");
+                _logger.LogWarning("No files uploaded.");
                 return;
             }
 
             SetLLM();
 
-            BindingLogs.Add($"Generating binding file...");
+            _logger.LogInformation("Generating binding file...");
             var generatedBindingFile = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowBindingFileAsync(UploadedFeatureFile, UploadedFiles.ToDictionary(f => f.Value!, f => f.Path!)), TimeSpan.FromSeconds(1));
             GeneratedBindingFile = generatedBindingFile.BindingFiles.First().Value;
-            BindingLogs.Add($"Binding file generated.");
+            _logger.LogInformation("Binding file generated.");
         }
 
         private void UploadFiles()
@@ -599,7 +585,7 @@ namespace SuperTestWPF.ViewModels
         private void UploadFeatureFile()
         {
             _ = GetFeatureFileFromFolder();
-            BindingLogs.Add("Feature file uploaded.");
+            _logger.LogInformation("Feature file uploaded.");
         }
 
         private string GetFeatureFileFromFolder()
