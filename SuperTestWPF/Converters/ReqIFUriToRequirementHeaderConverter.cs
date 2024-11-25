@@ -7,11 +7,11 @@ namespace SuperTestWPF.Converters
 {
     public class ReqIFUriToRequirementHeaderConverter : IValueConverter
     {
-        private readonly ReqIFDeserializer _reqIfDeserializer = new ReqIFDeserializer();
+        private readonly ReqIFDeserializer _reqIfDeserializer = new();
 
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            List<ReqIFValueAndPath> output = new List<ReqIFValueAndPath>();
+            List<FileInformation> output = [];
 
             // Value is a collection of strings
             foreach (var item in (value as IEnumerable<string>)!)
@@ -20,7 +20,7 @@ namespace SuperTestWPF.Converters
 
                 if (reqIf != null)
                 {
-                    output.Add(new ReqIFValueAndPath(reqIf.TheHeader.Title, item));
+                    output.Add(new FileInformation(reqIf.TheHeader.Title, item));
                 }
             }
 
@@ -29,10 +29,10 @@ namespace SuperTestWPF.Converters
 
         public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            List<string?> paths = new List<string?>();
+            List<string?> paths = [];
 
-            // Value is a collection of ReqIFValueAndPath
-            foreach (var item in (value as IEnumerable<ReqIFValueAndPath>)!)
+            // Value is a collection of FileInformation
+            foreach (var item in (value as IEnumerable<FileInformation>)!)
             {
                 paths.Add(item.Path);
             }

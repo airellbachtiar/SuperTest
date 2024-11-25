@@ -233,7 +233,7 @@ namespace SuperTestWPF.ViewModels
 
         public void OnTreeViewItemSelected(object selectedItem)
         {
-            if (selectedItem is ReqIFValueAndPath reqIFValueAndPath)
+            if (selectedItem is FileInformation reqIFValueAndPath)
             {
                 ChosenFile = reqIFValueAndPath.Path!;
             }
