@@ -34,6 +34,17 @@
         "Name": "Fluid2 simulator (FluidSystem)",
         "IsEnabled": true,
         "Source": "957d0a6b-f787-4346-ab6a-02d1d0e80ca3"
+      },
+      {
+        "$type": "Motion2Simulator.gen.MotionSimulatorBuildAction, Motion2Simulator.gen",
+        "BaseNamespace": "Generated",
+        "SimulatorFileName": "MotionSimulator",
+        "SimulatorUiFileName": "MotionSimulatorUI",
+        "TargetFolder": "TrafficSim\\Generated\\",
+        "Id": "3826245f-aeb5-4649-9670-74f16630bdc9",
+        "Name": "Motion simulator (MotionSystem)",
+        "IsEnabled": true,
+        "Source": "f4e28f1b-f174-4985-a201-a0c38b6d9711"
       }
     ]
   },

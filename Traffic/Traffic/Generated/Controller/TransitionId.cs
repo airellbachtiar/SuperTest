@@ -24,16 +24,22 @@ namespace Traffic.Generated.Controller;
 
 public static class TransitionId
 {
-    public const long transition_t1_9 = 9;
-    public const long transition_it1_10 = 10;
+    public const long transition_t1_16 = 16;
+    public const long transition_it1_17 = 17;
+    public const long transition_t2_5 = 5;
+    public const long transition_t4_6 = 6;
+    public const long transition_t5_7 = 7;
+    public const long transition_t6_8 = 8;
+    public const long transition_t7_9 = 9;
+    public const long transition_t8_10 = 10;
     public const long transition_it2_11 = 11;
-    public const long transition_t2_3 = 3;
-    public const long transition_t4_4 = 4;
-    public const long transition_t5_5 = 5;
-    public const long transition_t6_6 = 6;
-    public const long transition_t7_7 = 7;
-    public const long transition_t8_8 = 8;
-    public const long transition_t9_0 = 0;
-    public const long transition_t10_1 = 1;
-    public const long transition_t11_2 = 2;
+    public const long transition_it5_12 = 12;
+    public const long transition_it6_13 = 13;
+    public const long transition_it7_14 = 14;
+    public const long transition_it8_15 = 15;
+    public const long transition_t9_3 = 3;
+    public const long transition_t12_4 = 4;
+    public const long transition_t10_0 = 0;
+    public const long transition_t11_1 = 1;
+    public const long transition_t13_2 = 2;
 }

@@ -28,12 +28,15 @@ public static class StateId
     public const long state_poweredDown_1 = 1;
     public const long state_operational_2 = 2;
     public const long state_initial2_3 = 3;
-    public const long state_carsDrive_4 = 4;
-    public const long state_carsShouldStop_5 = 5;
-    public const long state_carsStopped_6 = 6;
-    public const long state_pedWalk_7 = 7;
-    public const long state_pedShouldStop_11 = 11;
+    public const long state_carGreenLight_4 = 4;
+    public const long state_carYellowLight_5 = 5;
+    public const long state_carRedLight_6 = 6;
+    public const long state_pedestrianGreenLight_7 = 7;
+    public const long state_pedestrianRedLight_14 = 14;
     public const long state_initial3_8 = 8;
-    public const long state_greenOff_9 = 9;
-    public const long state_greenOn_10 = 10;
+    public const long state_pedestrianFlickering_9 = 9;
+    public const long state_final1_13 = 13;
+    public const long state_initial4_10 = 10;
+    public const long state_greenOff_11 = 11;
+    public const long state_greenOn_12 = 12;
 }

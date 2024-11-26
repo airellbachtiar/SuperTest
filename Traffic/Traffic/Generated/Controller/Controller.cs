@@ -23,12 +23,15 @@
 
 #pragma warning disable CS8618
 
+using System;
+using System.Collections.Generic;
 using InterfaceServices.Model;
 using StatemachineFramework.Components;
 using StatemachineFramework.Statemachines;
 using StatemachineFramework.Statemachines.Builder;
 using ExtensionMethods;
 using HalFramework.Interfaces.Reference;
+using HalFramework.Interfaces.Reference.Common;
 using Traffic.Generated.Interfaces;
 
 namespace Traffic.Generated.Controller;
@@ -55,6 +58,7 @@ public partial class Controller : Component
     public Port<NormallyClosedValveItf> CarYellow => Context.CarYellow;
     public Port<NormallyClosedValveItf> PedGreen => Context.PedGreen;
     public Port<NormallyClosedValveItf> PedRed => Context.PedRed;
+    public Port<DigitalSensorItf> PedestrianRequest => Context.PedestrianRequest;
 
     #endregion
 
@@ -67,6 +71,7 @@ public partial class Controller : Component
         Context.CarYellow = new Port<NormallyClosedValveItf>(InBuffer, "CarYellow", new EventSource(TypeId, InstanceId));
         Context.PedGreen = new Port<NormallyClosedValveItf>(InBuffer, "PedGreen", new EventSource(TypeId, InstanceId));
         Context.PedRed = new Port<NormallyClosedValveItf>(InBuffer, "PedRed", new EventSource(TypeId, InstanceId));
+        Context.PedestrianRequest = new Port<DigitalSensorItf>(InBuffer, "PedestrianRequest", new EventSource(TypeId, InstanceId));
 
         Context.I1.UsedEvents = Array.Empty<int>();
         Context.CarGreen.UsedEvents = Array.Empty<int>();
@@ -74,6 +79,7 @@ public partial class Controller : Component
         Context.CarYellow.UsedEvents = Array.Empty<int>();
         Context.PedGreen.UsedEvents = Array.Empty<int>();
         Context.PedRed.UsedEvents = Array.Empty<int>();
+        Context.PedestrianRequest.UsedEvents = Array.Empty<int>();
 
         Statemachines.Add(new States1(Context, InBuffer));
 

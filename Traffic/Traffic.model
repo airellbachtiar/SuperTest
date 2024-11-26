@@ -1561,7 +1561,7 @@
                                 },
                                 {
                                   "PropertyName": "F",
-                                  "PropertyValue": 0.1696313364055297
+                                  "PropertyValue": 0.20999999999999971
                                 }
                               ]
                             }
@@ -1595,7 +1595,143 @@
                                 },
                                 {
                                   "PropertyName": "F",
-                                  "PropertyValue": 0.6964556962025316
+                                  "PropertyValue": 0.5828678861028445
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "_properties": {
+                          "Description": {
+                            "PropertyName": "Description",
+                            "PropertyValue": ""
+                          }
+                        },
+                        "Direction": "NotSet",
+                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                        "ElementName": "mp59",
+                        "Uid": "472cba1e-f2c6-4818-87c9-963ced048a7f",
+                        "Children": [],
+                        "Annotations": {
+                          "Collection": [
+                            {
+                              "AnnotationName": "Mp",
+                              "PropertiesBinding": [
+                                {
+                                  "PropertyName": "E",
+                                  "PropertyValue": {
+                                    "EnumValue": "Top",
+                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                    "PropertyType": "Enum"
+                                  }
+                                },
+                                {
+                                  "PropertyName": "F",
+                                  "PropertyValue": 0.9305466025530399
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "_properties": {
+                          "Description": {
+                            "PropertyName": "Description",
+                            "PropertyValue": ""
+                          }
+                        },
+                        "Direction": "NotSet",
+                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                        "ElementName": "mp63",
+                        "Uid": "fbc6829c-c1c0-402a-b99a-2de90c5b4e36",
+                        "Children": [],
+                        "Annotations": {
+                          "Collection": [
+                            {
+                              "AnnotationName": "Mp",
+                              "PropertiesBinding": [
+                                {
+                                  "PropertyName": "E",
+                                  "PropertyValue": {
+                                    "EnumValue": "Top",
+                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                    "PropertyType": "Enum"
+                                  }
+                                },
+                                {
+                                  "PropertyName": "F",
+                                  "PropertyValue": 0.7953954798326468
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "_properties": {
+                          "Description": {
+                            "PropertyName": "Description",
+                            "PropertyValue": ""
+                          }
+                        },
+                        "Direction": "NotSet",
+                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                        "ElementName": "mp64",
+                        "Uid": "9013ab6e-cfb7-4726-b4a3-f11bba78daea",
+                        "Children": [],
+                        "Annotations": {
+                          "Collection": [
+                            {
+                              "AnnotationName": "Mp",
+                              "PropertiesBinding": [
+                                {
+                                  "PropertyName": "E",
+                                  "PropertyValue": {
+                                    "EnumValue": "Bottom",
+                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                    "PropertyType": "Enum"
+                                  }
+                                },
+                                {
+                                  "PropertyName": "F",
+                                  "PropertyValue": 0.20674235270589633
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "_properties": {
+                          "Description": {
+                            "PropertyName": "Description",
+                            "PropertyValue": ""
+                          }
+                        },
+                        "Direction": "NotSet",
+                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                        "ElementName": "mp65",
+                        "Uid": "96713772-4124-4fda-8cc7-dd4767db23e9",
+                        "Children": [],
+                        "Annotations": {
+                          "Collection": [
+                            {
+                              "AnnotationName": "Mp",
+                              "PropertiesBinding": [
+                                {
+                                  "PropertyName": "E",
+                                  "PropertyValue": {
+                                    "EnumValue": "Bottom",
+                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                    "PropertyType": "Enum"
+                                  }
+                                },
+                                {
+                                  "PropertyName": "F",
+                                  "PropertyValue": 0.8454322996340712
                                 }
                               ]
                             }
@@ -1611,8 +1747,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 84.0,
-                                "Y": 227.04,
+                                "X": 140.30589067598407,
+                                "Y": 329.64184523179324,
                                 "Width": 150.0,
                                 "Height": 100.0,
                                 "PropertyType": "Rect"
@@ -1659,8 +1795,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 126.0,
-                                "Y": 140.04,
+                                "X": 182.30589067598407,
+                                "Y": 242.64184523179327,
                                 "Width": 50.0,
                                 "Height": 50.0,
                                 "PropertyType": "Rect"
@@ -1692,7 +1828,7 @@
                       },
                       "EffectName": {
                         "PropertyName": "EffectName",
-                        "PropertyValue": "OffAll"
+                        "PropertyValue": ""
                       },
                       "EffectCode": {
                         "PropertyName": "EffectCode",
@@ -1719,7 +1855,7 @@
                               "PropertyValue": {
                                 "X": 14.0,
                                 "Y": -19.0,
-                                "Width": 54.25333333333334,
+                                "Width": 12.0,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -1728,8 +1864,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "151,165.04",
-                                  "151,227.04"
+                                  "207.30589067598407,267.64184523179324",
+                                  "207.30589067598407,329.64184523179324"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -1792,7 +1928,7 @@
                           },
                           "EntryCode": {
                             "PropertyName": "EntryCode",
-                            "PropertyValue": "CarGreen.Open();\r\nCarRed.Close();"
+                            "PropertyValue": "CarGreen.Open();\r\nCarRed.Close();\r\n"
                           },
                           "DoingCodeMethodName": {
                             "PropertyName": "DoingCodeMethodName",
@@ -1826,7 +1962,7 @@
                           }
                         },
                         "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                        "ElementName": "CarsDrive",
+                        "ElementName": "CarGreenLight",
                         "Uid": "8cf58bdf-6e73-4cd2-b18f-c256966c9d44",
                         "Children": [
                           {
@@ -1930,6 +2066,40 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "_properties": {
+                              "Description": {
+                                "PropertyName": "Description",
+                                "PropertyValue": ""
+                              }
+                            },
+                            "Direction": "NotSet",
+                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                            "ElementName": "mp66",
+                            "Uid": "9af6bc5b-7763-49ad-a754-6f773bf1b68f",
+                            "Children": [],
+                            "Annotations": {
+                              "Collection": [
+                                {
+                                  "AnnotationName": "Mp",
+                                  "PropertiesBinding": [
+                                    {
+                                      "PropertyName": "E",
+                                      "PropertyValue": {
+                                        "EnumValue": "Left",
+                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                        "PropertyType": "Enum"
+                                      }
+                                    },
+                                    {
+                                      "PropertyName": "F",
+                                      "PropertyValue": 0.8538057935434196
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           }
                         ],
                         "Annotations": {
@@ -2027,41 +2197,7 @@
                                 },
                                 {
                                   "PropertyName": "F",
-                                  "PropertyValue": 0.3006661385166422
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "_properties": {
-                          "Description": {
-                            "PropertyName": "Description",
-                            "PropertyValue": ""
-                          }
-                        },
-                        "Direction": "NotSet",
-                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                        "ElementName": "mp12",
-                        "Uid": "f0f34cc1-8438-4c06-91d9-a0f90da4242c",
-                        "Children": [],
-                        "Annotations": {
-                          "Collection": [
-                            {
-                              "AnnotationName": "Mp",
-                              "PropertiesBinding": [
-                                {
-                                  "PropertyName": "E",
-                                  "PropertyValue": {
-                                    "EnumValue": "Left",
-                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                    "PropertyType": "Enum"
-                                  }
-                                },
-                                {
-                                  "PropertyName": "F",
-                                  "PropertyValue": 0.46464584546541204
+                                  "PropertyValue": 0.3104406333337052
                                 }
                               ]
                             }
@@ -2072,7 +2208,7 @@
                         "_properties": {
                           "EntryCodeMethodName": {
                             "PropertyName": "EntryCodeMethodName",
-                            "PropertyValue": "CarShouldBeStopped"
+                            "PropertyValue": "CarShouldSlowDown"
                           },
                           "EntryCode": {
                             "PropertyName": "EntryCode",
@@ -2110,7 +2246,7 @@
                           }
                         },
                         "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                        "ElementName": "CarsShouldStop",
+                        "ElementName": "CarYellowLight",
                         "Uid": "f81a76c2-d2fb-4d74-bc45-1bdd236c5172",
                         "Children": [
                           {
@@ -2180,6 +2316,40 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "_properties": {
+                              "Description": {
+                                "PropertyName": "Description",
+                                "PropertyValue": ""
+                              }
+                            },
+                            "Direction": "NotSet",
+                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                            "ElementName": "mp61",
+                            "Uid": "26bb711c-d8c7-429d-b27b-f55c7fd5ea8e",
+                            "Children": [],
+                            "Annotations": {
+                              "Collection": [
+                                {
+                                  "AnnotationName": "Mp",
+                                  "PropertiesBinding": [
+                                    {
+                                      "PropertyName": "E",
+                                      "PropertyValue": {
+                                        "EnumValue": "Top",
+                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                        "PropertyType": "Enum"
+                                      }
+                                    },
+                                    {
+                                      "PropertyName": "F",
+                                      "PropertyValue": 0.001853378512879286
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           }
                         ],
                         "Annotations": {
@@ -2206,7 +2376,7 @@
                         "_properties": {
                           "EntryCodeMethodName": {
                             "PropertyName": "EntryCodeMethodName",
-                            "PropertyValue": "CarsShouldBesStopped"
+                            "PropertyValue": "CarsShouldStop"
                           },
                           "EntryCode": {
                             "PropertyName": "EntryCode",
@@ -2244,7 +2414,7 @@
                           }
                         },
                         "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                        "ElementName": "CarsStopped",
+                        "ElementName": "CarRedLight",
                         "Uid": "28e7fb83-29a9-4a7e-b181-83fab89d5234",
                         "Children": [
                           {
@@ -2314,6 +2484,40 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "_properties": {
+                              "Description": {
+                                "PropertyName": "Description",
+                                "PropertyValue": ""
+                              }
+                            },
+                            "Direction": "NotSet",
+                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                            "ElementName": "mp58",
+                            "Uid": "1ac00201-0831-43d6-a568-c444bc642111",
+                            "Children": [],
+                            "Annotations": {
+                              "Collection": [
+                                {
+                                  "AnnotationName": "Mp",
+                                  "PropertiesBinding": [
+                                    {
+                                      "PropertyName": "E",
+                                      "PropertyValue": {
+                                        "EnumValue": "Top",
+                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                        "PropertyType": "Enum"
+                                      }
+                                    },
+                                    {
+                                      "PropertyName": "F",
+                                      "PropertyValue": 0.19220091554970462
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           }
                         ],
                         "Annotations": {
@@ -2340,11 +2544,11 @@
                         "_properties": {
                           "EntryCodeMethodName": {
                             "PropertyName": "EntryCodeMethodName",
-                            "PropertyValue": "Walk"
+                            "PropertyValue": ""
                           },
                           "EntryCode": {
                             "PropertyName": "EntryCode",
-                            "PropertyValue": "PedGreen.Open();\r\nPedRed.Close();"
+                            "PropertyValue": "PedRed.Close();"
                           },
                           "DoingCodeMethodName": {
                             "PropertyName": "DoingCodeMethodName",
@@ -2378,7 +2582,7 @@
                           }
                         },
                         "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                        "ElementName": "PedWalk",
+                        "ElementName": "PedestrianGreenLight",
                         "Uid": "69cb93d3-f952-49a0-965a-0e637bd9e0d1",
                         "Children": [
                           {
@@ -2460,308 +2664,6 @@
                             "ElementName": "BlinkingStates",
                             "Uid": "1dcd4eb3-8855-4f3b-93f7-30ee01b74907",
                             "Children": [
-                              {
-                                "_properties": {
-                                  "EntryCodeMethodName": {
-                                    "PropertyName": "EntryCodeMethodName",
-                                    "PropertyValue": ""
-                                  },
-                                  "EntryCode": {
-                                    "PropertyName": "EntryCode",
-                                    "PropertyValue": "PedGreen.Close();"
-                                  },
-                                  "DoingCodeMethodName": {
-                                    "PropertyName": "DoingCodeMethodName",
-                                    "PropertyValue": ""
-                                  },
-                                  "DoingCode": {
-                                    "PropertyName": "DoingCode",
-                                    "PropertyValue": ""
-                                  },
-                                  "ExitCodeMethodName": {
-                                    "PropertyName": "ExitCodeMethodName",
-                                    "PropertyValue": ""
-                                  },
-                                  "ExitCode": {
-                                    "PropertyName": "ExitCode",
-                                    "PropertyValue": ""
-                                  },
-                                  "BackgroundColor": {
-                                    "PropertyName": "BackgroundColor",
-                                    "PropertyValue": {
-                                      "A": 255,
-                                      "R": 255,
-                                      "G": 255,
-                                      "B": 255,
-                                      "PropertyType": "Color"
-                                    }
-                                  },
-                                  "Description": {
-                                    "PropertyName": "Description",
-                                    "PropertyValue": ""
-                                  }
-                                },
-                                "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                                "ElementName": "GreenOff",
-                                "Uid": "c50789cb-e3a8-4b2b-ad8d-cd245cad084c",
-                                "Children": [
-                                  {
-                                    "_properties": {
-                                      "Description": {
-                                        "PropertyName": "Description",
-                                        "PropertyValue": ""
-                                      }
-                                    },
-                                    "Direction": "NotSet",
-                                    "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                                    "ElementName": "mp24",
-                                    "Uid": "2bbeff9d-2256-41f7-b6b4-0767d1de220a",
-                                    "Children": [],
-                                    "Annotations": {
-                                      "Collection": [
-                                        {
-                                          "AnnotationName": "Mp",
-                                          "PropertiesBinding": [
-                                            {
-                                              "PropertyName": "E",
-                                              "PropertyValue": {
-                                                "EnumValue": "Left",
-                                                "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                                "PropertyType": "Enum"
-                                              }
-                                            },
-                                            {
-                                              "PropertyName": "F",
-                                              "PropertyValue": 0.54
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  {
-                                    "_properties": {
-                                      "Description": {
-                                        "PropertyName": "Description",
-                                        "PropertyValue": ""
-                                      }
-                                    },
-                                    "Direction": "NotSet",
-                                    "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                                    "ElementName": "mp25",
-                                    "Uid": "b2245a23-d6b5-41d4-9a9e-1f4612e9407b",
-                                    "Children": [],
-                                    "Annotations": {
-                                      "Collection": [
-                                        {
-                                          "AnnotationName": "Mp",
-                                          "PropertiesBinding": [
-                                            {
-                                              "PropertyName": "E",
-                                              "PropertyValue": {
-                                                "EnumValue": "Right",
-                                                "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                                "PropertyType": "Enum"
-                                              }
-                                            },
-                                            {
-                                              "PropertyName": "F",
-                                              "PropertyValue": 0.2564312267657993
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  {
-                                    "_properties": {
-                                      "Description": {
-                                        "PropertyName": "Description",
-                                        "PropertyValue": ""
-                                      }
-                                    },
-                                    "Direction": "NotSet",
-                                    "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                                    "ElementName": "mp28",
-                                    "Uid": "f01b7177-5c28-4a5f-8bdf-9aaf34065e10",
-                                    "Children": [],
-                                    "Annotations": {
-                                      "Collection": [
-                                        {
-                                          "AnnotationName": "Mp",
-                                          "PropertiesBinding": [
-                                            {
-                                              "PropertyName": "E",
-                                              "PropertyValue": {
-                                                "EnumValue": "Right",
-                                                "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                                "PropertyType": "Enum"
-                                              }
-                                            },
-                                            {
-                                              "PropertyName": "F",
-                                              "PropertyValue": 0.7286642599277979
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ],
-                                "Annotations": {
-                                  "Collection": [
-                                    {
-                                      "AnnotationName": "E2d",
-                                      "PropertiesBinding": [
-                                        {
-                                          "PropertyName": "R",
-                                          "PropertyValue": {
-                                            "X": 454.0,
-                                            "Y": 171.04,
-                                            "Width": 150.0,
-                                            "Height": 100.0,
-                                            "PropertyType": "Rect"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
-                              {
-                                "_properties": {
-                                  "EntryCodeMethodName": {
-                                    "PropertyName": "EntryCodeMethodName",
-                                    "PropertyValue": ""
-                                  },
-                                  "EntryCode": {
-                                    "PropertyName": "EntryCode",
-                                    "PropertyValue": "PedGreen.Open();"
-                                  },
-                                  "DoingCodeMethodName": {
-                                    "PropertyName": "DoingCodeMethodName",
-                                    "PropertyValue": ""
-                                  },
-                                  "DoingCode": {
-                                    "PropertyName": "DoingCode",
-                                    "PropertyValue": ""
-                                  },
-                                  "ExitCodeMethodName": {
-                                    "PropertyName": "ExitCodeMethodName",
-                                    "PropertyValue": ""
-                                  },
-                                  "ExitCode": {
-                                    "PropertyName": "ExitCode",
-                                    "PropertyValue": ""
-                                  },
-                                  "BackgroundColor": {
-                                    "PropertyName": "BackgroundColor",
-                                    "PropertyValue": {
-                                      "A": 255,
-                                      "R": 255,
-                                      "G": 255,
-                                      "B": 255,
-                                      "PropertyType": "Color"
-                                    }
-                                  },
-                                  "Description": {
-                                    "PropertyName": "Description",
-                                    "PropertyValue": ""
-                                  }
-                                },
-                                "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                                "ElementName": "GreenOn",
-                                "Uid": "af4a4441-c031-449e-9896-9cca6d7b986e",
-                                "Children": [
-                                  {
-                                    "_properties": {
-                                      "Description": {
-                                        "PropertyName": "Description",
-                                        "PropertyValue": ""
-                                      }
-                                    },
-                                    "Direction": "NotSet",
-                                    "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                                    "ElementName": "mp26",
-                                    "Uid": "330cd0bd-b119-4f71-9469-fa70a396af0f",
-                                    "Children": [],
-                                    "Annotations": {
-                                      "Collection": [
-                                        {
-                                          "AnnotationName": "Mp",
-                                          "PropertiesBinding": [
-                                            {
-                                              "PropertyName": "E",
-                                              "PropertyValue": {
-                                                "EnumValue": "Left",
-                                                "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                                "PropertyType": "Enum"
-                                              }
-                                            },
-                                            {
-                                              "PropertyName": "F",
-                                              "PropertyValue": 0.2549070631970261
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  },
-                                  {
-                                    "_properties": {
-                                      "Description": {
-                                        "PropertyName": "Description",
-                                        "PropertyValue": ""
-                                      }
-                                    },
-                                    "Direction": "NotSet",
-                                    "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                                    "ElementName": "mp27",
-                                    "Uid": "bad5c832-604b-4f15-a02a-f6a64c39ec5d",
-                                    "Children": [],
-                                    "Annotations": {
-                                      "Collection": [
-                                        {
-                                          "AnnotationName": "Mp",
-                                          "PropertiesBinding": [
-                                            {
-                                              "PropertyName": "E",
-                                              "PropertyValue": {
-                                                "EnumValue": "Left",
-                                                "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                                "PropertyType": "Enum"
-                                              }
-                                            },
-                                            {
-                                              "PropertyName": "F",
-                                              "PropertyValue": 0.7765342960288808
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  }
-                                ],
-                                "Annotations": {
-                                  "Collection": [
-                                    {
-                                      "AnnotationName": "E2d",
-                                      "PropertiesBinding": [
-                                        {
-                                          "PropertyName": "R",
-                                          "PropertyValue": {
-                                            "X": 779.0,
-                                            "Y": 167.04,
-                                            "Width": 150.0,
-                                            "Height": 100.0,
-                                            "PropertyType": "Rect"
-                                          }
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                }
-                              },
                               {
                                 "_properties": {
                                   "Description": {
@@ -2868,7 +2770,7 @@
                                           "PropertyValue": {
                                             "Points": [
                                               "241,223.04",
-                                              "454,225.04"
+                                              "509,217.04"
                                             ],
                                             "PropertyType": "Points"
                                           }
@@ -2891,7 +2793,7 @@
                                   },
                                   "Guard": {
                                     "PropertyName": "Guard",
-                                    "PropertyValue": "t > T6"
+                                    "PropertyValue": "t > BlinkingLightDelay"
                                   },
                                   "GuardName": {
                                     "PropertyName": "GuardName",
@@ -2924,9 +2826,9 @@
                                         {
                                           "PropertyName": "R",
                                           "PropertyValue": {
-                                            "X": 10.0,
-                                            "Y": 10.0,
-                                            "Width": 50.84666666666667,
+                                            "X": -47.0,
+                                            "Y": -50.0,
+                                            "Width": 136.29000000000002,
                                             "Height": 15.96,
                                             "PropertyType": "Rect"
                                           }
@@ -2935,8 +2837,8 @@
                                           "PropertyName": "PC",
                                           "PropertyValue": {
                                             "Points": [
-                                              "604,196.68312267657993",
-                                              "779,192.5307063197026"
+                                              "659,188.68312267657993",
+                                              "752,189.5307063197026"
                                             ],
                                             "PropertyType": "Points"
                                           }
@@ -2959,7 +2861,7 @@
                                   },
                                   "Guard": {
                                     "PropertyName": "Guard",
-                                    "PropertyValue": "t > T6"
+                                    "PropertyValue": "t > BlinkingLightDelay"
                                   },
                                   "GuardName": {
                                     "PropertyName": "GuardName",
@@ -2992,9 +2894,9 @@
                                         {
                                           "PropertyName": "R",
                                           "PropertyValue": {
-                                            "X": 10.0,
-                                            "Y": 10.0,
-                                            "Width": 50.84666666666667,
+                                            "X": -43.0,
+                                            "Y": 34.99999999999997,
+                                            "Width": 136.29000000000002,
                                             "Height": 15.96,
                                             "PropertyType": "Rect"
                                           }
@@ -3003,8 +2905,676 @@
                                           "PropertyName": "PC",
                                           "PropertyValue": {
                                             "Points": [
-                                              "779,244.69342960288807",
-                                              "604,243.9064259927798"
+                                              "752,241.69342960288807",
+                                              "659,235.9064259927798"
+                                            ],
+                                            "PropertyType": "Points"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "_properties": {
+                                  "Description": {
+                                    "PropertyName": "Description",
+                                    "PropertyValue": ""
+                                  }
+                                },
+                                "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,FinalState",
+                                "ElementName": "Final1",
+                                "Uid": "9dc3b9c6-38bb-4820-8fe9-b0924900a61f",
+                                "Children": [
+                                  {
+                                    "_properties": {
+                                      "Description": {
+                                        "PropertyName": "Description",
+                                        "PropertyValue": ""
+                                      }
+                                    },
+                                    "Direction": "In",
+                                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,Connector",
+                                    "ElementName": "Connector",
+                                    "Uid": "886e99f5-5dd4-4249-80a0-31c4954f0a09",
+                                    "Children": [],
+                                    "Annotations": {
+                                      "Collection": []
+                                    }
+                                  }
+                                ],
+                                "Annotations": {
+                                  "Collection": [
+                                    {
+                                      "AnnotationName": "E2d",
+                                      "PropertiesBinding": [
+                                        {
+                                          "PropertyName": "R",
+                                          "PropertyValue": {
+                                            "X": 1176.0,
+                                            "Y": 192.04,
+                                            "Width": 50.0,
+                                            "Height": 50.0,
+                                            "PropertyType": "Rect"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "_properties": {
+                                  "EntryCodeMethodName": {
+                                    "PropertyName": "EntryCodeMethodName",
+                                    "PropertyValue": ""
+                                  },
+                                  "EntryCode": {
+                                    "PropertyName": "EntryCode",
+                                    "PropertyValue": ""
+                                  },
+                                  "DoingCodeMethodName": {
+                                    "PropertyName": "DoingCodeMethodName",
+                                    "PropertyValue": ""
+                                  },
+                                  "DoingCode": {
+                                    "PropertyName": "DoingCode",
+                                    "PropertyValue": ""
+                                  },
+                                  "ExitCodeMethodName": {
+                                    "PropertyName": "ExitCodeMethodName",
+                                    "PropertyValue": ""
+                                  },
+                                  "ExitCode": {
+                                    "PropertyName": "ExitCode",
+                                    "PropertyValue": ""
+                                  },
+                                  "BackgroundColor": {
+                                    "PropertyName": "BackgroundColor",
+                                    "PropertyValue": {
+                                      "A": 255,
+                                      "R": 255,
+                                      "G": 255,
+                                      "B": 255,
+                                      "PropertyType": "Color"
+                                    }
+                                  },
+                                  "Description": {
+                                    "PropertyName": "Description",
+                                    "PropertyValue": ""
+                                  }
+                                },
+                                "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
+                                "ElementName": "PedestrianFlickering",
+                                "Uid": "cd1aa3f9-9881-409f-b621-60e0cfaf917e",
+                                "Children": [
+                                  {
+                                    "_properties": {
+                                      "EntryCodeMethodName": {
+                                        "PropertyName": "EntryCodeMethodName",
+                                        "PropertyValue": ""
+                                      },
+                                      "EntryCode": {
+                                        "PropertyName": "EntryCode",
+                                        "PropertyValue": ""
+                                      },
+                                      "DoingCodeMethodName": {
+                                        "PropertyName": "DoingCodeMethodName",
+                                        "PropertyValue": ""
+                                      },
+                                      "DoingCode": {
+                                        "PropertyName": "DoingCode",
+                                        "PropertyValue": ""
+                                      },
+                                      "ExitCodeMethodName": {
+                                        "PropertyName": "ExitCodeMethodName",
+                                        "PropertyValue": ""
+                                      },
+                                      "ExitCode": {
+                                        "PropertyName": "ExitCode",
+                                        "PropertyValue": ""
+                                      },
+                                      "BackgroundColor": {
+                                        "PropertyName": "BackgroundColor",
+                                        "PropertyValue": {
+                                          "A": 255,
+                                          "R": 255,
+                                          "G": 255,
+                                          "B": 255,
+                                          "PropertyType": "Color"
+                                        }
+                                      },
+                                      "Description": {
+                                        "PropertyName": "Description",
+                                        "PropertyValue": ""
+                                      }
+                                    },
+                                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
+                                    "ElementName": "GreenOff",
+                                    "Uid": "c50789cb-e3a8-4b2b-ad8d-cd245cad084c",
+                                    "Children": [
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "NotSet",
+                                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                        "ElementName": "mp24",
+                                        "Uid": "2bbeff9d-2256-41f7-b6b4-0767d1de220a",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": [
+                                            {
+                                              "AnnotationName": "Mp",
+                                              "PropertiesBinding": [
+                                                {
+                                                  "PropertyName": "E",
+                                                  "PropertyValue": {
+                                                    "EnumValue": "Left",
+                                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                    "PropertyType": "Enum"
+                                                  }
+                                                },
+                                                {
+                                                  "PropertyName": "F",
+                                                  "PropertyValue": 0.54
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "NotSet",
+                                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                        "ElementName": "mp25",
+                                        "Uid": "b2245a23-d6b5-41d4-9a9e-1f4612e9407b",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": [
+                                            {
+                                              "AnnotationName": "Mp",
+                                              "PropertiesBinding": [
+                                                {
+                                                  "PropertyName": "E",
+                                                  "PropertyValue": {
+                                                    "EnumValue": "Right",
+                                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                    "PropertyType": "Enum"
+                                                  }
+                                                },
+                                                {
+                                                  "PropertyName": "F",
+                                                  "PropertyValue": 0.2564312267657993
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "NotSet",
+                                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                        "ElementName": "mp28",
+                                        "Uid": "f01b7177-5c28-4a5f-8bdf-9aaf34065e10",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": [
+                                            {
+                                              "AnnotationName": "Mp",
+                                              "PropertiesBinding": [
+                                                {
+                                                  "PropertyName": "E",
+                                                  "PropertyValue": {
+                                                    "EnumValue": "Right",
+                                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                    "PropertyType": "Enum"
+                                                  }
+                                                },
+                                                {
+                                                  "PropertyName": "F",
+                                                  "PropertyValue": 0.7286642599277979
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "NotSet",
+                                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                        "ElementName": "mp67",
+                                        "Uid": "11a073f5-5c2d-465d-9d6f-b01f663143f8",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": [
+                                            {
+                                              "AnnotationName": "Mp",
+                                              "PropertiesBinding": [
+                                                {
+                                                  "PropertyName": "E",
+                                                  "PropertyValue": {
+                                                    "EnumValue": "Left",
+                                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                    "PropertyType": "Enum"
+                                                  }
+                                                },
+                                                {
+                                                  "PropertyName": "F",
+                                                  "PropertyValue": 0.8209090909090909
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "Annotations": {
+                                      "Collection": [
+                                        {
+                                          "AnnotationName": "E2d",
+                                          "PropertiesBinding": [
+                                            {
+                                              "PropertyName": "R",
+                                              "PropertyValue": {
+                                                "X": 144.0,
+                                                "Y": 70.0,
+                                                "Width": 150.0,
+                                                "Height": 100.0,
+                                                "PropertyType": "Rect"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "_properties": {
+                                      "EntryCodeMethodName": {
+                                        "PropertyName": "EntryCodeMethodName",
+                                        "PropertyValue": ""
+                                      },
+                                      "EntryCode": {
+                                        "PropertyName": "EntryCode",
+                                        "PropertyValue": "PedGreen.Open();"
+                                      },
+                                      "DoingCodeMethodName": {
+                                        "PropertyName": "DoingCodeMethodName",
+                                        "PropertyValue": ""
+                                      },
+                                      "DoingCode": {
+                                        "PropertyName": "DoingCode",
+                                        "PropertyValue": ""
+                                      },
+                                      "ExitCodeMethodName": {
+                                        "PropertyName": "ExitCodeMethodName",
+                                        "PropertyValue": ""
+                                      },
+                                      "ExitCode": {
+                                        "PropertyName": "ExitCode",
+                                        "PropertyValue": "PedGreen.Close();"
+                                      },
+                                      "BackgroundColor": {
+                                        "PropertyName": "BackgroundColor",
+                                        "PropertyValue": {
+                                          "A": 255,
+                                          "R": 255,
+                                          "G": 255,
+                                          "B": 255,
+                                          "PropertyType": "Color"
+                                        }
+                                      },
+                                      "Description": {
+                                        "PropertyName": "Description",
+                                        "PropertyValue": ""
+                                      }
+                                    },
+                                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
+                                    "ElementName": "GreenOn",
+                                    "Uid": "af4a4441-c031-449e-9896-9cca6d7b986e",
+                                    "Children": [
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "NotSet",
+                                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                        "ElementName": "mp26",
+                                        "Uid": "330cd0bd-b119-4f71-9469-fa70a396af0f",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": [
+                                            {
+                                              "AnnotationName": "Mp",
+                                              "PropertiesBinding": [
+                                                {
+                                                  "PropertyName": "E",
+                                                  "PropertyValue": {
+                                                    "EnumValue": "Left",
+                                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                    "PropertyType": "Enum"
+                                                  }
+                                                },
+                                                {
+                                                  "PropertyName": "F",
+                                                  "PropertyValue": 0.2549070631970261
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      },
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "NotSet",
+                                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                        "ElementName": "mp27",
+                                        "Uid": "bad5c832-604b-4f15-a02a-f6a64c39ec5d",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": [
+                                            {
+                                              "AnnotationName": "Mp",
+                                              "PropertiesBinding": [
+                                                {
+                                                  "PropertyName": "E",
+                                                  "PropertyValue": {
+                                                    "EnumValue": "Left",
+                                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                    "PropertyType": "Enum"
+                                                  }
+                                                },
+                                                {
+                                                  "PropertyName": "F",
+                                                  "PropertyValue": 0.7765342960288808
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ],
+                                    "Annotations": {
+                                      "Collection": [
+                                        {
+                                          "AnnotationName": "E2d",
+                                          "PropertiesBinding": [
+                                            {
+                                              "PropertyName": "R",
+                                              "PropertyValue": {
+                                                "X": 387.0,
+                                                "Y": 71.0,
+                                                "Width": 150.0,
+                                                "Height": 100.0,
+                                                "PropertyType": "Rect"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "_properties": {
+                                      "Description": {
+                                        "PropertyName": "Description",
+                                        "PropertyValue": ""
+                                      }
+                                    },
+                                    "Direction": "NotSet",
+                                    "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                                    "ElementName": "mp44",
+                                    "Uid": "b75c9255-2724-4aa6-a2f8-1f09a9bf4a66",
+                                    "Children": [],
+                                    "Annotations": {
+                                      "Collection": [
+                                        {
+                                          "AnnotationName": "Mp",
+                                          "PropertiesBinding": [
+                                            {
+                                              "PropertyName": "E",
+                                              "PropertyValue": {
+                                                "EnumValue": "Right",
+                                                "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                                "PropertyType": "Enum"
+                                              }
+                                            },
+                                            {
+                                              "PropertyName": "F",
+                                              "PropertyValue": 0.5
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  {
+                                    "_properties": {
+                                      "Description": {
+                                        "PropertyName": "Description",
+                                        "PropertyValue": ""
+                                      }
+                                    },
+                                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InitialState",
+                                    "ElementName": "Initial4",
+                                    "Uid": "a67fd74f-dc3b-4f29-8fbe-cb5deaed560b",
+                                    "Children": [
+                                      {
+                                        "_properties": {
+                                          "Description": {
+                                            "PropertyName": "Description",
+                                            "PropertyValue": ""
+                                          }
+                                        },
+                                        "Direction": "Out",
+                                        "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,Connector",
+                                        "ElementName": "Connector",
+                                        "Uid": "cbee447e-29f5-4a44-bdae-61b8502f9d86",
+                                        "Children": [],
+                                        "Annotations": {
+                                          "Collection": []
+                                        }
+                                      }
+                                    ],
+                                    "Annotations": {
+                                      "Collection": [
+                                        {
+                                          "AnnotationName": "E2d",
+                                          "PropertiesBinding": [
+                                            {
+                                              "PropertyName": "R",
+                                              "PropertyValue": {
+                                                "X": 46.0,
+                                                "Y": 147.0,
+                                                "Width": 50.0,
+                                                "Height": 50.0,
+                                                "PropertyType": "Rect"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ],
+                                "Annotations": {
+                                  "Collection": [
+                                    {
+                                      "AnnotationName": "E2d",
+                                      "PropertiesBinding": [
+                                        {
+                                          "PropertyName": "R",
+                                          "PropertyValue": {
+                                            "X": 365.0,
+                                            "Y": 93.03999999999999,
+                                            "Width": 658.0,
+                                            "Height": 220.0,
+                                            "PropertyType": "Rect"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "_properties": {
+                                  "Trigger": {
+                                    "PropertyName": "Trigger",
+                                    "PropertyValue": {
+                                      "PropertyType": "Custom",
+                                      "CustomTypeObject": {
+                                        "$type": "State2Language.Meta.Triggers.NoTrigger, State2.Language"
+                                      }
+                                    }
+                                  },
+                                  "Guard": {
+                                    "PropertyName": "Guard",
+                                    "PropertyValue": "t > PedestrianGreenLightDuration"
+                                  },
+                                  "GuardName": {
+                                    "PropertyName": "GuardName",
+                                    "PropertyValue": ""
+                                  },
+                                  "EffectName": {
+                                    "PropertyName": "EffectName",
+                                    "PropertyValue": ""
+                                  },
+                                  "EffectCode": {
+                                    "PropertyName": "EffectCode",
+                                    "PropertyValue": ""
+                                  },
+                                  "Description": {
+                                    "PropertyName": "Description",
+                                    "PropertyValue": ""
+                                  }
+                                },
+                                "UidFrom": "b75c9255-2724-4aa6-a2f8-1f09a9bf4a66",
+                                "UidTo": "886e99f5-5dd4-4249-80a0-31c4954f0a09",
+                                "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,Transition",
+                                "ElementName": "t12",
+                                "Uid": "18c15412-f8cb-4682-8db6-6a86f9038e4f",
+                                "Children": [],
+                                "Annotations": {
+                                  "Collection": [
+                                    {
+                                      "AnnotationName": "A2d",
+                                      "PropertiesBinding": [
+                                        {
+                                          "PropertyName": "R",
+                                          "PropertyValue": {
+                                            "X": -23.0,
+                                            "Y": 35.99999999999997,
+                                            "Width": 197.63000000000002,
+                                            "Height": 15.96,
+                                            "PropertyType": "Rect"
+                                          }
+                                        },
+                                        {
+                                          "PropertyName": "PC",
+                                          "PropertyValue": {
+                                            "Points": [
+                                              "1023,203.04",
+                                              "1201,217.04"
+                                            ],
+                                            "PropertyType": "Points"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              },
+                              {
+                                "_properties": {
+                                  "Trigger": {
+                                    "PropertyName": "Trigger",
+                                    "PropertyValue": {
+                                      "PropertyType": "Custom",
+                                      "CustomTypeObject": {
+                                        "$type": "State2Language.Meta.Triggers.NoTrigger, State2.Language"
+                                      }
+                                    }
+                                  },
+                                  "Guard": {
+                                    "PropertyName": "Guard",
+                                    "PropertyValue": ""
+                                  },
+                                  "GuardName": {
+                                    "PropertyName": "GuardName",
+                                    "PropertyValue": ""
+                                  },
+                                  "EffectName": {
+                                    "PropertyName": "EffectName",
+                                    "PropertyValue": ""
+                                  },
+                                  "EffectCode": {
+                                    "PropertyName": "EffectCode",
+                                    "PropertyValue": ""
+                                  },
+                                  "Description": {
+                                    "PropertyName": "Description",
+                                    "PropertyValue": ""
+                                  }
+                                },
+                                "UidFrom": "cbee447e-29f5-4a44-bdae-61b8502f9d86",
+                                "UidTo": "11a073f5-5c2d-465d-9d6f-b01f663143f8",
+                                "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,Transition",
+                                "ElementName": "t13",
+                                "Uid": "cd691fe6-717f-4015-baf1-a684719baba1",
+                                "Children": [],
+                                "Annotations": {
+                                  "Collection": [
+                                    {
+                                      "AnnotationName": "A2d",
+                                      "PropertiesBinding": [
+                                        {
+                                          "PropertyName": "R",
+                                          "PropertyValue": {
+                                            "X": 10.0,
+                                            "Y": 10.0,
+                                            "Width": 12.0,
+                                            "Height": 15.96,
+                                            "PropertyType": "Rect"
+                                          }
+                                        },
+                                        {
+                                          "PropertyName": "PC",
+                                          "PropertyValue": {
+                                            "Points": [
+                                              "436,265.03999999999996",
+                                              "509,245.13090909090909"
                                             ],
                                             "PropertyType": "Points"
                                           }
@@ -3044,6 +3614,40 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "_properties": {
+                              "Description": {
+                                "PropertyName": "Description",
+                                "PropertyValue": ""
+                              }
+                            },
+                            "Direction": "NotSet",
+                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                            "ElementName": "mp57",
+                            "Uid": "41841247-c604-4137-84f6-2e004b054032",
+                            "Children": [],
+                            "Annotations": {
+                              "Collection": [
+                                {
+                                  "AnnotationName": "Mp",
+                                  "PropertiesBinding": [
+                                    {
+                                      "PropertyName": "E",
+                                      "PropertyValue": {
+                                        "EnumValue": "Bottom",
+                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                        "PropertyType": "Enum"
+                                      }
+                                    },
+                                    {
+                                      "PropertyName": "F",
+                                      "PropertyValue": 0.49952963914400395
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           }
                         ],
                         "Annotations": {
@@ -3074,7 +3678,7 @@
                           },
                           "EntryCode": {
                             "PropertyName": "EntryCode",
-                            "PropertyValue": "PedGreen.Close();\r\nPedRed.Open();"
+                            "PropertyValue": "PedRed.Open();"
                           },
                           "DoingCodeMethodName": {
                             "PropertyName": "DoingCodeMethodName",
@@ -3108,7 +3712,7 @@
                           }
                         },
                         "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,State",
-                        "ElementName": "PedShouldStop",
+                        "ElementName": "PedestrianRedLight",
                         "Uid": "4d6785fd-bf25-4cd5-9b4d-c0d584ee9167",
                         "Children": [
                           {
@@ -3178,6 +3782,40 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "_properties": {
+                              "Description": {
+                                "PropertyName": "Description",
+                                "PropertyValue": ""
+                              }
+                            },
+                            "Direction": "NotSet",
+                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                            "ElementName": "mp54",
+                            "Uid": "c79b2a7d-167e-4a48-bb8d-644c6001256c",
+                            "Children": [],
+                            "Annotations": {
+                              "Collection": [
+                                {
+                                  "AnnotationName": "Mp",
+                                  "PropertiesBinding": [
+                                    {
+                                      "PropertyName": "E",
+                                      "PropertyValue": {
+                                        "EnumValue": "Left",
+                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                        "PropertyType": "Enum"
+                                      }
+                                    },
+                                    {
+                                      "PropertyName": "F",
+                                      "PropertyValue": 0.8905471066438202
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           }
                         ],
                         "Annotations": {
@@ -3209,8 +3847,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 355.0,
-                                "Y": 117.03999999999999,
+                                "X": 411.3058906759841,
+                                "Y": 219.64184523179327,
                                 "Width": 863.0,
                                 "Height": 413.0,
                                 "PropertyType": "Rect"
@@ -3278,8 +3916,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "452,248.04",
-                                  "490,260.4651968503937"
+                                  "508.3058906759841,350.64184523179324",
+                                  "546.3058906759841,363.0670420821869"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3363,8 +4001,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "234,244.00313364055296",
-                                  "355,241.21511520737323"
+                                  "290.3058906759841,350.64184523179324",
+                                  "411.3058906759841,347.8538267986135"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3416,14 +4054,14 @@
                       },
                       "EffectCode": {
                         "PropertyName": "EffectCode",
-                        "PropertyValue": ""
+                        "PropertyValue": "CarGreen.Close();\r\nPedRed.Close();"
                       },
                       "Description": {
                         "PropertyName": "Description",
                         "PropertyValue": ""
                       }
                     },
-                    "UidFrom": "f0f34cc1-8438-4c06-91d9-a0f90da4242c",
+                    "UidFrom": "9af6bc5b-7763-49ad-a754-6f773bf1b68f",
                     "UidTo": "e0984a73-a433-4242-b99e-36296fecfbfc",
                     "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
                     "ElementName": "it2",
@@ -3437,9 +4075,9 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 10.0,
-                                "Y": 10.0,
-                                "Width": 127.02333333333334,
+                                "X": -7.382367936480591,
+                                "Y": 15.937394743764514,
+                                "Width": 135.70000000000002,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -3448,8 +4086,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "355,308.93873417721517",
-                                  "234,296.68556962025315"
+                                  "546.3058906759841,385.02242458613523",
+                                  "290.3058906759841,387.9286338420777"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3472,7 +4110,7 @@
                       },
                       "Guard": {
                         "PropertyName": "Guard",
-                        "PropertyValue": "t > T1"
+                        "PropertyValue": "PedestrianRequest.IsActive && t > CarGreenLightDuration"
                       },
                       "GuardName": {
                         "PropertyName": "GuardName",
@@ -3505,9 +4143,9 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 10.0,
-                                "Y": 10.0,
-                                "Width": 50.84666666666667,
+                                "X": -43.000000000000114,
+                                "Y": 65.0,
+                                "Width": 326.68333333333334,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -3516,8 +4154,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "640,238.91128712871284",
-                                  "728,240.51524752475245"
+                                  "696.3058906759841,341.5131323605061",
+                                  "784.3058906759841,343.11709275654573"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3540,7 +4178,7 @@
                       },
                       "Guard": {
                         "PropertyName": "Guard",
-                        "PropertyValue": "t > T2"
+                        "PropertyValue": "t > CarYellowLightDuration"
                       },
                       "GuardName": {
                         "PropertyName": "GuardName",
@@ -3573,9 +4211,9 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 10.0,
-                                "Y": 10.0,
-                                "Width": 50.84666666666667,
+                                "X": -24.912410199126498,
+                                "Y": 12.115903648431924,
+                                "Width": 161.92666666666668,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -3584,8 +4222,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "904,234.27776223776223",
-                                  "1005,240.73930069930068"
+                                  "960.3058906759841,336.8796074695555",
+                                  "1061.305890675984,343.34114593109393"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3608,7 +4246,7 @@
                       },
                       "Guard": {
                         "PropertyName": "Guard",
-                        "PropertyValue": "t > T3"
+                        "PropertyValue": "t > CarAndPedestrianStopDelay"
                       },
                       "GuardName": {
                         "PropertyName": "GuardName",
@@ -3643,7 +4281,7 @@
                               "PropertyValue": {
                                 "X": 10.0,
                                 "Y": 10.0,
-                                "Width": 50.84666666666667,
+                                "Width": 186.07666666666668,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -3652,8 +4290,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1074.2324324324325,290.03999999999996",
-                                  "1078.0756756756757,388.03999999999996"
+                                  "1130.5383231084165,392.64184523179324",
+                                  "1134.3815663516598,490.64184523179324"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3670,13 +4308,15 @@
                         "PropertyValue": {
                           "PropertyType": "Custom",
                           "CustomTypeObject": {
-                            "$type": "State2Language.Meta.Triggers.NoTrigger, State2.Language"
+                            "$type": "State2Language.Meta.Triggers.FinishedTrigger, State2.Language",
+                            "Target": "Final1",
+                            "TriggerOnParallelStatesWhen": 0
                           }
                         }
                       },
                       "Guard": {
                         "PropertyName": "Guard",
-                        "PropertyValue": "t > T4"
+                        "PropertyValue": ""
                       },
                       "GuardName": {
                         "PropertyName": "GuardName",
@@ -3709,9 +4349,9 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 10.0,
-                                "Y": 10.0,
-                                "Width": 50.84666666666667,
+                                "X": -86.32062526623622,
+                                "Y": -74.12441277790765,
+                                "Width": 178.57666666666668,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -3720,8 +4360,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1018,435.73907407407404",
-                                  "903,436.33629629629627"
+                                  "1074.305890675984,538.3409193058674",
+                                  "959.3058906759841,538.9381415280895"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -3744,7 +4384,7 @@
                       },
                       "Guard": {
                         "PropertyName": "Guard",
-                        "PropertyValue": "t > T5"
+                        "PropertyValue": "t > CarAndPedestrianStopDelay"
                       },
                       "GuardName": {
                         "PropertyName": "GuardName",
@@ -3777,9 +4417,9 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 10.0,
-                                "Y": 10.0,
-                                "Width": 50.84666666666667,
+                                "X": 7.884096351568019,
+                                "Y": -14.332891956966932,
+                                "Width": 186.07666666666668,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
                               }
@@ -3788,8 +4428,352 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "753,427.3587772925764",
-                                  "570.3978494623657,297.03999999999996"
+                                  "809.3058906759841,529.9606225243697",
+                                  "626.7037401383498,399.64184523179324"
+                                ],
+                                "PropertyType": "Points"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "_properties": {
+                      "SelectedEventSignatureReference": {
+                        "PropertyName": "SelectedEventSignatureReference",
+                        "PropertyValue": {
+                          "TargetUid": "44975f17-9780-4f1d-961e-1ba0c9572514",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "SelectedPortReference": {
+                        "PropertyName": "SelectedPortReference",
+                        "PropertyValue": {
+                          "TargetUid": "36d7f58f-cbe1-4d10-bb17-e1f52f5ff2cc",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "EventInvocationComponentName": {
+                        "PropertyName": "EventInvocationComponentName",
+                        "PropertyValue": "Controller"
+                      },
+                      "EventInvocationInterfaceName": {
+                        "PropertyName": "EventInvocationInterfaceName",
+                        "PropertyValue": "I1"
+                      },
+                      "SelectedEventInvocationSignature": {
+                        "PropertyName": "SelectedEventInvocationSignature",
+                        "PropertyValue": "Controller:I1.Stop()"
+                      },
+                      "Guard": {
+                        "PropertyName": "Guard",
+                        "PropertyValue": ""
+                      },
+                      "GuardName": {
+                        "PropertyName": "GuardName",
+                        "PropertyValue": ""
+                      },
+                      "EffectName": {
+                        "PropertyName": "EffectName",
+                        "PropertyValue": ""
+                      },
+                      "EffectCode": {
+                        "PropertyName": "EffectCode",
+                        "PropertyValue": "CarYellow.Close();\r\nPedRed.Close();"
+                      },
+                      "Description": {
+                        "PropertyName": "Description",
+                        "PropertyValue": ""
+                      }
+                    },
+                    "UidFrom": "26bb711c-d8c7-429d-b27b-f55c7fd5ea8e",
+                    "UidTo": "fbc6829c-c1c0-402a-b99a-2de90c5b4e36",
+                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
+                    "ElementName": "it5",
+                    "Uid": "c555fa18-1f0e-488e-b293-6b545efad1a7",
+                    "Children": [],
+                    "Annotations": {
+                      "Collection": [
+                        {
+                          "AnnotationName": "A2d",
+                          "PropertiesBinding": [
+                            {
+                              "PropertyName": "R",
+                              "PropertyValue": {
+                                "X": -361.0000000000002,
+                                "Y": -81.00000000000006,
+                                "Width": 135.70000000000002,
+                                "Height": 15.96,
+                                "PropertyType": "Rect"
+                              }
+                            },
+                            {
+                              "PropertyName": "PC",
+                              "PropertyValue": {
+                                "Points": [
+                                  "784.6320852942508,294.6418452317933",
+                                  "397.5950497064283,169.6412327257861",
+                                  "259.61521265088106,329.64184523179324"
+                                ],
+                                "PropertyType": "Points"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "_properties": {
+                      "SelectedEventSignatureReference": {
+                        "PropertyName": "SelectedEventSignatureReference",
+                        "PropertyValue": {
+                          "TargetUid": "44975f17-9780-4f1d-961e-1ba0c9572514",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "SelectedPortReference": {
+                        "PropertyName": "SelectedPortReference",
+                        "PropertyValue": {
+                          "TargetUid": "36d7f58f-cbe1-4d10-bb17-e1f52f5ff2cc",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "EventInvocationComponentName": {
+                        "PropertyName": "EventInvocationComponentName",
+                        "PropertyValue": "Controller"
+                      },
+                      "EventInvocationInterfaceName": {
+                        "PropertyName": "EventInvocationInterfaceName",
+                        "PropertyValue": "I1"
+                      },
+                      "SelectedEventInvocationSignature": {
+                        "PropertyName": "SelectedEventInvocationSignature",
+                        "PropertyValue": "Controller:I1.Stop()"
+                      },
+                      "Guard": {
+                        "PropertyName": "Guard",
+                        "PropertyValue": ""
+                      },
+                      "GuardName": {
+                        "PropertyName": "GuardName",
+                        "PropertyValue": ""
+                      },
+                      "EffectName": {
+                        "PropertyName": "EffectName",
+                        "PropertyValue": ""
+                      },
+                      "EffectCode": {
+                        "PropertyName": "EffectCode",
+                        "PropertyValue": "CarRed.Close();\r\nPedRed.Close();"
+                      },
+                      "Description": {
+                        "PropertyName": "Description",
+                        "PropertyValue": ""
+                      }
+                    },
+                    "UidFrom": "1ac00201-0831-43d6-a568-c444bc642111",
+                    "UidTo": "472cba1e-f2c6-4818-87c9-963ced048a7f",
+                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
+                    "ElementName": "it6",
+                    "Uid": "45a8e92e-ad7f-462e-ac06-ce3c5d0a08a9",
+                    "Children": [],
+                    "Annotations": {
+                      "Collection": [
+                        {
+                          "AnnotationName": "A2d",
+                          "PropertiesBinding": [
+                            {
+                              "PropertyName": "R",
+                              "PropertyValue": {
+                                "X": -100.0,
+                                "Y": -59.00000000000006,
+                                "Width": 135.70000000000002,
+                                "Height": 15.96,
+                                "PropertyType": "Rect"
+                              }
+                            },
+                            {
+                              "PropertyName": "PC",
+                              "PropertyValue": {
+                                "Points": [
+                                  "1096.8630600526794,294.64184523179324",
+                                  "685.3860684697073,123.29365518844426",
+                                  "279.88788105894,329.64184523179324"
+                                ],
+                                "PropertyType": "Points"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "_properties": {
+                      "SelectedEventSignatureReference": {
+                        "PropertyName": "SelectedEventSignatureReference",
+                        "PropertyValue": {
+                          "TargetUid": "44975f17-9780-4f1d-961e-1ba0c9572514",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "SelectedPortReference": {
+                        "PropertyName": "SelectedPortReference",
+                        "PropertyValue": {
+                          "TargetUid": "36d7f58f-cbe1-4d10-bb17-e1f52f5ff2cc",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "EventInvocationComponentName": {
+                        "PropertyName": "EventInvocationComponentName",
+                        "PropertyValue": "Controller"
+                      },
+                      "EventInvocationInterfaceName": {
+                        "PropertyName": "EventInvocationInterfaceName",
+                        "PropertyValue": "I1"
+                      },
+                      "SelectedEventInvocationSignature": {
+                        "PropertyName": "SelectedEventInvocationSignature",
+                        "PropertyValue": "Controller:I1.Stop()"
+                      },
+                      "Guard": {
+                        "PropertyName": "Guard",
+                        "PropertyValue": ""
+                      },
+                      "GuardName": {
+                        "PropertyName": "GuardName",
+                        "PropertyValue": ""
+                      },
+                      "EffectName": {
+                        "PropertyName": "EffectName",
+                        "PropertyValue": ""
+                      },
+                      "EffectCode": {
+                        "PropertyName": "EffectCode",
+                        "PropertyValue": "CarRed.Close();"
+                      },
+                      "Description": {
+                        "PropertyName": "Description",
+                        "PropertyValue": ""
+                      }
+                    },
+                    "UidFrom": "41841247-c604-4137-84f6-2e004b054032",
+                    "UidTo": "9013ab6e-cfb7-4726-b4a3-f11bba78daea",
+                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
+                    "ElementName": "it7",
+                    "Uid": "0e62cc2c-fc4e-4e72-8f78-d8cf87f94ed6",
+                    "Children": [],
+                    "Annotations": {
+                      "Collection": [
+                        {
+                          "AnnotationName": "A2d",
+                          "PropertiesBinding": [
+                            {
+                              "PropertyName": "R",
+                              "PropertyValue": {
+                                "X": 10.0,
+                                "Y": 10.0,
+                                "Width": 214.7566666666667,
+                                "Height": 15.96,
+                                "PropertyType": "Rect"
+                              }
+                            },
+                            {
+                              "PropertyName": "PC",
+                              "PropertyValue": {
+                                "Points": [
+                                  "1149.2353365475847,590.6418452317932",
+                                  "255.73625059890625,614.029501646954",
+                                  "171.31724358186852,429.64184523179324"
+                                ],
+                                "PropertyType": "Points"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "_properties": {
+                      "SelectedEventSignatureReference": {
+                        "PropertyName": "SelectedEventSignatureReference",
+                        "PropertyValue": {
+                          "TargetUid": "44975f17-9780-4f1d-961e-1ba0c9572514",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "SelectedPortReference": {
+                        "PropertyName": "SelectedPortReference",
+                        "PropertyValue": {
+                          "TargetUid": "36d7f58f-cbe1-4d10-bb17-e1f52f5ff2cc",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "EventInvocationComponentName": {
+                        "PropertyName": "EventInvocationComponentName",
+                        "PropertyValue": "Controller"
+                      },
+                      "EventInvocationInterfaceName": {
+                        "PropertyName": "EventInvocationInterfaceName",
+                        "PropertyValue": "I1"
+                      },
+                      "SelectedEventInvocationSignature": {
+                        "PropertyName": "SelectedEventInvocationSignature",
+                        "PropertyValue": "Controller:I1.Stop()"
+                      },
+                      "Guard": {
+                        "PropertyName": "Guard",
+                        "PropertyValue": ""
+                      },
+                      "GuardName": {
+                        "PropertyName": "GuardName",
+                        "PropertyValue": ""
+                      },
+                      "EffectName": {
+                        "PropertyName": "EffectName",
+                        "PropertyValue": ""
+                      },
+                      "EffectCode": {
+                        "PropertyName": "EffectCode",
+                        "PropertyValue": "CarRed.Close();\r\nPedRed.Close();"
+                      },
+                      "Description": {
+                        "PropertyName": "Description",
+                        "PropertyValue": ""
+                      }
+                    },
+                    "UidFrom": "c79b2a7d-167e-4a48-bb8d-644c6001256c",
+                    "UidTo": "96713772-4124-4fda-8cc7-dd4767db23e9",
+                    "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
+                    "ElementName": "it8",
+                    "Uid": "b77b25ce-eb6a-4f82-8b94-b1c80dea82a7",
+                    "Children": [],
+                    "Annotations": {
+                      "Collection": [
+                        {
+                          "AnnotationName": "A2d",
+                          "PropertiesBinding": [
+                            {
+                              "PropertyName": "R",
+                              "PropertyValue": {
+                                "X": -35.82287424547246,
+                                "Y": -31.059946680455596,
+                                "Width": 135.70000000000002,
+                                "Height": 15.96,
+                                "PropertyType": "Rect"
+                              }
+                            },
+                            {
+                              "PropertyName": "PC",
+                              "PropertyValue": {
+                                "Points": [
+                                  "809.3058906759841,578.6965558961753",
+                                  "319.66345674000365,543.8848539631465",
+                                  "267.12073562109475,429.64184523179324"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -5498,6 +6482,141 @@
                                   "516,371.03999999999996"
                                 ],
                                 "PropertyType": "Points"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "Annotations": {
+                  "Collection": [
+                    {
+                      "AnnotationName": "Diagram",
+                      "PropertiesBinding": [
+                        {
+                          "PropertyName": "ShowGrid",
+                          "PropertyValue": false
+                        },
+                        {
+                          "PropertyName": "GridSize",
+                          "PropertyValue": 50
+                        },
+                        {
+                          "PropertyName": "Snap",
+                          "PropertyValue": false
+                        },
+                        {
+                          "PropertyName": "SnapSize",
+                          "PropertyValue": 5
+                        },
+                        {
+                          "PropertyName": "ShowAssociationNames",
+                          "PropertyValue": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "_properties": {
+                  "TypeId": {
+                    "PropertyName": "TypeId",
+                    "PropertyValue": 24
+                  },
+                  "BackgroundColor": {
+                    "PropertyName": "BackgroundColor",
+                    "PropertyValue": {
+                      "A": 255,
+                      "R": 255,
+                      "G": 235,
+                      "B": 205,
+                      "PropertyType": "Color"
+                    }
+                  },
+                  "ProductSystemReference": {
+                    "PropertyName": "ProductSystemReference",
+                    "PropertyValue": {
+                      "TargetUid": "00000000-0000-0000-0000-000000000000",
+                      "PropertyType": "Reference"
+                    }
+                  },
+                  "Description": {
+                    "PropertyName": "Description",
+                    "PropertyValue": ""
+                  }
+                },
+                "NamedElementTypeDescription": "d0fb5e22-2dcd-487d-8b0b-c7b9d7283674,MotionSystem",
+                "ElementName": "MotionSystem",
+                "Uid": "f4e28f1b-f174-4985-a201-a0c38b6d9711",
+                "Children": [
+                  {
+                    "_properties": {
+                      "TypeId": {
+                        "PropertyName": "TypeId",
+                        "PropertyValue": 30
+                      },
+                      "CustomInterface": {
+                        "PropertyName": "CustomInterface",
+                        "PropertyValue": false
+                      },
+                      "InterfaceReference": {
+                        "PropertyName": "InterfaceReference",
+                        "PropertyValue": {
+                          "TargetUid": "6159547e-6bcf-40fa-9807-7b0e8e88ee27",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "HalInterface": {
+                        "PropertyName": "HalInterface",
+                        "PropertyValue": {
+                          "TargetUid": "a21f9a13-0281-4b53-b85e-e6b67240c311",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "ImplementationReference": {
+                        "PropertyName": "ImplementationReference",
+                        "PropertyValue": {
+                          "TargetUid": "0a141d6b-7ce0-4337-a8b3-b0b44ba6caf9",
+                          "PropertyType": "Reference"
+                        }
+                      },
+                      "ImplementationNamespace": {
+                        "PropertyName": "ImplementationNamespace",
+                        "PropertyValue": ""
+                      },
+                      "ImplementationObject": {
+                        "PropertyName": "ImplementationObject",
+                        "PropertyValue": ""
+                      },
+                      "SerialAddress": {
+                        "PropertyName": "SerialAddress",
+                        "PropertyValue": ""
+                      },
+                      "Description": {
+                        "PropertyName": "Description",
+                        "PropertyValue": ""
+                      }
+                    },
+                    "NamedElementTypeDescription": "d0fb5e22-2dcd-487d-8b0b-c7b9d7283674,DigitalSensor",
+                    "ElementName": "PedestrianRequest",
+                    "Uid": "1de8fda7-89bb-484a-af67-6257cb9c54c6",
+                    "Children": [],
+                    "Annotations": {
+                      "Collection": [
+                        {
+                          "AnnotationName": "E2d",
+                          "PropertiesBinding": [
+                            {
+                              "PropertyName": "R",
+                              "PropertyValue": {
+                                "X": 261.64705882352945,
+                                "Y": 167.04000000000002,
+                                "Width": 50.0,
+                                "Height": 50.0,
+                                "PropertyType": "Rect"
                               }
                             }
                           ]

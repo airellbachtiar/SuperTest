@@ -23,6 +23,8 @@
 
 #pragma warning disable CS8618
 
+using System;
+using System.Collections.Generic;
 using InterfaceServices.ExceptionHandling;
 using InterfaceServices.Model;
 using ExtensionMethods;

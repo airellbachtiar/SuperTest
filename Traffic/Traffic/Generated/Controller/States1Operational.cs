@@ -21,10 +21,15 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
+using System.Collections.Generic;
 using InterfaceServices.Model;
 using StatemachineFramework.Statemachines;
 using StatemachineFramework.Statemachines.Builder;
+using ExtensionMethods;
+using StatemachineFramework.Statemachines.Triggers;
+using Traffic.Generated.Interfaces;
 using HalFramework.Interfaces.Reference;
+using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 
@@ -35,103 +40,152 @@ public class States1Operational : Statemachine
         Name = "States";
 
         // Sub statemachines
-        var States1OperationalPedWalkBlinkingStates = new States1OperationalPedWalkBlinkingStates(context, inBuffer);
+        var States1OperationalPedestrianGreenLightBlinkingStates = new States1OperationalPedestrianGreenLightBlinkingStates(context, inBuffer);
 
         // States
         var initial2 = new StateBuilder(StateId.state_initial2_3, StateBuilder.CreationType.Initial)
             .Name("Initial2")
             .Build();
-        var carsDrive = new StateBuilder(StateId.state_carsDrive_4)
-            .Name("CarsDrive")
+        var carGreenLight = new StateBuilder(StateId.state_carGreenLight_4)
+            .Name("CarGreenLight")
             .OnEntry(context.CarMayDrive)
             .Build();
-        var carsShouldStop = new StateBuilder(StateId.state_carsShouldStop_5)
-            .Name("CarsShouldStop")
-            .OnEntry(context.CarShouldBeStopped)
+        var carYellowLight = new StateBuilder(StateId.state_carYellowLight_5)
+            .Name("CarYellowLight")
+            .OnEntry(context.CarShouldSlowDown)
             .Build();
-        var carsStopped = new StateBuilder(StateId.state_carsStopped_6)
-            .Name("CarsStopped")
-            .OnEntry(context.CarsShouldBesStopped)
+        var carRedLight = new StateBuilder(StateId.state_carRedLight_6)
+            .Name("CarRedLight")
+            .OnEntry(context.CarsShouldStop)
             .Build();
-        var pedWalk = new StateBuilder(StateId.state_pedWalk_7)
-            .Name("PedWalk")
-            .OnEntry(context.Walk)
-            .SubStatemachine(States1OperationalPedWalkBlinkingStates)
+        var pedestrianGreenLight = new StateBuilder(StateId.state_pedestrianGreenLight_7)
+            .Name("PedestrianGreenLight")
+            .OnEntry(context.__ENTRY_state_pedestrianGreenLight_7)
+            .SubStatemachine(States1OperationalPedestrianGreenLightBlinkingStates)
             .Build();
-        var pedShouldStop = new StateBuilder(StateId.state_pedShouldStop_11)
-            .Name("PedShouldStop")
-            .OnEntry(context.__ENTRY_state_pedShouldStop_11)
+        var pedestrianRedLight = new StateBuilder(StateId.state_pedestrianRedLight_14)
+            .Name("PedestrianRedLight")
+            .OnEntry(context.__ENTRY_state_pedestrianRedLight_14)
             .Build();
 
         States = new List<StatemachineFramework.Statemachines.State>
         {
             initial2,
-            carsDrive,
-            carsShouldStop,
-            carsStopped,
-            pedWalk,
-            pedShouldStop
+            carGreenLight,
+            carYellowLight,
+            carRedLight,
+            pedestrianGreenLight,
+            pedestrianRedLight
         };
 
         // Transitions
-        var t2 = new TransitionBuilder(TransitionId.transition_t2_3)
+        var t2 = new TransitionBuilder(TransitionId.transition_t2_5)
             .Name("t2")
             .From(StateId.state_initial2_3)
-            .To(StateId.state_carsDrive_4)
+            .To(StateId.state_carGreenLight_4)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.CarGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
             .Build();
-        var t4 = new TransitionBuilder(TransitionId.transition_t4_4)
+        var t4 = new TransitionBuilder(TransitionId.transition_t4_6)
             .Name("t4")
-            .From(StateId.state_carsDrive_4)
-            .To(StateId.state_carsShouldStop_5)
-            .Guard(context.__GUARD_transition_t4_4)
+            .From(StateId.state_carGreenLight_4)
+            .To(StateId.state_carYellowLight_5)
+            .Guard(context.__GUARD_transition_t4_6)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.CarYellow.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarYellow.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.CarGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
             .Build();
-        var t5 = new TransitionBuilder(TransitionId.transition_t5_5)
+        var t5 = new TransitionBuilder(TransitionId.transition_t5_7)
             .Name("t5")
-            .From(StateId.state_carsShouldStop_5)
-            .To(StateId.state_carsStopped_6)
-            .Guard(context.__GUARD_transition_t5_5)
+            .From(StateId.state_carYellowLight_5)
+            .To(StateId.state_carRedLight_6)
+            .Guard(context.__GUARD_transition_t5_7)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.CarYellow.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarYellow.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
             .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Build();
-        var t6 = new TransitionBuilder(TransitionId.transition_t6_6)
+        var t6 = new TransitionBuilder(TransitionId.transition_t6_8)
             .Name("t6")
-            .From(StateId.state_carsStopped_6)
-            .To(StateId.state_pedWalk_7)
-            .Guard(context.__GUARD_transition_t6_6)
+            .From(StateId.state_carRedLight_6)
+            .To(StateId.state_pedestrianGreenLight_7)
+            .Guard(context.__GUARD_transition_t6_8)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
-            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
-            .Promise(() => context.PedGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
             .Build();
-        var t7 = new TransitionBuilder(TransitionId.transition_t7_7)
+        var t7 = new TransitionBuilder(TransitionId.transition_t7_9)
             .Name("t7")
-            .From(StateId.state_pedWalk_7)
-            .To(StateId.state_pedShouldStop_11)
-            .Guard(context.__GUARD_transition_t7_7)
+            .From(StateId.state_pedestrianGreenLight_7)
+            .To(StateId.state_pedestrianRedLight_14)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
-            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
-            .Promise(() => context.PedGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
             .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
+            .FinishedTrigger("Final1", pedestrianGreenLight.SubStatemachines, FinishedTriggerType.All)
             .Build();
-        var t8 = new TransitionBuilder(TransitionId.transition_t8_8)
+        var t8 = new TransitionBuilder(TransitionId.transition_t8_10)
             .Name("t8")
-            .From(StateId.state_pedShouldStop_11)
-            .To(StateId.state_carsDrive_4)
-            .Guard(context.__GUARD_transition_t8_8)
+            .From(StateId.state_pedestrianRedLight_14)
+            .To(StateId.state_carGreenLight_4)
+            .Guard(context.__GUARD_transition_t8_10)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.CarGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .Build();
+        var it2 = new TransitionBuilder(TransitionId.transition_it2_11)
+            .Name("it2")
+            .From(StateId.state_carGreenLight_4)
+            .To(StateId.state_poweredDown_1)
+            .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Promise(() => context.CarGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it2_11())
+            .Build();
+        var it5 = new TransitionBuilder(TransitionId.transition_it5_12)
+            .Name("it5")
+            .From(StateId.state_carYellowLight_5)
+            .To(StateId.state_poweredDown_1)
+            .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Promise(() => context.CarYellow.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarYellow.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it5_12())
+            .Build();
+        var it6 = new TransitionBuilder(TransitionId.transition_it6_13)
+            .Name("it6")
+            .From(StateId.state_carRedLight_6)
+            .To(StateId.state_poweredDown_1)
+            .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it6_13())
+            .Build();
+        var it7 = new TransitionBuilder(TransitionId.transition_it7_14)
+            .Name("it7")
+            .From(StateId.state_pedestrianGreenLight_7)
+            .To(StateId.state_poweredDown_1)
+            .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it7_14())
+            .Build();
+        var it8 = new TransitionBuilder(TransitionId.transition_it8_15)
+            .Name("it8")
+            .From(StateId.state_pedestrianRedLight_14)
+            .To(StateId.state_poweredDown_1)
+            .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
+            .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it8_15())
             .Build();
 
         Transitions = new List<StatemachineFramework.Statemachines.Transition>
@@ -141,7 +195,12 @@ public class States1Operational : Statemachine
             t5,
             t6,
             t7,
-            t8
+            t8,
+            it2,
+            it5,
+            it6,
+            it7,
+            it8
         };
 
         InitialState = initial2;
