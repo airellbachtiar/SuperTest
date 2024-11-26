@@ -282,6 +282,7 @@ namespace SuperTestWPF.ViewModels
             if (string.IsNullOrEmpty(ChosenFile))
             {
                 _logger.LogWarning("No file chosen.");
+                _logger.LogError("Failed to generate SpecFlow feature file.");
                 return;
             }
 
@@ -313,6 +314,8 @@ namespace SuperTestWPF.ViewModels
                     _superTestController.SelectedLLM = _gemini_1_5;
                     break;
             }
+
+            _logger.LogInformation($"Selected LLM: {SelectedLLM}");
         }
 
         private async Task GenerateSpecFlowFeatureFile(string requirements)
@@ -510,7 +513,7 @@ namespace SuperTestWPF.ViewModels
         // Binding Generator
         private ObservableCollection<FileInformation> _uploadedFiles = [];
         private string _generatedBindingFile = string.Empty;
-        private string _uploadedFeatureFile = string.Empty;
+        private FileInformation? _uploadedFeatureFile = null;
 
         public ICommand GenerateBindingsCommand { get; }
         public ICommand UploadFilesCommand { get; }
@@ -543,7 +546,7 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        public string UploadedFeatureFile
+        public FileInformation? UploadedFeatureFile
         {
             get { return _uploadedFeatureFile; }
             set
@@ -562,13 +565,21 @@ namespace SuperTestWPF.ViewModels
             if (UploadedFiles.Count == 0)
             {
                 _logger.LogWarning("No files uploaded.");
+                _logger.LogError("Failed to generate binding file.");
+                return;
+            }
+
+            if (UploadedFeatureFile == null)
+            {
+                _logger.LogWarning("No feature file uploaded.");
+                _logger.LogError("Failed to generate binding file.");
                 return;
             }
 
             SetLLM();
 
             _logger.LogInformation("Generating binding file...");
-            var generatedBindingFile = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowBindingFileAsync(UploadedFeatureFile, UploadedFiles.ToDictionary(f => f.Value!, f => f.Path!)), TimeSpan.FromSeconds(1));
+            var generatedBindingFile = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowBindingFileAsync(UploadedFeatureFile.Value!, UploadedFiles.ToDictionary(f => f.Value!, f => f.Path!)), TimeSpan.FromSeconds(1));
             GeneratedBindingFile = generatedBindingFile.BindingFiles.First().Value;
             _logger.LogInformation("Binding file generated.");
         }
@@ -601,7 +612,7 @@ namespace SuperTestWPF.ViewModels
                 return string.Empty;
 
             string filepath = openFileDialog.FileName;
-            UploadedFeatureFile = filepath;
+            UploadedFeatureFile = new FileInformation(Path.GetFileName(filepath), File.ReadAllText(filepath));
 
             return filepath;
         }
@@ -623,7 +634,7 @@ namespace SuperTestWPF.ViewModels
         private void ClearAllUpLoadedFiles()
         {
             UploadedFiles.Clear();
-            UploadedFeatureFile = string.Empty;
+            UploadedFeatureFile = null;
         }
     }
 }

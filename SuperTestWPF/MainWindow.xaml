@@ -370,11 +370,17 @@
                     Command="{Binding UploadFeatureFileCommand}"
                     Content="Upload Feature File" />
                 <Button
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding ClearAllUploadedFilesCommand}"
+                    Content="Clear All Uploaded File" />
+                <TextBlock
                     Margin="10,60,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
-                    Command="{Binding ClearAllUploadedFilesCommand}"
-                    Content="Clear All Uploaded File" />
+                    Text="{Binding UploadedFeatureFile.Path}"
+                    TextWrapping="Wrap" />
             </Grid>
         </TabItem>
     </TabControl>

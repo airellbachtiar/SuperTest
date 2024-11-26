@@ -7,7 +7,7 @@ namespace SuperTestWPF.Models
         private string? value;
         private string? path;
 
-        public FileInformation(string? value, string? path)
+        public FileInformation(string? path, string? value)
         {
             Value = value;
             Path = path;

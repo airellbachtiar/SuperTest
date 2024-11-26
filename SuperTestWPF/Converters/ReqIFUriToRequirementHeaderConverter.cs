@@ -20,7 +20,7 @@ namespace SuperTestWPF.Converters
 
                 if (reqIf != null)
                 {
-                    output.Add(new FileInformation(reqIf.TheHeader.Title, item));
+                    output.Add(new FileInformation(item, reqIf.TheHeader.Title));
                 }
             }
 
