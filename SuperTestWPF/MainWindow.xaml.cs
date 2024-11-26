@@ -19,9 +19,8 @@ namespace SuperTestWPF
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var selectedItem = e.NewValue;
-            var viewModel = DataContext as MainWindowViewModel;
 
-            if (viewModel != null && selectedItem != null)
+            if (DataContext is MainWindowViewModel viewModel && selectedItem != null)
             {
                 viewModel.OnTreeViewItemSelected(selectedItem);
             }
@@ -31,8 +30,7 @@ namespace SuperTestWPF
         {
             if (sender is TextBlock textBlock && textBlock.DataContext is ScenarioModel selectedScenario)
             {
-                var viewModel = DataContext as MainWindowViewModel;
-                if (viewModel != null)
+                if (DataContext is MainWindowViewModel viewModel)
                 {
                     viewModel.SelectedScenario = selectedScenario;
                 }

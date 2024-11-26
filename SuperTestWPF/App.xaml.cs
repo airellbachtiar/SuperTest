@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary;
 using SuperTestLibrary.Storages;
+using SuperTestWPF.Services;
 using SuperTestWPF.ViewModels;
 using System.Windows;
 
@@ -44,6 +45,11 @@ namespace SuperTestWPF
                         }
                         return new GitReqIFStorage(gitFolderPath);
                     });
+                    services.AddSingleton<IGetReqIfService, GetReqIfService>();
+                    services.AddTransient<IFeatureFileGeneratorService, FeatureFileGeneratorService>();
+                    services.AddTransient<IEvaluateFeatureFileService, EvaluateFeatureFileService>();
+                    services.AddTransient<IBindingFileGeneratorService, BindingFileGeneratorService>();
+                    services.AddTransient<IFileService, FileService>();
                 })
                 .Build();
         }

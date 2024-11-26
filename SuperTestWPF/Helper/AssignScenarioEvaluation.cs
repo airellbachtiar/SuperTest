@@ -1,16 +1,15 @@
-﻿using LlmLibrary;
-using SuperTestLibrary.Services.Prompts.ResponseModels;
+﻿using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestWPF.Models;
 
 namespace SuperTestWPF.Helper
 {
     public static class AssignScenarioEvaluation
     {
-        public static void Assign(ILargeLanguageModel largeLanguageModel, ScenarioModel scenarioModel, SpecFlowScenarioEvaluation scenario)
+        public static void Assign(string selectedLlmString, ScenarioModel scenarioModel, SpecFlowScenarioEvaluation scenario)
         {
             var score = scenario.Score;
 
-            scenarioModel.ScenarioEvaluationScoreDetails.Add($"{largeLanguageModel.Id} Evaluation:");
+            scenarioModel.ScenarioEvaluationScoreDetails.Add($"{selectedLlmString} Evaluation:");
             scenarioModel.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
             scenarioModel.ScenarioEvaluationScoreDetails.Add($"Scenario: {scenario.ScenarioName}");
             scenarioModel.ScenarioEvaluationScoreDetails.Add("Clarity and Readability");
@@ -33,10 +32,10 @@ namespace SuperTestWPF.Helper
 
             scenarioModel.ScenarioEvaluationScoreDetails.Add(string.Empty);
             scenarioModel.ScenarioEvaluationScoreDetails.Add($"Total Score = {score.TotalScore}/{score.MaximumScore} ");
-            scenarioModel.ScenarioEvaluationScoreDetails.Add($"Feature file score ({largeLanguageModel.Id}): {score.Percentage}% good");
+            scenarioModel.ScenarioEvaluationScoreDetails.Add($"Feature file score ({selectedLlmString}): {score.Percentage}% good");
             scenarioModel.ScenarioEvaluationScoreDetails.Add("--------------------------------------------------------------------------");
 
-            scenarioModel.ScenarioEvaluationSummary += $"({largeLanguageModel.Id})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
+            scenarioModel.ScenarioEvaluationSummary += $"({selectedLlmString})Scenario: {scenario.ScenarioName}\n{scenario.Summary}\n";
         }
     }
 }

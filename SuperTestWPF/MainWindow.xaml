@@ -23,8 +23,11 @@
 
 
 
-    <TabControl Margin="5" SelectedIndex="1">
-        <TabItem Header="Feature File Generator">
+    <TabControl Margin="5" SelectedIndex="0">
+        <TabItem
+            Height="20"
+            VerticalAlignment="Top"
+            Header="Feature File Generator">
             <Grid>
                 <!--  Define grid with rows and columns  -->
                 <Grid.RowDefinitions>
