@@ -2,6 +2,7 @@
 using LlmLibrary;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
+using Microsoft.Extensions.Logging;
 
 namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
@@ -9,7 +10,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
     [Scope(Feature = "Evaluate SpecFlow Feature File")]
     public class GenerateEvaluationSpecFlowFeatureFileSteps
     {
-        private readonly SuperTestController _superTestController = new(new Mock<IReqIFStorage>().Object);
+        private readonly SuperTestController _superTestController = new(new Mock<IReqIFStorage>().Object, new Mock<ILogger<SuperTestController>>().Object);
         private readonly Mock<ILargeLanguageModel> _mockLargeLanguageModel = new();
         private string _requirements = "The application should generate an evaluation score";
         private string _featureFile = "Feature: Generate Evaluation Score";
@@ -120,7 +121,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         [Then(@"provide detailed feedback")]
         public void ThenProvideDetailedFeedback()
         {
-            Assert.NotEmpty(_evaluateSpecFlowFeatureFileResponse!.Summary);
+            Assert.NotEmpty(_evaluateSpecFlowFeatureFileResponse!.Summary!);
         }
         #endregion
 

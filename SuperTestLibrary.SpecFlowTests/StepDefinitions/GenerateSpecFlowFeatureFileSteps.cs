@@ -3,6 +3,7 @@ using SuperTestLibrary.Helpers;
 using LlmLibrary;
 using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
+using Microsoft.Extensions.Logging;
 
 namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
@@ -10,7 +11,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
     [Scope(Feature = "Generate SpecFlow Feature File Using LLM")]
     public class GenerateSpecFlowFeatureFileStepDefinitions
     {
-        private readonly SuperTestController _superTestController = new SuperTestController(new Mock<IReqIFStorage>().Object);
+        private readonly SuperTestController _superTestController = new SuperTestController(new Mock<IReqIFStorage>().Object, new Mock<ILogger<SuperTestController>>().Object);
         private readonly Mock<ILargeLanguageModel> _mockLargeLanguageModel = new Mock<ILargeLanguageModel>();
         private string _requirements = "The application should generate SpecFlow feature file";
         private SpecFlowFeatureFileResponse? _generatedFeatureFile;

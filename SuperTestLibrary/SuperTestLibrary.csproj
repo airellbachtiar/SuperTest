@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Gherkin" Version="30.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,10 +43,6 @@
 		<None Update="Services\Prompts\EvaluateSpecFlowScenario\Claude_3_5_Sonnet.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Services\Logger\" />
 	</ItemGroup>
 
 </Project>

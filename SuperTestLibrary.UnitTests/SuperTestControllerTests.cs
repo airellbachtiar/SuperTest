@@ -6,6 +6,7 @@ using SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluatio
 using SuperTestLibrary.Storages;
 using SuperTestLibrary.UnitTests.TestData;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace SuperTestLibrary.UnitTests
 {
@@ -19,7 +20,7 @@ namespace SuperTestLibrary.UnitTests
         public void Setup()
         {
             _mockReqIFStorage = new Mock<IReqIFStorage>();
-            _controller = new SuperTestController(_mockReqIFStorage.Object);
+            _controller = new SuperTestController(_mockReqIFStorage.Object, new Mock<ILogger<SuperTestController>>().Object);
             _mockLLM = new Mock<ILargeLanguageModel>();
             _controller.SelectedLLM = _mockLLM.Object;
         }
@@ -292,7 +293,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             var realReqIFStorage = new GitReqIFStorage("C:\\Dev\\GitLocalFolderTest");
-            var controller = new SuperTestController(realReqIFStorage)
+            var controller = new SuperTestController(realReqIFStorage, new Mock<ILogger<SuperTestController>>().Object)
             {
                 SelectedLLM = _mockLLM.Object
             };

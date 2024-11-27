@@ -104,25 +104,33 @@
                         ItemsSource="{Binding LogMessages}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Message}">
+                                <TextBlock>
                                     <TextBlock.Style>
                                         <Style TargetType="TextBlock">
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Level}" Value="Information">
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Information">
                                                     <Setter Property="Foreground" Value="Green" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Level}" Value="Warning">
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
                                                     <Setter Property="Foreground" Value="Orange" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Level}" Value="Error">
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Error">
                                                     <Setter Property="Foreground" Value="Red" />
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding Level}" Value="Debug">
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
                                                     <Setter Property="Foreground" Value="Blue" />
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>
                                     </TextBlock.Style>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0:HH:mm:ss} [{1}] {2}: {3}">
+                                            <Binding Path="Timestamp" />
+                                            <Binding Path="LogLevel" />
+                                            <Binding Path="Category" />
+                                            <Binding Path="Message" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
                                 </TextBlock>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
@@ -330,25 +338,33 @@
                     ItemsSource="{Binding LogMessages}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Message}">
+                            <TextBlock>
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Level}" Value="Information">
+                                            <DataTrigger Binding="{Binding LogLevel}" Value="Information">
                                                 <Setter Property="Foreground" Value="Green" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Level}" Value="Warning">
+                                            <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
                                                 <Setter Property="Foreground" Value="Orange" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Level}" Value="Error">
+                                            <DataTrigger Binding="{Binding LogLevel}" Value="Error">
                                                 <Setter Property="Foreground" Value="Red" />
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Level}" Value="Debug">
+                                            <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
                                                 <Setter Property="Foreground" Value="Blue" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0:HH:mm:ss} [{1}] {2}: {3}">
+                                        <Binding Path="Timestamp" />
+                                        <Binding Path="LogLevel" />
+                                        <Binding Path="Category" />
+                                        <Binding Path="Message" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
                             </TextBlock>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -387,8 +403,10 @@
                     Command="{Binding UploadFeatureFileCommand}"
                     Content="Upload Feature File" />
                 <Button
-                    Margin="10,0,0,0"
-                    HorizontalAlignment="Left"
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="10"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
                     Command="{Binding ClearAllUploadedFilesCommand}"
                     Content="Clear All Uploaded File" />
