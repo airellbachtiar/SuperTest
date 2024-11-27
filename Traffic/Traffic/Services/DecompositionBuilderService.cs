@@ -31,24 +31,24 @@ public class DecompositionBuilderService : IDecompositionBuilder
         IStatemachineLogger logger)
     {
         _factory = new Factory();
-        _grpcHal = _factory.Decomp1Hal.HAL1Communication;
+        _grpcHal = _factory.TrafficDomainModelHal.HAL1Communication;
         _logger = logger;
 
         ConfigureBus();
         ConfigureCommunication();
 
         _factory.Build();
-        _factory.Decomp1.HMI.Components = Components;
+        _factory.TrafficDomainModel.HMI.Components = Components;
 
         AddLoggers();
     }
 
-    public Generated.HMI.HMI HMI => _factory.Decomp1.HMI;
-    public IEnumerable<Component> Components => _factory.Decomp1.Components;
-    public IEnumerable<IBaseInterface> Interfaces => _factory.Decomp1.Interfaces;
-    public IEnumerable<Hal> Hals => _factory.Decomp1Hal.Hals;
+    public Generated.HMI.HMI HMI => _factory.TrafficDomainModel.HMI;
+    public IEnumerable<Component> Components => _factory.TrafficDomainModel.Components;
+    public IEnumerable<IBaseInterface> Interfaces => _factory.TrafficDomainModel.Interfaces;
+    public IEnumerable<Hal> Hals => _factory.TrafficDomainModelHal.Hals;
     public IEnumerable<ICommunicator> CommunicationElements =>
-        _factory.Decomp1Hal.HAL1Communication.CommunicationElements;
+        _factory.TrafficDomainModelHal.HAL1Communication.CommunicationElements;
 
     private void ConfigureBus()
     {

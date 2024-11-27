@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : Decomp1.HMI 
+// Source    : TrafficDomainModel.HMI 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo

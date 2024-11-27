@@ -33,7 +33,7 @@ using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated;
 
-public class Decomp1Factory
+public class TrafficDomainModelFactory
 {
     public IList<Component> Components { get; } = new List<Component>();
     public IList<IBaseInterface> Interfaces { get; } = new List<IBaseInterface>();

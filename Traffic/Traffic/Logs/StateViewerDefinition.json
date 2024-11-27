@@ -102,13 +102,19 @@
                         }
                       ],
                       "Type": "State",
-                      "Name": "PedestrianGreenLight"
+                      "Name": "PedestrianGreenLightFlicker"
                     },
                     {
                       "StateId": 14,
                       "SubStates": [],
                       "Type": "State",
                       "Name": "PedestrianRedLight"
+                    },
+                    {
+                      "StateId": 15,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "PedestrianGreenLight"
                     }
                   ],
                   "Type": "StateMachine",
@@ -120,7 +126,7 @@
             }
           ],
           "Type": "StateMachine",
-          "Name": "States1"
+          "Name": "TrafficStates"
         }
       ]
     },

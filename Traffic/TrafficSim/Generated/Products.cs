@@ -14,7 +14,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : Motion simulator (MotionSystem) 
-// Source    : MotionSystem 
+// Source    : Input 
 // ---------------------------------------------------------------------- 
 
 using System.Collections;

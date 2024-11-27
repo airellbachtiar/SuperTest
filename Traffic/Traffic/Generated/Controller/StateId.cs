@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : All state machines of Decomp1.Controller 
+// Source    : All state machines of TrafficDomainModel.Controller 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -31,8 +31,9 @@ public static class StateId
     public const long state_carGreenLight_4 = 4;
     public const long state_carYellowLight_5 = 5;
     public const long state_carRedLight_6 = 6;
-    public const long state_pedestrianGreenLight_7 = 7;
+    public const long state_pedestrianGreenLightFlicker_7 = 7;
     public const long state_pedestrianRedLight_14 = 14;
+    public const long state_pedestrianGreenLight_15 = 15;
     public const long state_initial3_8 = 8;
     public const long state_pedestrianFlickering_9 = 9;
     public const long state_final1_13 = 13;

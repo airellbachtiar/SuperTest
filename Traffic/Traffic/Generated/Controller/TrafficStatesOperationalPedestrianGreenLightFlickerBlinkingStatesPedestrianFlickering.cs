@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : Decomp1.Controller.States1.Operational.PedestrianGreenLight.BlinkingStates.PedestrianFlickering 
+// Source    : TrafficDomainModel.Controller.TrafficStates.Operational.PedestrianGreenLightFlicker.BlinkingStates.PedestrianFlickering 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -32,9 +32,9 @@ using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 
-public class States1OperationalPedestrianGreenLightBlinkingStatesPedestrianFlickering : Statemachine
+public class TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering : Statemachine
 {
-    public States1OperationalPedestrianGreenLightBlinkingStatesPedestrianFlickering(ControllerContext context, EventBuffer inBuffer)
+    public TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering(ControllerContext context, EventBuffer inBuffer)
     {
         Name = "States";
 

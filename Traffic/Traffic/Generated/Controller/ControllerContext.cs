@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : All state machines of Decomp1.Controller 
+// Source    : All state machines of TrafficDomainModel.Controller 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -39,7 +39,7 @@ public partial class ControllerContext
     public Port<NormallyClosedValveItf> PedRed { get => GetProperty(ref _PedRed); set => _PedRed = value; }
     public Port<DigitalSensorItf> PedestrianRequest { get => GetProperty(ref _PedestrianRequest); set => _PedestrianRequest = value; }
 
-    internal void __EFFECT_transition_it1_17()
+    internal void __EFFECT_transition_it1_18()
     {
         /* Original Code
         PedRed.Open();
@@ -49,7 +49,7 @@ public partial class ControllerContext
         CarRed.Open();
     }
 
-    internal void __EFFECT_transition_it2_11()
+    internal void __EFFECT_transition_it2_12()
     {
         /* Original Code
         CarGreen.Close();
@@ -59,7 +59,7 @@ public partial class ControllerContext
         PedRed.Close();
     }
 
-    internal void __EFFECT_transition_it5_12()
+    internal void __EFFECT_transition_it5_13()
     {
         /* Original Code
         CarYellow.Close();
@@ -69,7 +69,7 @@ public partial class ControllerContext
         PedRed.Close();
     }
 
-    internal void __EFFECT_transition_it6_13()
+    internal void __EFFECT_transition_it6_14()
     {
         /* Original Code
         CarRed.Close();
@@ -79,7 +79,7 @@ public partial class ControllerContext
         PedRed.Close();
     }
 
-    internal void __EFFECT_transition_it7_14()
+    internal void __EFFECT_transition_it7_15()
     {
         /* Original Code
         CarRed.Close();
@@ -87,7 +87,7 @@ public partial class ControllerContext
         CarRed.Close();
     }
 
-    internal void __EFFECT_transition_it8_15()
+    internal void __EFFECT_transition_it8_16()
     {
         /* Original Code
         CarRed.Close();
@@ -131,14 +131,6 @@ public partial class ControllerContext
         CarRed.Open();
     }
 
-    internal void __ENTRY_state_pedestrianGreenLight_7()
-    {
-        /* Original Code
-        PedRed.Close();
-        */
-        PedRed.Close();
-    }
-
     internal void __ENTRY_state_pedestrianRedLight_14()
     {
         /* Original Code
@@ -147,12 +139,30 @@ public partial class ControllerContext
         PedRed.Open();
     }
 
+    internal void __ENTRY_state_pedestrianGreenLight_15()
+    {
+        /* Original Code
+        PedRed.Close();
+        PedGreen.Open();
+        */
+        PedRed.Close();
+        PedGreen.Open();
+    }
+
     internal void __ENTRY_state_greenOn_12()
     {
         /* Original Code
         PedGreen.Open();
         */
         PedGreen.Open();
+    }
+
+    internal void __EXIT_state_pedestrianGreenLight_15()
+    {
+        /* Original Code
+        PedGreen.Close();
+        */
+        PedGreen.Close();
     }
 
     internal void __EXIT_state_greenOn_12()
@@ -185,9 +195,14 @@ public partial class ControllerContext
         return t > CarAndPedestrianStopDelay;
     }
 
+    internal bool __GUARD_transition_t30_11(TimeSpan t)
+    {
+        return t > PedestrianFullGreenLightDuration;
+    }
+
     internal bool __GUARD_transition_t12_4(TimeSpan t)
     {
-        return t > PedestrianGreenLightDuration;
+        return t > PedestrianFlickeringGreenLightDuration;
     }
 
     internal bool __GUARD_transition_t10_0(TimeSpan t)

@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : Decomp1.Controller 
+// Source    : TrafficDomainModel.Controller 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -81,7 +81,7 @@ public partial class Controller : Component
         Context.PedRed.UsedEvents = Array.Empty<int>();
         Context.PedestrianRequest.UsedEvents = Array.Empty<int>();
 
-        Statemachines.Add(new States1(Context, InBuffer));
+        Statemachines.Add(new TrafficStates(Context, InBuffer));
 
         Statemachines.ForEach(statemachine => statemachine.Build(new BuildInput(Name, this)));
     }

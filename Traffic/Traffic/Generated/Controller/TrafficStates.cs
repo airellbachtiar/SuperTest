@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : Decomp1.Controller.States1 
+// Source    : TrafficDomainModel.Controller.TrafficStates 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -32,14 +32,14 @@ using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 
-public class States1 : Statemachine
+public class TrafficStates : Statemachine
 {
-    public States1(ControllerContext context, EventBuffer inBuffer)
+    public TrafficStates(ControllerContext context, EventBuffer inBuffer)
     {
-        Name = "States1";
+        Name = "TrafficStates";
 
         // Sub statemachines
-        var States1Operational = new States1Operational(context, inBuffer);
+        var TrafficStatesOperational = new TrafficStatesOperational(context, inBuffer);
 
         // States
         var initial1 = new StateBuilder(StateId.state_initial1_0, StateBuilder.CreationType.Initial)
@@ -50,7 +50,7 @@ public class States1 : Statemachine
             .Build();
         var operational = new StateBuilder(StateId.state_operational_2)
             .Name("Operational")
-            .SubStatemachine(States1Operational)
+            .SubStatemachine(TrafficStatesOperational)
             .Build();
 
         States = new List<StatemachineFramework.Statemachines.State>
@@ -61,12 +61,12 @@ public class States1 : Statemachine
         };
 
         // Transitions
-        var t1 = new TransitionBuilder(TransitionId.transition_t1_16)
+        var t1 = new TransitionBuilder(TransitionId.transition_t1_17)
             .Name("t1")
             .From(StateId.state_initial1_0)
             .To(StateId.state_poweredDown_1)
             .Build();
-        var it1 = new TransitionBuilder(TransitionId.transition_it1_17)
+        var it1 = new TransitionBuilder(TransitionId.transition_it1_18)
             .Name("it1")
             .From(StateId.state_poweredDown_1)
             .To(StateId.state_operational_2)
@@ -75,7 +75,7 @@ public class States1 : Statemachine
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
-            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it1_17())
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it1_18())
             .Build();
 
         Transitions = new List<StatemachineFramework.Statemachines.Transition>

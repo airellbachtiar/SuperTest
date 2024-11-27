@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : Decomp1.Controller.States1.Operational.PedestrianGreenLight.BlinkingStates 
+// Source    : TrafficDomainModel.Controller.TrafficStates.Operational.PedestrianGreenLightFlicker.BlinkingStates 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -32,14 +32,14 @@ using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 
-public class States1OperationalPedestrianGreenLightBlinkingStates : Statemachine
+public class TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStates : Statemachine
 {
-    public States1OperationalPedestrianGreenLightBlinkingStates(ControllerContext context, EventBuffer inBuffer)
+    public TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStates(ControllerContext context, EventBuffer inBuffer)
     {
         Name = "BlinkingStates";
 
         // Sub statemachines
-        var States1OperationalPedestrianGreenLightBlinkingStatesPedestrianFlickering = new States1OperationalPedestrianGreenLightBlinkingStatesPedestrianFlickering(context, inBuffer);
+        var TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering = new TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering(context, inBuffer);
 
         // States
         var initial3 = new StateBuilder(StateId.state_initial3_8, StateBuilder.CreationType.Initial)
@@ -47,7 +47,7 @@ public class States1OperationalPedestrianGreenLightBlinkingStates : Statemachine
             .Build();
         var pedestrianFlickering = new StateBuilder(StateId.state_pedestrianFlickering_9)
             .Name("PedestrianFlickering")
-            .SubStatemachine(States1OperationalPedestrianGreenLightBlinkingStatesPedestrianFlickering)
+            .SubStatemachine(TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering)
             .Build();
         var final1 = new StateBuilder(StateId.state_final1_13, StateBuilder.CreationType.Final)
             .Name("Final1")
