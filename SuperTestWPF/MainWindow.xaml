@@ -88,35 +88,54 @@
 
 
                 <!--  Status Message TextBox  -->
-                <ListBox
-                    Grid.Row="2"
-                    Margin="10,10,10,10"
-                    ItemsSource="{Binding LogMessages}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Message}">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Level}" Value="Information">
-                                                <Setter Property="Foreground" Value="Green" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Level}" Value="Warning">
-                                                <Setter Property="Foreground" Value="Orange" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Level}" Value="Error">
-                                                <Setter Property="Foreground" Value="Red" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Level}" Value="Debug">
-                                                <Setter Property="Foreground" Value="Blue" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                <Grid Grid.Row="2" Grid.RowSpan="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <ListBox
+                        Grid.Row="0"
+                        Grid.RowSpan="3"
+                        Margin="10"
+                        ItemsSource="{Binding LogMessages}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Message}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Level}" Value="Information">
+                                                    <Setter Property="Foreground" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Level}" Value="Warning">
+                                                    <Setter Property="Foreground" Value="Orange" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Level}" Value="Error">
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Level}" Value="Debug">
+                                                    <Setter Property="Foreground" Value="Blue" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                    <ListBox
+                        Grid.Row="3"
+                        Grid.RowSpan="2"
+                        Margin="10"
+                        ItemsSource="{Binding SpecFlowFeatureFiles}"
+                        SelectedItem="{Binding SelectedSpecFlowFeatureFile}" />
+                </Grid>
+
 
                 <!--  Second TreeView for Requirements  -->
                 <TreeView
@@ -273,11 +292,6 @@
                     Margin="10"
                     Command="{Binding SaveFeatureFilesCommand}"
                     Content="Save All Feature Files" />
-                <ListBox
-                    Grid.Row="4"
-                    Margin="10"
-                    ItemsSource="{Binding SpecFlowFeatureFiles}"
-                    SelectedItem="{Binding SelectedSpecFlowFeatureFile}" />
             </Grid>
         </TabItem>
 
