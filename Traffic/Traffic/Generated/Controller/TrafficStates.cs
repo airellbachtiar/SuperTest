@@ -39,16 +39,18 @@ public class TrafficStates : Statemachine
         Name = "TrafficStates";
 
         // Sub statemachines
+        var TrafficStatesIdleFlicker = new TrafficStatesIdleFlicker(context, inBuffer);
         var TrafficStatesOperational = new TrafficStatesOperational(context, inBuffer);
 
         // States
         var initial1 = new StateBuilder(StateId.state_initial1_0, StateBuilder.CreationType.Initial)
             .Name("Initial1")
             .Build();
-        var poweredDown = new StateBuilder(StateId.state_poweredDown_1)
-            .Name("PoweredDown")
+        var idleFlicker = new StateBuilder(StateId.state_idleFlicker_1)
+            .Name("IdleFlicker")
+            .SubStatemachine(TrafficStatesIdleFlicker)
             .Build();
-        var operational = new StateBuilder(StateId.state_operational_2)
+        var operational = new StateBuilder(StateId.state_operational_5)
             .Name("Operational")
             .SubStatemachine(TrafficStatesOperational)
             .Build();
@@ -56,32 +58,39 @@ public class TrafficStates : Statemachine
         States = new List<StatemachineFramework.Statemachines.State>
         {
             initial1,
-            poweredDown,
+            idleFlicker,
             operational
         };
 
         // Transitions
-        var t1 = new TransitionBuilder(TransitionId.transition_t1_17)
+        var t1 = new TransitionBuilder(TransitionId.transition_t1_21)
             .Name("t1")
             .From(StateId.state_initial1_0)
-            .To(StateId.state_poweredDown_1)
+            .To(StateId.state_idleFlicker_1)
             .Build();
-        var it1 = new TransitionBuilder(TransitionId.transition_it1_18)
+        var it1 = new TransitionBuilder(TransitionId.transition_it1_22)
             .Name("it1")
-            .From(StateId.state_poweredDown_1)
-            .To(StateId.state_operational_2)
+            .From(StateId.state_idleFlicker_1)
+            .To(StateId.state_operational_5)
             .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Start), inBuffer)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
-            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it1_18())
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it1_22())
+            .Build();
+        var it9 = new TransitionBuilder(TransitionId.transition_it9_23)
+            .Name("it9")
+            .From(StateId.state_idleFlicker_1)
+            .To(StateId.state_idleFlicker_1)
+            .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
             .Build();
 
         Transitions = new List<StatemachineFramework.Statemachines.Transition>
         {
             t1,
-            it1
+            it1,
+            it9
         };
 
         InitialState = initial1;

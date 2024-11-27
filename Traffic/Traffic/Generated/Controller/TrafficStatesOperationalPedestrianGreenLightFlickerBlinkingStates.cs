@@ -42,14 +42,14 @@ public class TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStates :
         var TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering = new TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering(context, inBuffer);
 
         // States
-        var initial3 = new StateBuilder(StateId.state_initial3_8, StateBuilder.CreationType.Initial)
+        var initial3 = new StateBuilder(StateId.state_initial3_11, StateBuilder.CreationType.Initial)
             .Name("Initial3")
             .Build();
-        var pedestrianFlickering = new StateBuilder(StateId.state_pedestrianFlickering_9)
+        var pedestrianFlickering = new StateBuilder(StateId.state_pedestrianFlickering_12)
             .Name("PedestrianFlickering")
             .SubStatemachine(TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering)
             .Build();
-        var final1 = new StateBuilder(StateId.state_final1_13, StateBuilder.CreationType.Final)
+        var final1 = new StateBuilder(StateId.state_final1_16, StateBuilder.CreationType.Final)
             .Name("Final1")
             .Build();
 
@@ -61,16 +61,16 @@ public class TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStates :
         };
 
         // Transitions
-        var t9 = new TransitionBuilder(TransitionId.transition_t9_3)
+        var t9 = new TransitionBuilder(TransitionId.transition_t9_6)
             .Name("t9")
-            .From(StateId.state_initial3_8)
-            .To(StateId.state_greenOff_11)
+            .From(StateId.state_initial3_11)
+            .To(StateId.state_greenOff_14)
             .Build();
-        var t12 = new TransitionBuilder(TransitionId.transition_t12_4)
+        var t12 = new TransitionBuilder(TransitionId.transition_t12_7)
             .Name("t12")
-            .From(StateId.state_pedestrianFlickering_9)
-            .To(StateId.state_final1_13)
-            .Guard(context.__GUARD_transition_t12_4)
+            .From(StateId.state_pedestrianFlickering_12)
+            .To(StateId.state_final1_16)
+            .Guard(context.__GUARD_transition_t12_7)
             .Build();
 
         Transitions = new List<StatemachineFramework.Statemachines.Transition>

@@ -15,69 +15,94 @@
             },
             {
               "StateId": 1,
-              "SubStates": [],
-              "Type": "State",
-              "Name": "PoweredDown"
-            },
-            {
-              "StateId": 2,
               "SubStates": [
                 {
                   "States": [
                     {
+                      "StateId": 2,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "Initial5"
+                    },
+                    {
                       "StateId": 3,
                       "SubStates": [],
                       "Type": "State",
-                      "Name": "Initial2"
+                      "Name": "IdleOff"
                     },
                     {
                       "StateId": 4,
                       "SubStates": [],
                       "Type": "State",
+                      "Name": "IdleOn"
+                    }
+                  ],
+                  "Type": "StateMachine",
+                  "Name": "States"
+                }
+              ],
+              "Type": "State",
+              "Name": "IdleFlicker"
+            },
+            {
+              "StateId": 5,
+              "SubStates": [
+                {
+                  "States": [
+                    {
+                      "StateId": 6,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "Initial2"
+                    },
+                    {
+                      "StateId": 7,
+                      "SubStates": [],
+                      "Type": "State",
                       "Name": "CarGreenLight"
                     },
                     {
-                      "StateId": 5,
+                      "StateId": 8,
                       "SubStates": [],
                       "Type": "State",
                       "Name": "CarYellowLight"
                     },
                     {
-                      "StateId": 6,
+                      "StateId": 9,
                       "SubStates": [],
                       "Type": "State",
                       "Name": "CarRedLight"
                     },
                     {
-                      "StateId": 7,
+                      "StateId": 10,
                       "SubStates": [
                         {
                           "States": [
                             {
-                              "StateId": 8,
+                              "StateId": 11,
                               "SubStates": [],
                               "Type": "State",
                               "Name": "Initial3"
                             },
                             {
-                              "StateId": 9,
+                              "StateId": 12,
                               "SubStates": [
                                 {
                                   "States": [
                                     {
-                                      "StateId": 10,
+                                      "StateId": 13,
                                       "SubStates": [],
                                       "Type": "State",
                                       "Name": "Initial4"
                                     },
                                     {
-                                      "StateId": 11,
+                                      "StateId": 14,
                                       "SubStates": [],
                                       "Type": "State",
                                       "Name": "GreenOff"
                                     },
                                     {
-                                      "StateId": 12,
+                                      "StateId": 15,
                                       "SubStates": [],
                                       "Type": "State",
                                       "Name": "GreenOn"
@@ -91,7 +116,7 @@
                               "Name": "PedestrianFlickering"
                             },
                             {
-                              "StateId": 13,
+                              "StateId": 16,
                               "SubStates": [],
                               "Type": "State",
                               "Name": "Final1"
@@ -105,13 +130,13 @@
                       "Name": "PedestrianGreenLightFlicker"
                     },
                     {
-                      "StateId": 14,
+                      "StateId": 17,
                       "SubStates": [],
                       "Type": "State",
                       "Name": "PedestrianRedLight"
                     },
                     {
-                      "StateId": 15,
+                      "StateId": 18,
                       "SubStates": [],
                       "Type": "State",
                       "Name": "PedestrianGreenLight"

@@ -100,8 +100,8 @@ public class StartStopImpl : BaseInterface, StartStop
     /// <inheritdoc />
     protected override int[][] EventsMatrix { get; } =
     {
-        new[] {1, -1}, // stopped
-        new[] {-1, 0} // running
+        new[] {1, 0}, // stopped
+        new[] {1, 0} // running
     };
 
     /// <summary>

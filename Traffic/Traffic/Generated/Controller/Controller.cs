@@ -53,10 +53,10 @@ public partial class Controller : Component
 
     #region Requiring interfaces
 
-    public Port<NormallyClosedValveItf> CarGreen => Context.CarGreen;
-    public Port<NormallyClosedValveItf> CarRed => Context.CarRed;
     public Port<NormallyClosedValveItf> CarYellow => Context.CarYellow;
     public Port<NormallyClosedValveItf> PedGreen => Context.PedGreen;
+    public Port<NormallyClosedValveItf> CarGreen => Context.CarGreen;
+    public Port<NormallyClosedValveItf> CarRed => Context.CarRed;
     public Port<NormallyClosedValveItf> PedRed => Context.PedRed;
     public Port<DigitalSensorItf> PedestrianRequest => Context.PedestrianRequest;
 
@@ -66,18 +66,18 @@ public partial class Controller : Component
     {
         Context = _contextFactory.Invoke();
         Context.I1 = new Port<StartStop>(InBuffer, "I1", new EventSource(TypeId, InstanceId));
-        Context.CarGreen = new Port<NormallyClosedValveItf>(InBuffer, "CarGreen", new EventSource(TypeId, InstanceId));
-        Context.CarRed = new Port<NormallyClosedValveItf>(InBuffer, "CarRed", new EventSource(TypeId, InstanceId));
         Context.CarYellow = new Port<NormallyClosedValveItf>(InBuffer, "CarYellow", new EventSource(TypeId, InstanceId));
         Context.PedGreen = new Port<NormallyClosedValveItf>(InBuffer, "PedGreen", new EventSource(TypeId, InstanceId));
+        Context.CarGreen = new Port<NormallyClosedValveItf>(InBuffer, "CarGreen", new EventSource(TypeId, InstanceId));
+        Context.CarRed = new Port<NormallyClosedValveItf>(InBuffer, "CarRed", new EventSource(TypeId, InstanceId));
         Context.PedRed = new Port<NormallyClosedValveItf>(InBuffer, "PedRed", new EventSource(TypeId, InstanceId));
         Context.PedestrianRequest = new Port<DigitalSensorItf>(InBuffer, "PedestrianRequest", new EventSource(TypeId, InstanceId));
 
         Context.I1.UsedEvents = Array.Empty<int>();
-        Context.CarGreen.UsedEvents = Array.Empty<int>();
-        Context.CarRed.UsedEvents = Array.Empty<int>();
         Context.CarYellow.UsedEvents = Array.Empty<int>();
         Context.PedGreen.UsedEvents = Array.Empty<int>();
+        Context.CarGreen.UsedEvents = Array.Empty<int>();
+        Context.CarRed.UsedEvents = Array.Empty<int>();
         Context.PedRed.UsedEvents = Array.Empty<int>();
         Context.PedestrianRequest.UsedEvents = Array.Empty<int>();
 

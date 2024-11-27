@@ -9,6 +9,5 @@
         public TimeSpan PedestrianGreenLightDuration { get; set; } = TimeSpan.FromSeconds(2);
         public TimeSpan PedestrianFullGreenLightDuration { get; set; } = TimeSpan.FromSeconds(2);
         public TimeSpan PedestrianFlickeringGreenLightDuration { get; set; } = TimeSpan.FromSeconds(2);
-
     }
 }

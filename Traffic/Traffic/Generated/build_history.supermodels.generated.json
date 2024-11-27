@@ -6,6 +6,7 @@
       "Controller\\ControllerContext.cs",
       "Controller\\StateId.cs",
       "Controller\\TrafficStates.cs",
+      "Controller\\TrafficStatesIdleFlicker.cs",
       "Controller\\TrafficStatesOperational.cs",
       "Controller\\TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStates.cs",
       "Controller\\TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPedestrianFlickering.cs",

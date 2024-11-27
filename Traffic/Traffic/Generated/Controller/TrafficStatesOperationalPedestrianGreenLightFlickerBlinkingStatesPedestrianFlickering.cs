@@ -39,16 +39,16 @@ public class TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPe
         Name = "States";
 
         // States
-        var initial4 = new StateBuilder(StateId.state_initial4_10, StateBuilder.CreationType.Initial)
+        var initial4 = new StateBuilder(StateId.state_initial4_13, StateBuilder.CreationType.Initial)
             .Name("Initial4")
             .Build();
-        var greenOff = new StateBuilder(StateId.state_greenOff_11)
+        var greenOff = new StateBuilder(StateId.state_greenOff_14)
             .Name("GreenOff")
             .Build();
-        var greenOn = new StateBuilder(StateId.state_greenOn_12)
+        var greenOn = new StateBuilder(StateId.state_greenOn_15)
             .Name("GreenOn")
-            .OnEntry(context.__ENTRY_state_greenOn_12)
-            .OnExit(context.__EXIT_state_greenOn_12)
+            .OnEntry(context.__ENTRY_state_greenOn_15)
+            .OnExit(context.__EXIT_state_greenOn_15)
             .Build();
 
         States = new List<StatemachineFramework.Statemachines.State>
@@ -59,26 +59,26 @@ public class TrafficStatesOperationalPedestrianGreenLightFlickerBlinkingStatesPe
         };
 
         // Transitions
-        var t10 = new TransitionBuilder(TransitionId.transition_t10_0)
+        var t10 = new TransitionBuilder(TransitionId.transition_t10_3)
             .Name("t10")
-            .From(StateId.state_greenOff_11)
-            .To(StateId.state_greenOn_12)
-            .Guard(context.__GUARD_transition_t10_0)
+            .From(StateId.state_greenOff_14)
+            .To(StateId.state_greenOn_15)
+            .Guard(context.__GUARD_transition_t10_3)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.PedGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Build();
-        var t11 = new TransitionBuilder(TransitionId.transition_t11_1)
+        var t11 = new TransitionBuilder(TransitionId.transition_t11_4)
             .Name("t11")
-            .From(StateId.state_greenOn_12)
-            .To(StateId.state_greenOff_11)
-            .Guard(context.__GUARD_transition_t11_1)
+            .From(StateId.state_greenOn_15)
+            .To(StateId.state_greenOff_14)
+            .Guard(context.__GUARD_transition_t11_4)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.PedGreen.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedGreen.Impl.Provider.PortName, NormallyClosedValveItf.Events.Close)))
             .Build();
-        var t13 = new TransitionBuilder(TransitionId.transition_t13_2)
+        var t13 = new TransitionBuilder(TransitionId.transition_t13_5)
             .Name("t13")
-            .From(StateId.state_initial4_10)
-            .To(StateId.state_greenOff_11)
+            .From(StateId.state_initial4_13)
+            .To(StateId.state_greenOff_14)
             .Build();
 
         Transitions = new List<StatemachineFramework.Statemachines.Transition>
