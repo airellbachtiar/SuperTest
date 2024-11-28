@@ -21,7 +21,9 @@ namespace TrafficTest
         public static TestSim.TestSimClient Client { get; private set; }
         private static GrpcChannel _channel;
 
-        [BeforeScenario]
+        public static List<LightResponse> LightResponses { get; private set; } = new List<LightResponse>();
+
+        [BeforeFeature]
         public static void BeforeTestRun()
         {
             // Start and attach to the Traffic application
@@ -39,6 +41,12 @@ namespace TrafficTest
         }
 
         [AfterScenario]
+        public static void AfterScenario()
+        {
+            ClickButton("StopButton");
+        }
+
+        [AfterFeature]
         public static void AfterTestRun()
         {
             try
@@ -67,6 +75,25 @@ namespace TrafficTest
 
             // Simulate button click
             button.Click();
+        }
+
+        public static void ObserveTrafficLight(int observeDurationInMilliSeconds)
+        {
+            LightResponses = new();
+
+            Stopwatch s = new();
+            s.Start();
+            while (s.Elapsed < TimeSpan.FromMilliseconds(observeDurationInMilliSeconds))
+            {
+                Thread.Sleep(150);
+                LightResponses.Add(Client.GetCarRedLightState(new Empty()));
+                LightResponses.Add(Client.GetCarYellowLightState(new Empty()));
+                LightResponses.Add(Client.GetCarGreenLightState(new Empty()));
+                LightResponses.Add(Client.GetPedestrianRedLightState(new Empty()));
+                LightResponses.Add(Client.GetPedestrianGreenLightState(new Empty()));
+            }
+
+            s.Stop();
         }
 
         /// <summary>

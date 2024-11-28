@@ -1,13 +1,11 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using System;
-using System.Threading.Tasks;
+﻿using NUnit.Framework;
 using TestBus;
-using TechTalk.SpecFlow;
 
 namespace TrafficTest.Steps
 {
     [Binding]
+    [Scope(Feature = "Traffic Light System")]
+    [NonParallelizable]
     public class TrafficLightSteps
     {
         private readonly TestSim.TestSimClient _client;
@@ -18,29 +16,21 @@ namespace TrafficTest.Steps
         }
 
         [Given(@"the traffic light system is off")]
-        public async Task GivenTheTrafficLightSystemIsOff()
+        public void GivenTheTrafficLightSystemIsOff()
         {
-            var response = await _client.GetCarRedLightStateAsync(new Empty());
-            response.LightState.Should().Be("Off");
-
-            var pedestrianResponse = await _client.GetPedestrianRedLightStateAsync(new Empty());
-            pedestrianResponse.LightState.Should().Be("Off");
+            // No need to do anything here
         }
 
         [Given(@"the traffic light system is not started")]
-        public async Task GivenTheTrafficLightSystemIsNotStarted()
+        public void GivenTheTrafficLightSystemIsNotStarted()
         {
-            var carResponse = await _client.GetCarRedLightStateAsync(new Empty());
-            carResponse.LightState.Should().Be("Off");
-
-            var pedestrianResponse = await _client.GetPedestrianRedLightStateAsync(new Empty());
-            pedestrianResponse.LightState.Should().Be("Off");
+            // No need to do anything here
         }
 
         [Given(@"the traffic light system has started")]
-        public async Task GivenTheTrafficLightSystemHasStarted()
+        public void GivenTheTrafficLightSystemHasStarted()
         {
-            WhenTheUserPressesTheStartButton();
+            WhenTheUserStartsTheTrafficLightSystem();
         }
 
         [When(@"the user presses the start button")]
@@ -53,15 +43,14 @@ namespace TrafficTest.Steps
         public void WhenTheUserStartsTheTrafficLightSystem()
         {
             WhenTheUserPressesTheStartButton();
-            Thread.Sleep(500);
-            SpecFlowHooks.ClickButton("StopButton");
+            Thread.Sleep(1000);
         }
 
         [When(@"(\d+) second(?:s)? \b(?:has|have)\b passed")]
-        public async Task WhenSecondsHasPassed(int seconds)
+        public void WhenSecondsHasPassed(int seconds)
         {
-            await Task.Delay(seconds * 1000);
-            SpecFlowHooks.ClickButton("StopButton");
+            _client.PressRequestPedestrianWalkButton(new Empty());
+            SpecFlowHooks.ObserveTrafficLight(seconds * 1000);
         }
 
         [Then(@"the traffic light system should start")]
@@ -72,121 +61,69 @@ namespace TrafficTest.Steps
             response.LightState.Should().Be("On");
         }
 
-        [Then(@"all traffic lights should be off")]
-        public async Task ThenAllTrafficLightsShouldBeOff()
+        [Then(@"the car's yellow light should be blinking")]
+        public void ThenTheCarsYellowLightShouldBeBlinking()
         {
-            var carResponse = await _client.GetCarRedLightStateAsync(new Empty());
-            carResponse.LightState.Should().Be("Off");
-
-            var pedestrianResponse = await _client.GetPedestrianRedLightStateAsync(new Empty());
-            pedestrianResponse.LightState.Should().Be("Off");
+            SpecFlowHooks.ObserveTrafficLight(2000);
+            SpecFlowHooks.LightResponses.Should().Contain(x => x.LightState == "On" && x.LightName == "CarYellow");
         }
 
-        [Then(@"all pedestrian lights should be off")]
-        public async Task ThenAllPedestrianLightsShouldBeOff()
+        [Then(@"the pedestrian green light should be blinking")]
+        public void ThenThePedestrianGreenLightShouldBeBlinking()
         {
-            var response = await _client.GetPedestrianRedLightStateAsync(new Empty());
-            response.LightState.Should().Be("Off");
+            SpecFlowHooks.ObserveTrafficLight(2000);
+            SpecFlowHooks.LightResponses.Should().Contain(x => x.LightState == "On" && x.LightName == "PedGreen");
         }
 
         [Then(@"the car's green light should turn on")]
-        public async Task ThenTheCarSGreenLightShouldTurnOn()
+        public void ThenTheCarSGreenLightShouldTurnOn()
         {
-            var response = await _client.GetCarGreenLightStateAsync(new Empty());
+            var response = _client.GetCarGreenLightState(new Empty());
             response.LightState.Should().Be("On");
         }
 
         [Then(@"the pedestrian red light should turn on")]
-        public async Task ThenThePedestrianRedLightShouldTurnOn()
+        public void  ThenThePedestrianRedLightShouldTurnOn()
         {
-            var response = await _client.GetPedestrianRedLightStateAsync(new Empty());
+            var response = _client.GetPedestrianRedLightState(new Empty());
             response.LightState.Should().Be("On");
         }
 
         [Then(@"the car's green light should switch to yellow")]
-        public async Task ThenTheCarSGreenLightShouldSwitchToYellow()
+        public void ThenTheCarSGreenLightShouldSwitchToYellow()
         {
-            var response = await _client.GetCarYellowLightStateAsync(new Empty());
-            response.LightState.Should().Be("On");
+            SpecFlowHooks.LightResponses.Should().Contain(new LightResponse { LightName = "CarYellow", LightState = "On" });
         }
 
         [Then(@"the pedestrian red light should remain on")]
-        public async Task ThenThePedestrianRedLightShouldRemainOn()
+        public void ThenThePedestrianRedLightShouldRemainOn()
         {
-            var response = await _client.GetPedestrianRedLightStateAsync(new Empty());
-            response.LightState.Should().Be("On");
+            SpecFlowHooks.LightResponses.Should().Contain(new LightResponse { LightName = "PedRed", LightState = "On" });
         }
 
         [Then(@"the car's yellow light should switch to red")]
-        public async Task ThenTheCarSYellowLightShouldSwitchToRed()
+        public void ThenTheCarSYellowLightShouldSwitchToRed()
         {
-            var response = await _client.GetCarRedLightStateAsync(new Empty());
-            response.LightState.Should().Be("On");
+            SpecFlowHooks.LightResponses.Should().Contain(new LightResponse { LightName = "CarRed", LightState = "On" });
         }
 
         [Then(@"the pedestrian green light should turn on")]
-        public async Task ThenThePedestrianGreenLightShouldTurnOn()
+        public void ThenThePedestrianGreenLightShouldTurnOn()
         {
-            var response = await _client.GetPedestrianGreenLightStateAsync(new Empty());
-            response.LightState.Should().Be("On");
+            SpecFlowHooks.LightResponses.Should().Contain(new LightResponse { LightName = "PedGreen", LightState = "On" });
         }
 
         [Then(@"the pedestrian light should switch to red")]
-        public async Task ThenThePedestrianLightShouldSwitchToRed()
+        public void ThenThePedestrianLightShouldSwitchToRed()
         {
-            var response = await _client.GetPedestrianRedLightStateAsync(new Empty());
-            response.LightState.Should().Be("On");
+            SpecFlowHooks.LightResponses.Should().Contain(new LightResponse { LightName = "PedRed", LightState="On"});
         }
 
         [Then(@"the car green light should turn back on")]
-        public async Task ThenTheCarGreenLightShouldTurnBackOn()
+        public void ThenTheCarGreenLightShouldTurnBackOn()
         {
-            var response = await _client.GetCarGreenLightStateAsync(new Empty());
-            response.LightState.Should().Be("On");
-        }
-
-        [Then(@"the following events should occur in order:")]
-        public async Task ThenTheFollowingEventsShouldOccurInOrder(Table table)
-        {
-            foreach (var row in table.Rows)
-            {
-                int time = int.Parse(row["Time (seconds)"]);
-                string carLight = row["Car Light"];
-                string pedestrianLight = row["Pedestrian Light"];
-
-                await WhenSecondsHasPassed(time);
-
-                var carResponse = await GetLightStateAsync(carLight, true);
-                carResponse.Should().Be("On");
-
-                var pedestrianResponse = await GetLightStateAsync(pedestrianLight, false);
-                pedestrianResponse.Should().Be("On");
-            }
-        }
-
-        private async Task<string> GetLightStateAsync(string light, bool isCar)
-        {
-            LightResponse response;
-            switch (light)
-            {
-                case "Green":
-                    response = isCar
-                        ? await _client.GetCarGreenLightStateAsync(new Empty())
-                        : await _client.GetPedestrianGreenLightStateAsync(new Empty());
-                    break;
-                case "Yellow":
-                    response = await _client.GetCarYellowLightStateAsync(new Empty());
-                    break;
-                case "Red":
-                    response = isCar
-                        ? await _client.GetCarRedLightStateAsync(new Empty())
-                        : await _client.GetPedestrianRedLightStateAsync(new Empty());
-                    break;
-                default:
-                    throw new ArgumentException($"Unknown light state: {light}");
-            }
-
-            return response.LightState;
+            var last10 = SpecFlowHooks.LightResponses.Skip(Math.Max(0, SpecFlowHooks.LightResponses.Count() - 10)).ToList();
+            last10.Should().Contain(new LightResponse { LightName = "CarGreen", LightState = "On"});
         }
     }
 }

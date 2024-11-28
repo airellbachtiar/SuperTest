@@ -13,8 +13,8 @@ Feature: Traffic Light System
   @REQ-002
   Scenario: Default Light State
     Given the traffic light system is not started
-    Then all traffic lights should be off
-    And all pedestrian lights should be off
+    Then the car's yellow light should be blinking
+    And the pedestrian green light should be blinking
 
   @REQ-003
   Scenario: Car and Pedestrian Light Initialization
@@ -33,13 +33,13 @@ Feature: Traffic Light System
   @REQ-005
   Scenario: Pedestrian Green Light
     Given the traffic light system has started
-    When 3 seconds have passed
+    When 6 seconds have passed
     Then the car's yellow light should switch to red
     And the pedestrian green light should turn on
 
   @REQ-006
   Scenario: Return to Car Green Light
     Given the traffic light system has started
-    When 6 seconds have passed
+    When 10 seconds have passed
     Then the pedestrian light should switch to red
     And the car green light should turn back on

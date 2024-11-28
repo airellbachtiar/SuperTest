@@ -11,5 +11,6 @@ namespace TrafficSim.Services
         LightResponse GetCarGreenLightState();
         LightResponse GetPedestrianRedLightState();
         LightResponse GetPedestrianGreenLightState();
+        void PressRequestPedestrianWalkButton();
     }
 }

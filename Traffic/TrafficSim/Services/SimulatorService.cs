@@ -32,6 +32,8 @@ public class SimulatorService : SimulatorBase, IHoloSource, ITestSim
         MotionSimulator = motionSimulator;
         _interlockService = interlockService;
 
+        //MotionSimulator.PedestrianRequest.Active = true;
+
         _logger = logger;
 
         FluidDatabase.InitializeDatabase("fluids.xml");
@@ -123,5 +125,11 @@ public class SimulatorService : SimulatorBase, IHoloSource, ITestSim
             LightState = state ? "Off" : "On"
         };
         return valveResponse;
+    }
+
+    public void PressRequestPedestrianWalkButton()
+    {
+        MotionSimulator.PedestrianRequest.Active = true;
+        Task.Delay(10000).ContinueWith(_ => MotionSimulator.PedestrianRequest.Active = false);
     }
 }
