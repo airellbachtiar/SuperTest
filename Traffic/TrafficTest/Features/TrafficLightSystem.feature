@@ -33,7 +33,7 @@ Feature: Traffic Light System
   @REQ-005
   Scenario: Pedestrian Green Light
     Given the traffic light system has started
-    When 6 seconds have passed
+    When 4 seconds have passed
     Then the car's yellow light should switch to red
     And the pedestrian green light should turn on
 

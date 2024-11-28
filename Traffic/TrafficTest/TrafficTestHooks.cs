@@ -3,7 +3,9 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
 using Grpc.Net.Client;
 using System.Diagnostics;
+using System.Threading;
 using TestBus;
+using TrafficTest.Models;
 
 #pragma warning disable CS8618
 #pragma warning disable CS8602
@@ -11,7 +13,7 @@ using TestBus;
 namespace TrafficTest
 {
     [Binding]
-    public class SpecFlowHooks
+    public class TrafficTestHooks
     {
         public static Application App { get; private set; }
         public static UIA3Automation Automation { get; private set; }
@@ -21,7 +23,8 @@ namespace TrafficTest
         public static TestSim.TestSimClient Client { get; private set; }
         private static GrpcChannel _channel;
 
-        public static List<LightResponse> LightResponses { get; private set; } = new List<LightResponse>();
+        public static List<TrafficLightState> TrafficLightStates { get; private set; } = new();
+        private static CancellationTokenSource? _cancellationTokenSource;
 
         [BeforeFeature]
         public static void BeforeTestRun()
@@ -35,15 +38,36 @@ namespace TrafficTest
             var trafficSimAppPath = GetApplicationPath("TrafficSim", "net6.0-windows", "TrafficSim.exe");
             AppSim = StartAndAttachToApplication(trafficSimAppPath);
 
+            // Wait for the applications to load
+            Task.Delay(2000).Wait();
+
             // Set up gRPC channel and client
             _channel = GrpcChannel.ForAddress($"http://localhost:{Test.Default.TestPort}");
             Client = new TestSim.TestSimClient(_channel);
+        }
+
+        [BeforeScenario]
+        public static void BeforeScenario()
+        {
+            TrafficLightStates = new List<TrafficLightState>();
+            _cancellationTokenSource = new CancellationTokenSource();
+
+            Task.Run(() => ObserveTrafficLight(_cancellationTokenSource.Token));
         }
 
         [AfterScenario]
         public static void AfterScenario()
         {
             ClickButton("StopButton");
+
+            if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = null;
+            }
+
+            Task.Delay(1000).Wait();
         }
 
         [AfterFeature]
@@ -64,9 +88,14 @@ namespace TrafficTest
             }
         }
 
+        /// <summary>
+        /// Clicks a button in the main window of the application.
+        /// </summary>
+        /// <param name="automationId"></param>
+        /// <exception cref="Exception"></exception>
         public static void ClickButton(string automationId)
         {
-            var mainWindow = SpecFlowHooks.App.GetMainWindow(SpecFlowHooks.Automation)
+            var mainWindow = TrafficTestHooks.App.GetMainWindow(TrafficTestHooks.Automation)
                             ?? throw new Exception("Main window could not be found.");
 
             // Find the button using its AutomationId
@@ -74,26 +103,40 @@ namespace TrafficTest
                          ?? throw new Exception($"Button with AutomationId '{automationId}' could not be found.");
 
             // Simulate button click
-            button.Click();
+            button.Invoke();
+            Task.Delay(1000).Wait();
         }
 
-        public static void ObserveTrafficLight(int observeDurationInMilliSeconds)
+        /// <summary>
+        /// Observes the traffic light states and records them.
+        /// </summary>
+        public static void ObserveTrafficLight(CancellationToken cancellationToken)
         {
-            LightResponses = new();
-
             Stopwatch s = new();
             s.Start();
-            while (s.Elapsed < TimeSpan.FromMilliseconds(observeDurationInMilliSeconds))
+            try
             {
-                Thread.Sleep(150);
-                LightResponses.Add(Client.GetCarRedLightState(new Empty()));
-                LightResponses.Add(Client.GetCarYellowLightState(new Empty()));
-                LightResponses.Add(Client.GetCarGreenLightState(new Empty()));
-                LightResponses.Add(Client.GetPedestrianRedLightState(new Empty()));
-                LightResponses.Add(Client.GetPedestrianGreenLightState(new Empty()));
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    TrafficLightStates.Add(new()
+                    {
+                        CarRed = Client.GetCarRedLightState(new Empty(), cancellationToken: cancellationToken),
+                        CarYellow = Client.GetCarYellowLightState(new Empty(), cancellationToken: cancellationToken),
+                        CarGreen = Client.GetCarGreenLightState(new Empty(), cancellationToken: cancellationToken),
+                        PedestrianRed = Client.GetPedestrianRedLightState(new Empty(), cancellationToken: cancellationToken),
+                        PedestrianGreen = Client.GetPedestrianGreenLightState(new Empty(), cancellationToken: cancellationToken),
+                        TimeStamp = s.Elapsed.TotalSeconds
+                    });
+                }
             }
-
-            s.Stop();
+            catch (OperationCanceledException)
+            {
+                Console.WriteLine("Observation stopped.");
+            }
+            finally
+            {
+                s.Stop();
+            }
         }
 
         /// <summary>
