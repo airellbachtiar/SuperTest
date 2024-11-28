@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.Services.Prompts
+﻿namespace SuperTestLibrary.Services.PromptBuilders
 {
     public class Prompt
     {

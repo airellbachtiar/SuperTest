@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria
+﻿namespace SuperTestLibrary.Services.PromptBuilders.ResponseModels.SpecFlowScenarioEvaluationCriteria
 {
     public class TraceabilityScenarioCriteria
     {

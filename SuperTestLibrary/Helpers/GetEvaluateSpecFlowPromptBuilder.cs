@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.Services.Prompts.Builders;
+﻿using SuperTestLibrary.Services.PromptBuilders;
 
 namespace SuperTestLibrary.Helpers
 {

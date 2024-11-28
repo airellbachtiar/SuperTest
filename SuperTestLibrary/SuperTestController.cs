@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Helpers;
 using SuperTestLibrary.Services.Generators;
-using SuperTestLibrary.Services.Prompts.ResponseModels;
+using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary

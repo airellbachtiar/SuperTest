@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using SuperTestWPF.Logger;
 using SuperTestWPF.Services;
-using SuperTestLibrary.Services.Logger;
+using SuperTestLibrary.Logger;
 
 namespace SuperTestWPF.ViewModels
 {

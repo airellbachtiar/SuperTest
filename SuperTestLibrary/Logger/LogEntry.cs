@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace SuperTestLibrary.Services.Logger
+namespace SuperTestLibrary.Logger
 {
     public class LogEntry
     {

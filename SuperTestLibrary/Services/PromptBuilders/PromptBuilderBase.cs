@@ -1,6 +1,6 @@
 ﻿using SuperTestLibrary.Helpers;
 
-namespace SuperTestLibrary.Services.Prompts.Builders
+namespace SuperTestLibrary.Services.PromptBuilders
 {
     public abstract class PromptBuilderBase : IPromptBuilder
     {

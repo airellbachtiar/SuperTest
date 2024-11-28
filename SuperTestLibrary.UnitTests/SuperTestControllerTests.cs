@@ -1,12 +1,12 @@
 using Gherkin;
 using Moq;
 using LlmLibrary;
-using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria;
 using SuperTestLibrary.Storages;
 using SuperTestLibrary.UnitTests.TestData;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
+using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 
 namespace SuperTestLibrary.UnitTests
 {

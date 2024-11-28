@@ -1,6 +1,6 @@
-﻿using SuperTestLibrary.Services.Prompts.ResponseModels.SpecFlowScenarioEvaluationCriteria;
+﻿using SuperTestLibrary.Services.PromptBuilders.ResponseModels.SpecFlowScenarioEvaluationCriteria;
 
-namespace SuperTestLibrary.Services.Prompts.ResponseModels
+namespace SuperTestLibrary.Services.PromptBuilders.ResponseModels
 {
     public class SpecFlowScenarioEvaluation : EvaluationMetric
     {

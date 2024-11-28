@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SuperTestLibrary.Services.Prompts.Builders
+namespace SuperTestLibrary.Services.PromptBuilders
 {
     public class SpecFlowBindingFilePromptBuilder : PromptBuilderBase
     {
@@ -13,7 +13,7 @@ namespace SuperTestLibrary.Services.Prompts.Builders
             _generatedCSharpCode = generatedCSharpCode;
         }
 
-        protected override string BuildContext() 
+        protected override string BuildContext()
         {
             var promptBuilder = new StringBuilder();
 

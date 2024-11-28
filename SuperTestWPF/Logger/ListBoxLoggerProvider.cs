@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using SuperTestLibrary.Services.Logger;
+using SuperTestLibrary.Logger;
 using System.Collections.ObjectModel;
 
 #pragma warning disable CS8633

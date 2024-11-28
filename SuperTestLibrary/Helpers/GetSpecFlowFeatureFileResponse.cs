@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.Services.Prompts.ResponseModels;
+﻿using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 using System.Text.Json;
 
 namespace SuperTestLibrary.Helpers

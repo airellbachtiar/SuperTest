@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace SuperTestLibrary.Services.Prompts.Builders
+namespace SuperTestLibrary.Services.PromptBuilders
 {
     public class SpecFlowFeatureFilePromptBuilder : PromptBuilderBase
     {

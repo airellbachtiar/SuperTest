@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.Services.Prompts.Builders
+﻿namespace SuperTestLibrary.Services.PromptBuilders
 {
     public interface IPromptBuilder
     {
