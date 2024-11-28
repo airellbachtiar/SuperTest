@@ -67,5 +67,11 @@ namespace SuperTestWPF.Services
 
             return string.Empty;
         }
+
+        public void SaveFile(string savePath, string fileContent)
+        {
+            File.WriteAllText(savePath, fileContent);
+            _logger.LogInformation($"File has been saved to \"{savePath}\".");
+        }
     }
 }

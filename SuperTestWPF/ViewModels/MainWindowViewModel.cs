@@ -67,6 +67,7 @@ namespace SuperTestWPF.ViewModels
             UploadFilesCommand = new RelayCommand(UploadFiles);
             UploadFeatureFileCommand = new RelayCommand(UploadFeatureFile);
             ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
+            SaveBindingFileCommand = new RelayCommand(SaveBindingFile);
 
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
@@ -200,6 +201,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand UploadFilesCommand { get; }
         public ICommand UploadFeatureFileCommand { get; }
         public ICommand ClearAllUploadedFilesCommand { get; }
+        public ICommand SaveBindingFileCommand { get; }
 
         private async Task InitializeReqIFs()
         {
@@ -289,7 +291,7 @@ namespace SuperTestWPF.ViewModels
         private void UpdateFeatureFileScores()
         {
             if (SelectedSpecFlowFeatureFile == null) return;
-            if(_isDisplayingFeatureFileScore)
+            if (_isDisplayingFeatureFileScore)
             {
                 EvaluationSummary = SelectedSpecFlowFeatureFile.FeatureFileEvaluationSummary ?? string.Empty;
                 EvaluationScoreDetails = SelectedSpecFlowFeatureFile.FeatureFileEvaluationScoreDetails ?? [];
@@ -314,8 +316,7 @@ namespace SuperTestWPF.ViewModels
                 string savePath = $"{SavePath}/{featureFile.FeatureFileName}";
                 string featureFileContent = GetReviewedFeatureFile.GetAcceptedScenarios(featureFile);
 
-                File.WriteAllText(savePath, featureFileContent);
-                _logger.LogInformation($"Feature file saved to \"{savePath}\".");
+                _fileService.SaveFile(savePath, featureFileContent);
             }
         }
 
@@ -359,7 +360,6 @@ namespace SuperTestWPF.ViewModels
         private void UploadFeatureFile()
         {
             _ = GetFeatureFileFromFolder();
-            _logger.LogInformation("Feature file uploaded.");
         }
 
         private string GetFeatureFileFromFolder()
@@ -383,6 +383,18 @@ namespace SuperTestWPF.ViewModels
         {
             UploadedFiles.Clear();
             UploadedFeatureFile = null;
+        }
+
+        private void SaveBindingFile()
+        {
+            if (string.IsNullOrEmpty(GeneratedBindingFile))
+            {
+                _logger.LogWarning("No binding file generated.");
+                _logger.LogError("Failed to save binding file.");
+                return;
+            }
+            string savePath = $"{SavePath}/BindingFile.cs";
+            _fileService.SaveFile(savePath, GeneratedBindingFile);
         }
     }
 }

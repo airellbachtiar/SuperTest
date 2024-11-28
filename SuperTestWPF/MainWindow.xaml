@@ -90,55 +90,50 @@
                 <!--  Status Message TextBox  -->
                 <Grid Grid.Row="2" Grid.RowSpan="4">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <ListBox
                         Grid.Row="0"
-                        Grid.RowSpan="3"
                         Margin="10"
                         ItemsSource="{Binding LogMessages}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock>
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding LogLevel}" Value="Information">
-                                                    <Setter Property="Foreground" Value="Green" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
-                                                    <Setter Property="Foreground" Value="Orange" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding LogLevel}" Value="Error">
-                                                    <Setter Property="Foreground" Value="Red" />
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
-                                                    <Setter Property="Foreground" Value="Blue" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0:HH:mm:ss} [{1}] {2}: {3}">
-                                            <Binding Path="Timestamp" />
-                                            <Binding Path="LogLevel" />
-                                            <Binding Path="Category" />
-                                            <Binding Path="Message" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
+                                    <Run Text="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}'}" />
+                                    <Run Text=" [" />
+                                    <Run Text="{Binding LogLevel}">
+                                        <Run.Style>
+                                            <Style TargetType="Run">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Information">
+                                                        <Setter Property="Foreground" Value="Green" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
+                                                        <Setter Property="Foreground" Value="Orange" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Error">
+                                                        <Setter Property="Foreground" Value="Red" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
+                                                        <Setter Property="Foreground" Value="Blue" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Run.Style>
+                                    </Run>
+                                    <Run Text="] " />
+                                    <Run Text="{Binding Category}" />
+                                    <Run Text=": " />
+                                    <Run Text="{Binding Message}" />
                                 </TextBlock>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
 
                     <ListBox
-                        Grid.Row="3"
-                        Grid.RowSpan="2"
+                        Grid.Row="1"
                         Margin="10"
                         ItemsSource="{Binding SpecFlowFeatureFiles}"
                         SelectedItem="{Binding SelectedSpecFlowFeatureFile}" />
@@ -286,7 +281,7 @@
                     Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="9*" />
-                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0" Text="{Binding SavePath}" />
                     <Button
@@ -339,32 +334,32 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock>
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding LogLevel}" Value="Information">
-                                                <Setter Property="Foreground" Value="Green" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
-                                                <Setter Property="Foreground" Value="Orange" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding LogLevel}" Value="Error">
-                                                <Setter Property="Foreground" Value="Red" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
-                                                <Setter Property="Foreground" Value="Blue" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                                <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0:HH:mm:ss} [{1}] {2}: {3}">
-                                        <Binding Path="Timestamp" />
-                                        <Binding Path="LogLevel" />
-                                        <Binding Path="Category" />
-                                        <Binding Path="Message" />
-                                    </MultiBinding>
-                                </TextBlock.Text>
+                                <Run Text="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}'}" />
+                                <Run Text=" [" />
+                                <Run Text="{Binding LogLevel}">
+                                    <Run.Style>
+                                        <Style TargetType="Run">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Information">
+                                                    <Setter Property="Foreground" Value="Green" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
+                                                    <Setter Property="Foreground" Value="Orange" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Error">
+                                                    <Setter Property="Foreground" Value="Red" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
+                                                    <Setter Property="Foreground" Value="Blue" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Run.Style>
+                                </Run>
+                                <Run Text="] " />
+                                <Run Text="{Binding Category}" />
+                                <Run Text=": " />
+                                <Run Text="{Binding Message}" />
                             </TextBlock>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -376,12 +371,42 @@
                     Grid.Column="2"
                     Grid.ColumnSpan="2"
                     Margin="10">
-                    <TextBlock
-                        Width="auto"
-                        Height="auto"
-                        Text="{Binding GeneratedBindingFile}"
-                        TextWrapping="Wrap" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="8*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="19*" />
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="9*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Text="{Binding SavePath}" />
+                            <Button
+                                Grid.Column="1"
+                                Command="{Binding SelectSaveLocationCommand}"
+                                Content="..." />
+                        </Grid>
+                        <Button
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Command="{Binding SaveBindingFileCommand}"
+                            Content="Save" />
+
+                        <TextBlock
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"
+                            Width="auto"
+                            Height="auto"
+                            Text="{Binding GeneratedBindingFile}"
+                            TextWrapping="Wrap" />
+                    </Grid>
                 </ScrollViewer>
+
                 <ComboBox
                     Grid.Row="1"
                     Grid.Column="1"
@@ -395,7 +420,13 @@
                 <ListBox
                     Grid.Column="1"
                     Margin="10"
-                    ItemsSource="{Binding UploadedFiles}" />
+                    ItemsSource="{Binding UploadedFiles}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
                 <Button
                     Margin="10,35,0,0"
                     HorizontalAlignment="Left"
