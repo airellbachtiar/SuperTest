@@ -21,7 +21,11 @@ namespace SuperTestWPF.Services
             try
             {
                 SetLlm(selectedLlmString);
-                var evaluationResponse = await Retry.DoAsync(() => _controller.EvaluateSpecFlowFeatureFileAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
+                var evaluationResponse = await Retry.DoAsync(
+                    () => _controller.EvaluateSpecFlowFeatureFileAsync(
+                        requirements,
+                        featureFile.FeatureFileContent),
+                    TimeSpan.FromSeconds(1));
                 AssignSpecFlowFeatureFileEvaluation.Assign(selectedLlmString, featureFile, evaluationResponse);
             }
             catch (Exception ex)
@@ -35,7 +39,11 @@ namespace SuperTestWPF.Services
             try
             {
                 SetLlm(selectedLlmString);
-                var evaluationResponse = await Retry.DoAsync(() => _controller.EvaluateSpecFlowScenarioAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
+                var evaluationResponse = await Retry.DoAsync(
+                    () => _controller.EvaluateSpecFlowScenarioAsync(
+                        requirements,
+                        featureFile.FeatureFileContent),
+                    TimeSpan.FromSeconds(1));
 
                 foreach (var scenario in evaluationResponse.ScenarioEvaluations)
                 {

@@ -23,7 +23,9 @@ namespace SuperTestWPF.Services
 
                 List<SpecFlowFeatureFileModel> specFlowFeatureFileModels = [];
 
-                var featureFileResponse = await Retry.DoAsync(() => _controller.GenerateSpecFlowFeatureFileAsync(requirements), TimeSpan.FromSeconds(1));
+                var featureFileResponse = await Retry.DoAsync(
+                    () => _controller.GenerateSpecFlowFeatureFileAsync(requirements),
+                    TimeSpan.FromSeconds(1));
 
                 for (int i = 0; i < featureFileResponse.FeatureFiles.Count; i++)
                 {

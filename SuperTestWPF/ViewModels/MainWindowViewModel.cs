@@ -10,10 +10,12 @@ using Microsoft.Extensions.DependencyInjection;
 using SuperTestWPF.Logger;
 using SuperTestWPF.Services;
 using SuperTestLibrary.Logger;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SuperTestWPF.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : INotifyPropertyChanged
     {
         private const string ReqIFFileFilter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
         private const string FeatureFileFilter = "Feature File (*.feature)|*.feature|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
@@ -396,5 +398,24 @@ namespace SuperTestWPF.ViewModels
             string savePath = $"{SavePath}/BindingFile.cs";
             _fileService.SaveFile(savePath, GeneratedBindingFile);
         }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (Equals(storage, value)) return false;
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
     }
 }

@@ -24,7 +24,11 @@ namespace SuperTestWPF.Services
                 SetLlm(selectedLlmString);
 
                 _logger.LogInformation("Generating binding file...");
-                var generatedBindingFile = await Retry.DoAsync(() => _controller.GenerateSpecFlowBindingFileAsync(featureFile.Value!, additionalCode.ToDictionary(f => f.Value!, f => f.Path!)), TimeSpan.FromSeconds(1));
+                var generatedBindingFile = await Retry.DoAsync(
+                    () => _controller.GenerateSpecFlowBindingFileAsync(
+                        featureFile.Value!,
+                        additionalCode.ToDictionary(f => f.Value!, f => f.Path!)),
+                    TimeSpan.FromSeconds(1));
                 return generatedBindingFile.BindingFiles.First().Value;
             }
             catch (Exception ex)
