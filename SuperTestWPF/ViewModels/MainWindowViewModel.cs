@@ -1,32 +1,31 @@
-using Microsoft.Win32;
-using SuperTestLibrary;
-using LlmLibrary;
 using LlmLibrary.Models;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
 using SuperTestWPF.ViewModels.Commands;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using SuperTestWPF.Logger;
+using SuperTestWPF.Services;
+using SuperTestLibrary.Logger;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SuperTestWPF.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private ObservableCollection<string> _statusMessages = [];
+        private const string ReqIFFileFilter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+        private const string FeatureFileFilter = "Feature File (*.feature)|*.feature|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
+
         private string _chosenFile = string.Empty;
         private string _selectedLLM = GPT_4o.ModelName;
-        private readonly ISuperTestController _superTestController;
         private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
         private ScenarioModel _selectedScenario = new();
-
-        // LLM
-        private readonly GPT_4o _gpt_4o = new();
-        private readonly Claude_3_5_Sonnet _claude_3_5_Sonnet = new();
-        private readonly Gemini_1_5 _gemini_1_5 = new();
 
         //SpecFlowFeatureFileModel
         private ObservableCollection<SpecFlowFeatureFileModel> _specFlowFeatureFiles = [];
@@ -38,166 +37,122 @@ namespace SuperTestWPF.ViewModels
         private bool _isDisplayingFeatureFileScore = true;
         private bool _isFeatureFileContentVisible = false;
 
-        public MainWindowViewModel(ISuperTestController superTestController)
+        //Binding fields
+        private ObservableCollection<FileInformation> _uploadedFiles = [];
+        private string _generatedBindingFile = string.Empty;
+        private FileInformation? _uploadedFeatureFile = null;
+
+        // Logger
+        private readonly ILogger<MainWindowViewModel> _logger;
+
+        //Services
+        private readonly IGetReqIfService _getReqIfService;
+        private readonly IFeatureFileGeneratorService _featureFileService;
+        private readonly IFileService _fileService;
+        private readonly IEvaluateFeatureFileService _evaluateFeatureFileService;
+        private readonly IBindingFileGeneratorService _bindingFileGeneratorService;
+
+        public ObservableCollection<LogEntry> LogMessages { get; } = [];
+
+        public MainWindowViewModel(IServiceProvider serviceProvider)
         {
             UploadReqIFCommand = new RelayCommand(UploadReqIF);
-            GenerateAndEvaluateSpecFlowFeatureFileCommand = new RelayCommand(GenerateAndEvaluateSpecFlowFeatureFile);
+            GenerateAndEvaluateSpecFlowFeatureFileCommand = new AsyncCommand(GenerateAndEvaluateSpecFlowFeatureFile);
             DisplayFeatureFileScoreCommand = new RelayCommand(DisplayFeatureFileScore);
             DisplayScenarioScoreCommand = new RelayCommand(DisplayScenarioScore);
             SelectSaveLocationCommand = new RelayCommand(SelectSaveLocation);
             SaveFeatureFilesCommand = new RelayCommand(SaveFeatureFiles);
             SwitchFeatureFileViewCommand = new RelayCommand(SwitchFeatureFileView);
 
-            this._superTestController = superTestController;
+            // Binding Generator
+            GenerateBindingsCommand = new AsyncCommand(GenerateBindings);
+            UploadFilesCommand = new RelayCommand(UploadFiles);
+            UploadFeatureFileCommand = new RelayCommand(UploadFeatureFile);
+            ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
+            SaveBindingFileCommand = new RelayCommand(SaveBindingFile);
+
+            var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+            loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
+
+            _logger = serviceProvider.GetRequiredService<ILogger<MainWindowViewModel>>();
+
+            //Services
+            _getReqIfService = serviceProvider.GetRequiredService<IGetReqIfService>();
+            _featureFileService = serviceProvider.GetRequiredService<IFeatureFileGeneratorService>();
+            _fileService = serviceProvider.GetRequiredService<IFileService>();
+            _evaluateFeatureFileService = serviceProvider.GetRequiredService<IEvaluateFeatureFileService>();
+            _bindingFileGeneratorService = serviceProvider.GetRequiredService<IBindingFileGeneratorService>();
             _ = InitializeReqIFs();
-        }
-
-        private async Task InitializeReqIFs()
-        {
-            var AllReqIfFiles = await _superTestController.GetAllReqIFFilesAsync();
-
-            OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
-        }
-
-        public ObservableCollection<string> StatusMessages
-        {
-            get { return _statusMessages; }
-            set
-            {
-                if (_statusMessages != value)
-                {
-                    _statusMessages = value;
-                    OnPropertyChanged(nameof(StatusMessages));
-                }
-            }
         }
 
         public string ChosenFile
         {
-            get { return _chosenFile; }
-            set
-            {
-                if (_chosenFile != value)
-                {
-                    _chosenFile = value;
-                    OnPropertyChanged(nameof(ChosenFile));
-                }
-            }
+            get => _chosenFile;
+            set => SetProperty(ref _chosenFile, value);
         }
 
         public string SavePath
         {
-            get { return _savePath; }
-            set
-            {
-                if (_savePath != value)
-                {
-                    _savePath = value;
-                    OnPropertyChanged(nameof(SavePath));
-                }
-            }
+            get => _savePath;
+            set => SetProperty(ref _savePath, value);
         }
 
         public string EvaluationSummary
         {
-            get { return _evaluationSummary; }
-            set
-            {
-                if (_evaluationSummary != value)
-                {
-                    _evaluationSummary = value;
-                    OnPropertyChanged(nameof(EvaluationSummary));
-                }
-            }
+            get => _evaluationSummary;
+            set => SetProperty(ref _evaluationSummary, value);
         }
 
         public bool IsFeatureFileContentVisible
         {
-            get { return _isFeatureFileContentVisible; }
-            set
-            {
-                if (_isFeatureFileContentVisible != value)
-                {
-                    _isFeatureFileContentVisible = value;
-                    OnPropertyChanged(nameof(IsFeatureFileContentVisible));
-                }
-            }
+            get => _isFeatureFileContentVisible;
+            set => SetProperty(ref _isFeatureFileContentVisible, value);
         }
 
         public ObservableCollection<string?> OnLoadedRequirementTitles
         {
-            get { return _onLoadedRequirementTitles; }
-            set
-            {
-                if (_onLoadedRequirementTitles != value)
-                {
-                    _onLoadedRequirementTitles = value;
-                    OnPropertyChanged(nameof(OnLoadedRequirementTitles));
-                }
-            }
+            get => _onLoadedRequirementTitles;
+            set => SetProperty(ref _onLoadedRequirementTitles, value);
         }
 
         public ObservableCollection<string> EvaluationScoreDetails
         {
-            get { return _evaluationScoreDetails; }
-            set
-            {
-                if (_evaluationScoreDetails != value)
-                {
-                    _evaluationScoreDetails = value;
-                    OnPropertyChanged(nameof(EvaluationScoreDetails));
-                }
-            }
+            get => _evaluationScoreDetails;
+            set => SetProperty(ref _evaluationScoreDetails, value);
         }
 
         public ObservableCollection<string> LLMList
         {
-            get { return _llmList; }
+            get => _llmList;
         }
 
         public string SelectedLLM
         {
-            get { return _selectedLLM; }
-            set
-            {
-                if (_selectedLLM != value)
-                {
-                    _selectedLLM = value;
-                    OnPropertyChanged(nameof(SelectedLLM));
-                }
-            }
+            get => _selectedLLM;
+            set => SetProperty(ref _selectedLLM, value);
         }
 
         public ObservableCollection<SpecFlowFeatureFileModel> SpecFlowFeatureFiles
         {
-            get { return _specFlowFeatureFiles; }
-            set
-            {
-                if (_specFlowFeatureFiles != value)
-                {
-                    _specFlowFeatureFiles = value;
-                    OnPropertyChanged(nameof(SpecFlowFeatureFiles));
-                }
-            }
+            get => _specFlowFeatureFiles;
+            set => SetProperty(ref _specFlowFeatureFiles, value);
         }
 
         public SpecFlowFeatureFileModel SelectedSpecFlowFeatureFile
         {
-            get { return _selectedSpecFlowFeatureFile; }
+            get => _selectedSpecFlowFeatureFile;
             set
             {
-                if (_selectedSpecFlowFeatureFile != value)
+                if (SetProperty(ref _selectedSpecFlowFeatureFile, value))
                 {
-                    _selectedSpecFlowFeatureFile = value;
-                    DisplayScoreDetails();
-                    OnPropertyChanged(nameof(SelectedSpecFlowFeatureFile));
+                    UpdateFeatureFileScores();
                 }
             }
         }
 
         public ScenarioModel SelectedScenario
         {
-            get { return _selectedScenario; }
+            get => _selectedScenario;
             set
             {
                 if (_selectedScenario != value)
@@ -211,10 +166,29 @@ namespace SuperTestWPF.ViewModels
                     {
                         _selectedScenario.IsSelected = true;
                     }
-                    DisplayScoreDetails();
+                    UpdateFeatureFileScores();
                     OnPropertyChanged(nameof(SelectedScenario));
                 }
             }
+        }
+
+        // Binding properties
+        public ObservableCollection<FileInformation> UploadedFiles
+        {
+            get => _uploadedFiles;
+            set => SetProperty(ref _uploadedFiles, value);
+        }
+
+        public string GeneratedBindingFile
+        {
+            get => _generatedBindingFile;
+            set => SetProperty(ref _generatedBindingFile, value);
+        }
+
+        public FileInformation? UploadedFeatureFile
+        {
+            get => _uploadedFeatureFile;
+            set => SetProperty(ref _uploadedFeatureFile, value);
         }
 
         public ICommand UploadReqIFCommand { get; }
@@ -224,69 +198,56 @@ namespace SuperTestWPF.ViewModels
         public ICommand SelectSaveLocationCommand { get; }
         public ICommand SaveFeatureFilesCommand { get; }
         public ICommand SwitchFeatureFileViewCommand { get; }
+        // Binding commands
+        public ICommand GenerateBindingsCommand { get; }
+        public ICommand UploadFilesCommand { get; }
+        public ICommand UploadFeatureFileCommand { get; }
+        public ICommand ClearAllUploadedFilesCommand { get; }
+        public ICommand SaveBindingFileCommand { get; }
+
+        private async Task InitializeReqIFs()
+        {
+            IEnumerable<string> AllReqIfFiles = await _getReqIfService.GetAll();
+            OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
+        }
 
         public void OnTreeViewItemSelected(object selectedItem)
         {
-            if (selectedItem is ReqIFValueAndPath reqIFValueAndPath)
+            if (selectedItem is FileInformation reqIFValueAndPath)
             {
                 ChosenFile = reqIFValueAndPath.Path!;
             }
         }
 
-        public void OnListBoxSelectedSpecFlowFeatureFileChanged(object selectedSpecFlowFeatureFile)
-        {
-            if (selectedSpecFlowFeatureFile is SpecFlowFeatureFileModel specFlowFeatureFile)
-            {
-                SelectedSpecFlowFeatureFile = specFlowFeatureFile;
-            }
-        }
-
         private void UploadReqIF()
         {
-            StatusMessages.Add("Uploading ReqIF...");
-            _ = GetReqIFFileFromFolder();
-        }
+            _logger.LogInformation("Uploading ReqIF...");
+            string filepath = _fileService.OpenFileDialog(ReqIFFileFilter);
+            if (string.IsNullOrEmpty(filepath)) return;
 
-        private string GetReqIFFileFromFolder()
-        {
-            OpenFileDialog openFileDialog = new()
-            {
-                Filter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*"
-            };
-
-            bool? response = openFileDialog.ShowDialog();
-
-            if (response != true)
-                return string.Empty;
-
-            string filepath = openFileDialog.FileName;
             ChosenFile = filepath;
-
-            StatusMessages.Add("ReqIF uploaded.");
-
-            return filepath;
+            _logger.LogInformation("ReqIF uploaded.");
         }
 
-        private async void GenerateAndEvaluateSpecFlowFeatureFile()
+        private async Task GenerateAndEvaluateSpecFlowFeatureFile()
         {
             SelectedSpecFlowFeatureFile = new();
             SpecFlowFeatureFiles.Clear();
 
-            StatusMessages.Add("Generating SpecFlow feature file...");
+            _logger.LogInformation("Generating SpecFlow feature file...");
 
             if (string.IsNullOrEmpty(ChosenFile))
             {
-                StatusMessages.Add("No file chosen.");
+                _logger.LogWarning("No file chosen.");
+                _logger.LogError("Failed to generate SpecFlow feature file.");
                 return;
             }
 
-            string requirements = GetFileContent();
-
-            SetLLM();
+            string requirements = _fileService.GetFileContent(ChosenFile);
 
             try
             {
-                await GenerateSpecFlowFeatureFile(requirements);
+                SpecFlowFeatureFiles = new ObservableCollection<SpecFlowFeatureFileModel>(await _featureFileService.GenerateSpecFlowFeatureFilesAsync(SelectedLLM, requirements));
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
                 SelectedScenario = SelectedSpecFlowFeatureFile.Scenarios.FirstOrDefault() ?? new();
                 await EvaluateSpecFlowFeatureFile(requirements);
@@ -294,160 +255,45 @@ namespace SuperTestWPF.ViewModels
             catch { return; }
         }
 
-        public void SetLLM()
-        {
-            switch (SelectedLLM)
-            {
-                case GPT_4o.ModelName:
-                    _superTestController.SelectedLLM = _gpt_4o;
-                    break;
-                case Claude_3_5_Sonnet.ModelName:
-                    _superTestController.SelectedLLM = _claude_3_5_Sonnet;
-                    break;
-                case Gemini_1_5.ModelName:
-                    _superTestController.SelectedLLM = _gemini_1_5;
-                    break;
-            }
-        }
-
-        private async Task GenerateSpecFlowFeatureFile(string requirements)
-        {
-            try
-            {
-                var featureFileResponse = await Retry.DoAsync(() => _superTestController.GenerateSpecFlowFeatureFileAsync(requirements), TimeSpan.FromSeconds(1));
-                
-                for (int i = 0; i < featureFileResponse.FeatureFiles.Count; i++)
-                {
-                    var featureFileModel = featureFileResponse.FeatureFiles.ElementAt(i);
-                    var gherkinDocument = featureFileResponse.GherkinDocuments[i];
-
-                    if (gherkinDocument == null)
-                    {
-                        StatusMessages.Add($"Gherkin document is missing at {featureFileModel.Key}.");
-                        continue;
-                    }
-
-                    var featureFile = GetSpecFlowFeatureFileModel.ConvertSpecFlowFeatureFileResponse(featureFileModel, gherkinDocument);
-                    SpecFlowFeatureFiles.Add(featureFile);
-                }
-
-                if (!SpecFlowFeatureFiles.Any())
-                {
-                    StatusMessages.Add("Feature file is empty. Failed to generate feature file.");
-                }
-                StatusMessages.Add("Finished generating!");
-            }
-            catch (Exception ex)
-            {
-                StatusMessages.Add($"Exception: {ex.Message} while generating SpecFlow feature file.");
-            }
-        }
-
         private async Task EvaluateSpecFlowFeatureFile(string requirements)
         {
             if (!SpecFlowFeatureFiles.Any())
             {
-                StatusMessages.Add("No feature file to evaluate.");
+                _logger.LogWarning("No feature file to evaluate.");
                 return;
             }
 
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
-                // Evaluate feature file
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
-                await EvaluateFeatureFileScoreAsync(_gpt_4o, featureFile, requirements);
-
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} feature file using Claude 3.5 Sonnet...");
-                await EvaluateFeatureFileScoreAsync(_claude_3_5_Sonnet, featureFile, requirements);
-
-                //Evaluate scenario
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
-                await EvaluateSpecFlowScenarioAsync(_gpt_4o, featureFile, requirements);
-
-                StatusMessages.Add($"Evaluating {featureFile.FeatureFileName} scenario using Claude 3.5 Sonnet...");
-                await EvaluateSpecFlowScenarioAsync(_claude_3_5_Sonnet, featureFile, requirements);
-            }
-            StatusMessages.Add("Finished evaluating!");
-        }
-
-        private string GetFileContent()
-        {
-            try
-            {
-                if (File.Exists(ChosenFile))
+                foreach (var llm in new[] { GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName })
                 {
-                    return File.ReadAllText(ChosenFile);
-                }
-                else
-                {
-                    StatusMessages.Add("File does not exist.");
+                    // Evaluate feature file
+                    _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
+                    await _evaluateFeatureFileService.EvaluateFeatureFileAsync(llm, featureFile, requirements);
+                    //Evaluate scenario
+                    _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
+                    await _evaluateFeatureFileService.EvaluateSpecFlowScenarioAsync(llm, featureFile, requirements);
                 }
             }
-            catch (IOException ex)
-            {
-                StatusMessages.Add($"IOException: {ex.Message} while reading {ChosenFile}");
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                StatusMessages.Add($"UnauthorizedAccessException: {ex.Message} while reading {ChosenFile}");
-            }
-            catch (Exception ex)
-            {
-                StatusMessages.Add($"Exception: {ex.Message} while processing {ChosenFile}");
-            }
-
-            return string.Empty;
-        }
-
-        private async Task EvaluateFeatureFileScoreAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile, string requirements)
-        {
-            try
-            {
-                _superTestController.SelectedLLM = largeLanguageModel;
-                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowFeatureFileAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
-                AssignSpecFlowFeatureFileEvaluation.Assign(largeLanguageModel, featureFile, evaluationResponse);
-            }
-            catch (Exception ex)
-            {
-                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
-            }
-        }
-
-        private async Task EvaluateSpecFlowScenarioAsync(ILargeLanguageModel largeLanguageModel, SpecFlowFeatureFileModel featureFile, string requirements)
-        {
-            try
-            {
-                _superTestController.SelectedLLM = largeLanguageModel;
-                var evaluationResponse = await Retry.DoAsync(() => _superTestController.EvaluateSpecFlowScenarioAsync(requirements, featureFile.FeatureFileContent), TimeSpan.FromSeconds(1));
-
-                foreach (var scenario in evaluationResponse.ScenarioEvaluations)
-                {
-                    var scenarioModel = featureFile.Scenarios.First(s => s.Name == scenario.ScenarioName);
-                    AssignScenarioEvaluation.Assign(largeLanguageModel, scenarioModel, scenario);
-                }
-            }
-            catch (Exception ex)
-            {
-                StatusMessages.Add($"Exception: {ex.Message} while evaluating {featureFile.FeatureFileName} using {largeLanguageModel.Id}");
-            }
+            _logger.LogInformation("Finished evaluating feature file!");
         }
 
         private void DisplayFeatureFileScore()
         {
             _isDisplayingFeatureFileScore = true;
-            DisplayScoreDetails();
+            UpdateFeatureFileScores();
         }
 
         private void DisplayScenarioScore()
         {
             _isDisplayingFeatureFileScore = false;
-            DisplayScoreDetails();
+            UpdateFeatureFileScores();
         }
 
-        private void DisplayScoreDetails()
+        private void UpdateFeatureFileScores()
         {
             if (SelectedSpecFlowFeatureFile == null) return;
-            if(_isDisplayingFeatureFileScore)
+            if (_isDisplayingFeatureFileScore)
             {
                 EvaluationSummary = SelectedSpecFlowFeatureFile.FeatureFileEvaluationSummary ?? string.Empty;
                 EvaluationScoreDetails = SelectedSpecFlowFeatureFile.FeatureFileEvaluationScoreDetails ?? [];
@@ -462,15 +308,7 @@ namespace SuperTestWPF.ViewModels
 
         private void SelectSaveLocation()
         {
-            var folderDialog = new OpenFolderDialog
-            { 
-                DefaultDirectory = SavePath
-            };
-
-            if (folderDialog.ShowDialog() == true)
-            {
-                SavePath = folderDialog.FolderName;
-            }
+            SavePath = _fileService.SelectFolderLocation(SavePath);
         }
 
         private void SaveFeatureFiles()
@@ -480,8 +318,7 @@ namespace SuperTestWPF.ViewModels
                 string savePath = $"{SavePath}/{featureFile.FeatureFileName}";
                 string featureFileContent = GetReviewedFeatureFile.GetAcceptedScenarios(featureFile);
 
-                File.WriteAllText(savePath, featureFileContent);
-                StatusMessages.Add($"Feature file saved to \"{savePath}\".");
+                _fileService.SaveFile(savePath, featureFileContent);
             }
         }
 
@@ -490,11 +327,91 @@ namespace SuperTestWPF.ViewModels
             IsFeatureFileContentVisible = !IsFeatureFileContentVisible;
         }
 
+        // Binding Generator
+
+        private async Task GenerateBindings()
+        {
+            GeneratedBindingFile = string.Empty;
+            if (UploadedFiles.Count == 0)
+            {
+                _logger.LogWarning("No files uploaded.");
+                _logger.LogError("Failed to generate binding file.");
+                return;
+            }
+
+            if (UploadedFeatureFile == null)
+            {
+                _logger.LogWarning("No feature file uploaded.");
+                _logger.LogError("Failed to generate binding file.");
+                return;
+            }
+
+            GeneratedBindingFile = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles);
+            _logger.LogInformation("Binding file generated.");
+        }
+
+        private void UploadFiles()
+        {
+            var files = GetFilesFromFolder();
+            foreach (var file in files)
+            {
+                UploadedFiles.Add(new FileInformation(file.Key, file.Value));
+            }
+        }
+
+        private void UploadFeatureFile()
+        {
+            _ = GetFeatureFileFromFolder();
+        }
+
+        private string GetFeatureFileFromFolder()
+        {
+            string filepath = _fileService.OpenFileDialog(FeatureFileFilter);
+            if (string.IsNullOrEmpty(filepath)) return string.Empty;
+
+            UploadedFeatureFile = new FileInformation(Path.GetFileName(filepath), _fileService.GetFileContent(filepath));
+            _logger.LogInformation("Feature file uploaded.");
+
+            return filepath;
+        }
+
+        private Dictionary<string, string> GetFilesFromFolder()
+        {
+            var files = _fileService.OpenFilesDialog("All Files (*.*)|*.*");
+            return files.ToDictionary(f => Path.GetFullPath(f), f => _fileService.GetFileContent(f));
+        }
+
+        private void ClearAllUpLoadedFiles()
+        {
+            UploadedFiles.Clear();
+            UploadedFeatureFile = null;
+        }
+
+        private void SaveBindingFile()
+        {
+            if (string.IsNullOrEmpty(GeneratedBindingFile))
+            {
+                _logger.LogWarning("No binding file generated.");
+                _logger.LogError("Failed to save binding file.");
+                return;
+            }
+            string savePath = $"{SavePath}/BindingFile.cs";
+            _fileService.SaveFile(savePath, GeneratedBindingFile);
+        }
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (Equals(storage, value)) return false;
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

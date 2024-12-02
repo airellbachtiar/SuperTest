@@ -1,7 +1,8 @@
 ﻿using Moq;
 using LlmLibrary;
-using SuperTestLibrary.Services.Prompts.ResponseModels;
 using SuperTestLibrary.Storages;
+using Microsoft.Extensions.Logging;
+using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 
 namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
@@ -9,7 +10,9 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
     [Scope(Feature = "Evaluate SpecFlow Feature File")]
     public class GenerateEvaluationSpecFlowFeatureFileSteps
     {
-        private readonly SuperTestController _superTestController = new(new Mock<IReqIFStorage>().Object);
+        private readonly SuperTestController _superTestController;
+        private readonly Mock<IReqIFStorage> _mockReqIFStorage = new();
+        private readonly Mock<ILogger<SuperTestController>> _mockLogger = new();
         private readonly Mock<ILargeLanguageModel> _mockLargeLanguageModel = new();
         private string _requirements = "The application should generate an evaluation score";
         private string _featureFile = "Feature: Generate Evaluation Score";
@@ -20,6 +23,11 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         private const string _llmResponse = "{\"Readability\": 4, \"Consistency\": 4, \"Focus\": 4, \"Structure\": 0, \"Maintainability\": 0, \"Coverage\": 4, \"Score\": {\"MaximumScore\": 20, \"TotalScore\": 16}, \"Summary\": \"The feature file is generally well-written and meets most of the evaluation criteria. However, there are a few recommendations for improvement. The feature name is descriptive and provides a clear understanding of its purpose, resulting in high readability and focus. It maintains consistent naming and format, which adds to its clarity. There is no use of Background steps or step reusability in this feature file, which might reduce maintainability and the potential for streamlined steps across scenarios. Coverage is good, as it considers various scenarios including error conditions. Consider using Background steps if there are common preconditions across scenarios and explore step reuse opportunities to enhance maintainability.\"}";
 
         #region Generate evaluation score for a valid SpecFlow feature file
+
+        public GenerateEvaluationSpecFlowFeatureFileSteps()
+        {
+            _superTestController = new SuperTestController(_mockReqIFStorage.Object, _mockLogger.Object);
+        }
 
         [BeforeScenario("Generate evaluation score for a valid SpecFlow feature file")]
         public void SetupGenerateEvaluationScoreForAValidSpecFlowFeatureFile()
@@ -120,7 +128,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         [Then(@"provide detailed feedback")]
         public void ThenProvideDetailedFeedback()
         {
-            Assert.NotEmpty(_evaluateSpecFlowFeatureFileResponse!.Summary);
+            Assert.NotEmpty(_evaluateSpecFlowFeatureFileResponse!.Summary!);
         }
         #endregion
 

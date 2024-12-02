@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SuperTestLibrary.UnitTests.TestData
+﻿namespace SuperTestLibrary.UnitTests.TestData
 {
     public static class LLMResponse
     {

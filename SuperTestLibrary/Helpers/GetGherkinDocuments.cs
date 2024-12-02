@@ -1,6 +1,6 @@
 ﻿using Gherkin;
 using Gherkin.Ast;
-using SuperTestLibrary.Services.Prompts.ResponseModels;
+using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 
 namespace SuperTestLibrary.Helpers
 {

@@ -1,5 +1,5 @@
 ﻿using SuperTestLibrary.Helpers;
-using SuperTestLibrary.Services.Prompts.Builders;
+using SuperTestLibrary.Services.PromptBuilders;
 using SuperTestLibrary.UnitTests.TestData;
 
 namespace SuperTestLibrary.UnitTests

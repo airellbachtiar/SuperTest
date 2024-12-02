@@ -8,9 +8,9 @@ namespace SuperTestLibrary.Services.Generators
         {
             string jsonPromptPath = largeLanguageModel.Id switch
             {
-                "Claude 3.5 Sonnet" => _jsonPromptClaude_3_5_Sonnet,
-                "GPT-4o" => _jsonPromptGPT_4o,
-                "Gemini 1.5" => _jsonPromptGemini_1_5,
+                "Claude 3.5 Sonnet" => JsonPromptClaude35Sonnet,
+                "GPT-4o" => JsonPromptGPT4o,
+                "Gemini 1.5" => JsonPromptGemini15,
                 _ => throw new InvalidOperationException("Unknown LLM."),
             };
 
@@ -21,8 +21,8 @@ namespace SuperTestLibrary.Services.Generators
 
         protected abstract IEnumerable<string> SetupPrompt(string jsonPromptPath);
 
-        protected abstract string _jsonPromptClaude_3_5_Sonnet { get; }
-        protected abstract string _jsonPromptGPT_4o { get; }
-        protected abstract string _jsonPromptGemini_1_5 { get; }
+        protected abstract string JsonPromptClaude35Sonnet { get; }
+        protected abstract string JsonPromptGPT4o { get; }
+        protected abstract string JsonPromptGemini15 { get; }
     }
 }
