@@ -26,20 +26,23 @@ Feature: Traffic Light System
   @REQ-004
   Scenario: Car Yellow Light Transition
     Given the traffic light system has started
-    When 1 second has passed
+    When pedestrian request to walk
+    And 1 second has passed
     Then the car's green light should switch to yellow
     And the pedestrian red light should remain on
 
   @REQ-005
   Scenario: Pedestrian Green Light
     Given the traffic light system has started
-    When 4 seconds have passed
+    When pedestrian request to walk
+    And 4 seconds have passed
     Then the car's yellow light should switch to red
     And the pedestrian green light should turn on
 
   @REQ-006
   Scenario: Return to Car Green Light
     Given the traffic light system has started
-    When 10 seconds have passed
+    When pedestrian request to walk
+    And 10 seconds have passed
     Then the pedestrian light should switch to red
     And the car green light should turn back on

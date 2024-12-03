@@ -5,7 +5,6 @@ namespace TrafficTest.Steps
 {
     [Binding]
     [Scope(Feature = "Traffic Light System")]
-    [NonParallelizable]
     public class TrafficLightSteps
     {
         private readonly TestSim.TestSimClient _client;
@@ -45,10 +44,15 @@ namespace TrafficTest.Steps
             TrafficTestHooks.ClickButton("StartButton");
         }
 
+        [When(@"pedestrian request to walk")]
+        public void WhenPedestrianRequestToWalk()
+        {
+            _client.PressRequestPedestrianWalkButton(new Empty());
+        }
+
         [When(@"(\d+) second(?:s)? \b(?:has|have)\b passed")]
         public void WhenSecondsHasPassed(int seconds)
         {
-            _client.PressRequestPedestrianWalkButton(new Empty());
             Task.Delay(seconds * 1000).Wait();
         }
 
