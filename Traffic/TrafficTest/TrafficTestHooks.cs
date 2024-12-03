@@ -3,7 +3,6 @@ using FlaUI.Core.AutomationElements;
 using FlaUI.UIA3;
 using Grpc.Net.Client;
 using System.Diagnostics;
-using System.Threading;
 using TestBus;
 using TrafficTest.Models;
 
@@ -13,16 +12,13 @@ using TrafficTest.Models;
 namespace TrafficTest
 {
     [Binding]
-    public class TrafficTestHooks
+    public partial class TrafficTestHooks
     {
         public static Application App { get; private set; }
         public static UIA3Automation Automation { get; private set; }
-
         public static Application AppSim { get; set; }
-
         public static TestSim.TestSimClient Client { get; private set; }
         private static GrpcChannel _channel;
-
         public static List<TrafficLightState> TrafficLightStates { get; private set; } = new();
         private static CancellationTokenSource? _cancellationTokenSource;
 
@@ -89,13 +85,13 @@ namespace TrafficTest
         }
 
         /// <summary>
-        /// Clicks a button in the main window of the application.
+        /// Simulates a click on a button in the main window of the Traffic application.
+        /// The button is identified by its AutomationId.
         /// </summary>
-        /// <param name="automationId"></param>
-        /// <exception cref="Exception"></exception>
+        /// <param name="automationId">The unique AutomationId of the button.</param>
         public static void ClickButton(string automationId)
         {
-            var mainWindow = TrafficTestHooks.App.GetMainWindow(TrafficTestHooks.Automation)
+            var mainWindow = App.GetMainWindow(Automation)
                             ?? throw new Exception("Main window could not be found.");
 
             // Find the button using its AutomationId
@@ -108,9 +104,11 @@ namespace TrafficTest
         }
 
         /// <summary>
-        /// Observes the traffic light states and records them.
+        /// Continuously observes the traffic light states and records their changes.
+        /// This method runs on a separate thread until canceled.
         /// </summary>
-        public static void ObserveTrafficLight(CancellationToken cancellationToken)
+        /// <param name="cancellationToken">Token used to cancel the observation.</param>
+        private static void ObserveTrafficLight(CancellationToken cancellationToken)
         {
             Stopwatch s = new();
             s.Start();
@@ -140,79 +138,41 @@ namespace TrafficTest
         }
 
         /// <summary>
-        /// Constructs the path to an application executable.
+        /// Waits until a specific traffic light is in the desired state.
+        /// This method blocks execution until the light state matches the expected value.
         /// </summary>
-        private static string GetApplicationPath(string appName, string framework, string executable)
+        /// <param name="lightName">The name of the traffic light (e.g., "CarYellow").</param>
+        /// <param name="lightState">The desired state of the light (e.g., "On", "Off").</param>
+        public static void WaitUntilTheLightIsInThatState(string lightName, string lightState)
         {
-            var baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            var workingDir = Path.Combine(baseDirectory, "..", "..", "..", "..", appName, "bin", "Debug", framework);
-            var appPath = Path.Combine(workingDir, executable);
-
-            if (!File.Exists(appPath))
+            while (true)
             {
-                throw new FileNotFoundException($"The application was not found at: {appPath}");
-            }
-
-            return appPath;
-        }
-
-        /// <summary>
-        /// Starts and attaches to an application process using FlaUI.
-        /// </summary>
-        private static Application StartAndAttachToApplication(string appPath)
-        {
-            var processStartInfo = new ProcessStartInfo
-            {
-                FileName = appPath,
-                WorkingDirectory = Path.GetDirectoryName(appPath),
-                UseShellExecute = false
-            };
-
-            var process = Process.Start(processStartInfo) ?? throw new Exception("Failed to start the application.");
-            return Application.Attach(process);
-        }
-
-        /// <summary>
-        /// Focuses the main window of the application.
-        /// </summary>
-        private static void FocusMainWindow(Application app)
-        {
-            Automation = new UIA3Automation();
-            var mainWindow = app.GetMainWindow(Automation) ?? throw new Exception("Main window could not be found.");
-            mainWindow.Focus();
-        }
-
-        /// <summary>
-        /// Closes the application gracefully and kills it if necessary.
-        /// </summary>
-        private static void CloseApplication(Application app, string appName)
-        {
-            if (app == null) return;
-
-            try
-            {
-                app.Close();
-                if (!app.HasExited)
+                var lastState = TrafficLightStates.LastOrDefault();
+                if (lastState == null)
                 {
-                    app.Kill();
-                    Console.WriteLine($"{appName} application had to be forcibly terminated.");
+                    continue;
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while closing {appName} application: {ex.Message}");
+
+                if (IsLightInState(lastState, lightName, lightState)) return;
             }
         }
 
         /// <summary>
-        /// Disposes of all shared resources.
+        /// Checks if a specific traffic light is in the desired state.
         /// </summary>
-        private static void CleanupResources()
-        {
-            Automation?.Dispose();
-            App?.Dispose();
-            AppSim?.Dispose();
-            _channel?.Dispose();
-        }
+        /// <param name="state">The current traffic light state.</param>
+        /// <param name="lightName">The name of the traffic light.</param>
+        /// <param name="lightState">The desired state of the light.</param>
+        /// <returns>True if the light is in the desired state; otherwise, false.</returns>
+        private static bool IsLightInState(TrafficLightState state, string lightName, string lightState) =>
+            lightName switch
+            {
+                "CarYellow" => state.CarYellow.LightState == lightState,
+                "PedestrianGreen" => state.PedestrianGreen.LightState == lightState,
+                "CarRed" => state.CarRed.LightState == lightState,
+                "PedestrianRed" => state.PedestrianRed.LightState == lightState,
+                "CarGreen" => state.CarGreen.LightState == lightState,
+                _ => throw new Exception($"Light '{lightName}' is not supported."),
+            };
     }
 }

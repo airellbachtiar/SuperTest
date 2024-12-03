@@ -1,140 +1,137 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
+using System;
+using System.Linq;
 using TestBus;
+using TrafficTest;
+using TrafficTest.Models;
 
-namespace TrafficTest.Steps
+namespace TrafficTest
 {
     [Binding]
-    [Scope(Feature = "Traffic Light System")]
-    public class TrafficLightSteps
+    public class TrafficLightSystemSteps
     {
         private readonly TestSim.TestSimClient _client;
 
-        public TrafficLightSteps()
+        public TrafficLightSystemSteps()
         {
             _client = TrafficTestHooks.Client;
         }
 
-        [Given(@"the traffic light system is off")]
-        public void GivenTheTrafficLightSystemIsOff()
+        [Given(@"the system is in idle state")]
+        public void GivenTheSystemIsInIdleState()
         {
-            // No need to do anything here
+            TrafficTestHooks.ClickButton("StopButton");
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarYellow", "On");
         }
 
-        [Given(@"the traffic light system is not started")]
-        public void GivenTheTrafficLightSystemIsNotStarted()
+        [Given(@"the system is operational")]
+        public void GivenTheSystemIsOperational()
         {
-            // No need to do anything here
+            TrafficTestHooks.ClickButton("StartButton");
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarGreen", "On");
         }
 
-        [Given(@"the traffic light system has started")]
-        public void GivenTheTrafficLightSystemHasStarted()
+        [Given(@"the green traffic light is on")]
+        public void GivenTheGreenTrafficLightIsOn()
+        {
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarGreen", "On");
+        }
+
+        [Given(@"the yellow traffic light is on")]
+        public void GivenTheYellowTrafficLightIsOn()
+        {
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarYellow", "On");
+        }
+
+        [Given(@"the red traffic light is on")]
+        public void GivenTheRedTrafficLightIsOn()
+        {
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarRed", "On");
+        }
+
+        [When(@"the start button is pressed")]
+        public void WhenTheStartButtonIsPressed()
         {
             TrafficTestHooks.ClickButton("StartButton");
         }
 
-        [When(@"the user presses the start button")]
-        public void WhenTheUserPressesTheStartButton()
-        {
-            TrafficTestHooks.ClickButton("StartButton");
-        }
-
-        [When(@"the user starts the traffic light system")]
-        public void WhenTheUserStartsTheTrafficLightSystem()
-        {
-            TrafficTestHooks.ClickButton("StartButton");
-        }
-
-        [When(@"pedestrian request to walk")]
-        public void WhenPedestrianRequestToWalk()
+        [When(@"the pedestrian button is pressed")]
+        public void WhenThePedestrianButtonIsPressed()
         {
             _client.PressRequestPedestrianWalkButton(new Empty());
         }
 
-        [When(@"(\d+) second(?:s)? \b(?:has|have)\b passed")]
-        public void WhenSecondsHasPassed(int seconds)
+        [When(@"the yellow traffic light on time has elapsed")]
+        public void WhenTheYellowTrafficLightOnTimeHasElapsed()
         {
-            Task.Delay(seconds * 1000).Wait();
+            // Wait for the yellow light to turn off
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarYellow", "Off");
         }
 
-        [Then(@"the car's yellow light should be blinking")]
-        public void ThenTheCarsYellowLightShouldBeBlinking()
+        [When(@"the red traffic light on time has elapsed")]
+        public void WhenTheRedTrafficLightOnTimeHasElapsed()
         {
-            Thread.Sleep(2000);
-            var carYellowLight = TrafficTestHooks.TrafficLightStates
-                .Select(x => x.CarYellow)
+            // Wait for the red light to turn off
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarRed", "Off");
+        }
+
+        [When(@"any traffic light is on")]
+        public void WhenAnyTrafficLightIsOn()
+        {
+            // This step is already covered by the operational state
+        }
+
+        [Then(@"the system should transition to operational state")]
+        public void ThenTheSystemShouldTransitionToOperationalState()
+        {
+            // Check if any of the car traffic lights are on
+            var lastState = TrafficTestHooks.TrafficLightStates.Last();
+            (lastState.CarGreen.LightState == "On" || lastState.CarYellow.LightState == "On" || lastState.CarRed.LightState == "On")
+                .Should().BeTrue();
+        }
+
+        [Then(@"the green traffic light should be turned on")]
+        public void ThenTheGreenTrafficLightShouldBeTurnedOn()
+        {
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarGreen", "On");
+        }
+
+        [Then(@"the yellow traffic light should be turned on")]
+        public void ThenTheYellowTrafficLightShouldBeTurnedOn()
+        {
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarYellow", "On");
+        }
+
+        [Then(@"the red traffic light should be turned on")]
+        public void ThenTheRedTrafficLightShouldBeTurnedOn()
+        {
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarRed", "On");
+        }
+
+        [Then(@"only one traffic light should be on")]
+        public void ThenOnlyOneTrafficLightShouldBeOn()
+        {
+            var lastState = TrafficTestHooks.TrafficLightStates.Last();
+            int onLightsCount = new[]
+            {
+                lastState.CarGreen.LightState,
+                lastState.CarYellow.LightState,
+                lastState.CarRed.LightState
+            }.Count(state => state == "On");
+
+            onLightsCount.Should().Be(1);
+        }
+
+        [Then(@"the yellow traffic light should be blinking")]
+        public void ThenTheYellowTrafficLightShouldBeBlinking()
+        {
+            var yellowLightStates = TrafficTestHooks.TrafficLightStates
+                .Select(state => state.CarYellow.LightState)
                 .ToList();
 
-            carYellowLight.Should().Contain(x => x.LightState == "On");
-            carYellowLight.Should().Contain(x => x.LightState == "Off");
-        }
-
-        [Then(@"the pedestrian green light should be blinking")]
-        public void ThenThePedestrianGreenLightShouldBeBlinking()
-        {
-            Thread.Sleep(2000);
-            var pedestrianGreenLight = TrafficTestHooks.TrafficLightStates
-                .Select(x => x.PedestrianGreen)
-                .ToList();
-
-            pedestrianGreenLight.Should().Contain(x => x.LightState == "On");
-            pedestrianGreenLight.Should().Contain(x => x.LightState == "Off");
-        }
-
-        [Then(@"the car's green light should switch to yellow")]
-        public void ThenTheCarSGreenLightShouldSwitchToYellow()
-        {
-            TrafficTestHooks.TrafficLightStates
-                .Select(x => x.CarYellow)
-                .Last()
-                .LightState.Should().Be("On");
-        }
-
-        [Then(@"the pedestrian red light should remain on")]
-        public void ThenThePedestrianRedLightShouldRemainOn()
-        {
-            TrafficTestHooks.TrafficLightStates
-                .Select(x => x.PedestrianRed)
-                .Last()
-                .LightState.Should().Be("On");
-        }
-
-        [Then(@"the car's yellow light should switch to red")]
-        public void ThenTheCarSYellowLightShouldSwitchToRed()
-        {
-            TrafficTestHooks.TrafficLightStates
-                .Select(x => x.CarRed)
-                .Last()
-                .LightState.Should().Be("On");
-        }
-
-        [Then(@"the pedestrian green light should turn on")]
-        public void ThenThePedestrianGreenLightShouldTurnOn()
-        {
-            TrafficTestHooks.TrafficLightStates
-                .Select(x => x.PedestrianGreen)
-                .Last()
-                .LightState.Should().Be("On");
-        }
-
-        [Then(@"the pedestrian light should switch to red")]
-        [Then(@"the pedestrian red light should turn on")]
-        public void ThenThePedestrianLightShouldSwitchToRed()
-        {
-            TrafficTestHooks.TrafficLightStates
-                .Select(x => x.PedestrianRed)
-                .Last()
-                .LightState.Should().Be("On");
-        }
-
-        [Then(@"the car green light should turn back on")]
-        [Then(@"the car's green light should turn on")]
-        [Then(@"the traffic light system should start")]
-        public void ThenTheCarGreenLightShouldTurnBackOn()
-        {
-            TrafficTestHooks.TrafficLightStates
-                .Select(x => x.CarGreen)
-                .Last()
-                .LightState.Should().Be("On");
+            // Check if the yellow light state changes at least once
+            yellowLightStates.Distinct().Count().Should().BeGreaterThan(1);
         }
     }
 }

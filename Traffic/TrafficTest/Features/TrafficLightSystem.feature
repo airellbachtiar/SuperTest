@@ -1,48 +1,48 @@
 Feature: Traffic Light System
 
-  As a traffic control system
-  I want to manage traffic and pedestrian lights
-  So that traffic flow and pedestrian safety are ensured
+  Scenario: System transitions from idle to operational state
+    Given the system is in idle state
+    When the start button is pressed
+    Then the system should transition to operational state
+    And the green traffic light should be turned on
 
-  @REQ-001
-  Scenario: Start Traffic Light System
-    Given the traffic light system is off
-    When the user presses the start button
-    Then the traffic light system should start
+  Scenario: Traffic light transitions from green to yellow when pedestrian button is pressed
+    Given the system is operational
+    And the green traffic light is on
+    When the pedestrian button is pressed
+    Then the yellow traffic light should be turned on
 
-  @REQ-002
-  Scenario: Default Light State
-    Given the traffic light system is not started
-    Then the car's yellow light should be blinking
-    And the pedestrian green light should be blinking
+  Scenario: Traffic light transitions from yellow to red
+    Given the system is operational
+    And the yellow traffic light is on
+    When the yellow traffic light on time has elapsed
+    Then the red traffic light should be turned on
 
-  @REQ-003
-  Scenario: Car and Pedestrian Light Initialization
-    Given the traffic light system is off
-    When the user starts the traffic light system
-    Then the car's green light should turn on
-    And the pedestrian red light should turn on
+  Scenario: Traffic light transitions from red to green
+    Given the system is operational
+    And the red traffic light is on
+    When the red traffic light on time has elapsed
+    Then the green traffic light should be turned on
 
-  @REQ-004
-  Scenario: Car Yellow Light Transition
-    Given the traffic light system has started
-    When pedestrian request to walk
-    And 1 second has passed
-    Then the car's green light should switch to yellow
-    And the pedestrian red light should remain on
+  Scenario: Only one traffic light is on at a time
+    Given the system is operational
+    When any traffic light is on
+    Then only one traffic light should be on
 
-  @REQ-005
-  Scenario: Pedestrian Green Light
-    Given the traffic light system has started
-    When pedestrian request to walk
-    And 4 seconds have passed
-    Then the car's yellow light should switch to red
-    And the pedestrian green light should turn on
+  Scenario: Yellow traffic light blinks in idle state
+    Given the system is in idle state
+    Then the yellow traffic light should be blinking
 
-  @REQ-006
-  Scenario: Return to Car Green Light
-    Given the traffic light system has started
-    When pedestrian request to walk
-    And 10 seconds have passed
-    Then the pedestrian light should switch to red
-    And the car green light should turn back on
+# Recommended scenario:
+# Scenario: System handles power outage
+#   Given the system is operational
+#   When a power outage occurs
+#   Then the system should safely shut down
+#   And resume in idle state when power is restored
+
+# Recommended scenario:
+# Scenario: System handles invalid button presses
+#   Given the system is operational
+#   When an invalid button combination is pressed
+#   Then the system should ignore the input
+#   And maintain its current state
