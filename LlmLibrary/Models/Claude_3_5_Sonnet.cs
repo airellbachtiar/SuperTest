@@ -6,13 +6,13 @@ namespace LlmLibrary.Models
     {
         private const string Claude_3_5_SonnetModel = "claude-3-5-sonnet-20240620";
 
-        private static readonly Anthropic _anthropic;
+        private readonly Anthropic _anthropic;
 
         public const string ModelName = "Claude 3.5 Sonnet";
 
         public string Id => ModelName;
 
-        static Claude_3_5_Sonnet()
+        public Claude_3_5_Sonnet()
         {
             string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_ANTHROPIC_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_ANTHROPIC_API_KEY is not set.");
 
@@ -20,13 +20,11 @@ namespace LlmLibrary.Models
             {
                 ApiKey = ApiKey!
             };
-
-            ApiKey = null;
         }
 
         public async Task<string> CallAsync(IEnumerable<string> messages)
         {
-            List<Message> prompts = new List<Message>();
+            List<Message> prompts = [];
 
             foreach (var messageContent in messages)
             {

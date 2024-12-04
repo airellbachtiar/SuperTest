@@ -5,13 +5,13 @@ namespace LlmLibrary.Models
 {
     public class Gemini_1_5 : ILargeLanguageModel
     {
-        private static readonly GenerativeModel _gemini;
+        private readonly GenerativeModel _gemini;
 
         public const string ModelName = "Gemini 1.5";
 
         public string Id => ModelName;
 
-        static Gemini_1_5()
+        public Gemini_1_5()
         {
             string? ApiKey = Environment.GetEnvironmentVariable("SUPERTEST_GEMINI_API_KEY", EnvironmentVariableTarget.User) ?? throw new InvalidOperationException("SUPERTEST_GEMINI_API_KEY is not set.");
 
@@ -22,7 +22,6 @@ namespace LlmLibrary.Models
                     MaxOutputTokens = 20000
                 }
             };
-            ApiKey = null;
         }
 
         public async Task<string> CallAsync(IEnumerable<string> messages)
