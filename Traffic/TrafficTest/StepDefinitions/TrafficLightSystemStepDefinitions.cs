@@ -1,23 +1,14 @@
-﻿using FluentAssertions;
-using NUnit.Framework;
-using System;
-using System.Linq;
+﻿using System;
+using TechTalk.SpecFlow;
+using FluentAssertions;
 using TestBus;
-using TrafficTest;
-using TrafficTest.Models;
 
-namespace TrafficTest
+namespace TrafficTest.Steps
 {
     [Binding]
+    [Scope(Feature = "Traffic Light System")]
     public class TrafficLightSystemSteps
     {
-        private readonly TestSim.TestSimClient _client;
-
-        public TrafficLightSystemSteps()
-        {
-            _client = TrafficTestHooks.Client;
-        }
-
         [Given(@"the system is in idle state")]
         public void GivenTheSystemIsInIdleState()
         {
@@ -59,7 +50,7 @@ namespace TrafficTest
         [When(@"the pedestrian button is pressed")]
         public void WhenThePedestrianButtonIsPressed()
         {
-            _client.PressRequestPedestrianWalkButton(new Empty());
+            TrafficTestHooks.Client.PressRequestPedestrianWalkButton(new Empty());
         }
 
         [When(@"the yellow traffic light on time has elapsed")]
@@ -79,16 +70,14 @@ namespace TrafficTest
         [When(@"any traffic light is on")]
         public void WhenAnyTrafficLightIsOn()
         {
-            // This step is already covered by the operational state
+            // This step is implicitly covered by other steps
         }
 
         [Then(@"the system should transition to operational state")]
         public void ThenTheSystemShouldTransitionToOperationalState()
         {
-            // Check if any of the car traffic lights are on
-            var lastState = TrafficTestHooks.TrafficLightStates.Last();
-            (lastState.CarGreen.LightState == "On" || lastState.CarYellow.LightState == "On" || lastState.CarRed.LightState == "On")
-                .Should().BeTrue();
+            // Verify that the green light is on, indicating operational state
+            TrafficTestHooks.WaitUntilTheLightIsInThatState("CarGreen", "On");
         }
 
         [Then(@"the green traffic light should be turned on")]
@@ -112,26 +101,41 @@ namespace TrafficTest
         [Then(@"only one traffic light should be on")]
         public void ThenOnlyOneTrafficLightShouldBeOn()
         {
-            var lastState = TrafficTestHooks.TrafficLightStates.Last();
-            int onLightsCount = new[]
-            {
-                lastState.CarGreen.LightState,
-                lastState.CarYellow.LightState,
-                lastState.CarRed.LightState
-            }.Count(state => state == "On");
+            var lastState = TrafficTestHooks.TrafficLightStates.LastOrDefault();
+            lastState.Should().NotBeNull();
 
-            onLightsCount.Should().Be(1);
+            int onLightsCount = 0;
+            if (lastState.CarRed.LightState == "On") onLightsCount++;
+            if (lastState.CarYellow.LightState == "On") onLightsCount++;
+            if (lastState.CarGreen.LightState == "On") onLightsCount++;
+
+            onLightsCount.Should().Be(1, "Only one traffic light should be on at a time");
         }
 
         [Then(@"the yellow traffic light should be blinking")]
         public void ThenTheYellowTrafficLightShouldBeBlinking()
         {
-            var yellowLightStates = TrafficTestHooks.TrafficLightStates
-                .Select(state => state.CarYellow.LightState)
-                .ToList();
+            // Observe the yellow light state for a period of time
+            var startTime = DateTime.Now;
+            var observationPeriod = TimeSpan.FromSeconds(10);
+            bool hasBeenOn = false;
+            bool hasBeenOff = false;
 
-            // Check if the yellow light state changes at least once
-            yellowLightStates.Distinct().Count().Should().BeGreaterThan(1);
+            while (DateTime.Now - startTime < observationPeriod)
+            {
+                var currentState = TrafficTestHooks.TrafficLightStates.LastOrDefault();
+                if (currentState != null)
+                {
+                    if (currentState.CarYellow.LightState == "On") hasBeenOn = true;
+                    if (currentState.CarYellow.LightState == "Off") hasBeenOff = true;
+
+                    if (hasBeenOn && hasBeenOff) break;
+                }
+                System.Threading.Thread.Sleep(100);
+            }
+
+            hasBeenOn.Should().BeTrue("The yellow light should have been on during the observation period");
+            hasBeenOff.Should().BeTrue("The yellow light should have been off during the observation period");
         }
     }
 }
