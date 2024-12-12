@@ -16,6 +16,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperTestLibrary.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LlmLibrary", "LlmLibrary\LlmLibrary.csproj", "{A46164D6-CD21-4472-9CFD-09D96CB60309}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{BA38AFD6-1EC4-4E1A-91F9-E3957A61A492}"
+	ProjectSection(SolutionItems) = preProject
+		SetupScript.ps1 = SetupScript.ps1
+		Test1.reqif = Test1.reqif
+		Test2.reqif = Test2.reqif
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
