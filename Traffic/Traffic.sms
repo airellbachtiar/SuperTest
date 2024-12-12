@@ -45,6 +45,15 @@
         "Name": "Motion simulator (MotionSystem)",
         "IsEnabled": true,
         "Source": "f4e28f1b-f174-4985-a201-a0c38b6d9711"
+      },
+      {
+        "$type": "ExportDiagramImages.gen.ExportDiagramImagesBuildAction, ExportDiagramImages.gen",
+        "Recursive": true,
+        "TargetFolder": ".\\",
+        "Id": "8ae49677-25ec-40da-9e7f-b929af390fe8",
+        "Name": "Export Diagram images (TrafficDomainModel)",
+        "IsEnabled": true,
+        "Source": "b7a24a85-ba33-452a-957c-2821f5491488"
       }
     ]
   },

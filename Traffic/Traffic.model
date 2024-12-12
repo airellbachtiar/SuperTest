@@ -1638,40 +1638,6 @@
                       },
                       {
                         "_properties": {
-                          "Description": {
-                            "PropertyName": "Description",
-                            "PropertyValue": ""
-                          }
-                        },
-                        "Direction": "NotSet",
-                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                        "ElementName": "mp108",
-                        "Uid": "aaedc3a3-92b3-4ad1-a36e-368faa2d26dd",
-                        "Children": [],
-                        "Annotations": {
-                          "Collection": [
-                            {
-                              "AnnotationName": "Mp",
-                              "PropertiesBinding": [
-                                {
-                                  "PropertyName": "E",
-                                  "PropertyValue": {
-                                    "EnumValue": "Right",
-                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                    "PropertyType": "Enum"
-                                  }
-                                },
-                                {
-                                  "PropertyName": "F",
-                                  "PropertyValue": 0.29635235358814216
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "_properties": {
                           "EntryCodeMethodName": {
                             "PropertyName": "EntryCodeMethodName",
                             "PropertyValue": ""
@@ -2155,6 +2121,40 @@
                             }
                           ]
                         }
+                      },
+                      {
+                        "_properties": {
+                          "Description": {
+                            "PropertyName": "Description",
+                            "PropertyValue": ""
+                          }
+                        },
+                        "Direction": "NotSet",
+                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                        "ElementName": "mp220",
+                        "Uid": "5d746570-d2a0-4512-8438-433e32685cd5",
+                        "Children": [],
+                        "Annotations": {
+                          "Collection": [
+                            {
+                              "AnnotationName": "Mp",
+                              "PropertiesBinding": [
+                                {
+                                  "PropertyName": "E",
+                                  "PropertyValue": {
+                                    "EnumValue": "Right",
+                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                    "PropertyType": "Enum"
+                                  }
+                                },
+                                {
+                                  "PropertyName": "F",
+                                  "PropertyValue": 0.24827052340828587
+                                }
+                              ]
+                            }
+                          ]
+                        }
                       }
                     ],
                     "Annotations": {
@@ -2528,40 +2528,6 @@
                             },
                             "Direction": "NotSet",
                             "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                            "ElementName": "mp210",
-                            "Uid": "d0f0710c-d9f7-4912-9b0f-0da163d553da",
-                            "Children": [],
-                            "Annotations": {
-                              "Collection": [
-                                {
-                                  "AnnotationName": "Mp",
-                                  "PropertiesBinding": [
-                                    {
-                                      "PropertyName": "E",
-                                      "PropertyValue": {
-                                        "EnumValue": "Top",
-                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                        "PropertyType": "Enum"
-                                      }
-                                    },
-                                    {
-                                      "PropertyName": "F",
-                                      "PropertyValue": 0.5478457358293615
-                                    }
-                                  ]
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "_properties": {
-                              "Description": {
-                                "PropertyName": "Description",
-                                "PropertyValue": ""
-                              }
-                            },
-                            "Direction": "NotSet",
-                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
                             "ElementName": "mp211",
                             "Uid": "5fd8360e-29d4-4259-ba0f-4bdf78e28538",
                             "Children": [],
@@ -2586,6 +2552,40 @@
                                 }
                               ]
                             }
+                          },
+                          {
+                            "_properties": {
+                              "Description": {
+                                "PropertyName": "Description",
+                                "PropertyValue": ""
+                              }
+                            },
+                            "Direction": "NotSet",
+                            "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                            "ElementName": "mp218",
+                            "Uid": "d156d277-0f63-4239-9096-065a59864be0",
+                            "Children": [],
+                            "Annotations": {
+                              "Collection": [
+                                {
+                                  "AnnotationName": "Mp",
+                                  "PropertiesBinding": [
+                                    {
+                                      "PropertyName": "E",
+                                      "PropertyValue": {
+                                        "EnumValue": "Top",
+                                        "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                        "PropertyType": "Enum"
+                                      }
+                                    },
+                                    {
+                                      "PropertyName": "F",
+                                      "PropertyValue": 0.6040511704778813
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           }
                         ],
                         "Annotations": {
@@ -2596,8 +2596,8 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 152.6606354890048,
-                                    "Y": 109.4343924816744,
+                                    "X": 185.75167044878867,
+                                    "Y": 100.40956476536962,
                                     "Width": 150.0,
                                     "Height": 100.0,
                                     "PropertyType": "Rect"
@@ -2644,46 +2644,12 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 70.82262430073303,
-                                    "Y": 111.88687849633484,
+                                    "X": 66.59911114421266,
+                                    "Y": 100.08304113167117,
                                     "Width": 50.0,
                                     "Height": 50.0,
                                     "PropertyType": "Rect"
                                   }
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "_properties": {
-                          "Description": {
-                            "PropertyName": "Description",
-                            "PropertyValue": ""
-                          }
-                        },
-                        "Direction": "NotSet",
-                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                        "ElementName": "mp11",
-                        "Uid": "96561409-e2cb-4974-9198-ebbcd1295aea",
-                        "Children": [],
-                        "Annotations": {
-                          "Collection": [
-                            {
-                              "AnnotationName": "Mp",
-                              "PropertiesBinding": [
-                                {
-                                  "PropertyName": "E",
-                                  "PropertyValue": {
-                                    "EnumValue": "Left",
-                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
-                                    "PropertyType": "Enum"
-                                  }
-                                },
-                                {
-                                  "PropertyName": "F",
-                                  "PropertyValue": 0.23350374521960304
                                 }
                               ]
                             }
@@ -2830,7 +2796,7 @@
                                     },
                                     {
                                       "PropertyName": "F",
-                                      "PropertyValue": 0.192226140048207
+                                      "PropertyValue": 0.7819420535348989
                                     }
                                   ]
                                 }
@@ -2846,8 +2812,8 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 393.0153868875386,
-                                    "Y": 103.25701678240753,
+                                    "X": 694.1256971185612,
+                                    "Y": 96.66266356827316,
                                     "Width": 176.0,
                                     "Height": 100.0,
                                     "PropertyType": "Rect"
@@ -3014,8 +2980,8 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 648.822624300733,
-                                    "Y": 107.96651957947537,
+                                    "X": 1054.3435270888822,
+                                    "Y": 101.37216636534117,
                                     "Width": 185.0,
                                     "Height": 97.99999999999997,
                                     "PropertyType": "Rect"
@@ -4060,7 +4026,7 @@
                                     },
                                     {
                                       "PropertyName": "F",
-                                      "PropertyValue": 0.49952963914400395
+                                      "PropertyValue": 0.40199516898761994
                                     }
                                   ]
                                 }
@@ -4128,7 +4094,7 @@
                                     },
                                     {
                                       "PropertyName": "F",
-                                      "PropertyValue": 0.21118458532202566
+                                      "PropertyValue": 0.14825550660077885
                                     }
                                   ]
                                 }
@@ -4144,9 +4110,9 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 658.177375699267,
-                                    "Y": 397.53458078604183,
-                                    "Width": 150.0,
+                                    "X": 1064.6338649543168,
+                                    "Y": 440.66808760106835,
+                                    "Width": 186.39389637517797,
                                     "Height": 100.0,
                                     "PropertyType": "Rect"
                                   }
@@ -4312,8 +4278,8 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 263.0,
-                                    "Y": 403.0924601535247,
+                                    "X": 378.30531825362095,
+                                    "Y": 451.61765532042944,
                                     "Width": 150.0,
                                     "Height": 100.0,
                                     "PropertyType": "Rect"
@@ -4412,8 +4378,8 @@
                             },
                             "Direction": "NotSet",
                             "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
-                            "ElementName": "mp145",
-                            "Uid": "16514e8c-175c-4ab5-8b14-40ac887b86dd",
+                            "ElementName": "mp222",
+                            "Uid": "5639f24c-65df-4e38-a7d6-118a5e43e21e",
                             "Children": [],
                             "Annotations": {
                               "Collection": [
@@ -4430,7 +4396,7 @@
                                     },
                                     {
                                       "PropertyName": "F",
-                                      "PropertyValue": 0.17356394518060067
+                                      "PropertyValue": 0.17336638381795638
                                     }
                                   ]
                                 }
@@ -4446,12 +4412,46 @@
                                 {
                                   "PropertyName": "R",
                                   "PropertyValue": {
-                                    "X": 663.9522258782399,
-                                    "Y": 251.50219385837678,
+                                    "X": 1065.076893190299,
+                                    "Y": 277.87960671491373,
                                     "Width": 150.0,
                                     "Height": 100.0,
                                     "PropertyType": "Rect"
                                   }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "_properties": {
+                          "Description": {
+                            "PropertyName": "Description",
+                            "PropertyValue": ""
+                          }
+                        },
+                        "Direction": "NotSet",
+                        "NamedElementTypeDescription": "00000000-5375-7065-726d-6f64656c7321,MovablePort",
+                        "ElementName": "mp221",
+                        "Uid": "49fe1271-231f-4551-a3b4-77e5cb0a5988",
+                        "Children": [],
+                        "Annotations": {
+                          "Collection": [
+                            {
+                              "AnnotationName": "Mp",
+                              "PropertiesBinding": [
+                                {
+                                  "PropertyName": "E",
+                                  "PropertyValue": {
+                                    "EnumValue": "Left",
+                                    "EnumType": "SuperModelsEditors.DiagramEditor.ConceptualEditor.Edge, Sioux.Supermodels.SuperModelsEditors",
+                                    "PropertyType": "Enum"
+                                  }
+                                },
+                                {
+                                  "PropertyName": "F",
+                                  "PropertyValue": 0.2484563966875707
                                 }
                               ]
                             }
@@ -4467,10 +4467,10 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 1058.3206077932036,
-                                "Y": 419.95563107989994,
-                                "Width": 933.9601127599806,
-                                "Height": 549.0789085470165,
+                                "X": 1220.7675066866877,
+                                "Y": 413.9390792690301,
+                                "Width": 1331.787603464972,
+                                "Height": 567.9498177785906,
                                 "PropertyType": "Rect"
                               }
                             }
@@ -4536,8 +4536,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1154.1432320939366,556.8425095762348",
-                                  "1210.9812432822084,560.1366446513786"
+                                  "1312.3666178309004,539.0221204007013",
+                                  "1406.5191771354764,545.0952651242039"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -4597,7 +4597,7 @@
                       }
                     },
                     "UidFrom": "398b7b8a-bbff-4c70-9c39-0ceabdb6b73a",
-                    "UidTo": "96561409-e2cb-4974-9198-ebbcd1295aea",
+                    "UidTo": "49fe1271-231f-4551-a3b4-77e5cb0a5988",
                     "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
                     "ElementName": "it1",
                     "Uid": "15c6e12a-d94c-4bd2-9708-5b03f6857af7",
@@ -4610,8 +4610,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -26.079774480038623,
-                                "Y": 17.731380245722562,
+                                "X": -54.38613832739952,
+                                "Y": -26.750048657273396,
                                 "Width": 135.96333333333334,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -4622,7 +4622,7 @@
                               "PropertyValue": {
                                 "Points": [
                                   "971.4409568228598,554.2966779038222",
-                                  "1058.3206077932036,548.1676126467202"
+                                  "1220.7675066866877,555.0498444936611"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -4682,7 +4682,7 @@
                       }
                     },
                     "UidFrom": "2835a2f0-2173-4841-8444-5c87a5883bc8",
-                    "UidTo": "aaedc3a3-92b3-4ad1-a36e-368faa2d26dd",
+                    "UidTo": "5d746570-d2a0-4512-8438-433e32685cd5",
                     "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
                     "ElementName": "it2",
                     "Uid": "33cae1e5-8392-4523-9c10-ca588d324d5c",
@@ -4695,8 +4695,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -7.382367936480591,
-                                "Y": 15.937394743764514,
+                                "X": -151.61003134922532,
+                                "Y": 13.241550567825414,
                                 "Width": 135.70000000000002,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -4706,8 +4706,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1210.9812432822084,601.8550494697922",
-                                  "971.4409568228598,603.9661555805989"
+                                  "1406.5191771354764,586.8136699426175",
+                                  "971.4409568228598,587.4030502454355"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -4763,8 +4763,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -118.85360475691937,
-                                "Y": 68.99229498720626,
+                                "X": -159.5187829107474,
+                                "Y": 17.33652814315451,
                                 "Width": 326.68333333333334,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -4774,8 +4774,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1360.9812432822084,571.2613106902872",
-                                  "1451.3359946807423,571.6878953870598"
+                                  "1556.5191771354764,556.2199311631126",
+                                  "1914.893203805249,559.0769903620558"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -4831,8 +4831,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -59.512300088247684,
-                                "Y": -81.03764605304787,
+                                "X": -75.99818312358366,
+                                "Y": 13.481416682876443,
                                 "Width": 161.92666666666668,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -4842,8 +4842,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1627.3359946807423,573.6170125062927",
-                                  "1707.1432320939366,576.621451358676"
+                                  "2090.893203805249,561.0061074812885",
+                                  "2275.11103377557,564.010546333672"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -4910,8 +4910,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1747.0417009835744,625.9221506593753",
-                                  "1751.3536936116182,671.4578249382768"
+                                  "2315.009502665208,613.3112456343713",
+                                  "2314.9252598171615,691.8186859839439"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -4980,8 +4980,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1716.4979834924707,877.0793392002355",
-                                  "1471.3206077932036,872.344387529721"
+                                  "2285.4013716410045,914.1962942043922",
+                                  "1749.0728249403087,914.8530308857559"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -5037,8 +5037,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -9.059331327575137,
-                                "Y": -91.3183070196992,
+                                "X": -58.93244858244975,
+                                "Y": -81.88285240391212,
                                 "Width": 186.07666666666668,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -5048,9 +5048,9 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1321.3206077932036,851.4847797513496",
-                                  "1259.0966914395788,849.152976402715",
-                                  "1257.8894724640586,629.3900235615744"
+                                  "1599.0728249403087,893.9934231073845",
+                                  "1454.6256612205402,891.6616197587499",
+                                  "1453.4274063173266,614.3486440343997"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -5123,8 +5123,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -257.3909384645064,
-                                "Y": -37.43709912712194,
+                                "X": -94.29236582018774,
+                                "Y": -26.65372242336531,
                                 "Width": 135.70000000000002,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -5134,8 +5134,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1485.1677953292267,523.2126478623074",
-                                  "1482.601873509016,393.50253255923235",
+                                  "2052.515005227391,510.6017428373033",
+                                  "2051.4249946321775,392.15461047126274",
                                   "909.5694980537552,394.6278712551284",
                                   "906.6299297681007,501.87945816406847"
                                 ],
@@ -5210,8 +5210,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": -100.0,
-                                "Y": -59.00000000000006,
+                                "X": -82.4770128563955,
+                                "Y": -27.99779197669983,
                                 "Width": 135.70000000000002,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -5221,8 +5221,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1807.4560649303157,527.9221506593753",
-                                  "1803.3510652937175,350.68708211969147",
+                                  "2375.423866611949,515.3112456343713",
+                                  "2374.8700305928173,342.59954959187405",
                                   "871.8934756772121,342.82334048738153",
                                   "875.0980674084127,501.87945816406847"
                                 ],
@@ -5308,9 +5308,9 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1791.4274293640713,917.4902118659418",
-                                  "1792.0749830618684,993.9364374648462",
-                                  "817.8880756225896,994.5087401877406",
+                                  "2360.330817512605,954.6071668700985",
+                                  "2363.5939483609677,1018.1990350482986",
+                                  "820.5839197985288,1014.7275715072842",
                                   "818.331960699088,846.3568891022621"
                                 ],
                                 "PropertyType": "Points"
@@ -5395,8 +5395,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1321.3206077932036,888.9019874824282",
-                                  "892.2560619343801,888.203338945295",
+                                  "1599.0728249403087,931.4106308384631",
+                                  "892.2560619343801,928.6410015843821",
                                   "890.5879387529749,846.3568891022621"
                                 ],
                                 "PropertyType": "Points"
@@ -5439,7 +5439,7 @@
                         "PropertyValue": ""
                       }
                     },
-                    "UidFrom": "16514e8c-175c-4ab5-8b14-40ac887b86dd",
+                    "UidFrom": "5639f24c-65df-4e38-a7d6-118a5e43e21e",
                     "UidTo": "205cdb87-f5db-4878-a42f-d066b62aaba2",
                     "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,Transition",
                     "ElementName": "t30",
@@ -5464,8 +5464,8 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1748.3074254485336,771.4578249382768",
-                                  "1748.1756712907745,817.4902118659418"
+                                  "2311.84935744968,791.8186859839439",
+                                  "2313.0352931753996,854.6071668700985"
                                 ],
                                 "PropertyType": "Points"
                               }
@@ -5816,7 +5816,7 @@
                       }
                     },
                     "UidFrom": "5fd8360e-29d4-4259-ba0f-4bdf78e28538",
-                    "UidTo": "d0f0710c-d9f7-4912-9b0f-0da163d553da",
+                    "UidTo": "d156d277-0f63-4239-9096-065a59864be0",
                     "NamedElementTypeDescription": "aa463a17-751f-43f0-bb39-ab5e4f4e4548,InterfaceTransition",
                     "ElementName": "it26",
                     "Uid": "cac082e4-4a72-44cb-b999-9f1ed4203bd0",
@@ -5829,8 +5829,8 @@
                             {
                               "PropertyName": "R",
                               "PropertyValue": {
-                                "X": 10.0,
-                                "Y": 10.0,
+                                "X": 40.773648332626635,
+                                "Y": 8.900941130977628,
                                 "Width": 135.96333333333334,
                                 "Height": 15.96,
                                 "PropertyType": "Rect"
@@ -5840,10 +5840,10 @@
                               "PropertyName": "PC",
                               "PropertyValue": {
                                 "Points": [
-                                  "1260.694702765627,529.3900235615744",
-                                  "1257.9320033480378,481.2105309814872",
-                                  "1300.454594699512,481.99644662430944",
-                                  "1293.1581036566126,529.3900235615744"
+                                  "1456.232636618895,514.3486440343997",
+                                  "1453.4699372013058,466.16915145431255",
+                                  "1495.99252855278,466.9550670971348",
+                                  "1497.1268527071586,514.3486440343997"
                                 ],
                                 "PropertyType": "Points"
                               }
