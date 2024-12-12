@@ -449,6 +449,29 @@
                     TextWrapping="Wrap" />
             </Grid>
         </TabItem>
+
+        <TabItem Header="Prompts">
+            <DataGrid
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                CanUserResizeColumns="True"
+                ItemsSource="{Binding PromptHistories}"
+                ScrollViewer.CanContentScroll="False"
+                SelectionMode="Single"
+                SelectionUnit="Cell">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding DateTime}" Header="Time" />
+                    <DataGridTextColumn Binding="{Binding Function}" Header="Function" />
+                    <DataGridTextColumn Binding="{Binding LargeLanguageModel}" Header="Large Language Model" />
+                    <DataGridTextColumn Binding="{Binding Prompt}" Header="Prompt" />
+                </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="IsHitTestVisible" Value="False" />
+                    </Style>
+                </DataGrid.Resources>
+            </DataGrid>
+        </TabItem>
     </TabControl>
 
 </Window>

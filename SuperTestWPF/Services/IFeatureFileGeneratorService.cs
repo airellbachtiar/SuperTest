@@ -4,6 +4,6 @@ namespace SuperTestWPF.Services
 {
     public interface IFeatureFileGeneratorService
     {
-        Task<IEnumerable<SpecFlowFeatureFileModel>> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements);
+        Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements);
     }
 }

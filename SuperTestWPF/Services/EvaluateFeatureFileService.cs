@@ -19,7 +19,7 @@ namespace SuperTestWPF.Services
             _retry = retry;
         }
 
-        public async Task EvaluateFeatureFileAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
+        public async Task<IEnumerable<PromptHistory>> EvaluateFeatureFileAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
         {
             try
             {
@@ -30,14 +30,18 @@ namespace SuperTestWPF.Services
                         featureFile.FeatureFileContent),
                     TimeSpan.FromSeconds(1));
                 AssignSpecFlowFeatureFileEvaluation.Assign(selectedLlmString, featureFile, evaluationResponse);
+
+                return evaluationResponse.Prompts
+                    .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Feature File", selectedLlmString, prompt));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception while evaluating {featureFile.FeatureFileName} using {selectedLlmString}");
+                throw;
             }
         }
 
-        public async Task EvaluateSpecFlowScenarioAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
+        public async Task<IEnumerable<PromptHistory>> EvaluateSpecFlowScenarioAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
         {
             try
             {
@@ -53,10 +57,14 @@ namespace SuperTestWPF.Services
                     var scenarioModel = featureFile.Scenarios.First(s => s.Name == scenario.ScenarioName);
                     AssignScenarioEvaluation.Assign(selectedLlmString, scenarioModel, scenario);
                 }
+
+                return evaluationResponse.Prompts
+                    .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Scenario", selectedLlmString, prompt));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception while evaluating {featureFile.FeatureFileName} using {selectedLlmString}");
+                throw;
             }
         }
     }

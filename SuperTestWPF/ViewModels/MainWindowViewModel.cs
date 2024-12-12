@@ -52,6 +52,9 @@ namespace SuperTestWPF.ViewModels
         private readonly IEvaluateFeatureFileService _evaluateFeatureFileService;
         private readonly IBindingFileGeneratorService _bindingFileGeneratorService;
 
+        // Prompts
+        public ObservableCollection<PromptHistory> PromptHistories { get; } = [];
+
         public ObservableCollection<LogEntry> LogMessages { get; } = [];
 
         public MainWindowViewModel(IServiceProvider serviceProvider)
@@ -247,7 +250,14 @@ namespace SuperTestWPF.ViewModels
 
             try
             {
-                SpecFlowFeatureFiles = new ObservableCollection<SpecFlowFeatureFileModel>(await _featureFileService.GenerateSpecFlowFeatureFilesAsync(SelectedLLM, requirements));
+                var specFlowFeatureFileResponse = await _featureFileService.GenerateSpecFlowFeatureFilesAsync(SelectedLLM, requirements);
+                SpecFlowFeatureFiles = new ObservableCollection<SpecFlowFeatureFileModel>(specFlowFeatureFileResponse.FeatureFiles);
+
+                foreach (var prompt in specFlowFeatureFileResponse.Prompts)
+                {
+                    PromptHistories.Add(prompt);
+                }
+
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
                 SelectedScenario = SelectedSpecFlowFeatureFile.Scenarios.FirstOrDefault() ?? new();
                 await EvaluateSpecFlowFeatureFile(requirements);
@@ -269,10 +279,17 @@ namespace SuperTestWPF.ViewModels
                 {
                     // Evaluate feature file
                     _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
-                    await _evaluateFeatureFileService.EvaluateFeatureFileAsync(llm, featureFile, requirements);
+                    foreach (var prompt in await _evaluateFeatureFileService.EvaluateFeatureFileAsync(llm, featureFile, requirements))
+                    {
+                        PromptHistories.Add(prompt);
+                    }
+
                     //Evaluate scenario
                     _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
-                    await _evaluateFeatureFileService.EvaluateSpecFlowScenarioAsync(llm, featureFile, requirements);
+                    foreach (var prompt in await _evaluateFeatureFileService.EvaluateSpecFlowScenarioAsync(llm, featureFile, requirements))
+                    {
+                        PromptHistories.Add(prompt);
+                    }
                 }
             }
             _logger.LogInformation("Finished evaluating feature file!");
@@ -340,7 +357,14 @@ namespace SuperTestWPF.ViewModels
                 return;
             }
 
-            GeneratedBindingFile = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles);
+            var response = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles);
+            GeneratedBindingFile = response.specFlowBindingFileModels.FirstOrDefault()?.BindingFileContent ?? string.Empty;
+
+            foreach (var prompt in response.Prompts)
+            {
+                PromptHistories.Add(prompt);
+            }
+
             _logger.LogInformation("Binding file generated.");
         }
 

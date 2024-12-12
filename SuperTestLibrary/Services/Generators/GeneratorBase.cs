@@ -1,10 +1,11 @@
 ﻿using LlmLibrary;
+using SuperTestLibrary.Models;
 
 namespace SuperTestLibrary.Services.Generators
 {
     public abstract class GeneratorBase : IGenerator
     {
-        public async Task<string> GenerateAsync(ILargeLanguageModel largeLanguageModel)
+        public async Task<GeneratorResponse> GenerateAsync(ILargeLanguageModel largeLanguageModel)
         {
             string jsonPromptPath = largeLanguageModel.Id switch
             {
@@ -16,7 +17,7 @@ namespace SuperTestLibrary.Services.Generators
 
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
             string response = await largeLanguageModel.CallAsync(prompts);
-            return response;
+            return new (response, prompts);
         }
 
         protected abstract IEnumerable<string> SetupPrompt(string jsonPromptPath);

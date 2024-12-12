@@ -19,11 +19,14 @@ namespace SuperTestWPF.Services
             _retry = retry;
         }
 
-        public async Task<string> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode)
+        public async Task<SpecFlowBindingFileResponse> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode)
         {
             try
             {
                 SetLlm(selectedLlmString);
+
+                List<SpecFlowBindingFileModel> bindingFiles = [];
+                List<PromptHistory> promptHistories = [];
 
                 _logger.LogInformation("Generating binding file...");
                 var generatedBindingFile = await _retry.DoAsync(
@@ -31,7 +34,18 @@ namespace SuperTestWPF.Services
                         featureFile.Value!,
                         additionalCode.ToDictionary(f => f.Path!, f => f.Value!)),
                     TimeSpan.FromSeconds(1));
-                return generatedBindingFile.BindingFiles.First().Value;
+
+                foreach (var prompt in generatedBindingFile.BindingFiles)
+                {
+                    bindingFiles.Add(new SpecFlowBindingFileModel(prompt.Key, prompt.Value));
+                }
+
+                foreach (var prompt in generatedBindingFile.Prompts)
+                {
+                    promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Binding File", selectedLlmString, prompt));
+                }
+
+                return new(bindingFiles, promptHistories);
             }
             catch (Exception ex)
             {

@@ -18,13 +18,14 @@ namespace SuperTestWPF.Services
             _retry = retry;
         }
 
-        public async Task<IEnumerable<SpecFlowFeatureFileModel>> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements)
+        public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements)
         {
             try
             {
                 SetLlm(selectedLlmString);
 
                 List<SpecFlowFeatureFileModel> specFlowFeatureFileModels = [];
+                List<PromptHistory> promptHistories = [];
 
                 var featureFileResponse = await _retry.DoAsync(
                     () => _controller.GenerateSpecFlowFeatureFileAsync(requirements),
@@ -44,13 +45,18 @@ namespace SuperTestWPF.Services
                     specFlowFeatureFileModels.Add(featureFile);
                 }
 
+                foreach (var prompt in featureFileResponse.Prompts)
+                {
+                    promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Feature File", selectedLlmString, prompt));
+                }
+
                 if (!specFlowFeatureFileModels.Any())
                 {
                     _logger.LogWarning("Feature file is empty. Failed to generate feature file.");
                 }
                 else _logger.LogInformation("Feature file generated.");
 
-                return specFlowFeatureFileModels;
+                return new(specFlowFeatureFileModels, promptHistories);
             }
             catch (Exception ex)
             {

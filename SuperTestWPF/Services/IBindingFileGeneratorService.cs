@@ -5,6 +5,6 @@ namespace SuperTestWPF.Services
 {
     public interface IBindingFileGeneratorService
     {
-        Task<string> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode);
+        Task<SpecFlowBindingFileResponse> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode);
     }
 }

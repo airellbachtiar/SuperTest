@@ -11,6 +11,8 @@
         public EvaluationScore Score { get; set; } = new();
         public string? Summary { get; init; } = string.Empty;
 
+        public List<string> Prompts { get; set; } = [];
+
         public void AssignScore()
         {
             var propertiesToEvaluate = new Dictionary<string, int?>
