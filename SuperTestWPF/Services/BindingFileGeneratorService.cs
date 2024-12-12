@@ -27,7 +27,7 @@ namespace SuperTestWPF.Services
                 var generatedBindingFile = await Retry.DoAsync(
                     () => _controller.GenerateSpecFlowBindingFileAsync(
                         featureFile.Value!,
-                        additionalCode.ToDictionary(f => f.Value!, f => f.Path!)),
+                        additionalCode.ToDictionary(f => f.Path!, f => f.Value!)),
                     TimeSpan.FromSeconds(1));
                 return generatedBindingFile.BindingFiles.First().Value;
             }
