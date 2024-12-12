@@ -39,6 +39,8 @@ namespace SuperTestLibrary
             var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response);
             _logger.LogInformation("SpecFlow feature file conversion successful.");
 
+            UnescapeDictionary(specFlowFeatureFile.FeatureFiles);
+
             _logger.LogInformation("Validating Gherkin documents from the SpecFlow feature file.");
             var gherkinDocuments = GetGherkinDocuments.ConvertSpecFlowFeatureFileResponse(specFlowFeatureFile);
 
@@ -88,12 +90,7 @@ namespace SuperTestLibrary
             ValidateInput(featureFile, "feature file");
             _logger.LogInformation("Feature file validated successfully.");
 
-            if (generatedCSharpCode == null || !generatedCSharpCode.Any())
-            {
-                _logger.LogError("Generated C# code is null or empty.");
-                throw new InvalidOperationException("Generated C# code cannot be null or empty.");
-            }
-            _logger.LogInformation("Generated C# code validated successfully.");
+            generatedCSharpCode ??= [];
 
             specFlowBindingFileGenerator.FeatureFile = featureFile;
             specFlowBindingFileGenerator.GeneratedCSharpCode = generatedCSharpCode;
@@ -105,6 +102,8 @@ namespace SuperTestLibrary
             _logger.LogInformation("Converting response JSON to SpecFlow binding file object.");
             var specFlowBindingFile = GetSpecFlowBindingFileResponse.ConvertJson(response);
             _logger.LogInformation("SpecFlow binding file conversion completed successfully.");
+
+            UnescapeDictionary(specFlowBindingFile.BindingFiles);
 
             _logger.LogInformation("{MethodName} completed successfully.", nameof(GenerateSpecFlowBindingFileAsync));
             return specFlowBindingFile;
@@ -140,8 +139,9 @@ namespace SuperTestLibrary
             try
             {
                 _logger.LogInformation("Converting response JSON to {ResponseType}.", typeof(TResponse).Name);
-                var response = (TResponse)typeof(TConverter).GetMethod("ConvertJson")!.Invoke(null, new object[] { responseJson })!;
+                var response = (TResponse)typeof(TConverter).GetMethod("ConvertJson")!.Invoke(null, [responseJson])!;
                 _logger.LogInformation("Response JSON successfully converted to {ResponseType}.", typeof(TResponse).Name);
+
                 return response!;
             }
             catch (Exception ex)
@@ -176,6 +176,15 @@ namespace SuperTestLibrary
                 _logger.LogError("No generator selected.");
                 throw new InvalidOperationException("No generator selected.");
             }
+        }
+
+        private Dictionary<string, string> UnescapeDictionary(Dictionary<string, string> dictionary)
+        {
+            foreach (var item in dictionary)
+            {
+                dictionary[item.Key] = System.Text.RegularExpressions.Regex.Unescape(item.Value);
+            }
+            return dictionary;
         }
 
         public IGenerator? SelectedGenerator { get; private set; }

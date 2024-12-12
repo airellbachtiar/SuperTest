@@ -332,12 +332,6 @@ namespace SuperTestWPF.ViewModels
         private async Task GenerateBindings()
         {
             GeneratedBindingFile = string.Empty;
-            if (UploadedFiles.Count == 0)
-            {
-                _logger.LogWarning("No files uploaded.");
-                _logger.LogError("Failed to generate binding file.");
-                return;
-            }
 
             if (UploadedFeatureFile == null)
             {
