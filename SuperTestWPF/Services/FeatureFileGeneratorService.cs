@@ -2,17 +2,20 @@
 using SuperTestLibrary;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
+using SuperTestWPF.Retry;
 namespace SuperTestWPF.Services
 {
     public class FeatureFileGeneratorService : GeneratorBaseService, IFeatureFileGeneratorService
     {
         private readonly ILogger<FeatureFileGeneratorService> _logger;
         private readonly ISuperTestController _controller;
+        private readonly IRetryService _retry;
 
-        public FeatureFileGeneratorService(ISuperTestController controller, ILogger<FeatureFileGeneratorService> logger) : base(controller, logger)
+        public FeatureFileGeneratorService(ISuperTestController controller, ILogger<FeatureFileGeneratorService> logger, IRetryService retry) : base(controller, logger)
         {
             _controller = controller;
             _logger = logger;
+            _retry = retry;
         }
 
         public async Task<IEnumerable<SpecFlowFeatureFileModel>> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements)
@@ -23,7 +26,7 @@ namespace SuperTestWPF.Services
 
                 List<SpecFlowFeatureFileModel> specFlowFeatureFileModels = [];
 
-                var featureFileResponse = await Retry.DoAsync(
+                var featureFileResponse = await _retry.DoAsync(
                     () => _controller.GenerateSpecFlowFeatureFileAsync(requirements),
                     TimeSpan.FromSeconds(1));
 

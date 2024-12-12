@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary;
 using SuperTestLibrary.Storages;
+using SuperTestWPF.Retry;
 using SuperTestWPF.Services;
 using SuperTestWPF.ViewModels;
 using System.Windows;
@@ -49,6 +50,7 @@ namespace SuperTestWPF
                     services.AddTransient<IFeatureFileGeneratorService, FeatureFileGeneratorService>();
                     services.AddTransient<IEvaluateFeatureFileService, EvaluateFeatureFileService>();
                     services.AddTransient<IBindingFileGeneratorService, BindingFileGeneratorService>();
+                    services.AddTransient<IRetryService, RetryService>();
                     services.AddTransient<IFileService, FileService>();
                 })
                 .Build();

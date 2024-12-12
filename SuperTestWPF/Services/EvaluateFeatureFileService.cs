@@ -2,6 +2,7 @@
 using SuperTestLibrary;
 using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
+using SuperTestWPF.Retry;
 
 namespace SuperTestWPF.Services
 {
@@ -9,11 +10,13 @@ namespace SuperTestWPF.Services
     {
         private readonly ISuperTestController _controller;
         private readonly ILogger<EvaluateFeatureFileService> _logger;
+        private readonly IRetryService _retry;
 
-        public EvaluateFeatureFileService(ISuperTestController controller, ILogger<EvaluateFeatureFileService> logger) : base(controller, logger)
+        public EvaluateFeatureFileService(ISuperTestController controller, ILogger<EvaluateFeatureFileService> logger, IRetryService retry) : base(controller, logger)
         {
             _controller = controller;
             _logger = logger;
+            _retry = retry;
         }
 
         public async Task EvaluateFeatureFileAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
@@ -21,7 +24,7 @@ namespace SuperTestWPF.Services
             try
             {
                 SetLlm(selectedLlmString);
-                var evaluationResponse = await Retry.DoAsync(
+                var evaluationResponse = await _retry.DoAsync(
                     () => _controller.EvaluateSpecFlowFeatureFileAsync(
                         requirements,
                         featureFile.FeatureFileContent),
@@ -39,7 +42,7 @@ namespace SuperTestWPF.Services
             try
             {
                 SetLlm(selectedLlmString);
-                var evaluationResponse = await Retry.DoAsync(
+                var evaluationResponse = await _retry.DoAsync(
                     () => _controller.EvaluateSpecFlowScenarioAsync(
                         requirements,
                         featureFile.FeatureFileContent),

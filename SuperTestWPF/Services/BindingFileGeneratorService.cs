@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using SuperTestLibrary;
-using SuperTestWPF.Helper;
 using SuperTestWPF.Models;
+using SuperTestWPF.Retry;
 using System.Collections.ObjectModel;
 
 namespace SuperTestWPF.Services
@@ -10,11 +10,13 @@ namespace SuperTestWPF.Services
     {
         private readonly ISuperTestController _controller;
         private readonly ILogger<BindingFileGeneratorService> _logger;
+        private readonly IRetryService _retry;
 
-        public BindingFileGeneratorService(ISuperTestController controller, ILogger<BindingFileGeneratorService> logger) : base(controller, logger)
+        public BindingFileGeneratorService(ISuperTestController controller, ILogger<BindingFileGeneratorService> logger, IRetryService retry) : base(controller, logger)
         {
             _controller = controller;
             _logger = logger;
+            _retry = retry;
         }
 
         public async Task<string> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode)
@@ -24,7 +26,7 @@ namespace SuperTestWPF.Services
                 SetLlm(selectedLlmString);
 
                 _logger.LogInformation("Generating binding file...");
-                var generatedBindingFile = await Retry.DoAsync(
+                var generatedBindingFile = await _retry.DoAsync(
                     () => _controller.GenerateSpecFlowBindingFileAsync(
                         featureFile.Value!,
                         additionalCode.ToDictionary(f => f.Path!, f => f.Value!)),
