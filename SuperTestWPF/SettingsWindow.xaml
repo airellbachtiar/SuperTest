@@ -1,0 +1,42 @@
+﻿<Window
+    x:Class="SuperTestWPF.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SuperTestWPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:SuperTestWPF.ViewModels"
+    Title="SettingsWindow"
+    Width="400"
+    Height="300"
+    d:DataContext="{d:DesignInstance Type=viewmodels:SettingsWindowViewModel}"
+    mc:Ignorable="d">
+    <Grid>
+        <StackPanel Margin="10">
+            <TextBlock Margin="0,0,0,5" Text="Requirements Location:" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="7*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding SavePath}" />
+                    <Button
+                        Grid.Column="1"
+                        Command="{Binding SelectSaveRequirementFilesLocationCommand}"
+                        Content="..." />
+                </Grid>
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Margin="5"
+                    Command="{Binding ApplyNewRequirementFilesLocationCommand}"
+                    Content="Apply" />
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

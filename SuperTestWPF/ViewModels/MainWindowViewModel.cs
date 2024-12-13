@@ -46,6 +46,7 @@ namespace SuperTestWPF.ViewModels
         private readonly ILogger<MainWindowViewModel> _logger;
 
         //Services
+        private readonly IServiceProvider _serviceProvider;
         private readonly IGetReqIfService _getReqIfService;
         private readonly IFeatureFileGeneratorService _featureFileService;
         private readonly IFileService _fileService;
@@ -68,6 +69,7 @@ namespace SuperTestWPF.ViewModels
             SelectSaveLocationCommand = new RelayCommand(SelectSaveLocation);
             SaveFeatureFilesCommand = new RelayCommand(SaveFeatureFiles);
             SwitchFeatureFileViewCommand = new RelayCommand(SwitchFeatureFileView);
+            OpenSettingsCommand = new AsyncCommand(OpenSettings);
 
             // Binding Generator
             GenerateBindingsCommand = new AsyncCommand(GenerateBindings);
@@ -87,6 +89,7 @@ namespace SuperTestWPF.ViewModels
             _fileService = serviceProvider.GetRequiredService<IFileService>();
             _evaluateFeatureFileService = serviceProvider.GetRequiredService<IEvaluateFeatureFileService>();
             _bindingFileGeneratorService = serviceProvider.GetRequiredService<IBindingFileGeneratorService>();
+            _serviceProvider = serviceProvider;
             _ = InitializeReqIFs();
         }
 
@@ -203,6 +206,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand SelectSaveLocationCommand { get; }
         public ICommand SaveFeatureFilesCommand { get; }
         public ICommand SwitchFeatureFileViewCommand { get; }
+        public ICommand OpenSettingsCommand { get; }
         // Binding commands
         public ICommand GenerateBindingsCommand { get; }
         public ICommand UploadFilesCommand { get; }
@@ -222,6 +226,14 @@ namespace SuperTestWPF.ViewModels
             {
                 ChosenFile = reqIFValueAndPath.Path!;
             }
+        }
+
+        private async Task OpenSettings()
+        {
+            var settingsWindow = new SettingsWindow(new SettingsWindowViewModel(_serviceProvider));
+            settingsWindow.ShowDialog();
+
+            await InitializeReqIFs();
         }
 
         private void UploadReqIF()
