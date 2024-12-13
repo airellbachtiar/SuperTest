@@ -35,6 +35,11 @@ namespace SuperTestWPF.Retry
                     }
                     return await action();
                 }
+                catch (OperationCanceledException)
+                {
+                    _logger.LogWarning("Operation was cancelled.");
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     _logger.LogWarning(ex, $"Attempt {attempted + 1} failed.");

@@ -22,7 +22,7 @@ namespace LlmLibrary.Models
             };
         }
 
-        public async Task<string> CallAsync(IEnumerable<string> messages)
+        public async Task<string> CallAsync(IEnumerable<string> messages, CancellationToken cancellationToken = default)
         {
             List<Message> prompts = [];
 
@@ -40,7 +40,9 @@ namespace LlmLibrary.Models
                 Model = Claude_3_5_SonnetModel,
                 MaxTokens = 8192,
                 Messages = prompts.ToArray()
-            });
+            },
+            null,
+            cancellationToken);
 
             return message.Content.ToString() ?? string.Empty;
         }

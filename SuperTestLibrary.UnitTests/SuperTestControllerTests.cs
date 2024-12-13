@@ -31,7 +31,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
 
             // Act
             SpecFlowFeatureFileResponse result = await _controller.GenerateSpecFlowFeatureFileAsync(Requirement.ValidRequirement);
@@ -63,7 +63,7 @@ namespace SuperTestLibrary.UnitTests
         {
             //Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.IncompleteFeatureFile);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteFeatureFile);
 
             // Act & Assert
             Assert.ThrowsAsync<JsonException>(async () =>
@@ -75,7 +75,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.InvalidSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.InvalidSpecFlowFeatureFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<CompositeParserException>(async () =>
@@ -105,7 +105,7 @@ namespace SuperTestLibrary.UnitTests
                 }
             };
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowFeatureFileResponse);
 
             // Act
             EvaluateSpecFlowFeatureFileResponse result = await _controller.EvaluateSpecFlowFeatureFileAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile);
@@ -153,7 +153,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowFeatureFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -165,7 +165,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowFeatureFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -211,7 +211,7 @@ namespace SuperTestLibrary.UnitTests
                     ]
             };
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowScenarioResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowScenarioResponse);
 
             // Act
             EvaluateSpecFlowScenarioResponse result = await _controller.EvaluateSpecFlowScenarioAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile);
@@ -267,7 +267,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowScenarioResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowScenarioResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -279,7 +279,7 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowScenarioResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowScenarioResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -298,7 +298,7 @@ namespace SuperTestLibrary.UnitTests
                 SelectedLLM = _mockLLM.Object
             };
             _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
 
             // Act
             var reqIfFiles = await controller.GetAllReqIFFilesAsync();

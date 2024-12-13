@@ -22,7 +22,7 @@ namespace SuperTestWPF.ViewModels
 
         private string _chosenFile = string.Empty;
         private string _selectedLLM = GPT_4o.ModelName;
-        private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName, Gemini_1_5.ModelName]);
+        private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName]);
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
         private ScenarioModel _selectedScenario = new();
@@ -54,6 +54,8 @@ namespace SuperTestWPF.ViewModels
 
         // Prompts
         public ObservableCollection<PromptHistory> PromptHistories { get; } = [];
+
+        private CancellationTokenSource? _cancellationTokenSource;
 
         public ObservableCollection<LogEntry> LogMessages { get; } = [];
 
@@ -234,6 +236,7 @@ namespace SuperTestWPF.ViewModels
 
         private async Task GenerateAndEvaluateSpecFlowFeatureFile()
         {
+            var cancellationToken = CreateNewCancellationToken();
             SelectedSpecFlowFeatureFile = new();
             SpecFlowFeatureFiles.Clear();
 
@@ -250,7 +253,7 @@ namespace SuperTestWPF.ViewModels
 
             try
             {
-                var specFlowFeatureFileResponse = await _featureFileService.GenerateSpecFlowFeatureFilesAsync(SelectedLLM, requirements);
+                var specFlowFeatureFileResponse = await _featureFileService.GenerateSpecFlowFeatureFilesAsync(SelectedLLM, requirements, cancellationToken);
                 SpecFlowFeatureFiles = new ObservableCollection<SpecFlowFeatureFileModel>(specFlowFeatureFileResponse.FeatureFiles);
 
                 foreach (var prompt in specFlowFeatureFileResponse.Prompts)
@@ -260,12 +263,12 @@ namespace SuperTestWPF.ViewModels
 
                 SelectedSpecFlowFeatureFile = SpecFlowFeatureFiles.FirstOrDefault() ?? new();
                 SelectedScenario = SelectedSpecFlowFeatureFile.Scenarios.FirstOrDefault() ?? new();
-                await EvaluateSpecFlowFeatureFile(requirements);
+                await EvaluateSpecFlowFeatureFile(requirements, cancellationToken);
             }
             catch { return; }
         }
 
-        private async Task EvaluateSpecFlowFeatureFile(string requirements)
+        private async Task EvaluateSpecFlowFeatureFile(string requirements, CancellationToken cancellationToken)
         {
             if (!SpecFlowFeatureFiles.Any())
             {
@@ -279,14 +282,14 @@ namespace SuperTestWPF.ViewModels
                 {
                     // Evaluate feature file
                     _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");
-                    foreach (var prompt in await _evaluateFeatureFileService.EvaluateFeatureFileAsync(llm, featureFile, requirements))
+                    foreach (var prompt in await _evaluateFeatureFileService.EvaluateFeatureFileAsync(llm, featureFile, requirements, cancellationToken))
                     {
                         PromptHistories.Add(prompt);
                     }
 
                     //Evaluate scenario
                     _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} scenario using GPT-4o...");
-                    foreach (var prompt in await _evaluateFeatureFileService.EvaluateSpecFlowScenarioAsync(llm, featureFile, requirements))
+                    foreach (var prompt in await _evaluateFeatureFileService.EvaluateSpecFlowScenarioAsync(llm, featureFile, requirements, cancellationToken))
                     {
                         PromptHistories.Add(prompt);
                     }
@@ -348,6 +351,7 @@ namespace SuperTestWPF.ViewModels
 
         private async Task GenerateBindings()
         {
+            var cancellationToken = CreateNewCancellationToken();
             GeneratedBindingFile = string.Empty;
 
             if (UploadedFeatureFile == null)
@@ -357,7 +361,7 @@ namespace SuperTestWPF.ViewModels
                 return;
             }
 
-            var response = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles);
+            var response = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles, cancellationToken);
             GeneratedBindingFile = response.specFlowBindingFileModels.FirstOrDefault()?.BindingFileContent ?? string.Empty;
 
             foreach (var prompt in response.Prompts)
@@ -415,6 +419,13 @@ namespace SuperTestWPF.ViewModels
             }
             string savePath = $"{SavePath}/BindingFile.cs";
             _fileService.SaveFile(savePath, GeneratedBindingFile);
+        }
+
+        private CancellationToken CreateNewCancellationToken()
+        {
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            return _cancellationTokenSource.Token;
         }
 
         #region INotifyPropertyChanged Members

@@ -18,7 +18,7 @@ namespace SuperTestWPF.Services
             _retry = retry;
         }
 
-        public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements)
+        public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFilesAsync(string selectedLlmString, string requirements, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -28,7 +28,7 @@ namespace SuperTestWPF.Services
                 List<PromptHistory> promptHistories = [];
 
                 var featureFileResponse = await _retry.DoAsync(
-                    () => _controller.GenerateSpecFlowFeatureFileAsync(requirements),
+                    () => _controller.GenerateSpecFlowFeatureFileAsync(requirements, cancellationToken),
                     TimeSpan.FromSeconds(1));
 
                 for (int i = 0; i < featureFileResponse.FeatureFiles.Count; i++)
@@ -57,6 +57,11 @@ namespace SuperTestWPF.Services
                 else _logger.LogInformation("Feature file generated.");
 
                 return new(specFlowFeatureFileModels, promptHistories);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation was cancelled.");
+                throw;
             }
             catch (Exception ex)
             {

@@ -24,7 +24,7 @@ namespace LlmLibrary.Models
             };
         }
 
-        public async Task<string> CallAsync(IEnumerable<string> messages)
+        public async Task<string> CallAsync(IEnumerable<string> messages, CancellationToken cancellationToken = default)
         {
             var chat = _gemini.StartChat(new StartChatParams());
 

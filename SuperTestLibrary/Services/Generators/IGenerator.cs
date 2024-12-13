@@ -5,6 +5,6 @@ namespace SuperTestLibrary.Services.Generators
 {
     public interface IGenerator
     {
-        Task<GeneratorResponse> GenerateAsync(ILargeLanguageModel largeLanguageModel);
+        Task<GeneratorResponse> GenerateAsync(ILargeLanguageModel largeLanguageModel, CancellationToken cancellationToken);
     }
 }

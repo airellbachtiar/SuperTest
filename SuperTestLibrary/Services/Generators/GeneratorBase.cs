@@ -5,7 +5,7 @@ namespace SuperTestLibrary.Services.Generators
 {
     public abstract class GeneratorBase : IGenerator
     {
-        public async Task<GeneratorResponse> GenerateAsync(ILargeLanguageModel largeLanguageModel)
+        public async Task<GeneratorResponse> GenerateAsync(ILargeLanguageModel largeLanguageModel, CancellationToken cancellationToken = default)
         {
             string jsonPromptPath = largeLanguageModel.Id switch
             {
@@ -16,7 +16,7 @@ namespace SuperTestLibrary.Services.Generators
             };
 
             IEnumerable<string> prompts = SetupPrompt(jsonPromptPath);
-            string response = await largeLanguageModel.CallAsync(prompts);
+            string response = await largeLanguageModel.CallAsync(prompts, cancellationToken);
             return new (response, prompts);
         }
 

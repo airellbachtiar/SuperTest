@@ -19,7 +19,7 @@ namespace SuperTestWPF.Services
             _retry = retry;
         }
 
-        public async Task<SpecFlowBindingFileResponse> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode)
+        public async Task<SpecFlowBindingFileResponse> GenerateBindingFilesAsync(string selectedLlmString, FileInformation featureFile, ObservableCollection<FileInformation> additionalCode, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -32,7 +32,8 @@ namespace SuperTestWPF.Services
                 var generatedBindingFile = await _retry.DoAsync(
                     () => _controller.GenerateSpecFlowBindingFileAsync(
                         featureFile.Value!,
-                        additionalCode.ToDictionary(f => f.Path!, f => f.Value!)),
+                        additionalCode.ToDictionary(f => f.Path!, f => f.Value!),
+                        cancellationToken),
                     TimeSpan.FromSeconds(1));
 
                 foreach (var prompt in generatedBindingFile.BindingFiles)
@@ -46,6 +47,11 @@ namespace SuperTestWPF.Services
                 }
 
                 return new(bindingFiles, promptHistories);
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation was cancelled.");
+                throw;
             }
             catch (Exception ex)
             {

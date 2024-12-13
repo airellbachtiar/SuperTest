@@ -20,7 +20,7 @@ namespace LlmLibrary.Models
             _openAIClient = new OpenAIClient(ApiKey);
         }
 
-        public async Task<string> CallAsync(IEnumerable<string> messages)
+        public async Task<string> CallAsync(IEnumerable<string> messages, CancellationToken cancellationToken = default)
         {
             List<ChatMessage> prompts = [];
 
@@ -29,7 +29,7 @@ namespace LlmLibrary.Models
                 prompts.Add(new UserChatMessage(messageContent));
             }
 
-            var response = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompts, new ChatCompletionOptions());
+            var response = await _openAIClient.GetChatClient(GPT_4o_Model).CompleteChatAsync(prompts, new ChatCompletionOptions(), cancellationToken);
 
             return response.Value.Content.First().Text ?? string.Empty;
         }

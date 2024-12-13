@@ -19,7 +19,7 @@ namespace SuperTestWPF.Services
             _retry = retry;
         }
 
-        public async Task<IEnumerable<PromptHistory>> EvaluateFeatureFileAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
+        public async Task<IEnumerable<PromptHistory>> EvaluateFeatureFileAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -27,12 +27,18 @@ namespace SuperTestWPF.Services
                 var evaluationResponse = await _retry.DoAsync(
                     () => _controller.EvaluateSpecFlowFeatureFileAsync(
                         requirements,
-                        featureFile.FeatureFileContent),
+                        featureFile.FeatureFileContent,
+                        cancellationToken),
                     TimeSpan.FromSeconds(1));
                 AssignSpecFlowFeatureFileEvaluation.Assign(selectedLlmString, featureFile, evaluationResponse);
 
                 return evaluationResponse.Prompts
                     .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Feature File", selectedLlmString, prompt));
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation was cancelled.");
+                throw;
             }
             catch (Exception ex)
             {
@@ -41,7 +47,7 @@ namespace SuperTestWPF.Services
             }
         }
 
-        public async Task<IEnumerable<PromptHistory>> EvaluateSpecFlowScenarioAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements)
+        public async Task<IEnumerable<PromptHistory>> EvaluateSpecFlowScenarioAsync(string selectedLlmString, SpecFlowFeatureFileModel featureFile, string requirements, CancellationToken cancellationToken = default)
         {
             try
             {
@@ -49,7 +55,8 @@ namespace SuperTestWPF.Services
                 var evaluationResponse = await _retry.DoAsync(
                     () => _controller.EvaluateSpecFlowScenarioAsync(
                         requirements,
-                        featureFile.FeatureFileContent),
+                        featureFile.FeatureFileContent,
+                        cancellationToken),
                     TimeSpan.FromSeconds(1));
 
                 foreach (var scenario in evaluationResponse.ScenarioEvaluations)
@@ -60,6 +67,11 @@ namespace SuperTestWPF.Services
 
                 return evaluationResponse.Prompts
                     .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Scenario", selectedLlmString, prompt));
+            }
+            catch (OperationCanceledException)
+            {
+                _logger.LogWarning("Operation was cancelled.");
+                throw;
             }
             catch (Exception ex)
             {
