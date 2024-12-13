@@ -19,6 +19,9 @@ namespace SuperTestLibrary
 
         private readonly ILogger<SuperTestController> _logger;
 
+        public IGenerator? SelectedGenerator { get; private set; }
+        public ILargeLanguageModel? SelectedLLM { get; set; }
+
         public SuperTestController(IReqIFStorage reqIFStorage, ILogger<SuperTestController> logger)
         {
             _reqIFStorage = reqIFStorage;
@@ -124,6 +127,16 @@ namespace SuperTestLibrary
             return files;
         }
 
+        public string GetStorageLocation()
+        {
+            return _reqIFStorage.GitLocationPath;
+        }
+
+        public void UpdateStorageLocation(string newPath)
+        {
+            _reqIFStorage.GitLocationPath = newPath;
+        }
+
         private async Task<GeneratorResponse> GenerateAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Starting response generation using {GeneratorName} with {LLMName}.", SelectedGenerator?.GetType().Name ?? "Unknown Generator", SelectedLLM?.Id ?? "Unknown LLM");
@@ -194,9 +207,6 @@ namespace SuperTestLibrary
             }
             return dictionary;
         }
-
-        public IGenerator? SelectedGenerator { get; private set; }
-        public ILargeLanguageModel? SelectedLLM { get; set; }
     }
 
 }

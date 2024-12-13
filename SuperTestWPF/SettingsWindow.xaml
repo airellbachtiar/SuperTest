@@ -19,6 +19,11 @@
                     <ColumnDefinition Width="7*" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
                 <Grid Grid.Row="0" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="9*" />
@@ -36,6 +41,8 @@
                     Margin="5"
                     Command="{Binding ApplyNewRequirementFilesLocationCommand}"
                     Content="Apply" />
+
+                <TextBlock Grid.Row="1" Text="{Binding SettingStatus}" />
             </Grid>
         </StackPanel>
     </Grid>

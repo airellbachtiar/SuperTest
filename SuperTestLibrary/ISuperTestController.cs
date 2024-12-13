@@ -1,6 +1,7 @@
 ﻿using LlmLibrary;
 using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
+using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary
 {
@@ -13,5 +14,7 @@ namespace SuperTestLibrary
         Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string requirements, string featureFile, CancellationToken cancellationToken);
         Task<SpecFlowBindingFileResponse> GenerateSpecFlowBindingFileAsync(string featureFile, Dictionary<string, string> generatedCSharpCode, CancellationToken cancellationToken);
         Task<IEnumerable<string>> GetAllReqIFFilesAsync();
+        public string GetStorageLocation();
+        public void UpdateStorageLocation(string newPath);
     }
 }

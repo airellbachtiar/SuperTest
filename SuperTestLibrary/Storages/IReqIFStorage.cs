@@ -4,5 +4,6 @@
     {
         Task <IEnumerable<string>> GetAllReqIFsAsync();
         Task<string> ReadReqIFFileAsync(string fileName, string directory);
+        string GitLocationPath { get; set; }
     }
 }
