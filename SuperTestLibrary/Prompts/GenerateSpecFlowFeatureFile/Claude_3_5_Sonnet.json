@@ -14,7 +14,7 @@
       "Message": "Consider the functional coverage from the list of requirement, its edge cases and negative scenario. If possible, add those scenarios."
     },
     {
-      "Message": "Cross check the response you gave with the original set of requirements. If there is/are scenario that is not in the requirement list, separate it and comment it using '#' at the beginning of the line. Indicate at the beginning that the commented scenario(s) is a recommendation."
+      "Message": "Cross check the response you gave with the original set of requirements. If there is/are scenario that is not in the requirement list, separate it and tag it as recommendation, i.e. \"@Recommendation\""
     },
     {
       "Message": "Consider your response, if able, categorize the feature files and separate it based on its feature."
