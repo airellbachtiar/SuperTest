@@ -40,6 +40,7 @@ namespace SuperTestWPF.ViewModels
         //Binding fields
         private ObservableCollection<FileInformation> _uploadedFiles = [];
         private string _generatedBindingFile = string.Empty;
+        private ObservableCollection<SpecFlowBindingFileModel> _specFlowBindingFiles = [];
         private FileInformation? _uploadedFeatureFile = null;
 
         // Logger
@@ -193,6 +194,11 @@ namespace SuperTestWPF.ViewModels
             set => SetProperty(ref _generatedBindingFile, value);
         }
 
+        public ObservableCollection<SpecFlowBindingFileModel> SpecFlowBindingFiles
+        {
+            get => _specFlowBindingFiles;
+            set => SetProperty(ref _specFlowBindingFiles, value);
+        }
         public FileInformation? UploadedFeatureFile
         {
             get => _uploadedFeatureFile;
@@ -374,6 +380,7 @@ namespace SuperTestWPF.ViewModels
             }
 
             var response = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles, cancellationToken);
+            SpecFlowBindingFiles = new ObservableCollection<SpecFlowBindingFileModel>(response.specFlowBindingFileModels);
             GeneratedBindingFile = response.specFlowBindingFileModels.FirstOrDefault()?.BindingFileContent ?? string.Empty;
 
             foreach (var prompt in response.Prompts)
@@ -429,8 +436,13 @@ namespace SuperTestWPF.ViewModels
                 _logger.LogError("Failed to save binding file.");
                 return;
             }
-            string savePath = $"{SavePath}/BindingFile.cs";
-            _fileService.SaveFile(savePath, GeneratedBindingFile);
+
+            string savePath = $"{SavePath}/";
+            foreach (var bindingFile in SpecFlowBindingFiles)
+            {
+                savePath += bindingFile.BindingFileName;
+                _fileService.SaveFile(savePath, bindingFile.BindingFileContent);
+            }
         }
 
         private CancellationToken CreateNewCancellationToken()
