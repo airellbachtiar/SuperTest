@@ -5,6 +5,7 @@ using SuperTestLibrary.Models;
 using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 using SuperTestLibrary.Storages;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace SuperTestLibrary
@@ -201,11 +202,24 @@ namespace SuperTestLibrary
 
         private Dictionary<string, string> UnescapeDictionary(Dictionary<string, string> dictionary)
         {
-            foreach (var item in dictionary)
+            try
             {
-                dictionary[item.Key] = System.Text.RegularExpressions.Regex.Unescape(item.Value);
+                foreach (var item in dictionary)
+                {
+                    dictionary[item.Key] = Regex.Unescape(item.Value);
+                }
+                return dictionary;
             }
-            return dictionary;
+
+            catch (RegexParseException)
+            {
+                _logger.LogWarning("Encountered regex parse error.");
+                return dictionary;
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 

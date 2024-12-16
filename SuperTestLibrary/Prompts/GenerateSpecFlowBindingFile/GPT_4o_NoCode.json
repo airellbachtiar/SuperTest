@@ -5,7 +5,7 @@
     "Generate a complete SpecFlow binding file that covers all the steps from feature file.",
     "Do not include JSON code block in your response.",
     "Ensure the output follows proper SpecFlow naming conventions, formatting rules, and best SpecFlow practices.",
-    "Scoped the binding file to the feature file title."
+    "Restrict the execution of scoped bindings to feature."
   ],
   "Thinking": "When generating a SpecFlow binding file, follow these steps. First, analyze all the information provided in this prompt. Then, create one method for each unique step in the feature file, ensuring both method names and step definition attributes are unique without any duplicates. Then, add the implementation code for each method, and if a method requires no action, add a comment explaining why. If a step has similar functionality or requires the completion of previous steps, utilize existing step definitions.",
   "Interactions": [
@@ -13,7 +13,7 @@
       "Message": "Review the entire feature file to identify shared patterns and dependencies between steps. If a step has similar functionality or requires the completion of previous steps, utilize existing step definitions."
     },
     {
-      "Message": "Ensure that the response you gave should be in JSON format with keys: \"BindingFiles\" (Dictionary where the key is the SpecFlow binding file name). Make sure to output valid JSON and make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence. Scoped the binding file to the feature file title."
+      "Message": "Ensure that the response you gave should be in JSON format with keys: \"BindingFiles\" (Dictionary where the key is the SpecFlow binding file name). Make sure to output valid JSON and make sure that the output can be read by JsonSerializer in C#. If the string contains tab, new line, or other invalid characters in JSON, use escape sequence."
     }
   ]
 }

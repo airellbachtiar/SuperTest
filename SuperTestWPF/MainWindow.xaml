@@ -469,11 +469,21 @@
                     <DataGridTextColumn Binding="{Binding DateTime}" Header="Time" />
                     <DataGridTextColumn Binding="{Binding Function}" Header="Function" />
                     <DataGridTextColumn Binding="{Binding LargeLanguageModel}" Header="Large Language Model" />
-                    <DataGridTextColumn Binding="{Binding Prompt}" Header="Prompt" />
+                    <DataGridTextColumn
+                        Width="800"
+                        Binding="{Binding Prompt}"
+                        Header="Prompt">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                 </DataGrid.Columns>
                 <DataGrid.Resources>
                     <Style TargetType="DataGridCell">
-                        <Setter Property="IsHitTestVisible" Value="False" />
+                        <Setter Property="IsHitTestVisible" Value="True" />
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
                     </Style>
                 </DataGrid.Resources>
             </DataGrid>
