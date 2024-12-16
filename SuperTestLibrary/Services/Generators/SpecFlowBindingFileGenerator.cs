@@ -10,25 +10,11 @@ namespace SuperTestLibrary.Services.Generators
 
         protected override string JsonPromptClaude35Sonnet
         {
-            get
-            {
-                if (GeneratedCSharpCode.Count == 0)
-                {
-                    return "Prompts/GenerateSpecFlowBindingFile/Claude_3_5_Sonnet_NoCode.json";
-                }
-                return "Prompts/GenerateSpecFlowBindingFile/Claude_3_5_Sonnet.json";
-            }
+            get { return GetPromptPath(); }
         }
         protected override string JsonPromptGPT4o
         {
-            get
-            {
-                if (GeneratedCSharpCode.Count == 0)
-                {
-                    return "Prompts/GenerateSpecFlowBindingFile/GPT_4o_NoCode.json";
-                }
-                return "Prompts/GenerateSpecFlowBindingFile/GPT_4o.json";
-            }
+            get { return GetPromptPath(); }
         }
         protected override string JsonPromptGemini15 => throw new NotImplementedException("Gemini 1.5 is not supported for generating binding file.");
 
@@ -39,6 +25,15 @@ namespace SuperTestLibrary.Services.Generators
             var prompts = new SpecFlowBindingFilePromptBuilder(FeatureFile!, GeneratedCSharpCode).BuildPrompt(prompt);
 
             return prompts;
+        }
+
+        private string GetPromptPath()
+        {
+            if (GeneratedCSharpCode.Count == 0)
+            {
+                return "Prompts/GenerateSpecFlowBindingFile/BindingFilePromptNoCode.json";
+            }
+            return "Prompts/GenerateSpecFlowBindingFile/BindingFilePrompt.json";
         }
     }
 }
