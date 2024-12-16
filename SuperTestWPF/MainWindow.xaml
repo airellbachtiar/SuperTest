@@ -181,7 +181,7 @@
                                 Grid.Column="0"
                                 Width="auto"
                                 Height="auto"
-                                Text="{Binding SelectedSpecFlowFeatureFile.FeatureFileTitle}"
+                                Text="{Binding SelectedSpecFlowFeatureFile.FeatureFileName}"
                                 TextWrapping="Wrap" />
                             <Button
                                 Grid.Column="1"
@@ -199,53 +199,72 @@
                             TextWrapping="Wrap"
                             Visibility="{Binding IsFeatureFileContentVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
-                        <ItemsControl
-                            x:Name="ScenariosPanel"
-                            ItemsSource="{Binding SelectedSpecFlowFeatureFile.Scenarios}"
-                            Visibility="{Binding IsFeatureFileContentVisible, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel Margin="5" Orientation="Vertical">
-                                        <!--  Display the scenario title  -->
-                                        <TextBlock
-                                            Margin="0,5,0,5"
-                                            FontWeight="Bold"
-                                            MouseDown="TextBlock_SelectedScenarioChanged">
-                                            <Run Text="{Binding Keyword, Mode=OneWay}" />
-                                            <Run Text=": " />
-                                            <Run Text="{Binding Name, Mode=OneWay}" />
-                                        </TextBlock>
+                        <StackPanel Visibility="{Binding IsFeatureFileContentVisible, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                            <TextBlock FontWeight="Bold">
+                                <Run Text="Feature: " />
+                                <Run Text="{Binding SelectedSpecFlowFeatureFile.FeatureFileTitle}" />
+                            </TextBlock>
 
-                                        <!--  Display each step  -->
-                                        <ItemsControl ItemsSource="{Binding Steps}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <TextBlock>
-                                                        <Run FontWeight="Bold" Text="{Binding Keyword, Mode=OneWay}" />
-                                                        <Run Text=" " />
-                                                        <Run Text="{Binding Text, Mode=OneWay}" />
-                                                    </TextBlock>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                            <TextBlock Text="{Binding SelectedSpecFlowFeatureFile.FeatureFileDescription}" />
 
-                                        <!--  RadioButtons for accept/reject  -->
-                                        <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
-                                            <RadioButton
-                                                Margin="5,0"
-                                                Content="Accept"
-                                                GroupName="{Binding Name}"
-                                                IsChecked="{Binding IsAccepted, Mode=TwoWay}" />
-                                            <RadioButton
-                                                Margin="5,0"
-                                                Content="Reject"
-                                                GroupName="{Binding Name}"
-                                                IsChecked="{Binding IsAccepted, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}" />
+                            <ItemsControl x:Name="ScenariosPanel" ItemsSource="{Binding SelectedSpecFlowFeatureFile.Scenarios}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Margin="5" Orientation="Vertical">
+
+                                            <!--  Display tags  -->
+                                            <TextBlock Margin="0,5,0,0" FontWeight="Bold">
+                                                <ItemsControl ItemsSource="{Binding Tags}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </TextBlock>
+
+                                            <!--  Display the scenario title  -->
+                                            <TextBlock
+                                                Margin="0,0,0,5"
+                                                FontWeight="Bold"
+                                                MouseDown="TextBlock_SelectedScenarioChanged">
+                                                <Run Text="{Binding Keyword, Mode=OneWay}" />
+                                                <Run Text=": " />
+                                                <Run Text="{Binding Name, Mode=OneWay}" />
+                                            </TextBlock>
+
+                                            <!--  Display each step  -->
+                                            <ItemsControl ItemsSource="{Binding Steps}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock>
+                                                            <Run FontWeight="Bold" Text="{Binding Keyword, Mode=OneWay}" />
+                                                            <Run Text=" " />
+                                                            <Run Text="{Binding Text, Mode=OneWay}" />
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+
+                                            <!--  RadioButtons for accept/reject  -->
+                                            <StackPanel Margin="0,5,0,5" Orientation="Horizontal">
+                                                <RadioButton
+                                                    Margin="5,0"
+                                                    Content="Accept"
+                                                    GroupName="{Binding Name}"
+                                                    IsChecked="{Binding IsAccepted, Mode=TwoWay}" />
+                                                <RadioButton
+                                                    Margin="5,0"
+                                                    Content="Reject"
+                                                    GroupName="{Binding Name}"
+                                                    IsChecked="{Binding IsAccepted, Converter={StaticResource InverseBooleanConverter}, Mode=TwoWay}" />
+                                            </StackPanel>
                                         </StackPanel>
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+
                     </StackPanel>
                 </ScrollViewer>
                 <ListBox

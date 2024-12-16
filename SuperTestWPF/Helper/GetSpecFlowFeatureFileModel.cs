@@ -9,6 +9,7 @@ namespace SuperTestWPF.Helper
         public static SpecFlowFeatureFileModel ConvertSpecFlowFeatureFileResponse(KeyValuePair<string, string> featureFile, GherkinDocument gherkinDocument)
         {
             string featureFileTitle = gherkinDocument.Feature.Name;
+            string featureFileDescription = gherkinDocument.Feature.Description;
 
             var scenarios = new ObservableCollection<ScenarioModel>();
 
@@ -18,17 +19,13 @@ namespace SuperTestWPF.Helper
                 {
                     if (child is Scenario scenario)
                     {
-                        ObservableCollection<StepModel> steps = [];
-                        foreach (var step in scenario.Steps)
-                        {
-                            steps.Add(new StepModel(step.Keyword, step.Text));
-                        }
                         scenarios.Add(new ScenarioModel
                         {
                             Name = scenario.Name,
                             Keyword = scenario.Keyword,
                             IsAccepted = true,
-                            Steps = steps
+                            Steps = new ObservableCollection<StepModel>(scenario.Steps.Select(s => new StepModel(s.Keyword, s.Text))),
+                            Tags = new ObservableCollection<TagModel>(scenario.Tags.Select(t => new TagModel { Name = t.Name })),
                         });
                     }
                 }
@@ -38,6 +35,7 @@ namespace SuperTestWPF.Helper
             {
                 FeatureFileTitle = featureFileTitle,
                 GherkinDocument = gherkinDocument,
+                FeatureFileDescription = featureFileDescription,
                 Scenarios = scenarios
             };
         }
