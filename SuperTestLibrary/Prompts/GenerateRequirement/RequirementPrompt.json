@@ -1,0 +1,12 @@
+{
+  "SystemInstruction": "You are tasked with analyzing the attached files to extract a comprehensive list of requirements for a system. The files may include: Feature Files (describing user behavior and system functionality using Gherkin syntax), Binding Files (implementations of step definitions for the scenarios in the feature files), or but not limited to Unit Test Files (validating specific functionalities of the system).",
+  "Instructions": [
+    "List all requirements in YAML format. For each requirement, include the following details if available: a unique identifier, a short title summarizing the requirement, and a detailed description.",
+    "Do not give any explanations",
+    "Do not include YAML code block in your response.",
+    "Focus on extracting clear, actionable requirements.",
+    "Consolidate similar requirements across files to avoid redundancy.",
+    "Ensure traceability by grouping related requirements or identifying their source (e.g., \"Derived from Feature File: XYZ.feature\")."
+  ],
+  "Thinking": "Analyze the files, for example, if a feature file is provided, extract high-level functional requirements directly from the scenarios, focusing on: user inputs, system ouputs, preconditions, and expected behaviours or results. If a binding file is provided, use it to refine or enhance the requirements by analyzing: technical implementations and specific details, hidden or implicit requirements (e.g., validations, error handling, performance considerations), and any preconditions or constraints not explicitly mentioned in the feature file. If unit tests are provided, use them to identify: specific edge cases, boundary conditions, and error-handling requirements, and additional functional or non-functional requirements (e.g., performance or security)."
+}

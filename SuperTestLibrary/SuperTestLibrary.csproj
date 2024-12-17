@@ -40,6 +40,9 @@
 		<None Update="Prompts\EvaluateSpecFlowScenario\EvaluateScenarioPrompt.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="Prompts\GenerateRequirement\RequirementPrompt.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 </Project>
