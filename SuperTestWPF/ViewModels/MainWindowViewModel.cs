@@ -43,6 +43,9 @@ namespace SuperTestWPF.ViewModels
         private ObservableCollection<SpecFlowBindingFileModel> _specFlowBindingFiles = [];
         private FileInformation? _uploadedFeatureFile = null;
 
+        //Requirement fields
+        private string _generatedRequirement = string.Empty;
+
         // Logger
         private readonly ILogger<MainWindowViewModel> _logger;
 
@@ -53,6 +56,7 @@ namespace SuperTestWPF.ViewModels
         private readonly IFileService _fileService;
         private readonly IEvaluateFeatureFileService _evaluateFeatureFileService;
         private readonly IBindingFileGeneratorService _bindingFileGeneratorService;
+        private readonly IRequirementGeneratorService _requirementGeneratorService;
 
         // Prompts
         public ObservableCollection<PromptHistory> PromptHistories { get; } = [];
@@ -79,6 +83,9 @@ namespace SuperTestWPF.ViewModels
             ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
             SaveBindingFileCommand = new RelayCommand(SaveBindingFile);
 
+            // Requirement Generator
+            GenerateRequirementCommand = new AsyncCommand(GenerateRequirement);
+
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
 
@@ -90,6 +97,7 @@ namespace SuperTestWPF.ViewModels
             _fileService = serviceProvider.GetRequiredService<IFileService>();
             _evaluateFeatureFileService = serviceProvider.GetRequiredService<IEvaluateFeatureFileService>();
             _bindingFileGeneratorService = serviceProvider.GetRequiredService<IBindingFileGeneratorService>();
+            _requirementGeneratorService = serviceProvider.GetRequiredService<IRequirementGeneratorService>();
             _serviceProvider = serviceProvider;
             _ = InitializeReqIFs();
         }
@@ -205,6 +213,13 @@ namespace SuperTestWPF.ViewModels
             set => SetProperty(ref _uploadedFeatureFile, value);
         }
 
+        // Requirement properties
+        public string GeneratedRequirement
+        {
+            get => _generatedRequirement;
+            set => SetProperty(ref _generatedRequirement, value);
+        }
+
         public ICommand UploadReqIFCommand { get; }
         public ICommand GenerateAndEvaluateSpecFlowFeatureFileCommand { get; }
         public ICommand DisplayFeatureFileScoreCommand { get; }
@@ -219,6 +234,8 @@ namespace SuperTestWPF.ViewModels
         public ICommand UploadFeatureFileCommand { get; }
         public ICommand ClearAllUploadedFilesCommand { get; }
         public ICommand SaveBindingFileCommand { get; }
+        // Requirement commands
+        public ICommand GenerateRequirementCommand { get; }
 
         private async Task InitializeReqIFs()
         {
@@ -442,6 +459,18 @@ namespace SuperTestWPF.ViewModels
             {
                 savePath += bindingFile.BindingFileName;
                 _fileService.SaveFile(savePath, bindingFile.BindingFileContent);
+            }
+        }
+
+        // Requirement Generator
+        private async Task GenerateRequirement()
+        {
+            var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedFiles.ToDictionary(f => f.Path!, f => f.Value!), UploadedFeatureFile?.Value, CreateNewCancellationToken());
+
+            GeneratedRequirement = response.Requirement;
+            foreach (var prompt in response.Prompts)
+            {
+                PromptHistories.Add(prompt);
             }
         }
 

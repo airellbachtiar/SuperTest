@@ -50,6 +50,7 @@ namespace SuperTestWPF
                     services.AddTransient<IFeatureFileGeneratorService, FeatureFileGeneratorService>();
                     services.AddTransient<IEvaluateFeatureFileService, EvaluateFeatureFileService>();
                     services.AddTransient<IBindingFileGeneratorService, BindingFileGeneratorService>();
+                    services.AddTransient<IRequirementGeneratorService, RequirementGeneratorService>();
                     services.AddTransient<IRetryService, RetryService>();
                     services.AddTransient<IFileService, FileService>();
                 })
