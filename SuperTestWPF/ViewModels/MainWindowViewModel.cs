@@ -396,16 +396,20 @@ namespace SuperTestWPF.ViewModels
                 return;
             }
 
-            var response = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles, cancellationToken);
-            SpecFlowBindingFiles = new ObservableCollection<SpecFlowBindingFileModel>(response.specFlowBindingFileModels);
-            GeneratedBindingFile = response.specFlowBindingFileModels.FirstOrDefault()?.BindingFileContent ?? string.Empty;
-
-            foreach (var prompt in response.Prompts)
+            try
             {
-                PromptHistories.Add(prompt);
-            }
+                var response = await _bindingFileGeneratorService.GenerateBindingFilesAsync(SelectedLLM, UploadedFeatureFile, UploadedFiles, cancellationToken);
+                SpecFlowBindingFiles = new ObservableCollection<SpecFlowBindingFileModel>(response.specFlowBindingFileModels);
+                GeneratedBindingFile = response.specFlowBindingFileModels.FirstOrDefault()?.BindingFileContent ?? string.Empty;
 
-            _logger.LogInformation("Binding file generated.");
+                foreach (var prompt in response.Prompts)
+                {
+                    PromptHistories.Add(prompt);
+                }
+
+                _logger.LogInformation("Binding file generated.");
+            }
+            catch { return; }
         }
 
         private void UploadFiles()
@@ -465,13 +469,17 @@ namespace SuperTestWPF.ViewModels
         // Requirement Generator
         private async Task GenerateRequirement()
         {
-            var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedFiles.ToDictionary(f => f.Path!, f => f.Value!), UploadedFeatureFile?.Value, CreateNewCancellationToken());
-
-            GeneratedRequirement = response.Requirement;
-            foreach (var prompt in response.Prompts)
+            try
             {
-                PromptHistories.Add(prompt);
+                var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedFiles.ToDictionary(f => f.Path!, f => f.Value!), "", CreateNewCancellationToken());
+
+                GeneratedRequirement = response.Requirement;
+                foreach (var prompt in response.Prompts)
+                {
+                    PromptHistories.Add(prompt);
+                }
             }
+            catch { return; }
         }
 
         private CancellationToken CreateNewCancellationToken()
