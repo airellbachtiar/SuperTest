@@ -36,5 +36,15 @@ namespace SuperTestWPF
                 }
             }
         }
+
+        private void TreeView_SelectedTestFileChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            var selectedItem = e.NewValue;
+
+            if (DataContext is MainWindowViewModel viewModel && selectedItem != null)
+            {
+                viewModel.OnTestFileSelected(selectedItem);
+            }
+        }
     }
 }

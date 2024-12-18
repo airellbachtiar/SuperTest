@@ -44,7 +44,10 @@ namespace SuperTestWPF.ViewModels
         private FileInformation? _uploadedFeatureFile = null;
 
         //Requirement fields
+        private ObservableCollection<FileInformation> _uploadedTestFiles = [];
+        private FileInformation? _selectedTestFile = null;
         private string _generatedRequirement = string.Empty;
+        private ObservableCollection<string> _generatedRequirements = [];
 
         // Logger
         private readonly ILogger<MainWindowViewModel> _logger;
@@ -84,7 +87,9 @@ namespace SuperTestWPF.ViewModels
             SaveBindingFileCommand = new RelayCommand(SaveBindingFile);
 
             // Requirement Generator
+            UploadTestFilesCommand = new RelayCommand(UploadTestFiles);
             GenerateRequirementCommand = new AsyncCommand(GenerateRequirement);
+            SaveRequirementFilesCommand = new RelayCommand(SaveRequirementFiles);
 
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
@@ -214,6 +219,21 @@ namespace SuperTestWPF.ViewModels
         }
 
         // Requirement properties
+        public ObservableCollection<FileInformation> UploadedTestFiles
+        {
+            get => _uploadedTestFiles;
+            set => SetProperty(ref _uploadedTestFiles, value);
+        }
+        public FileInformation? SelectedTestFile
+        {
+            get => _selectedTestFile;
+            set => SetProperty(ref _selectedTestFile, value);
+        }
+        public ObservableCollection<string> GeneratedRequirements
+        {
+            get => _generatedRequirements;
+            set => SetProperty(ref _generatedRequirements, value);
+        }
         public string GeneratedRequirement
         {
             get => _generatedRequirement;
@@ -236,6 +256,8 @@ namespace SuperTestWPF.ViewModels
         public ICommand SaveBindingFileCommand { get; }
         // Requirement commands
         public ICommand GenerateRequirementCommand { get; }
+        public ICommand UploadTestFilesCommand { get; }
+        public ICommand SaveRequirementFilesCommand { get; }
 
         private async Task InitializeReqIFs()
         {
@@ -248,6 +270,14 @@ namespace SuperTestWPF.ViewModels
             if (selectedItem is FileInformation reqIFValueAndPath)
             {
                 ChosenFile = reqIFValueAndPath.Path!;
+            }
+        }
+
+        public void OnTestFileSelected(object selectedItem)
+        {
+            if (selectedItem is FileInformation testFile)
+            {
+                SelectedTestFile = testFile;
             }
         }
 
@@ -471,7 +501,14 @@ namespace SuperTestWPF.ViewModels
         {
             try
             {
-                var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedFiles.ToDictionary(f => f.Path!, f => f.Value!), "", CreateNewCancellationToken());
+                if (UploadedTestFiles.Count == 0)
+                {
+                    _logger.LogWarning("No test files uploaded.");
+                    _logger.LogError("Failed to generate requirement.");
+                    return;
+                }
+
+                var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedTestFiles.ToDictionary(f => f.Path!, f => f.Value!), "", CreateNewCancellationToken());
 
                 GeneratedRequirement = response.Requirement;
                 foreach (var prompt in response.Prompts)
@@ -480,6 +517,33 @@ namespace SuperTestWPF.ViewModels
                 }
             }
             catch { return; }
+        }
+
+        private void UploadTestFiles()
+        {
+            var files = GetFilesFromFolder();
+            foreach (var file in files)
+            {
+                UploadedTestFiles.Add(new FileInformation(file.Key, file.Value));
+            }
+        }
+
+        private void SaveRequirementFiles()
+        {
+            if (GeneratedRequirements.Count == 0)
+            {
+                _logger.LogWarning("No requirements generated.");
+                _logger.LogError("Failed to save requirements.");
+                return;
+            }
+
+            foreach (var requirement in GeneratedRequirements)
+            {
+                string savePath = $"{SavePath}/{requirement}";
+                _fileService.SaveFile(savePath, requirement);
+            }
+
+            _logger.LogInformation("Requirements saved.");
         }
 
         private CancellationToken CreateNewCancellationToken()

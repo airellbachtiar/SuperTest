@@ -475,6 +475,155 @@
             </Grid>
         </TabItem>
 
+        <TabItem Header="Requirement Generator">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding UploadTestFilesCommand}"
+                    Content="Upload test files" />
+
+                <Button
+                    Grid.Row="1"
+                    Height="30"
+                    Margin="10"
+                    Command="{Binding GenerateRequirementCommand}"
+                    Content="Generate Requirement" />
+
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Width="Auto"
+                    Height="30"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    ItemsSource="{Binding LLMList}"
+                    SelectedItem="{Binding SelectedLLM}" />
+
+                <TreeView
+                    Name="ReqIF"
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Margin="10,0"
+                    ItemsSource="{Binding UploadedTestFiles}"
+                    SelectedItemChanged="TreeView_SelectedTestFileChanged">
+                    <TreeView.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Path}" />
+                        </DataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+                <ScrollViewer
+                    Grid.Row="2"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding SelectedTestFile}" TextWrapping="Wrap" />
+                </ScrollViewer>
+
+                <Grid
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="9*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Text="{Binding SavePath}" />
+                    <Button
+                        Grid.Column="1"
+                        Command="{Binding SelectSaveLocationCommand}"
+                        Content="..." />
+                </Grid>
+
+                <Button
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Margin="10"
+                    Command="{Binding SaveRequirementFilesCommand}"
+                    Content="Save Requirements" />
+
+                <TreeView
+                    Name="Requirements"
+                    Grid.Row="4"
+                    Grid.RowSpan="2"
+                    Grid.Column="3"
+                    Grid.ColumnSpan="2"
+                    ItemsSource="{Binding GeneratedRequirements}" />
+
+                <ScrollViewer
+                    Grid.Row="4"
+                    Grid.RowSpan="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2">
+                    <TextBlock Text="{Binding GeneratedRequirement}" TextWrapping="Wrap" />
+                </ScrollViewer>
+
+                <Grid Grid.Row="2" Grid.RowSpan="4">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <ListBox
+                        Grid.Row="0"
+                        Margin="10"
+                        ItemsSource="{Binding LogMessages}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock>
+                                    <Run Text="{Binding Timestamp, StringFormat='{}{0:HH:mm:ss}'}" />
+                                    <Run Text=" [" />
+                                    <Run Text="{Binding LogLevel}">
+                                        <Run.Style>
+                                            <Style TargetType="Run">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Information">
+                                                        <Setter Property="Foreground" Value="Green" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Warning">
+                                                        <Setter Property="Foreground" Value="Orange" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Error">
+                                                        <Setter Property="Foreground" Value="Red" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding LogLevel}" Value="Debug">
+                                                        <Setter Property="Foreground" Value="Blue" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Run.Style>
+                                    </Run>
+                                    <Run Text="] " />
+                                    <Run Text="{Binding Category}" />
+                                    <Run Text=": " />
+                                    <Run Text="{Binding Message}" />
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
+            </Grid>
+        </TabItem>
+
         <TabItem Header="Prompts">
             <DataGrid
                 AutoGenerateColumns="False"
