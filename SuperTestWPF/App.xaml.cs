@@ -54,6 +54,7 @@ namespace SuperTestWPF
                     services.AddTransient<IRequirementGeneratorService, RequirementGeneratorService>();
                     services.AddTransient<IRetryService, RetryService>();
                     services.AddTransient<IFileService, FileService>();
+                    services.AddTransient<IReqIFConverterService, ReqIFConverterService>();
                 })
                 .Build();
         }

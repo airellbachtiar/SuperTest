@@ -30,6 +30,7 @@ namespace SuperTestWPF.ViewModels
         private readonly IFileService _fileService;
         private readonly IRequirementGeneratorService _requirementGeneratorService;
         private readonly IPromptVerboseService _promptVerboseService;
+        private readonly IReqIFConverterService _reqIFConverterService;
 
         public ObservableCollection<LogEntry> LogMessages { get; } = [];
 
@@ -48,6 +49,7 @@ namespace SuperTestWPF.ViewModels
             _fileService = serviceProvider.GetRequiredService<IFileService>();
             _requirementGeneratorService = serviceProvider.GetRequiredService<IRequirementGeneratorService>();
             _promptVerboseService = serviceProvider.GetRequiredService<IPromptVerboseService>();
+            _reqIFConverterService = serviceProvider.GetRequiredService<IReqIFConverterService>();
         }
 
         public ObservableCollection<string> LLMList
@@ -152,11 +154,9 @@ namespace SuperTestWPF.ViewModels
                 return;
             }
 
-            foreach (var requirement in GeneratedRequirements)
-            {
-                string savePath = $"{SavePath}/{requirement}";
-                _fileService.SaveFile(savePath, requirement.Content);
-            }
+            var reqIf = _reqIFConverterService.ConvertRequirementToReqIfAsync(GeneratedRequirements);
+
+            _fileService.SaveFile(Path.Combine(SavePath, "requirements.reqif"), reqIf);
 
             _logger.LogInformation("Requirements saved.");
         }

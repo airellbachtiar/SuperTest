@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
+using ReqIFSharp;
 using System.IO;
 
 namespace SuperTestWPF.Services
@@ -71,6 +72,13 @@ namespace SuperTestWPF.Services
         public void SaveFile(string savePath, string fileContent)
         {
             File.WriteAllText(savePath, fileContent);
+            _logger.LogInformation($"File has been saved to \"{savePath}\".");
+        }
+
+        public void SaveFile(string savePath, ReqIF reqIf)
+        {
+            var serializer = new ReqIFSerializer();
+            serializer.Serialize([reqIf], savePath);
             _logger.LogInformation($"File has been saved to \"{savePath}\".");
         }
     }
