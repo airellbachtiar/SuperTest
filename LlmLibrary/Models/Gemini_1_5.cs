@@ -32,7 +32,7 @@ namespace LlmLibrary.Models
 
             foreach (var prompt in messages)
             {
-                response = await chat.SendMessageAsync(prompt);
+                response = await chat.SendMessageAsync(prompt, cancellationToken);
             }
 
             return response;

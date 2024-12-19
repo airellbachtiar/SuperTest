@@ -18,6 +18,9 @@ namespace SuperTestLibrary.Services.PromptBuilders
             }
 
             promptBuilder.AppendLine();
+            promptBuilder.AppendLine(_prompt.Example);
+
+            promptBuilder.AppendLine();
             promptBuilder.AppendLine(_prompt.Thinking);
 
             if (!string.IsNullOrEmpty(existingRequirement))

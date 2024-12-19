@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Gherkin" Version="30.0.4" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="YamlDotNet" Version="16.2.1" />
   </ItemGroup>
 
   <ItemGroup>
