@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using SuperTestWPF.Models;
 using SuperTestWPF.Services;
 using SuperTestWPF.ViewModels.Commands;
 using System.ComponentModel;

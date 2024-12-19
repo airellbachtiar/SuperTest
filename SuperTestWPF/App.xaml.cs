@@ -47,6 +47,7 @@ namespace SuperTestWPF
                         return new GitReqIFStorage(gitFolderPath);
                     });
                     services.AddSingleton<IGetReqIfService, GetReqIfService>();
+                    services.AddSingleton<IPromptVerboseService, PromptVerboseService>();
                     services.AddTransient<IFeatureFileGeneratorService, FeatureFileGeneratorService>();
                     services.AddTransient<IEvaluateFeatureFileService, EvaluateFeatureFileService>();
                     services.AddTransient<IBindingFileGeneratorService, BindingFileGeneratorService>();

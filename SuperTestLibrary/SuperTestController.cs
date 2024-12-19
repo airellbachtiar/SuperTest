@@ -5,7 +5,6 @@ using SuperTestLibrary.Models;
 using SuperTestLibrary.Services.Generators;
 using SuperTestLibrary.Storages;
 using System.Text.RegularExpressions;
-using System.Threading;
 
 namespace SuperTestLibrary
 {
