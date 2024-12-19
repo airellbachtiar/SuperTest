@@ -3,7 +3,7 @@ using SuperTestLibrary.Helpers;
 using LlmLibrary;
 using SuperTestLibrary.Storages;
 using Microsoft.Extensions.Logging;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
+using SuperTestLibrary.Models;
 
 namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {

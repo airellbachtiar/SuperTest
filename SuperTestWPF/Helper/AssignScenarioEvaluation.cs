@@ -1,4 +1,4 @@
-﻿using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
+﻿using SuperTestLibrary.Models;
 using SuperTestWPF.Models;
 
 namespace SuperTestWPF.Helper

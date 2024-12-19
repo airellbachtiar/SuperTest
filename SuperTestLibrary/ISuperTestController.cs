@@ -1,6 +1,6 @@
 ﻿using LlmLibrary;
+using SuperTestLibrary.Models;
 using SuperTestLibrary.Services.Generators;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 using SuperTestLibrary.Storages;
 
 namespace SuperTestLibrary

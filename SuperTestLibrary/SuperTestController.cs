@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Helpers;
 using SuperTestLibrary.Models;
 using SuperTestLibrary.Services.Generators;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 using SuperTestLibrary.Storages;
 using System.Text.RegularExpressions;
 using System.Threading;

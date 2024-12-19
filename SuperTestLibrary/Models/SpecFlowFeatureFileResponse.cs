@@ -1,6 +1,6 @@
 ﻿using Gherkin.Ast;
 
-namespace SuperTestLibrary.Services.PromptBuilders.ResponseModels
+namespace SuperTestLibrary.Models
 {
     public class SpecFlowFeatureFileResponse
     {

@@ -1,4 +1,4 @@
-﻿namespace SuperTestLibrary.Services.PromptBuilders.ResponseModels
+﻿namespace SuperTestLibrary.Models
 {
     public class EvaluateSpecFlowScenarioResponse
     {

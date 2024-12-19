@@ -5,8 +5,8 @@ using SuperTestLibrary.Storages;
 using SuperTestLibrary.UnitTests.TestData;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels.SpecFlowScenarioEvaluationCriteria;
+using SuperTestLibrary.Models;
+using SuperTestLibrary.Models.SpecFlowScenarioEvaluationCriteria;
 
 namespace SuperTestLibrary.UnitTests
 {
