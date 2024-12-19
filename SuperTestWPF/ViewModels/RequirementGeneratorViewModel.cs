@@ -23,7 +23,7 @@ namespace SuperTestWPF.ViewModels
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
         private string _generatedRequirement = string.Empty;
         private ObservableCollection<FileInformation> _uploadedTestFiles = [];
-        private ObservableCollection<string> _generatedRequirements = [];
+        private ObservableCollection<RequirementModel> _generatedRequirements = [];
         private FileInformation? _selectedTestFile = null;
         private CancellationTokenSource? _cancellationTokenSource;
         
@@ -77,7 +77,7 @@ namespace SuperTestWPF.ViewModels
             get => _selectedTestFile;
             set => SetProperty(ref _selectedTestFile, value);
         }
-        public ObservableCollection<string> GeneratedRequirements
+        public ObservableCollection<RequirementModel> GeneratedRequirements
         {
             get => _generatedRequirements;
             set => SetProperty(ref _generatedRequirements, value);
@@ -114,7 +114,7 @@ namespace SuperTestWPF.ViewModels
 
                 var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedTestFiles.ToDictionary(f => f.Path!, f => f.Value!), "", CreateNewCancellationToken());
 
-                GeneratedRequirement = response.Requirement;
+                GeneratedRequirements = new (response.Requirements);
                 foreach (var prompt in response.Prompts)
                 {
                     _promptVerboseService.AddPrompt(prompt);
@@ -155,7 +155,7 @@ namespace SuperTestWPF.ViewModels
             foreach (var requirement in GeneratedRequirements)
             {
                 string savePath = $"{SavePath}/{requirement}";
-                _fileService.SaveFile(savePath, requirement);
+                _fileService.SaveFile(savePath, requirement.Content);
             }
 
             _logger.LogInformation("Requirements saved.");

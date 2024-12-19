@@ -95,20 +95,38 @@
             Command="{Binding SaveRequirementFilesCommand}"
             Content="Save Requirements" />
 
-        <TreeView
-            Name="Requirements"
+        <TextBlock
             Grid.Row="4"
             Grid.RowSpan="2"
             Grid.Column="3"
             Grid.ColumnSpan="2"
-            ItemsSource="{Binding GeneratedRequirements}" />
+            Text="{Binding GeneratedRequirement}" />
 
         <ScrollViewer
             Grid.Row="4"
             Grid.RowSpan="2"
             Grid.Column="1"
             Grid.ColumnSpan="2">
-            <TextBlock Text="{Binding GeneratedRequirement}" TextWrapping="Wrap" />
+            <ItemsControl ItemsSource="{Binding GeneratedRequirements}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock>
+                                <Run FontWeight="Bold" Text="Id: " />
+                                <Run Text="{Binding Id}" />
+                            </TextBlock>
+                            <TextBlock>
+                                <Run FontWeight="Bold" Text="Content: " />
+                                <Run Text="{Binding Content}" />
+                            </TextBlock>
+                            <TextBlock>
+                                <Run FontWeight="Bold" Text="Trace: " />
+                                <Run Text="{Binding Trace}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </ScrollViewer>
 
         <Grid Grid.Row="2" Grid.RowSpan="4">
