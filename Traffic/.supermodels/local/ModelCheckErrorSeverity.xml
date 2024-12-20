@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>281d2927-0750-4dc4-b0e4-760267ef42d3</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>e1991cca-1748-42bf-81dc-ba4cf8ef407e</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>02bb715c-182a-496d-bc79-60b584473bd7</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>14990472-c2af-416d-98f7-66326c30af98</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>50c13131-c490-4a7d-9e72-24b036cb9d1d</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>7238f161-a062-4398-9852-f0c512cccdcc</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>ff5a4c8f-4bbc-439b-8969-ecabaf2eec23</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>3e139a99-3044-4ed5-a69e-7628e1429e92</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>41598bc8-3f7c-4d43-88c8-be76abdf6be6</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>3a2a89d1-1ac5-483d-9a86-f2ecd9718a15</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>cfce58f1-41a2-4d5f-aaf1-bfd9145d777d</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>37ff58cf-57de-4402-a99a-f7ab0912c565</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>3398aff7-ec7b-456c-a85a-a2ca8f7ffbb1</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>40e22365-933f-4346-8dd4-e77e26f01c91</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>57a104c8-ecf4-425b-872a-1b73d5fc6019</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>f764c445-fa7a-4f02-821f-502df92817ac</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>02bddd05-e96b-4deb-8156-34eed7fb1996</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>6614dcf0-3a4a-4148-be64-d05d744dda2c</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>de760309-8b1b-44fb-b080-3ae518a78f3e</Key>
+        <Value>
+          <Level>Warning</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>c5ed1b79-2349-4bef-b2e1-05bf4b677097</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>abf6ac84-c432-4a35-8580-817e7773e58c</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>97e0db6f-273a-4f8b-a912-687d26dd8850</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>9f91ba9b-e8e6-4ae0-944d-8739cf060d8c</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>f764c445-fa7a-4f02-821f-502df92817ac</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>e8d5dfc4-b7fc-423f-a9e3-fd74db406e3d</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>d953ba8c-91bc-48b0-b337-1c5ea701cd9f</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>962a7569-6d7e-40a5-b982-e5c6fb897cb3</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>d65577e6-1e20-4455-974d-b2a32732e529</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>0a6d772d-a720-42e1-ac4c-57bbb9170bb8</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>4879f9b0-9875-4032-9350-0107531b3d49</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>de79e912-b885-4630-94f3-79dd23a9d724</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>9bd3b786-8c76-482a-9b84-1b36d2e44fb2</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>f0a8a309-7a67-4110-8d6b-abc677b9a776</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>e44b5a53-0abc-4f35-84ac-8bd77c798845</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>5a20f7df-2c2e-47ee-bcd9-ac05fa3406ac</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>db7b4760-764d-4053-b92e-4f6fd76c73ff</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>eda2c3fb-5861-4677-ab10-47726990324b</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>4672e41b-a314-4e7a-9642-02364b6315af</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>6166f29d-e89f-4c4d-927e-8229bf9c2011</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>4a3bd8af-4291-43ff-89b1-c4b9f8e7c338</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>e5f8ef44-be1a-47b3-b42b-0c5c4e8fe049</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>375886f2-af67-42df-92fb-014a076fcd8d</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>08cde111-a716-4236-9470-ae1f55c0e74f</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>c6f4446c-b6b6-4df5-aa0c-d5064f758f66</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>55755fb8-96f1-410d-b3a1-d07ffe2cddfb</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>40e22365-933f-4346-8dd4-e77e26f01c95</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>108a182b-f98a-4d7f-a4e4-5d9363a3a53c</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>bbda0edd-aef6-407c-b13d-d65c856d23e8</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>478dc95f-5921-493b-91d5-bd39b6f6cc35</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>ec9b7511-653d-4065-b64c-8c73539a2632</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>1572daa3-5fed-4092-adf5-78bcd99685a4</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>bd4072d3-e06a-4c4a-baa7-5f21b189662e</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>aa07b521-9ff5-4869-a7c1-f1a77e14f67c</Key>
+        <Value>
+          <Level>Warning</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>74fc617f-1899-425d-8532-bf9dd9a2a644</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>7b3970fc-e6bf-4519-a846-89e69575948d</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>020a1c82-85c2-4ebc-aef6-731bdb4c108f</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>020a1c82-85c2-4ebc-aef6-731bdb4c108f</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>d7f2f2e1-652c-47c6-8937-fd505fd16db9</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>3398aff7-ec7b-456c-a85a-a2ca8f7ffbb1</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>1ef8f4ea-7fa4-4e66-991d-7bc7e80f0cbf</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>6d65f59e-1a1c-452d-8c1c-40ab02be4f95</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>0480ee2f-695f-4ba0-8fc5-d1180a1bcec2</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>bd4072d3-e06a-4c4a-baa7-5f21b189662e</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>aa07b521-9ff5-4869-a7c1-f1a77e14f67c</Key>
+        <Value>
+          <Level>Warning</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>08cde111-a716-4236-9470-ae1f55c0e741</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>21c645bc-ed16-441e-85c0-9b2ee823a06d</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>7b3970fc-e6bf-4519-a846-89e69575948d</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>22dded4b-85fb-4783-b9fb-14053274bd91</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>30c2a063-5bd4-4e16-99a2-d7df5be8c262</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>6b4cfd91-2a67-47f6-8095-07af28e6bf74</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>4bc2fc87-39d5-4c26-bd01-c3e3523ea12a</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>79a98085-df03-453a-8253-1fb21376e4c1</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>4d82130b-20f5-47a1-94f5-67690dd977e5</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>2f41bc5a-dc99-4044-802b-9ca549283a4e</Key>
+    <Value>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>cf382a50-23cf-4c1e-942d-02d137f5f761</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>6b4cfd91-2a67-47f6-8095-07af28e6bf74</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>bf1b457c-8785-4615-85b3-6686afe716f5</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+      <SerializableKeyValuePairOfGuidCustomErrorSeverity>
+        <Key>79a98085-df03-453a-8253-1fb21376e4c1</Key>
+        <Value>
+          <Level>Error</Level>
+          <CustomErrorLevels />
+        </Value>
+      </SerializableKeyValuePairOfGuidCustomErrorSeverity>
+    </Value>
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+  <SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+    <Key>928aa559-92d7-4c0d-b0b1-b33a8ff11565</Key>
+    <Value />
+  </SerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>
+</ArrayOfSerializableKeyValuePairOfGuidListOfSerializableKeyValuePairOfGuidCustomErrorSeverity>

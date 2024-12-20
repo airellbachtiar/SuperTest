@@ -1,0 +1,12 @@
+{
+  "3826245f-aeb5-4649-9670-74f16630bdc9": {
+    "Name": "Motion simulator (MotionSystem)",
+    "GeneratedFiles": [
+      "MotionSimulator.cs",
+      "MotionSimulatorBase.cs",
+      "MotionSimulatorUI.xaml",
+      "MotionSimulatorUI.xaml.cs",
+      "Products.cs"
+    ]
+  }
+}
