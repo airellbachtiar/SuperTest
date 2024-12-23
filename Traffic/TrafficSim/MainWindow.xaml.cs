@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using Generated;
+using System.Windows;
 using Tools.Attributes;
 using TrafficSim.Generated;
 using TrafficSim.ViewModel;
@@ -13,6 +14,7 @@ namespace TrafficSim
     {
         private readonly CancellationTokenSource _cancellationTokenSource = new();
         private readonly PandIView _fluidSimulatorView;
+        private readonly MotionSimulatorUI _motionSimulatorView;
 
         public MainWindow(MainWindowViewModel viewModel)
         {
@@ -22,6 +24,9 @@ namespace TrafficSim
             _fluidSimulatorView = new PandIView(viewModel.FluidSimulator);
             FluidSystemViewContainer.Content = _fluidSimulatorView;
             _fluidSimulatorView.SelectedChanged += MainWindow_SelectedChanged;
+            _motionSimulatorView = new MotionSimulatorUI { DataContext = viewModel.MotionSimulator };
+            MotionSystemViewContainer.Content = _motionSimulatorView;
+            _motionSimulatorView.SelectedChanged += MainWindow_SelectedChanged;
 
             StartUpdates();
         }
@@ -72,6 +77,7 @@ namespace TrafficSim
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     _fluidSimulatorView.Update();
+                    _motionSimulatorView.Update();
                 });
                 await Task.Delay(TimeSpan.FromMilliseconds(150));
             }

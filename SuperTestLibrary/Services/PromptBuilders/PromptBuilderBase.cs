@@ -13,7 +13,7 @@ namespace SuperTestLibrary.Services.PromptBuilders
 
             var prompts = new List<string> { BuildContext() };
 
-            if (prompt.Instructions.Any())
+            if (prompt.Interactions.Any())
             {
                 prompts.AddRange(GetListOfInteractions.BuildInteractions(prompt));
             }

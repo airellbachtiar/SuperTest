@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : All state machines of Decomp1.Controller 
+// Source    : All state machines of TrafficDomainModel.Controller 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -21,22 +21,25 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
+using System;
 using InterfaceServices.Model;
 using Traffic.Generated.Interfaces;
 using HalFramework.Interfaces.Reference;
+using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 
 public partial class ControllerContext
 {
     public Port<StartStop> I1 { get => GetProperty(ref _I1); set => _I1 = value; }
-    public Port<NormallyClosedValveItf> CarGreen { get => GetProperty(ref _CarGreen); set => _CarGreen = value; }
-    public Port<NormallyClosedValveItf> CarRed { get => GetProperty(ref _CarRed); set => _CarRed = value; }
     public Port<NormallyClosedValveItf> CarYellow { get => GetProperty(ref _CarYellow); set => _CarYellow = value; }
     public Port<NormallyClosedValveItf> PedGreen { get => GetProperty(ref _PedGreen); set => _PedGreen = value; }
+    public Port<NormallyClosedValveItf> CarGreen { get => GetProperty(ref _CarGreen); set => _CarGreen = value; }
+    public Port<NormallyClosedValveItf> CarRed { get => GetProperty(ref _CarRed); set => _CarRed = value; }
     public Port<NormallyClosedValveItf> PedRed { get => GetProperty(ref _PedRed); set => _PedRed = value; }
+    public Port<DigitalSensorItf> PedestrianRequest { get => GetProperty(ref _PedestrianRequest); set => _PedestrianRequest = value; }
 
-    internal void __EFFECT_transition_it1_10()
+    internal void __EFFECT_transition_it1_22()
     {
         /* Original Code
         PedRed.Open();
@@ -44,6 +47,74 @@ public partial class ControllerContext
         */
         PedRed.Open();
         CarRed.Open();
+    }
+
+    internal void __EFFECT_transition_it2_15()
+    {
+        /* Original Code
+        CarGreen.Close();
+        PedRed.Close();
+        */
+        CarGreen.Close();
+        PedRed.Close();
+    }
+
+    internal void __EFFECT_transition_it5_16()
+    {
+        /* Original Code
+        CarYellow.Close();
+        PedRed.Close();
+        */
+        CarYellow.Close();
+        PedRed.Close();
+    }
+
+    internal void __EFFECT_transition_it6_17()
+    {
+        /* Original Code
+        CarRed.Close();
+        PedRed.Close();
+        */
+        CarRed.Close();
+        PedRed.Close();
+    }
+
+    internal void __EFFECT_transition_it7_18()
+    {
+        /* Original Code
+        CarRed.Close();
+        */
+        CarRed.Close();
+    }
+
+    internal void __EFFECT_transition_it8_19()
+    {
+        /* Original Code
+        CarRed.Close();
+        PedRed.Close();
+        */
+        CarRed.Close();
+        PedRed.Close();
+    }
+
+    internal void __EFFECT_transition_it26_20()
+    {
+        /* Original Code
+        CarGreen.Close();
+        CarRed.Open();
+        */
+        CarGreen.Close();
+        CarRed.Open();
+    }
+
+    internal void __ENTRY_state_idleOn_4()
+    {
+        /* Original Code
+        CarYellow.Open();
+        PedGreen.Open();
+        */
+        CarYellow.Open();
+        PedGreen.Open();
     }
 
     internal void CarMayDrive()
@@ -51,12 +122,14 @@ public partial class ControllerContext
         /* Original Code
         CarGreen.Open();
         CarRed.Close();
+        
         */
         CarGreen.Open();
         CarRed.Close();
+        
     }
 
-    internal void CarShouldBeStopped()
+    internal void CarShouldSlowDown()
     {
         /* Original Code
         CarYellow.Open();
@@ -68,7 +141,7 @@ public partial class ControllerContext
         
     }
 
-    internal void CarsShouldBesStopped()
+    internal void CarsShouldStop()
     {
         /* Original Code
         CarYellow.Close();
@@ -78,35 +151,25 @@ public partial class ControllerContext
         CarRed.Open();
     }
 
-    internal void Walk()
+    internal void __ENTRY_state_pedestrianRedLight_17()
     {
         /* Original Code
-        PedGreen.Open();
-        PedRed.Close();
-        */
-        PedGreen.Open();
-        PedRed.Close();
-    }
-
-    internal void __ENTRY_state_pedShouldStop_11()
-    {
-        /* Original Code
-        PedGreen.Close();
         PedRed.Open();
         */
-        PedGreen.Close();
         PedRed.Open();
     }
 
-    internal void __ENTRY_state_greenOff_9()
+    internal void __ENTRY_state_pedestrianGreenLight_18()
     {
         /* Original Code
-        PedGreen.Close();
+        PedRed.Close();
+        PedGreen.Open();
         */
-        PedGreen.Close();
+        PedRed.Close();
+        PedGreen.Open();
     }
 
-    internal void __ENTRY_state_greenOn_10()
+    internal void __ENTRY_state_greenOn_15()
     {
         /* Original Code
         PedGreen.Open();
@@ -114,49 +177,93 @@ public partial class ControllerContext
         PedGreen.Open();
     }
 
-    internal bool __GUARD_transition_t4_4(TimeSpan t)
+    internal void __EXIT_state_idleOn_4()
     {
-        return t > T1;
+        /* Original Code
+        CarYellow.Close();
+        PedGreen.Close();
+        */
+        CarYellow.Close();
+        PedGreen.Close();
     }
 
-    internal bool __GUARD_transition_t5_5(TimeSpan t)
+    internal void __EXIT_state_pedestrianGreenLight_18()
     {
-        return t > T2;
+        /* Original Code
+        PedGreen.Close();
+        */
+        PedGreen.Close();
     }
 
-    internal bool __GUARD_transition_t6_6(TimeSpan t)
+    internal void __EXIT_state_greenOn_15()
     {
-        return t > T3;
+        /* Original Code
+        PedGreen.Close();
+        */
+        PedGreen.Close();
     }
 
-    internal bool __GUARD_transition_t7_7(TimeSpan t)
+    internal bool __GUARD_transition_t31_0(TimeSpan t)
     {
-        return t > T4;
+        return t > BlinkingLightDelay;
     }
 
-    internal bool __GUARD_transition_t8_8(TimeSpan t)
+    internal bool __GUARD_transition_t32_1(TimeSpan t)
     {
-        return t > T5;
+        return t > BlinkingLightDelay;
     }
 
-    internal bool __GUARD_transition_t10_1(TimeSpan t)
+    internal bool __GUARD_transition_t4_9(TimeSpan t)
     {
-        return t > T6;
+        //Original Code
+        //PedestrianRequest.IsActive && t > CarGreenLightDuration
+        return PedestrianRequest.Impl.IsActive && t > CarGreenLightDuration;
     }
 
-    internal bool __GUARD_transition_t11_2(TimeSpan t)
+    internal bool __GUARD_transition_t5_10(TimeSpan t)
     {
-        return t > T6;
+        return t > CarYellowLightDuration;
+    }
+
+    internal bool __GUARD_transition_t6_11(TimeSpan t)
+    {
+        return t > CarAndPedestrianStopDelay;
+    }
+
+    internal bool __GUARD_transition_t8_13(TimeSpan t)
+    {
+        return t > CarAndPedestrianStopDelay;
+    }
+
+    internal bool __GUARD_transition_t30_14(TimeSpan t)
+    {
+        return t > PedestrianFullGreenLightDuration;
+    }
+
+    internal bool __GUARD_transition_t12_7(TimeSpan t)
+    {
+        return t > PedestrianFlickeringGreenLightDuration;
+    }
+
+    internal bool __GUARD_transition_t10_3(TimeSpan t)
+    {
+        return t > BlinkingLightDelay;
+    }
+
+    internal bool __GUARD_transition_t11_4(TimeSpan t)
+    {
+        return t > BlinkingLightDelay;
     }
 
     #region internal
 
     private Port<StartStop>? _I1;
-    private Port<NormallyClosedValveItf>? _CarGreen;
-    private Port<NormallyClosedValveItf>? _CarRed;
     private Port<NormallyClosedValveItf>? _CarYellow;
     private Port<NormallyClosedValveItf>? _PedGreen;
+    private Port<NormallyClosedValveItf>? _CarGreen;
+    private Port<NormallyClosedValveItf>? _CarRed;
     private Port<NormallyClosedValveItf>? _PedRed;
+    private Port<DigitalSensorItf>? _PedestrianRequest;
     private T GetProperty<T>(ref T? value) => 
         value ?? throw new InvalidOperationException($"Component with context {GetType()} is not yet built");
 

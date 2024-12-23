@@ -17,7 +17,14 @@
 
 #pragma warning disable CS8618
 
+using System;
+using HalFramework;
+using ExtensionMethods;
+using InterfaceServices;
 using InterfaceServices.Model;
+using StatemachineFramework.Components;
+using HalReference.Components.PandI;
+using HalReference.Components.Common;
 
 namespace Traffic.Generated.HAL1;
 
@@ -32,6 +39,7 @@ public partial class HAL1 : HalFramework.Hal
     public HalReference.Components.PandI.NormallyClosedValve CarGreen { get; set; }
     public HalReference.Components.PandI.NormallyClosedValve PedRed { get; set; }
     public HalReference.Components.PandI.NormallyClosedValve PedGreen { get; set; }
+    public HalReference.Components.Common.DigitalSensor PedestrianRequest { get; set; }
 
 #endregion
 
@@ -60,6 +68,7 @@ public partial class HAL1 : HalFramework.Hal
         CarGreen = new HalReference.Components.PandI.NormallyClosedValve(HAL1Communication.CarGreen);
         PedRed = new HalReference.Components.PandI.NormallyClosedValve(HAL1Communication.PedRed);
         PedGreen = new HalReference.Components.PandI.NormallyClosedValve(HAL1Communication.PedGreen);
+        PedestrianRequest = new HalReference.Components.Common.DigitalSensor(HAL1Communication.PedestrianRequest);
     }
 
 
@@ -79,6 +88,7 @@ public partial class HAL1 : HalFramework.Hal
         CarGreen.FullyQualifiedName = $"{Name}.CarGreen";
         PedRed.FullyQualifiedName = $"{Name}.PedRed";
         PedGreen.FullyQualifiedName = $"{Name}.PedGreen";
+        PedestrianRequest.FullyQualifiedName = $"{Name}.PedestrianRequest";
 
         // Instance ids are not yet supported
         CarRed.Port.Source = new EventSource(17, 1);
@@ -86,11 +96,13 @@ public partial class HAL1 : HalFramework.Hal
         CarGreen.Port.Source = new EventSource(19, 1);
         PedRed.Port.Source = new EventSource(20, 1);
         PedGreen.Port.Source = new EventSource(21, 1);
+        PedestrianRequest.Port.Source = new EventSource(30, 1);
 
         HalElements.Add(CarRed);
         HalElements.Add(CarYellow);
         HalElements.Add(CarGreen);
         HalElements.Add(PedRed);
         HalElements.Add(PedGreen);
+        HalElements.Add(PedestrianRequest);
     }
 }

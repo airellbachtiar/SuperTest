@@ -22,12 +22,18 @@
 
 #pragma warning disable CS8618
 
+using System;
+using System.Collections.Generic;
+using InterfaceServices;
+using StatemachineFramework.Components;
+using StatemachineFramework.Runner;
+
 namespace Traffic.Generated;
 
 public class Factory
 {
-    public Decomp1Factory Decomp1 { get; set; } = new();
-    public HalFactory Decomp1Hal { get; set; } = new();
+    public TrafficDomainModelFactory TrafficDomainModel { get; set; } = new();
+    public HalFactory TrafficDomainModelHal { get; set; } = new();
 
     public virtual void Build()
     {
@@ -37,12 +43,12 @@ public class Factory
 
     public virtual void BuildHal()
     {
-        Decomp1Hal.Build();
+        TrafficDomainModelHal.Build();
     }
 
     public virtual void BuildComponents()
     {
-        Decomp1.Build(Decomp1Hal);
-        Decomp1.Connect(Decomp1Hal);
+        TrafficDomainModel.Build(TrafficDomainModelHal);
+        TrafficDomainModel.Connect(TrafficDomainModelHal);
     }
 }

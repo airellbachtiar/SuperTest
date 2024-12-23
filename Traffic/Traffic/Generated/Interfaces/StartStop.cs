@@ -23,6 +23,8 @@
 
 #pragma warning disable CS8618
 
+using System;
+using System.Collections.Generic;
 using InterfaceServices.ExceptionHandling;
 using InterfaceServices.Model;
 using ExtensionMethods;
@@ -98,8 +100,8 @@ public class StartStopImpl : BaseInterface, StartStop
     /// <inheritdoc />
     protected override int[][] EventsMatrix { get; } =
     {
-        new[] {1, -1}, // stopped
-        new[] {-1, 0} // running
+        new[] {1, 0}, // stopped
+        new[] {1, 0} // running
     };
 
     /// <summary>

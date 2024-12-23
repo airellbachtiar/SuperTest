@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : All state machines of Decomp1.Controller 
+// Source    : All state machines of TrafficDomainModel.Controller 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -24,16 +24,28 @@ namespace Traffic.Generated.Controller;
 
 public static class TransitionId
 {
-    public const long transition_t1_9 = 9;
-    public const long transition_it1_10 = 10;
-    public const long transition_it2_11 = 11;
-    public const long transition_t2_3 = 3;
-    public const long transition_t4_4 = 4;
-    public const long transition_t5_5 = 5;
-    public const long transition_t6_6 = 6;
-    public const long transition_t7_7 = 7;
-    public const long transition_t8_8 = 8;
-    public const long transition_t9_0 = 0;
-    public const long transition_t10_1 = 1;
-    public const long transition_t11_2 = 2;
+    public const long transition_t1_21 = 21;
+    public const long transition_it1_22 = 22;
+    public const long transition_it9_23 = 23;
+    public const long transition_t31_0 = 0;
+    public const long transition_t32_1 = 1;
+    public const long transition_t34_2 = 2;
+    public const long transition_t2_8 = 8;
+    public const long transition_t4_9 = 9;
+    public const long transition_t5_10 = 10;
+    public const long transition_t6_11 = 11;
+    public const long transition_t7_12 = 12;
+    public const long transition_t8_13 = 13;
+    public const long transition_t30_14 = 14;
+    public const long transition_it2_15 = 15;
+    public const long transition_it5_16 = 16;
+    public const long transition_it6_17 = 17;
+    public const long transition_it7_18 = 18;
+    public const long transition_it8_19 = 19;
+    public const long transition_it26_20 = 20;
+    public const long transition_t9_6 = 6;
+    public const long transition_t12_7 = 7;
+    public const long transition_t10_3 = 3;
+    public const long transition_t11_4 = 4;
+    public const long transition_t13_5 = 5;
 }

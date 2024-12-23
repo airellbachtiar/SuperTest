@@ -20,6 +20,7 @@
     <PackageReference Include="Sioux.SuperInfra.GrpcBusServer" Version="2.0.1.1149" />
     <PackageReference Include="Sioux.SuperInfra.HalExtrasSimComponents" Version="2.0.1.1149" />
     <PackageReference Include="Sioux.SuperInfra.Logger" Version="2.0.1.1149" />
+    <PackageReference Include="Sioux.SuperInfra.MotionSimComponents" Version="2.0.1.1149" />
     <PackageReference Include="Sioux.SuperInfra.PandISimComponents" Version="2.0.1.1149" />
     <PackageReference Include="Sioux.SuperInfra.SimulatorsBase" Version="2.0.1.1149" />
   </ItemGroup>

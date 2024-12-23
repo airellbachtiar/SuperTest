@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : Decomp1.Controller.States1 
+// Source    : TrafficDomainModel.Controller.TrafficStates 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -21,63 +21,68 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
+using System.Collections.Generic;
 using InterfaceServices.Model;
 using StatemachineFramework.Statemachines;
 using StatemachineFramework.Statemachines.Builder;
+using ExtensionMethods;
 using Traffic.Generated.Interfaces;
 using HalFramework.Interfaces.Reference;
+using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.Controller;
 
-public class States1 : Statemachine
+public class TrafficStates : Statemachine
 {
-    public States1(ControllerContext context, EventBuffer inBuffer)
+    public TrafficStates(ControllerContext context, EventBuffer inBuffer)
     {
-        Name = "States1";
+        Name = "TrafficStates";
 
         // Sub statemachines
-        var States1Operational = new States1Operational(context, inBuffer);
+        var TrafficStatesIdleFlicker = new TrafficStatesIdleFlicker(context, inBuffer);
+        var TrafficStatesOperational = new TrafficStatesOperational(context, inBuffer);
 
         // States
         var initial1 = new StateBuilder(StateId.state_initial1_0, StateBuilder.CreationType.Initial)
             .Name("Initial1")
             .Build();
-        var poweredDown = new StateBuilder(StateId.state_poweredDown_1)
-            .Name("PoweredDown")
+        var idleFlicker = new StateBuilder(StateId.state_idleFlicker_1)
+            .Name("IdleFlicker")
+            .SubStatemachine(TrafficStatesIdleFlicker)
             .Build();
-        var operational = new StateBuilder(StateId.state_operational_2)
+        var operational = new StateBuilder(StateId.state_operational_5)
             .Name("Operational")
-            .SubStatemachine(States1Operational)
+            .SubStatemachine(TrafficStatesOperational)
             .Build();
 
         States = new List<StatemachineFramework.Statemachines.State>
         {
             initial1,
-            poweredDown,
+            idleFlicker,
             operational
         };
 
         // Transitions
-        var t1 = new TransitionBuilder(TransitionId.transition_t1_9)
+        var t1 = new TransitionBuilder(TransitionId.transition_t1_21)
             .Name("t1")
             .From(StateId.state_initial1_0)
-            .To(StateId.state_poweredDown_1)
+            .To(StateId.state_idleFlicker_1)
             .Build();
-        var it1 = new TransitionBuilder(TransitionId.transition_it1_10)
+        var it1 = new TransitionBuilder(TransitionId.transition_it1_22)
             .Name("it1")
-            .From(StateId.state_poweredDown_1)
-            .To(StateId.state_operational_2)
+            .From(StateId.state_idleFlicker_1)
+            .To(StateId.state_operational_5)
             .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Start), inBuffer)
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Guard(_ => !inBuffer.ContainsIncoming("p", typeof(NormallyClosedValveItf.Events)))
             .Promise(() => context.PedRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.PedRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
             .Promise(() => context.CarRed.Impl.Provider.EventBuffer.Promise(new InterfaceServices.Model.EventId(context.CarRed.Impl.Provider.PortName, NormallyClosedValveItf.Events.Open)))
-            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it1_10())
+            .InterfaceEffect((InterfaceServices.Model.EventArgs _) => context.__EFFECT_transition_it1_22())
             .Build();
-        var it2 = new TransitionBuilder(TransitionId.transition_it2_11)
-            .Name("it2")
-            .From(StateId.state_operational_2)
-            .To(StateId.state_poweredDown_1)
+        var it9 = new TransitionBuilder(TransitionId.transition_it9_23)
+            .Name("it9")
+            .From(StateId.state_idleFlicker_1)
+            .To(StateId.state_idleFlicker_1)
             .InterfaceEvent(new InterfaceServices.Model.EventId("I1", StartStop.Events.Stop), inBuffer)
             .Build();
 
@@ -85,7 +90,7 @@ public class States1 : Statemachine
         {
             t1,
             it1,
-            it2
+            it9
         };
 
         InitialState = initial1;

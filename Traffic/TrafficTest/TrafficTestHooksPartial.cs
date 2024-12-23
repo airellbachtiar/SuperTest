@@ -3,58 +3,12 @@ using FlaUI.UIA3;
 using Grpc.Net.Client;
 using System.Diagnostics;
 using TestBus;
-
-#pragma warning disable CS8618
-#pragma warning disable CS8602
+using TrafficTest.Models;
 
 namespace TrafficTest
 {
-    [Binding]
-    public class SpecFlowHooks
+    public partial class TrafficTestHooks
     {
-        public static Application App { get; private set; }
-        public static UIA3Automation Automation { get; private set; }
-
-        private static Application AppSim { get; set; }
-
-        public static TestSim.TestSimClient Client { get; private set; }
-        private static GrpcChannel _channel;
-
-        [BeforeScenario]
-        public static void BeforeTestRun()
-        {
-            // Start and attach to the Traffic application
-            var trafficAppPath = GetApplicationPath("Traffic", "net8.0-windows", "Traffic.exe");
-            App = StartAndAttachToApplication(trafficAppPath);
-            FocusMainWindow(App);
-
-            // Start and attach to the TrafficSim application
-            var trafficSimAppPath = GetApplicationPath("TrafficSim", "net6.0-windows", "TrafficSim.exe");
-            AppSim = StartAndAttachToApplication(trafficSimAppPath);
-
-            // Set up gRPC channel and client
-            _channel = GrpcChannel.ForAddress($"http://localhost:{Test.Default.TestPort}");
-            Client = new TestSim.TestSimClient(_channel);
-        }
-
-        [AfterScenario]
-        public static void AfterTestRun()
-        {
-            try
-            {
-                CloseApplication(App, "Traffic");
-                CloseApplication(AppSim, "TrafficSim");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error while closing the application: {ex.Message}");
-            }
-            finally
-            {
-                CleanupResources();
-            }
-        }
-
         /// <summary>
         /// Constructs the path to an application executable.
         /// </summary>
@@ -93,8 +47,8 @@ namespace TrafficTest
         /// </summary>
         private static void FocusMainWindow(Application app)
         {
-            Automation = new UIA3Automation();
-            var mainWindow = app.GetMainWindow(Automation) ?? throw new Exception("Main window could not be found.");
+            _automation = new UIA3Automation();
+            var mainWindow = app.GetMainWindow(_automation) ?? throw new Exception("Main window could not be found.");
             mainWindow.Focus();
         }
 
@@ -125,10 +79,69 @@ namespace TrafficTest
         /// </summary>
         private static void CleanupResources()
         {
-            Automation?.Dispose();
-            App?.Dispose();
-            AppSim?.Dispose();
+            _automation?.Dispose();
+            _app?.Dispose();
+            _appSim?.Dispose();
             _channel?.Dispose();
+        }
+
+        private static void InitializeTrafficApplication()
+        {
+            var trafficAppPath = GetApplicationPath("Traffic", "net8.0-windows", "Traffic.exe");
+            _app = StartAndAttachToApplication(trafficAppPath);
+            FocusMainWindow(_app);
+        }
+
+        private static void InitializeTrafficSimulationApplication()
+        {
+            var trafficSimAppPath = GetApplicationPath("TrafficSim", "net6.0-windows", "TrafficSim.exe");
+            _appSim = StartAndAttachToApplication(trafficSimAppPath);
+            Task.Delay(2000).Wait(); // Allow applications to load
+        }
+
+        private static void InitializeGrpcConnection()
+        {
+            _channel = GrpcChannel.ForAddress($"http://localhost:{Test.Default.TestPort}");
+            Client = new TestSim.TestSimClient(_channel);
+        }
+
+        private static void InitializeStateTracking()
+        {
+            TrafficLightStates = new List<TrafficLightState>();
+            _cancellationTokenSource = new CancellationTokenSource();
+        }
+
+        private static void StartTrafficLightObservation()
+        {
+            Task.Run(() => ObserveTrafficLight(_cancellationTokenSource!.Token));
+        }
+
+        private static void CleanupScenarioResources()
+        {
+            if (_cancellationTokenSource != null && !_cancellationTokenSource.IsCancellationRequested)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+                _cancellationTokenSource = null;
+            }
+            Task.Delay(1000).Wait();
+        }
+
+        private static void CleanupTestEnvironment()
+        {
+            try
+            {
+                CloseApplication(_app, "Traffic");
+                CloseApplication(_appSim, "TrafficSim");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error while closing the application: {ex.Message}");
+            }
+            finally
+            {
+                CleanupResources();
+            }
         }
     }
 }

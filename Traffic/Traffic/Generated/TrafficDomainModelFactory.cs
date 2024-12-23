@@ -20,6 +20,8 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
+using System;
+using System.Collections.Generic;
 using StatemachineFramework.Components;
 using ExtensionMethods;
 using InterfaceServices.Model;
@@ -27,10 +29,11 @@ using InterfaceServices.Exception;
 using HalFramework;
 using Traffic.Generated.Interfaces;
 using HalFramework.Interfaces.Reference;
+using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated;
 
-public class Decomp1Factory
+public class TrafficDomainModelFactory
 {
     public IList<Component> Components { get; } = new List<Component>();
     public IList<IBaseInterface> Interfaces { get; } = new List<IBaseInterface>();
@@ -67,6 +70,7 @@ public class Decomp1Factory
         Connect<NormallyClosedValveItf, NormallyClosedValveItfImpl>(halFactory.hAL1.CarGreen, Controller.CarGreen);
         Connect<NormallyClosedValveItf, NormallyClosedValveItfImpl>(halFactory.hAL1.PedRed, Controller.PedRed);
         Connect<NormallyClosedValveItf, NormallyClosedValveItfImpl>(halFactory.hAL1.PedGreen, Controller.PedGreen);
+        Connect<DigitalSensorItf, DigitalSensorItfImpl>(halFactory.hAL1.PedestrianRequest, Controller.PedestrianRequest);
         #endregion
 
     }

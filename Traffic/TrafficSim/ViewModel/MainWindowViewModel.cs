@@ -1,4 +1,5 @@
-﻿using TrafficSim.Generated;
+﻿using Generated;
+using TrafficSim.Generated;
 using TrafficSim.Services;
 
 namespace TrafficSim.ViewModel;
@@ -15,6 +16,7 @@ public class MainWindowViewModel : IDisposable
     }
 
     public PandISimulator FluidSimulator => _simulatorService.FluidSimulator;
+    public MotionSimulator MotionSimulator => _simulatorService.MotionSimulator;
 
     #region IDispose
 

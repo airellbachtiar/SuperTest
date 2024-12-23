@@ -1,14 +1,17 @@
-﻿<Window x:Class="TrafficSim.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:toolKit="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:logger="clr-namespace:TrafficSim.Logger"
-        xmlns:viewModel="clr-namespace:TrafficSim.ViewModel"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+﻿<Window
+    x:Class="TrafficSim.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:logger="clr-namespace:TrafficSim.Logger"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:toolKit="http://schemas.xceed.com/wpf/xaml/toolkit"
+    xmlns:viewModel="clr-namespace:TrafficSim.ViewModel"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
     <Grid>
         <DockingManager>
             <LayoutRoot>
@@ -17,7 +20,7 @@
                     <LayoutAnchorablePaneGroup DockMinWidth="350" Orientation="Vertical">
                         <LayoutAnchorablePane>
                             <LayoutAnchorable Title="Properties">
-                                <toolKit:PropertyGrid x:Name="PropertiesViewer" AutoGenerateProperties="False" >
+                                <toolKit:PropertyGrid x:Name="PropertiesViewer" AutoGenerateProperties="False">
                                     <toolKit:PropertyGrid.EditorDefinitions>
 
                                         <toolKit:EditorTemplateDefinition>
@@ -34,7 +37,7 @@
                                             <toolKit:EditorTemplateDefinition.EditingTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal">
-                                                        <!-- put whatever control you would like here (including your own custom one) -->
+                                                        <!--  put whatever control you would like here (including your own custom one)  -->
                                                         <TextBox Text="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -50,7 +53,10 @@
                                             </toolKit:EditorTemplateDefinition.TargetProperties>
                                             <toolKit:EditorTemplateDefinition.EditingTemplate>
                                                 <DataTemplate>
-                                                    <toolKit:DoubleUpDown Increment="0.01" FormatString="F2" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <toolKit:DoubleUpDown
+                                                        FormatString="F2"
+                                                        Increment="0.01"
+                                                        Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </DataTemplate>
                                             </toolKit:EditorTemplateDefinition.EditingTemplate>
                                         </toolKit:EditorTemplateDefinition>
@@ -63,7 +69,10 @@
                                             </toolKit:EditorTemplateDefinition.TargetProperties>
                                             <toolKit:EditorTemplateDefinition.EditingTemplate>
                                                 <DataTemplate>
-                                                    <toolKit:DoubleUpDown Increment="1" FormatString="F1" Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                    <toolKit:DoubleUpDown
+                                                        FormatString="F1"
+                                                        Increment="1"
+                                                        Value="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                                 </DataTemplate>
                                             </toolKit:EditorTemplateDefinition.EditingTemplate>
                                         </toolKit:EditorTemplateDefinition>
@@ -80,12 +89,15 @@
                     <LayoutPanel Orientation="Vertical">
                         <LayoutDocumentPane>
                             <LayoutDocument Title="FluidSystem">
-                                <ContentControl x:Name="FluidSystemViewContainer"/>
+                                <ContentControl x:Name="FluidSystemViewContainer" />
+                            </LayoutDocument>
+                            <LayoutDocument Title="MotionSystem">
+                                <ContentControl x:Name="MotionSystemViewContainer" />
                             </LayoutDocument>
                         </LayoutDocumentPane>
                         <LayoutAnchorablePane DockHeight="150">
                             <LayoutAnchorable Title="Log">
-                                <logger:LogView x:Name="LogView" DataContext="{Binding Logger}"/>
+                                <logger:LogView x:Name="LogView" DataContext="{Binding Logger}" />
                             </LayoutAnchorable>
                         </LayoutAnchorablePane>
                     </LayoutPanel>

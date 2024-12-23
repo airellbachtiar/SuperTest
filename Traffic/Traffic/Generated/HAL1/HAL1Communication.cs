@@ -16,6 +16,8 @@
 
 #pragma warning disable CS8618
 
+using System;
+using System.Collections.Generic;
 using HalFramework;
 using Comm.Grpc.Common;
 using Comm.Grpc;
@@ -31,6 +33,7 @@ public partial class HAL1Communication
     public DigitalOutput CarGreen { get; set; }
     public DigitalOutput PedRed { get; set; }
     public DigitalOutput PedGreen { get; set; }
+    public DigitalInput PedestrianRequest { get; set; }
 
     public GrpcBusClient GrpcBusClient { get; set; }
 
@@ -49,6 +52,7 @@ public partial class HAL1Communication
         CarGreen = new DigitalOutput(GrpcBusClient, 19);
         PedRed = new DigitalOutput(GrpcBusClient, 20);
         PedGreen = new DigitalOutput(GrpcBusClient, 21);
+        PedestrianRequest = new DigitalInput(GrpcBusClient, 30);
     }
 
     public void PostCreationSetup()
@@ -58,6 +62,7 @@ public partial class HAL1Communication
         CommunicationElements.Add(CarGreen);
         CommunicationElements.Add(PedRed);
         CommunicationElements.Add(PedGreen);
+        CommunicationElements.Add(PedestrianRequest);
     }
 
     public void Run() 

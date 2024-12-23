@@ -7,6 +7,7 @@ using Logger;
 using GrpcHoster;
 using HolodeckGrpcServer.Services;
 using TestBus;
+using Generated;
 
 namespace TrafficSim.Services;
 
@@ -23,16 +24,20 @@ public class SimulatorService : SimulatorBase, IHoloSource, ITestSim
 
     public SimulatorService(
         PandISimulator fluidSimulator,
+        MotionSimulator motionSimulator,
         HolodeckFluidStateSyncService interlockService,
         ILogger logger)
     {
         FluidSimulator = fluidSimulator;
+        MotionSimulator = motionSimulator;
         _interlockService = interlockService;
+
+        //MotionSimulator.PedestrianRequest.Active = true;
 
         _logger = logger;
 
         FluidDatabase.InitializeDatabase("fluids.xml");
-        _grpcBus = new GrpcBusServer(fluidSimulator);
+        _grpcBus = new GrpcBusServer(fluidSimulator, motionSimulator);
 
         _hoster = new Hoster();
         var services = new GrpcServiceContainer();
@@ -49,11 +54,16 @@ public class SimulatorService : SimulatorBase, IHoloSource, ITestSim
     };
 
     public PandISimulator FluidSimulator { get; }
+    public MotionSimulator MotionSimulator { get; }
 
     protected override void Cycle(TimeSettings timeSettings)
     {
+        MotionSimulator.SimCycle(timeSettings.NominalStep);
         FluidSimulator.Calculate(timeSettings);
         _interlockService.Cycle();
+
+        MessageToHolodeck?.Invoke(this, new HolodeckEventArgs(MotionSimulator));
+        MessageFromHolodeck?.Invoke(this, new HolodeckEventArgs(MotionSimulator));
     }
 
     public override void Stop()
@@ -70,7 +80,7 @@ public class SimulatorService : SimulatorBase, IHoloSource, ITestSim
 
     public IHoloMotion GetMotion()
     {
-        throw new NotImplementedException();
+        return MotionSimulator;
     }
 
     public TestResponse Test()
@@ -115,5 +125,11 @@ public class SimulatorService : SimulatorBase, IHoloSource, ITestSim
             LightState = state ? "Off" : "On"
         };
         return valveResponse;
+    }
+
+    public void PressRequestPedestrianWalkButton()
+    {
+        MotionSimulator.PedestrianRequest.Active = true;
+        Task.Delay(10000).ContinueWith(_ => MotionSimulator.PedestrianRequest.Active = false);
     }
 }

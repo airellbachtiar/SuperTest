@@ -15,61 +15,111 @@
             },
             {
               "StateId": 1,
-              "SubStates": [],
-              "Type": "State",
-              "Name": "PoweredDown"
-            },
-            {
-              "StateId": 2,
               "SubStates": [
                 {
                   "States": [
                     {
+                      "StateId": 2,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "Initial5"
+                    },
+                    {
                       "StateId": 3,
                       "SubStates": [],
                       "Type": "State",
-                      "Name": "Initial2"
+                      "Name": "IdleOff"
                     },
                     {
                       "StateId": 4,
                       "SubStates": [],
                       "Type": "State",
-                      "Name": "CarsDrive"
-                    },
-                    {
-                      "StateId": 5,
-                      "SubStates": [],
-                      "Type": "State",
-                      "Name": "CarsShouldStop"
-                    },
+                      "Name": "IdleOn"
+                    }
+                  ],
+                  "Type": "StateMachine",
+                  "Name": "States"
+                }
+              ],
+              "Type": "State",
+              "Name": "IdleFlicker"
+            },
+            {
+              "StateId": 5,
+              "SubStates": [
+                {
+                  "States": [
                     {
                       "StateId": 6,
                       "SubStates": [],
                       "Type": "State",
-                      "Name": "CarsStopped"
+                      "Name": "Initial2"
                     },
                     {
                       "StateId": 7,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "CarGreenLight"
+                    },
+                    {
+                      "StateId": 8,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "CarYellowLight"
+                    },
+                    {
+                      "StateId": 9,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "CarRedLight"
+                    },
+                    {
+                      "StateId": 10,
                       "SubStates": [
                         {
                           "States": [
                             {
-                              "StateId": 8,
+                              "StateId": 11,
                               "SubStates": [],
                               "Type": "State",
                               "Name": "Initial3"
                             },
                             {
-                              "StateId": 9,
-                              "SubStates": [],
+                              "StateId": 12,
+                              "SubStates": [
+                                {
+                                  "States": [
+                                    {
+                                      "StateId": 13,
+                                      "SubStates": [],
+                                      "Type": "State",
+                                      "Name": "Initial4"
+                                    },
+                                    {
+                                      "StateId": 14,
+                                      "SubStates": [],
+                                      "Type": "State",
+                                      "Name": "GreenOff"
+                                    },
+                                    {
+                                      "StateId": 15,
+                                      "SubStates": [],
+                                      "Type": "State",
+                                      "Name": "GreenOn"
+                                    }
+                                  ],
+                                  "Type": "StateMachine",
+                                  "Name": "States"
+                                }
+                              ],
                               "Type": "State",
-                              "Name": "GreenOff"
+                              "Name": "PedestrianFlickering"
                             },
                             {
-                              "StateId": 10,
+                              "StateId": 16,
                               "SubStates": [],
                               "Type": "State",
-                              "Name": "GreenOn"
+                              "Name": "Final1"
                             }
                           ],
                           "Type": "StateMachine",
@@ -77,13 +127,19 @@
                         }
                       ],
                       "Type": "State",
-                      "Name": "PedWalk"
+                      "Name": "PedestrianGreenLightFlicker"
                     },
                     {
-                      "StateId": 11,
+                      "StateId": 17,
                       "SubStates": [],
                       "Type": "State",
-                      "Name": "PedShouldStop"
+                      "Name": "PedestrianRedLight"
+                    },
+                    {
+                      "StateId": 18,
+                      "SubStates": [],
+                      "Type": "State",
+                      "Name": "PedestrianGreenLight"
                     }
                   ],
                   "Type": "StateMachine",
@@ -95,7 +151,7 @@
             }
           ],
           "Type": "StateMachine",
-          "Name": "States1"
+          "Name": "TrafficStates"
         }
       ]
     },
@@ -134,6 +190,12 @@
       "Name": "HAL1.PedGreen",
       "ParentComponentId": null,
       "StateMachines": []
+    },
+    {
+      "ComponentId": 30,
+      "Name": "HAL1.PedestrianRequest",
+      "ParentComponentId": null,
+      "StateMachines": []
     }
   ],
   "Interfaces": [
@@ -164,6 +226,20 @@
           "Name": "Close"
         }
       ]
+    },
+    {
+      "Id": 30014,
+      "Name": "DigitalSensorItf",
+      "Events": [
+        {
+          "Id": 0,
+          "Name": "Active"
+        },
+        {
+          "Id": 1,
+          "Name": "Inactive"
+        }
+      ]
     }
   ],
   "Hals": [
@@ -175,7 +251,8 @@
         18,
         19,
         20,
-        21
+        21,
+        30
       ]
     }
   ]

@@ -8,7 +8,7 @@
 // Copyright : Sioux Technologies 
 // Model     : Traffic.sms (Traffic) 
 // Generator : C# state machine generator (Decomp1) 
-// Source    : All state machines of Decomp1.HMI 
+// Source    : All state machines of TrafficDomainModel.HMI 
 // ---------------------------------------------------------------------- 
 
 // ReSharper disable IdentifierTypo
@@ -21,8 +21,11 @@
 // ReSharper disable UseObjectOrCollectionInitializer
 // ReSharper disable once ClassNeverInstantiated.Global
 
+using System;
 using InterfaceServices.Model;
 using Traffic.Generated.Interfaces;
+using HalFramework.Interfaces.Reference;
+using HalFramework.Interfaces.Reference.Common;
 
 namespace Traffic.Generated.HMI;
 
