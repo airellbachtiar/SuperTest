@@ -287,6 +287,50 @@ namespace SuperTestLibrary.UnitTests
         }
         #endregion
 
+        #region GenerateSpecFlowBindingFileAsync Tests
+        [Test]
+        public async Task GenerateSpecFlowBindingFileAsync_ValidInput_ReturnsFeatureFileResponse()
+        {
+            // Arrange
+            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidSpecFlowBindingFileResponse);
+
+            // Act
+            SpecFlowBindingFileResponse result = await _controller.GenerateSpecFlowBindingFileAsync(FeatureFile.ValidSpecFlowFeatureFile, []);
+
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.Null);
+                Assert.That(result.BindingFiles, Is.Not.Empty);
+                Assert.That(result.BindingFiles, Has.Count.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public void GenerateSpecFlowBindingFileAsync_InvalidInput_ThrowsInvalidOperationException()
+        {
+            // Arrange
+            string invalidRequirements = string.Empty;
+
+            // Act & Assert
+            Assert.ThrowsAsync<InvalidOperationException>(async () =>
+                await _controller.GenerateSpecFlowBindingFileAsync(invalidRequirements, []));
+        }
+
+        [Test]
+        public void GenerateSpecFlowBindingFileAsync_IncompleteLlmResponse_ThrowsJsonException()
+        {
+            //Arrange
+            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
+            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteSpecFlowBindingFileResponse);
+
+            // Act & Assert
+            Assert.ThrowsAsync<JsonException>(async () =>
+                await _controller.GenerateSpecFlowBindingFileAsync(Requirement.ValidRequirement, []));
+        }
+        #endregion
+
         #region Integration Tests
         [Test]
         public async Task GenerateSpecFlowFeatureFileAsync_ValidInput_IntegrationTest()
