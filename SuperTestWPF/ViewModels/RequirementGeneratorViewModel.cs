@@ -103,7 +103,7 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        private async Task GenerateRequirement()
+        public async Task GenerateRequirement()
         {
             try
             {

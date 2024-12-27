@@ -98,7 +98,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand ClearAllUploadedFilesCommand { get; }
         public ICommand SaveBindingFileCommand { get; }
 
-        private async Task GenerateBindings()
+        public async Task GenerateBindings()
         {
             var cancellationToken = CreateNewCancellationToken();
             GeneratedBindingFile = string.Empty;
@@ -126,7 +126,7 @@ namespace SuperTestWPF.ViewModels
             catch { return; }
         }
 
-        private void UploadFiles()
+        public void UploadFiles()
         {
             var files = GetFilesFromFolder();
             foreach (var file in files)
@@ -135,7 +135,7 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        private void UploadFeatureFile()
+        public void UploadFeatureFile()
         {
             _ = GetFeatureFileFromFolder();
         }
@@ -163,7 +163,7 @@ namespace SuperTestWPF.ViewModels
             UploadedFeatureFile = null;
         }
 
-        private void SaveBindingFile()
+        public void SaveBindingFile()
         {
             if (string.IsNullOrEmpty(GeneratedBindingFile))
             {

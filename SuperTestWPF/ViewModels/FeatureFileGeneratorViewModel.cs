@@ -166,7 +166,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand SwitchFeatureFileViewCommand { get; }
         public ICommand OpenSettingsCommand { get; }
 
-        private async Task InitializeReqIFs()
+        public async Task InitializeReqIFs()
         {
             IEnumerable<string> AllReqIfFiles = await _getReqIfService.GetAll();
             OnLoadedRequirementTitles = new ObservableCollection<string?>(AllReqIfFiles);
@@ -188,7 +188,7 @@ namespace SuperTestWPF.ViewModels
             await InitializeReqIFs();
         }
 
-        private void UploadReqIF()
+        public void UploadReqIF()
         {
             _logger.LogInformation("Uploading ReqIF...");
             string filepath = _fileService.OpenFileDialog(ReqIFFileFilter);
@@ -198,7 +198,7 @@ namespace SuperTestWPF.ViewModels
             _logger.LogInformation("ReqIF uploaded.");
         }
 
-        private async Task GenerateAndEvaluateSpecFlowFeatureFile()
+        public async Task GenerateAndEvaluateSpecFlowFeatureFile()
         {
             var cancellationToken = CreateNewCancellationToken();
             SelectedSpecFlowFeatureFile = new();
@@ -232,7 +232,7 @@ namespace SuperTestWPF.ViewModels
             catch { return; }
         }
 
-        private async Task EvaluateSpecFlowFeatureFile(string requirements, CancellationToken cancellationToken)
+        public async Task EvaluateSpecFlowFeatureFile(string requirements, CancellationToken cancellationToken)
         {
             if (!SpecFlowFeatureFiles.Any())
             {
@@ -306,7 +306,7 @@ namespace SuperTestWPF.ViewModels
             }
         }
 
-        private void SwitchFeatureFileView()
+        public void SwitchFeatureFileView()
         {
             IsFeatureFileContentVisible = !IsFeatureFileContentVisible;
         }
