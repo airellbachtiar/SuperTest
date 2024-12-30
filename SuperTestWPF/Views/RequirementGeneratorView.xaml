@@ -32,7 +32,7 @@
             Height="30"
             Margin="10"
             Command="{Binding UploadTestFilesCommand}"
-            Content="Upload test files" />
+            Content="Upload Test Files" />
 
         <Button
             Grid.Row="1"
@@ -114,7 +114,7 @@
             Grid.RowSpan="2"
             Grid.Column="1"
             Grid.ColumnSpan="2">
-            <ItemsControl ItemsSource="{Binding GeneratedRequirements}">
+            <ItemsControl ItemsSource="{Binding RequirementResponse.Requirements}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

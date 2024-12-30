@@ -5,6 +5,6 @@ namespace SuperTestWPF.Services
 {
     public interface IReqIFConverterService
     {
-        ReqIF ConvertRequirementToReqIfAsync(IEnumerable<RequirementModel> requirements);
+        ReqIF ConvertRequirementToReqIfAsync(RequirementResponse requirementResponse);
     }
 }

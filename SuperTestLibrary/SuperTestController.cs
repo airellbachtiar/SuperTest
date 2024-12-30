@@ -129,9 +129,11 @@ namespace SuperTestLibrary
             var response = await SelectedGenerator!.GenerateAsync(SelectedLLM!, cancellationToken);
             _logger.LogInformation("Response successfully generated.");
             _logger.LogInformation("Converting response YAML to requirement model.");
-            var requirements = GetRequirementResponse.ConvertYaml(response.ResponseString);
+            var requirementResponse = GetRequirementResponse.ConvertYaml(response.ResponseString);
             _logger.LogInformation("Requirement conversion completed successfully.");
-            return new() { Requirement = response.ResponseString, Requirements = requirements.ToList(), Prompts = response.Prompts.ToList()};
+            requirementResponse.Response = response.ResponseString;
+            requirementResponse.Prompts = response.Prompts.ToList();
+            return requirementResponse;
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()

@@ -21,9 +21,8 @@ namespace SuperTestWPF.ViewModels
 
         private string _selectedLLM = GPT_4o.ModelName;
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
-        private string _generatedRequirement = string.Empty;
         private ObservableCollection<FileInformation> _uploadedTestFiles = [];
-        private ObservableCollection<RequirementModel> _generatedRequirements = [];
+        private RequirementResponse? _requirementResponse = null;
         private FileInformation? _selectedTestFile = null;
         private CancellationTokenSource? _cancellationTokenSource;
         
@@ -80,15 +79,10 @@ namespace SuperTestWPF.ViewModels
             get => _selectedTestFile;
             set => SetProperty(ref _selectedTestFile, value);
         }
-        public ObservableCollection<RequirementModel> GeneratedRequirements
+        public RequirementResponse? RequirementResponse
         {
-            get => _generatedRequirements;
-            set => SetProperty(ref _generatedRequirements, value);
-        }
-        public string GeneratedRequirement
-        {
-            get => _generatedRequirement;
-            set => SetProperty(ref _generatedRequirement, value);
+            get => _requirementResponse;
+            set => SetProperty(ref _requirementResponse, value);
         }
 
         public ICommand GenerateRequirementCommand { get; }
@@ -116,10 +110,9 @@ namespace SuperTestWPF.ViewModels
                     return;
                 }
 
-                var response = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedTestFiles.ToDictionary(f => f.Path!, f => f.Value!), "", CreateNewCancellationToken());
+                RequirementResponse = await _requirementGeneratorService.GenerateRequirementAsync(SelectedLLM, UploadedTestFiles.ToDictionary(f => f.Path!, f => f.Value!), "", CreateNewCancellationToken());
 
-                GeneratedRequirements = new (response.Requirements);
-                foreach (var prompt in response.Prompts)
+                foreach (var prompt in RequirementResponse.Prompts)
                 {
                     _promptVerboseService.AddPrompt(prompt);
                 }
@@ -149,16 +142,35 @@ namespace SuperTestWPF.ViewModels
 
         private void SaveRequirementFiles()
         {
-            if (GeneratedRequirements.Count == 0)
+            if (RequirementResponse == null)
             {
                 _logger.LogWarning("No requirements generated.");
                 _logger.LogError("Failed to save requirements.");
                 return;
             }
 
-            var reqIf = _reqIFConverterService.ConvertRequirementToReqIfAsync(GeneratedRequirements);
+            if (RequirementResponse.Requirements.Count() == 0)
+            {
+                _logger.LogWarning("No requirements generated.");
+                _logger.LogError("Failed to save requirements.");
+                return;
+            }
 
-            _fileService.SaveFile(Path.Combine(SavePath, "requirements.reqif"), reqIf);
+            var reqIf = _reqIFConverterService.ConvertRequirementToReqIfAsync(RequirementResponse);
+
+            if (RequirementResponse.FileName == string.Empty)
+            {
+                _logger.LogWarning("No requirement file name generated.");
+                _logger.LogError("Failed to save requirements.");
+                return;
+            }
+
+            if (!RequirementResponse.FileName.EndsWith(".reqif"))
+            {
+                RequirementResponse.FileName += ".reqif";
+            }
+
+            _fileService.SaveFile(Path.Combine(SavePath, RequirementResponse.FileName), reqIf);
 
             _logger.LogInformation("Requirements saved.");
         }

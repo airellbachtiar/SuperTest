@@ -8,7 +8,7 @@ namespace SuperTestWPF.Services
     {
         private readonly ILogger<ReqIFConverterService> _logger = logger;
 
-        public ReqIF ConvertRequirementToReqIfAsync(IEnumerable<RequirementModel> requirements)
+        public ReqIF ConvertRequirementToReqIfAsync(RequirementResponse requirementResponse)
         {
             try
             {
@@ -16,7 +16,7 @@ namespace SuperTestWPF.Services
                 {
                     TheHeader = new ReqIFHeader()
                     {
-                        Title = "Requirement",
+                        Title = requirementResponse.Title ?? "Requirement",
                         CreationTime = DateTime.Now,
                         ReqIFToolId = "SuperTest",
                         SourceToolId = "Sioux",
@@ -53,7 +53,7 @@ namespace SuperTestWPF.Services
                 reqType.SpecAttributes.Add(contentAttributeDefinition);
                 reqType.SpecAttributes.Add(traceAttributeDefinition);
 
-                foreach (var requirement in requirements)
+                foreach (var requirement in requirementResponse.Requirements)
                 {
                     var req = new SpecObject()
                     {

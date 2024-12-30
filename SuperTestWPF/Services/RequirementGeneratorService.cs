@@ -29,7 +29,7 @@ namespace SuperTestWPF.Services
                     promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Binding File", selectedLlmString, prompt));
                 }
 
-                return new(generatedRequirement.Requirement,
+                RequirementResponse requirementResponse = new(generatedRequirement.Response,
                     generatedRequirement.Requirements.Select(r => new RequirementModel
                     {
                         Id = r.Id,
@@ -37,6 +37,10 @@ namespace SuperTestWPF.Services
                         Trace = r.Trace,
                     }),
                     promptHistories);
+
+                requirementResponse.Title = generatedRequirement.Title;
+                requirementResponse.FileName = generatedRequirement.FileName;
+                return requirementResponse;
             }
             catch (OperationCanceledException)
             {

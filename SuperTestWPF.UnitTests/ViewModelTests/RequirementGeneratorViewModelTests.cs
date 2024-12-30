@@ -60,7 +60,7 @@ namespace SuperTestWPF.UnitTests.ViewModelTests
             _viewModel.UploadTestFilesCommand.Execute(null);
 
             // Assert
-            Assert.That(_viewModel.UploadedTestFiles.Count, Is.EqualTo(2));
+            Assert.That(_viewModel.UploadedTestFiles, Has.Count.EqualTo(2));
             Assert.Multiple(() =>
             {
                 Assert.That(_viewModel.UploadedTestFiles.First().Path, Does.Contain("File1.txt"));
@@ -119,11 +119,11 @@ namespace SuperTestWPF.UnitTests.ViewModelTests
             await _viewModel.GenerateRequirement();
 
             // Assert
-            Assert.That(_viewModel.GeneratedRequirements.Count, Is.EqualTo(2));
+            Assert.That(_viewModel.RequirementResponse!.Requirements.Count, Is.EqualTo(2));
             Assert.Multiple(() =>
             {
-                Assert.That(_viewModel.GeneratedRequirements.First().Content, Is.EqualTo("Requirement1"));
-                Assert.That(_viewModel.GeneratedRequirements.Last().Content, Is.EqualTo("Requirement2"));
+                Assert.That(_viewModel.RequirementResponse!.Requirements.First().Content, Is.EqualTo("Requirement1"));
+                Assert.That(_viewModel.RequirementResponse!.Requirements.Last().Content, Is.EqualTo("Requirement2"));
             });
             _mockPromptVerboseService.Verify(p => p.AddPrompt(It.IsAny<PromptHistory>()), Times.Exactly(prompts.Count));
         }
@@ -132,7 +132,7 @@ namespace SuperTestWPF.UnitTests.ViewModelTests
         public void SaveRequirementFiles_NoRequirementsGenerated_ShouldLogWarningAndError()
         {
             // Arrange
-            _viewModel.GeneratedRequirements.Clear();
+            _viewModel.RequirementResponse = new("", [], []);
 
             // Act
             _viewModel.SaveRequirementFilesCommand.Execute(null);
@@ -151,13 +151,15 @@ namespace SuperTestWPF.UnitTests.ViewModelTests
             // Arrange
             _viewModel.SavePath = "C:\\Test\\SaveLocation";
 
-            var requirements = new ObservableCollection<RequirementModel>
+            var requirements = new RequirementResponse("", new ObservableCollection<RequirementModel>
             {
                 new() {Id = "01", Content = "Requirement1" },
                 new() {Id = "02", Content = "Requirement2" }
-            };
+            }, []);
 
-            _viewModel.GeneratedRequirements = requirements;
+            requirements.FileName = "requirements.reqif";
+
+            _viewModel.RequirementResponse = requirements;
             _mockReqIFConverterService.Setup(s => s.ConvertRequirementToReqIfAsync(requirements))
                 .Returns(new ReqIF());
 

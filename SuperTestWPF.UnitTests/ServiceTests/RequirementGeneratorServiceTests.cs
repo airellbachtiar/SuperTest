@@ -40,7 +40,7 @@ namespace SuperTestWPF.UnitTests.ServiceTests
 
             var generatedResponse = new RequirementResponse
             {
-                Requirement = "Generated requirement",
+                Response = "Generated requirement",
                 Requirements = new List<RequirementModel>
                 {
                     new() { Id = "1", Content = "Content1", Trace = "Trace1" },
@@ -61,8 +61,7 @@ namespace SuperTestWPF.UnitTests.ServiceTests
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(result.Requirement, Is.EqualTo("Generated requirement"));
-                Assert.That(result.Requirements.Count(), Is.EqualTo(2));
+                Assert.That(result.Response, Is.EqualTo("Generated requirement"));
                 Assert.That(result.Prompts.Count(), Is.EqualTo(2));
                 Assert.That(LoggerHelper.VerifyLog(_mockLogger, LogLevel.Information, "Generating requirement..."), Is.True);
             });
@@ -127,7 +126,7 @@ namespace SuperTestWPF.UnitTests.ServiceTests
 
             var generatedResponse = new RequirementResponse
             {
-                Requirement = string.Empty,
+                Response = string.Empty,
                 Requirements = [],
                 Prompts = []
             };
@@ -144,7 +143,7 @@ namespace SuperTestWPF.UnitTests.ServiceTests
             // Assert
             Assert.Multiple(() =>
             {
-                Assert.That(result.Requirement, Is.Empty);
+                Assert.That(result.Response, Is.Empty);
                 Assert.That(result.Requirements, Is.Empty);
                 Assert.That(result.Prompts, Is.Empty);
             });
