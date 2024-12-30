@@ -43,9 +43,9 @@ namespace SuperTestWPF.Services
                 _logger.LogWarning("Operation was cancelled.");
                 throw;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _logger.LogError(ex, $"Exception while generating requirement using {_controller.SelectedLLM}");
+                _logger.LogError($"Exception while generating requirement using {_controller.SelectedLLM!.Id}");
                 throw;
             }
         }
