@@ -41,6 +41,13 @@
             Command="{Binding GenerateRequirementCommand}"
             Content="Generate Requirement" />
 
+        <Button
+            Grid.Column="4"
+            Height="30"
+            Margin="10"
+            Command="{Binding ClearAllUploadedFilesCommand}"
+            Content="Clear All Uploaded File" />
+
         <ComboBox
             Grid.Row="1"
             Grid.Column="1"

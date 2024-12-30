@@ -40,6 +40,7 @@ namespace SuperTestWPF.ViewModels
             GenerateRequirementCommand = new AsyncCommand(GenerateRequirement);
             SaveRequirementFilesCommand = new RelayCommand(SaveRequirementFiles);
             SelectSaveLocationCommand = new RelayCommand(SelectSaveLocation);
+            ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUploadedFiles);
 
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
@@ -94,6 +95,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand UploadTestFilesCommand { get; }
         public ICommand SaveRequirementFilesCommand { get; }
         public ICommand SelectSaveLocationCommand { get; }
+        public ICommand ClearAllUploadedFilesCommand { get; }
 
         public void OnTestFileSelected(object selectedItem)
         {
@@ -159,6 +161,12 @@ namespace SuperTestWPF.ViewModels
             _fileService.SaveFile(Path.Combine(SavePath, "requirements.reqif"), reqIf);
 
             _logger.LogInformation("Requirements saved.");
+        }
+
+        private void ClearAllUploadedFiles()
+        {
+            UploadedTestFiles.Clear();
+            SelectedTestFile = null;
         }
 
         private CancellationToken CreateNewCancellationToken()

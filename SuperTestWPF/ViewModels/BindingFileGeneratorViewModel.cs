@@ -26,6 +26,7 @@ namespace SuperTestWPF.ViewModels
         private ObservableCollection<FileInformation> _uploadedFiles = [];
         private ObservableCollection<SpecFlowBindingFileModel> _specFlowBindingFiles = [];
         private FileInformation? _uploadedFeatureFile = null;
+        private FileInformation? _selectedUploadedFile = null;
         private CancellationTokenSource? _cancellationTokenSource;
         
         private readonly IFileService _fileService;
@@ -41,6 +42,7 @@ namespace SuperTestWPF.ViewModels
             UploadFeatureFileCommand = new RelayCommand(UploadFeatureFile);
             ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
             SaveBindingFileCommand = new RelayCommand(SaveBindingFile);
+            ViewFeatureFileCommand = new RelayCommand(ViewFeatureFile);
 
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
@@ -92,11 +94,26 @@ namespace SuperTestWPF.ViewModels
             set => SetProperty(ref _uploadedFeatureFile, value);
         }
 
+        public FileInformation? SelectedUploadedFile
+        {
+            get => _selectedUploadedFile;
+            set => SetProperty(ref _selectedUploadedFile, value);
+        }
+
         public ICommand GenerateBindingsCommand { get; }
         public ICommand UploadFilesCommand { get; }
         public ICommand UploadFeatureFileCommand { get; }
         public ICommand ClearAllUploadedFilesCommand { get; }
         public ICommand SaveBindingFileCommand { get; }
+        public ICommand ViewFeatureFileCommand { get; }
+
+        public void OnTreeViewItemSelected(object selectedItem)
+        {
+            if (selectedItem is FileInformation uploadedFile)
+            {
+                SelectedUploadedFile = uploadedFile;
+            }
+        }
 
         public async Task GenerateBindings()
         {
@@ -185,6 +202,11 @@ namespace SuperTestWPF.ViewModels
             _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             return _cancellationTokenSource.Token;
+        }
+
+        private void ViewFeatureFile()
+        {
+            SelectedUploadedFile = UploadedFeatureFile;
         }
     }
 }
