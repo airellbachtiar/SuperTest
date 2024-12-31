@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:SuperTestWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="clr-namespace:SuperTestWPF.ViewModels"
-    Title="SettingsWindow"
+    Title="Settings"
     Width="400"
     Height="300"
     d:DataContext="{d:DesignInstance Type=viewmodels:SettingsWindowViewModel}"
