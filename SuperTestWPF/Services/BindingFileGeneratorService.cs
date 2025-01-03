@@ -36,14 +36,19 @@ namespace SuperTestWPF.Services
                         cancellationToken),
                     TimeSpan.FromSeconds(1));
 
-                foreach (var prompt in generatedBindingFile.BindingFiles)
+                foreach (var bindingFile in generatedBindingFile.BindingFiles)
                 {
-                    bindingFiles.Add(new SpecFlowBindingFileModel(prompt.Key, prompt.Value));
+                    bindingFiles.Add(new SpecFlowBindingFileModel(bindingFile.Key, bindingFile.Value));
                 }
 
                 foreach (var prompt in generatedBindingFile.Prompts)
                 {
                     promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Binding File", selectedLlmString, prompt));
+                }
+
+                for (int i = 0; i < generatedBindingFile.RawResponse.Count && i < promptHistories.Count; i++)
+                {
+                    promptHistories[i].RawResponse = generatedBindingFile.RawResponse[i];
                 }
 
                 return new(bindingFiles, promptHistories);

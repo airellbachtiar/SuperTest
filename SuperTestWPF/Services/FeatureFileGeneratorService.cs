@@ -50,7 +50,12 @@ namespace SuperTestWPF.Services
                     promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Feature File", selectedLlmString, prompt));
                 }
 
-                if (!specFlowFeatureFileModels.Any())
+                for (int i = 0; i < featureFileResponse.RawResponse.Count && i < promptHistories.Count; i++)
+                {
+                    promptHistories[i].RawResponse = featureFileResponse.RawResponse[i];
+                }
+
+                if (specFlowFeatureFileModels.Count == 0)
                 {
                     _logger.LogWarning("Feature file is empty. Failed to generate feature file.");
                 }

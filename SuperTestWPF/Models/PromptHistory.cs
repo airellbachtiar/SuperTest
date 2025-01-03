@@ -6,5 +6,6 @@
         public string Function { get; set; } = function;
         public string LargeLanguageModel { get; set; } = largeLanguageModel;
         public string Prompt { get; set; } = prompt;
+        public string RawResponse { get; set; } = string.Empty;
     }
 }

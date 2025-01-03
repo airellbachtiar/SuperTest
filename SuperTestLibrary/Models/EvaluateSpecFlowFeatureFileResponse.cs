@@ -12,6 +12,7 @@
         public string? Summary { get; init; } = string.Empty;
 
         public List<string> Prompts { get; set; } = [];
+        public List<string> RawResponse { get; set; } = [];
 
         public void AssignScore()
         {

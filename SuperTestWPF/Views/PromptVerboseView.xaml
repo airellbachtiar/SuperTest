@@ -32,6 +32,16 @@
                     </Style>
                 </DataGridTextColumn.ElementStyle>
             </DataGridTextColumn>
+            <DataGridTextColumn
+                Width="700"
+                Binding="{Binding RawResponse}"
+                Header="Raw Response">
+                <DataGridTextColumn.ElementStyle>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="TextWrapping" Value="Wrap" />
+                    </Style>
+                </DataGridTextColumn.ElementStyle>
+            </DataGridTextColumn>
         </DataGrid.Columns>
         <DataGrid.Resources>
             <Style TargetType="DataGridCell">

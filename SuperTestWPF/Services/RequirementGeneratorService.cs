@@ -26,7 +26,12 @@ namespace SuperTestWPF.Services
 
                 foreach (var prompt in generatedRequirement.Prompts)
                 {
-                    promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Binding File", selectedLlmString, prompt));
+                    promptHistories.Add(new PromptHistory(DateTime.Now, "Generate Requirement", selectedLlmString, prompt));
+                }
+
+                for (int i = 0; i < generatedRequirement.RawResponse.Count && i < promptHistories.Count; i++)
+                {
+                    promptHistories[i].RawResponse = generatedRequirement.RawResponse[i];
                 }
 
                 RequirementResponse requirementResponse = new(generatedRequirement.Response,

@@ -42,6 +42,7 @@ namespace SuperTestLibrary
             _logger.LogInformation("{LLMId} generated a response successfully. Processing the response.", SelectedLLM?.Id ?? "Unknown LLM");
             _logger.LogInformation("Converting the response JSON to SpecFlow feature file format.");
             var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response.ResponseString);
+            specFlowFeatureFile.RawResponse.Add(response.ResponseString);
             _logger.LogInformation("SpecFlow feature file conversion successful.");
 
             UnescapeDictionary(specFlowFeatureFile.FeatureFiles);
@@ -109,6 +110,7 @@ namespace SuperTestLibrary
 
             _logger.LogInformation("Converting response JSON to SpecFlow binding file object.");
             var specFlowBindingFile = GetSpecFlowBindingFileResponse.ConvertJson(response.ResponseString);
+            specFlowBindingFile.RawResponse.Add(response.ResponseString);
             _logger.LogInformation("SpecFlow binding file conversion completed successfully.");
 
             UnescapeDictionary(specFlowBindingFile.BindingFiles);
@@ -130,6 +132,7 @@ namespace SuperTestLibrary
             _logger.LogInformation("Response successfully generated.");
             _logger.LogInformation("Converting response YAML to requirement model.");
             var requirementResponse = GetRequirementResponse.ConvertYaml(response.ResponseString);
+            requirementResponse.RawResponse.Add(response.ResponseString);
             _logger.LogInformation("Requirement conversion completed successfully.");
             requirementResponse.Response = response.ResponseString;
             requirementResponse.Prompts = response.Prompts.ToList();
@@ -180,6 +183,7 @@ namespace SuperTestLibrary
                 _logger.LogInformation("Response JSON successfully converted to {ResponseType}.", typeof(TResponse).Name);
 
                 response.GetType().GetProperty("Prompts")!.SetValue(response, responseJson.Prompts.ToList());
+                response.GetType().GetProperty("RawResponse")!.SetValue(response, responseJson.ResponseString);
 
                 return response!;
             }

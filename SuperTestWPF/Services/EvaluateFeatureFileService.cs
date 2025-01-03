@@ -32,8 +32,15 @@ namespace SuperTestWPF.Services
                     TimeSpan.FromSeconds(1));
                 AssignSpecFlowFeatureFileEvaluation.Assign(selectedLlmString, featureFile, evaluationResponse);
 
-                return evaluationResponse.Prompts
-                    .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Feature File", selectedLlmString, prompt));
+                var promptHistory = evaluationResponse.Prompts
+                    .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Feature File", selectedLlmString, prompt)).ToList();
+
+                for (int i = 0; i < evaluationResponse.RawResponse.Count && i < evaluationResponse.RawResponse.Count; i++)
+                {
+                    promptHistory[i].RawResponse = evaluationResponse.RawResponse[i];
+                }
+
+                return promptHistory;
             }
             catch (OperationCanceledException)
             {
@@ -65,8 +72,15 @@ namespace SuperTestWPF.Services
                     AssignScenarioEvaluation.Assign(selectedLlmString, scenarioModel, scenario);
                 }
 
-                return evaluationResponse.Prompts
-                    .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Scenario", selectedLlmString, prompt));
+                var promptHistory = evaluationResponse.Prompts
+                    .Select(prompt => new PromptHistory(DateTime.Now, "Evaluate Feature File", selectedLlmString, prompt)).ToList();
+
+                for (int i = 0; i < evaluationResponse.RawResponse.Count && i < evaluationResponse.RawResponse.Count; i++)
+                {
+                    promptHistory[i].RawResponse = evaluationResponse.RawResponse[i];
+                }
+
+                return promptHistory;
             }
             catch (OperationCanceledException)
             {

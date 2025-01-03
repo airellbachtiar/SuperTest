@@ -14,5 +14,6 @@ namespace SuperTestLibrary.Models
         public List<RequirementModel> Requirements { get; set; } = [];
 
         public List<string> Prompts { get; set; } = [];
+        public List<string> RawResponse { get; set; } = [];
     }
 }

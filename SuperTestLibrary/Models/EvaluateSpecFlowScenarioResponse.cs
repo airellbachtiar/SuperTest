@@ -5,6 +5,7 @@
         public List<SpecFlowScenarioEvaluation> ScenarioEvaluations { get; init; } = [];
 
         public List<string> Prompts { get; set; } = [];
+        public List<string> RawResponse { get; set; } = [];
 
         public void AssignScores()
         {
