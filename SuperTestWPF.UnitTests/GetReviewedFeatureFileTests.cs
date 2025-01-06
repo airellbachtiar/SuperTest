@@ -10,8 +10,7 @@ namespace SuperTestWPF.UnitTests
         [SetUp]
         public void Setup()
         {
-            string featureFile = @"
-Feature: Traffic Light System Management
+            string featureFile = @"Feature: Traffic Light System Management
 
   The system controls traffic lights at intersections according to predefined timing sequences and transitions.
 

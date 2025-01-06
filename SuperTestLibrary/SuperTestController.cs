@@ -183,7 +183,25 @@ namespace SuperTestLibrary
                 _logger.LogInformation("Response JSON successfully converted to {ResponseType}.", typeof(TResponse).Name);
 
                 response.GetType().GetProperty("Prompts")!.SetValue(response, responseJson.Prompts.ToList());
-                response.GetType().GetProperty("RawResponse")!.SetValue(response, responseJson.ResponseString);
+                var rawResponseProperty = response.GetType().GetProperty("RawResponse");
+                if (rawResponseProperty != null)
+                {
+                    if (rawResponseProperty.GetValue(response) is List<string> rawResponseValue)
+                    {
+                        rawResponseValue.Add(responseJson.ResponseString);
+
+                        rawResponseProperty.SetValue(response, rawResponseValue);
+                    }
+                    else
+                    {
+                        var newRawResponse = new List<string> { responseJson.ResponseString };
+                        rawResponseProperty.SetValue(response, newRawResponse);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("RawResponse property not found on the response object.");
+                }
 
                 return response!;
             }

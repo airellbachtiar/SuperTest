@@ -68,7 +68,7 @@ namespace SuperTestWPF.Helper
         {
             List<string> newRows = [];
 
-            for (int i = 1; i < rows.Count; i++)
+            for (int i = 0; i < rows.Count; i++)
             {
                 if (string.IsNullOrWhiteSpace(rows[i]) && string.IsNullOrWhiteSpace(rows[i - 1]))
                 {
