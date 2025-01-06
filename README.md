@@ -1,7 +1,7 @@
 # Introduction 
 The SuperTest project is a graduation internship project. SuperTest is a tool that can generate test cases (SpecFlow) from defined requirements. The goal of this project is to have a tool that can automate the creation SpecFlow test cases to accelerate development.
 
-![architecture image](img/Architecture%20Image%20V3.png)
+![architecture image](img/Architecture%20Image%20V4.png)
 
 # Getting Started
 ## Setup
