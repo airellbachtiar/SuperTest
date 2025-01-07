@@ -25,6 +25,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{BA38AFD6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperTestWPF.UnitTests", "SuperTestWPF.UnitTests\SuperTestWPF.UnitTests.csproj", "{38AAB055-1788-4F38-81DD-039D2F74216A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LargeLanguageModelLibrary", "LargeLanguageModelLibrary\LargeLanguageModelLibrary.csproj", "{5E2EFE8E-9C04-4A03-A29C-E2BB840BF403}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{38AAB055-1788-4F38-81DD-039D2F74216A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38AAB055-1788-4F38-81DD-039D2F74216A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38AAB055-1788-4F38-81DD-039D2F74216A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E2EFE8E-9C04-4A03-A29C-E2BB840BF403}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E2EFE8E-9C04-4A03-A29C-E2BB840BF403}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E2EFE8E-9C04-4A03-A29C-E2BB840BF403}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E2EFE8E-9C04-4A03-A29C-E2BB840BF403}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
