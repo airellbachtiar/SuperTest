@@ -217,9 +217,9 @@ namespace SuperTestWPF.UnitTests.ServiceTests
             _mockLogger.Verify(log => log.Log(
                 LogLevel.Error,
                 It.IsAny<EventId>(),
-                It.Is<It.IsAnyType>((o, t) => o.ToString().Contains($"Exception while evaluating {featureFile.FeatureFileName}")),
+                It.Is<It.IsAnyType>((o, t) => o.ToString()!.Contains($"Exception while evaluating {featureFile.FeatureFileName}")),
                 It.IsAny<Exception>(),
-                It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
             Assert.That(LoggerHelper.VerifyLog(_mockLogger, LogLevel.Error, $"Exception while evaluating {featureFile.FeatureFileName} using {selectedLlmString}"), Is.True);
         }
