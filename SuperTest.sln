@@ -16,6 +16,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperTestLibrary.UnitTests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LlmLibrary", "LlmLibrary\LlmLibrary.csproj", "{A46164D6-CD21-4472-9CFD-09D96CB60309}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Setup", "Setup", "{BA38AFD6-1EC4-4E1A-91F9-E3957A61A492}"
+	ProjectSection(SolutionItems) = preProject
+		SetupScript.ps1 = SetupScript.ps1
+		Test1.reqif = Test1.reqif
+		Test2.reqif = Test2.reqif
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperTestWPF.UnitTests", "SuperTestWPF.UnitTests\SuperTestWPF.UnitTests.csproj", "{38AAB055-1788-4F38-81DD-039D2F74216A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +51,10 @@ Global
 		{A46164D6-CD21-4472-9CFD-09D96CB60309}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A46164D6-CD21-4472-9CFD-09D96CB60309}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A46164D6-CD21-4472-9CFD-09D96CB60309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38AAB055-1788-4F38-81DD-039D2F74216A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38AAB055-1788-4F38-81DD-039D2F74216A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38AAB055-1788-4F38-81DD-039D2F74216A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38AAB055-1788-4F38-81DD-039D2F74216A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

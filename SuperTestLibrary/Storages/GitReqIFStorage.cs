@@ -2,7 +2,7 @@
 {
     public class GitReqIFStorage : IReqIFStorage
     {
-        private readonly string _gitLocation;
+        private string _gitLocation;
 
         private const string ReqIFExtension = ".reqif";
         private const string ReqIFExtensionFilter = "*" + ReqIFExtension;
@@ -10,6 +10,12 @@
         public GitReqIFStorage(string gitLocation)
         {
             _gitLocation = gitLocation;
+        }
+
+        public string GitLocationPath
+        {
+            get => _gitLocation;
+            set => _gitLocation = value;
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFsAsync()

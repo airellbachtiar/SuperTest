@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Gherkin" Version="30.0.4" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="YamlDotNet" Version="16.2.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -19,10 +20,10 @@
 		<None Update="Prompts\EvaluateSpecFlowFeatureFile\Claude_3_5_Sonnet.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Prompts\GenerateSpecFlowBindingFile\Claude_3_5_Sonnet.json">
+		<None Update="Prompts\GenerateSpecFlowBindingFile\BindingFilePromptNoCode.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Prompts\GenerateSpecFlowBindingFile\GPT_4o.json">
+		<None Update="Prompts\GenerateSpecFlowBindingFile\BindingFilePrompt.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="Prompts\GenerateSpecFlowFeatureFile\Claude_3_5_Sonnet.json">
@@ -37,10 +38,10 @@
 		<None Update="Prompts\EvaluateSpecFlowFeatureFile\GPT_4o.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Prompts\EvaluateSpecFlowScenario\GPT_4o.json">
+		<None Update="Prompts\EvaluateSpecFlowScenario\EvaluateScenarioPrompt.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="Prompts\EvaluateSpecFlowScenario\Claude_3_5_Sonnet.json">
+		<None Update="Prompts\GenerateRequirement\RequirementPrompt.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

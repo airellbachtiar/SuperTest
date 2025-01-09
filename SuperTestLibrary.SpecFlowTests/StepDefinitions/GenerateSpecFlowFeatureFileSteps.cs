@@ -3,7 +3,7 @@ using SuperTestLibrary.Helpers;
 using LlmLibrary;
 using SuperTestLibrary.Storages;
 using Microsoft.Extensions.Logging;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
+using SuperTestLibrary.Models;
 
 namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
@@ -31,7 +31,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         public void BeforeScenario()
         {
             _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
-            _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>())).ReturnsAsync(_llmResponse);
+            _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(_llmResponse);
             _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
         }
 

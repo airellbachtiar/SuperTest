@@ -15,5 +15,11 @@ namespace SuperTestWPF.Services
         {
             return await _controller.GetAllReqIFFilesAsync();
         }
+
+        public string RequirementsStorageLocation
+        {
+            get => _controller.GetStorageLocation();
+            set => _controller.UpdateStorageLocation(value);
+        }
     }
 }

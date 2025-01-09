@@ -6,6 +6,7 @@ namespace SuperTestWPF.Models
     {
         public string Name { get; set; } = string.Empty;
         public string Keyword { get; set; } = string.Empty;
+        public ObservableCollection<TagModel> Tags { get; set; } = [];
         public bool IsAccepted { get; set; } = true;
         public bool IsSelected { get; set; } = false;
         public ObservableCollection<StepModel> Steps { get; set; } = [];

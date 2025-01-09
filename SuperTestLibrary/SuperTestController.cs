@@ -1,9 +1,10 @@
 ﻿using LlmLibrary;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Helpers;
+using SuperTestLibrary.Models;
 using SuperTestLibrary.Services.Generators;
-using SuperTestLibrary.Services.PromptBuilders.ResponseModels;
 using SuperTestLibrary.Storages;
+using System.Text.RegularExpressions;
 
 namespace SuperTestLibrary
 {
@@ -14,8 +15,12 @@ namespace SuperTestLibrary
         private readonly EvaluateSpecFlowFeatureFileGenerator evaluateSpecFlowFeatureFileGenerator = new();
         private readonly EvaluateSpecFlowScenarioGenerator evaluateSpecFlowScenarioGenerator = new();
         private readonly SpecFlowBindingFileGenerator specFlowBindingFileGenerator = new();
+        private readonly RequirementGenerator requirementGenerator = new();
 
         private readonly ILogger<SuperTestController> _logger;
+
+        public IGenerator? SelectedGenerator { get; private set; }
+        public ILargeLanguageModel? SelectedLLM { get; set; }
 
         public SuperTestController(IReqIFStorage reqIFStorage, ILogger<SuperTestController> logger)
         {
@@ -23,7 +28,7 @@ namespace SuperTestLibrary
             _logger = logger;
         }
 
-        public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements)
+        public async Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Starting {MethodName}.", nameof(GenerateSpecFlowFeatureFileAsync));
             ValidateInput(requirements, "requirements");
@@ -32,12 +37,15 @@ namespace SuperTestLibrary
             SelectedGenerator = specFlowFeatureFileGenerator;
             _logger.LogInformation("Generator {GeneratorName} selected for SpecFlow feature file generation.", nameof(SpecFlowFeatureFileGenerator));
 
-            string response = await GenerateAsync();
+            var response = await GenerateAsync(cancellationToken);
 
             _logger.LogInformation("{LLMId} generated a response successfully. Processing the response.", SelectedLLM?.Id ?? "Unknown LLM");
             _logger.LogInformation("Converting the response JSON to SpecFlow feature file format.");
-            var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response);
+            var specFlowFeatureFile = GetSpecFlowFeatureFileResponse.ConvertJson(response.ResponseString);
+            specFlowFeatureFile.RawResponse.Add(response.ResponseString);
             _logger.LogInformation("SpecFlow feature file conversion successful.");
+
+            UnescapeDictionary(specFlowFeatureFile.FeatureFiles);
 
             _logger.LogInformation("Validating Gherkin documents from the SpecFlow feature file.");
             var gherkinDocuments = GetGherkinDocuments.ConvertSpecFlowFeatureFileResponse(specFlowFeatureFile);
@@ -46,6 +54,9 @@ namespace SuperTestLibrary
             {
                 specFlowFeatureFile.GherkinDocuments = gherkinDocuments;
                 _logger.LogInformation("SpecFlow feature file validation succeeded. Feature file generation complete.");
+
+                specFlowFeatureFile.Prompts = response.Prompts.ToList();
+
                 return specFlowFeatureFile;
             }
 
@@ -53,7 +64,7 @@ namespace SuperTestLibrary
             throw new InvalidOperationException("Unable to generate valid SpecFlow feature file.");
         }
 
-        public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string requirements, string featureFile)
+        public async Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string requirements, string featureFile, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Starting {MethodName}.", nameof(EvaluateSpecFlowFeatureFileAsync));
             ValidateInput(requirements, "requirements");
@@ -64,10 +75,10 @@ namespace SuperTestLibrary
             SelectedGenerator = evaluateSpecFlowFeatureFileGenerator;
 
             _logger.LogInformation("Generator {GeneratorName} selected for SpecFlow feature file evaluation.", nameof(EvaluateSpecFlowFeatureFileGenerator));
-            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>("SpecFlow feature file evaluation failed.");
+            return await EvaluateAsync<GetSpecFlowFeatureFileEvaluationResponse, EvaluateSpecFlowFeatureFileResponse>("SpecFlow feature file evaluation failed.", cancellationToken);
         }
 
-        public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string requirements, string featureFile)
+        public async Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string requirements, string featureFile, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Starting {MethodName}.", nameof(EvaluateSpecFlowScenarioAsync));
             ValidateInput(requirements, "requirements");
@@ -78,36 +89,54 @@ namespace SuperTestLibrary
             SelectedGenerator = evaluateSpecFlowScenarioGenerator;
 
             _logger.LogInformation("Generator {GeneratorName} selected for SpecFlow scenario evaluation.", nameof(EvaluateSpecFlowScenarioGenerator));
-            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>("SpecFlow scenario evaluation failed.");
+            return await EvaluateAsync<GetSpecFlowScenarioEvaluationResponse, EvaluateSpecFlowScenarioResponse>("SpecFlow scenario evaluation failed.", cancellationToken);
         }
 
-        public async Task<SpecFlowBindingFileResponse> GenerateSpecFlowBindingFileAsync(string featureFile, Dictionary<string, string> generatedCSharpCode)
+        public async Task<SpecFlowBindingFileResponse> GenerateSpecFlowBindingFileAsync(string featureFile, Dictionary<string, string> generatedCSharpCode, CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Starting {MethodName}.", nameof(GenerateSpecFlowBindingFileAsync));
 
             ValidateInput(featureFile, "feature file");
             _logger.LogInformation("Feature file validated successfully.");
 
-            if (generatedCSharpCode == null || !generatedCSharpCode.Any())
-            {
-                _logger.LogError("Generated C# code is null or empty.");
-                throw new InvalidOperationException("Generated C# code cannot be null or empty.");
-            }
-            _logger.LogInformation("Generated C# code validated successfully.");
+            generatedCSharpCode ??= [];
 
             specFlowBindingFileGenerator.FeatureFile = featureFile;
             specFlowBindingFileGenerator.GeneratedCSharpCode = generatedCSharpCode;
             SelectedGenerator = specFlowBindingFileGenerator;
 
-            string response = await GenerateAsync();
+            var response = await GenerateAsync(cancellationToken);
             _logger.LogInformation("Response successfully generated by {LLMName}.", SelectedLLM?.Id ?? "Unknown LLM");
 
             _logger.LogInformation("Converting response JSON to SpecFlow binding file object.");
-            var specFlowBindingFile = GetSpecFlowBindingFileResponse.ConvertJson(response);
+            var specFlowBindingFile = GetSpecFlowBindingFileResponse.ConvertJson(response.ResponseString);
+            specFlowBindingFile.RawResponse.Add(response.ResponseString);
             _logger.LogInformation("SpecFlow binding file conversion completed successfully.");
+
+            UnescapeDictionary(specFlowBindingFile.BindingFiles);
+            specFlowBindingFile.Prompts = response.Prompts.ToList();
 
             _logger.LogInformation("{MethodName} completed successfully.", nameof(GenerateSpecFlowBindingFileAsync));
             return specFlowBindingFile;
+        }
+
+        public async Task<RequirementResponse> GenerateRequirementAsync(Dictionary<string, string> testFiles, string existingRequirement = "", CancellationToken cancellationToken = default)
+        {
+            _logger.LogInformation("Starting requirement generation.");
+
+            requirementGenerator.TestFiles = testFiles;
+            requirementGenerator.ExistingRequirement = existingRequirement;
+            SelectedGenerator = requirementGenerator;
+
+            var response = await SelectedGenerator!.GenerateAsync(SelectedLLM!, cancellationToken);
+            _logger.LogInformation("Response successfully generated.");
+            _logger.LogInformation("Converting response YAML to requirement model.");
+            var requirementResponse = GetRequirementResponse.ConvertYaml(response.ResponseString);
+            requirementResponse.RawResponse.Add(response.ResponseString);
+            _logger.LogInformation("Requirement conversion completed successfully.");
+            requirementResponse.Response = response.ResponseString;
+            requirementResponse.Prompts = response.Prompts.ToList();
+            return requirementResponse;
         }
 
         public async Task<IEnumerable<string>> GetAllReqIFFilesAsync()
@@ -119,29 +148,61 @@ namespace SuperTestLibrary
             return files;
         }
 
-        private async Task<string> GenerateAsync()
+        public string GetStorageLocation()
+        {
+            return _reqIFStorage.GitLocationPath;
+        }
+
+        public void UpdateStorageLocation(string newPath)
+        {
+            _reqIFStorage.GitLocationPath = newPath;
+        }
+
+        private async Task<GeneratorResponse> GenerateAsync(CancellationToken cancellationToken = default)
         {
             _logger.LogInformation("Starting response generation using {GeneratorName} with {LLMName}.", SelectedGenerator?.GetType().Name ?? "Unknown Generator", SelectedLLM?.Id ?? "Unknown LLM");
             CheckLLM();
             CheckGenerator();
 
-            string response = await SelectedGenerator!.GenerateAsync(SelectedLLM!);
+            var response = await SelectedGenerator!.GenerateAsync(SelectedLLM!, cancellationToken);
             _logger.LogInformation("Response generation completed successfully.");
             return response;
         }
 
-        private async Task<TResponse> EvaluateAsync<TConverter, TResponse>(string errorMessage)
+        private async Task<TResponse> EvaluateAsync<TConverter, TResponse>(string errorMessage, CancellationToken cancellationToken = default)
         where TConverter : class
         {
             _logger.LogInformation("Starting evaluation process.");
-            string responseJson = await GenerateAsync();
+            var responseJson = await GenerateAsync(cancellationToken);
             _logger.LogInformation("Response JSON successfully generated.");
 
             try
             {
                 _logger.LogInformation("Converting response JSON to {ResponseType}.", typeof(TResponse).Name);
-                var response = (TResponse)typeof(TConverter).GetMethod("ConvertJson")!.Invoke(null, new object[] { responseJson })!;
+                var response = (TResponse)typeof(TConverter).GetMethod("ConvertJson")!.Invoke(null, [responseJson.ResponseString])!;
                 _logger.LogInformation("Response JSON successfully converted to {ResponseType}.", typeof(TResponse).Name);
+
+                response.GetType().GetProperty("Prompts")!.SetValue(response, responseJson.Prompts.ToList());
+                var rawResponseProperty = response.GetType().GetProperty("RawResponse");
+                if (rawResponseProperty != null)
+                {
+                    if (rawResponseProperty.GetValue(response) is List<string> rawResponseValue)
+                    {
+                        rawResponseValue.Add(responseJson.ResponseString);
+
+                        rawResponseProperty.SetValue(response, rawResponseValue);
+                    }
+                    else
+                    {
+                        var newRawResponse = new List<string> { responseJson.ResponseString };
+                        rawResponseProperty.SetValue(response, newRawResponse);
+                    }
+                }
+                else
+                {
+                    throw new InvalidOperationException("RawResponse property not found on the response object.");
+                }
+
                 return response!;
             }
             catch (Exception ex)
@@ -178,8 +239,27 @@ namespace SuperTestLibrary
             }
         }
 
-        public IGenerator? SelectedGenerator { get; private set; }
-        public ILargeLanguageModel? SelectedLLM { get; set; }
+        private Dictionary<string, string> UnescapeDictionary(Dictionary<string, string> dictionary)
+        {
+            try
+            {
+                foreach (var item in dictionary)
+                {
+                    dictionary[item.Key] = Regex.Unescape(item.Value);
+                }
+                return dictionary;
+            }
+
+            catch (RegexParseException)
+            {
+                _logger.LogWarning("Encountered regex parse error.");
+                return dictionary;
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 
 }

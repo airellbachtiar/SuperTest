@@ -1,0 +1,763 @@
+<?xml version='1.0' encoding='ASCII'?>
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:id="http://pror.org/presentation/id" xmlns:configuration="http://eclipse.org/rmf/pror/toolextensions/1.0">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="_reqif_testfileReqifId-Header">
+      <COMMENT>created by pyreqif</COMMENT>
+      <CREATION-TIME>2024-06-20T21:17:54</CREATION-TIME>
+      <REQ-IF-TOOL-ID>pyreqif</REQ-IF-TOOL-ID>
+      <REQ-IF-VERSION>1.0</REQ-IF-VERSION>
+      <SOURCE-TOOL-ID>pyreqif</SOURCE-TOOL-ID>
+      <TITLE>reqif_testfile</TITLE>
+    </REQ-IF-HEADER>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <DATATYPES>
+        <DATATYPE-DEFINITION-XHTML IDENTIFIER="_datatype_ID" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="xhtml"/>
+      </DATATYPES>
+      <SPEC-TYPES>
+        <SPEC-OBJECT-TYPE IDENTIFIER="_some_requirement_type_id" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="requirement Type">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_ID" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="ID">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_Level" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="Level">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_Lvl_0_Req" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="Lvl 0 Req">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_Lvl_1_Req" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="Lvl 1 Req">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_Lvl_2_Req" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="Lvl 2 Req">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_Lvl_3_Req" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="Lvl 3 Req">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+            <ATTRIBUTE-DEFINITION-XHTML IDENTIFIER="_reqtype_for_Lvl_4_Req" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="Lvl 4 Req">
+              <TYPE>
+                <DATATYPE-DEFINITION-XHTML-REF>_datatype_ID</DATATYPE-DEFINITION-XHTML-REF>
+              </TYPE>
+            </ATTRIBUTE-DEFINITION-XHTML>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+        <SPECIFICATION-TYPE IDENTIFIER="_doc_type_ref" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="doc_type"/>
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc241-2f39-11ef-9801-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Level</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>0</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_0_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The XXXXX shall XXXXX</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc243-2f39-11ef-89c5-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Level</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_1_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The YYYYY shall YYYYYY</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc245-2f39-11ef-be0f-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_2_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The ZZZZZ shall ZZZZZ</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc247-2f39-11ef-900b-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_2_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The WWWWW shall WWWWWW</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc249-2f39-11ef-93a9-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-2-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc24b-2f39-11ef-911e-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-2-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc24d-2f39-11ef-8219-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-2-3</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc24f-2f39-11ef-b231-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-3</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_2_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The WWWWW shall WWWWWW</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc251-2f39-11ef-a389-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-3-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc253-2f39-11ef-a27e-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-3-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc255-2f39-11ef-b900-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-4</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_2_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The WWWWW shall WWWWWW</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc257-2f39-11ef-b1dc-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-4-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc259-2f39-11ef-b31b-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-4-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc25b-2f39-11ef-975a-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-5</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_2_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The WWWWW shall WWWWWW</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc25d-2f39-11ef-9f7b-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-5-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc25f-2f39-11ef-b164-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-5-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc261-2f39-11ef-93d1-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-5-3</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc263-2f39-11ef-a7ec-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-1-5-4</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb5fc265-2f39-11ef-aa68-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_1_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The YYYYY shall YYYYYY</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb613610-2f39-11ef-9032-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-2-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_2_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The ZZZZZ shall ZZZZZ</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb613612-2f39-11ef-9b57-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-2-1-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb613614-2f39-11ef-97ac-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-2-1-1-1</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_4_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The TTTTT shall be capable of TTTTT</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb6163e6-2f39-11ef-89f7-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-2-1-1-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_4_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The TTTTT shall be capable of TTTTT</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="_cb6163e8-2f39-11ef-bb40-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+          <TYPE>
+            <SPEC-OBJECT-TYPE-REF>_some_requirement_type_id</SPEC-OBJECT-TYPE-REF>
+          </TYPE>
+          <VALUES>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_ID</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>REQ-300-2-1-2</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+            <ATTRIBUTE-VALUE-XHTML>
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-XHTML-REF>_reqtype_for_Lvl_3_Req</ATTRIBUTE-DEFINITION-XHTML-REF>
+              </DEFINITION>
+              <THE-VALUE>
+                <xhtml:div>The UUUUUU shall be able to UUUUU</xhtml:div>
+              </THE-VALUE>
+            </ATTRIBUTE-VALUE-XHTML>
+          </VALUES>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPEC-RELATIONS/>
+      <SPECIFICATIONS>
+        <SPECIFICATION IDENTIFIER="_reqif_testfileReqifId--spec" LAST-CHANGE="2024-06-20T21:17:54" LONG-NAME="reqif_testfile">
+          <TYPE>
+            <SPECIFICATION-TYPE-REF>_doc_type_ref</SPECIFICATION-TYPE-REF>
+          </TYPE>
+          <CHILDREN>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc242-2f39-11ef-ae08-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc241-2f39-11ef-9801-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc244-2f39-11ef-ac44-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc243-2f39-11ef-89c5-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc246-2f39-11ef-bdfa-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc245-2f39-11ef-be0f-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc248-2f39-11ef-b0a3-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc247-2f39-11ef-900b-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc24a-2f39-11ef-ad8e-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc249-2f39-11ef-93a9-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc24c-2f39-11ef-b4d9-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc24b-2f39-11ef-911e-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc24e-2f39-11ef-952a-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc24d-2f39-11ef-8219-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc250-2f39-11ef-a980-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc24f-2f39-11ef-b231-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc252-2f39-11ef-b0ac-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc251-2f39-11ef-a389-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc254-2f39-11ef-b797-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc253-2f39-11ef-a27e-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc256-2f39-11ef-b3a5-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc255-2f39-11ef-b900-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc258-2f39-11ef-92e9-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc257-2f39-11ef-b1dc-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc25a-2f39-11ef-8ad9-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc259-2f39-11ef-b31b-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc25c-2f39-11ef-a540-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc25b-2f39-11ef-975a-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc25e-2f39-11ef-9592-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc25d-2f39-11ef-9f7b-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc260-2f39-11ef-9f15-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc25f-2f39-11ef-b164-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc262-2f39-11ef-ba27-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc261-2f39-11ef-93d1-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb5fc264-2f39-11ef-ac60-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc263-2f39-11ef-a7ec-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb61360f-2f39-11ef-a620-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb5fc265-2f39-11ef-aa68-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb613611-2f39-11ef-815f-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb613610-2f39-11ef-9032-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb613613-2f39-11ef-a7ae-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb613612-2f39-11ef-9b57-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb613615-2f39-11ef-9a33-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb613614-2f39-11ef-97ac-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb6163e7-2f39-11ef-a372-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb6163e6-2f39-11ef-89f7-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+            <SPEC-HIERARCHY IDENTIFIER="_cb6163e9-2f39-11ef-b0ce-405bd8f0a2fa" LAST-CHANGE="2024-06-20T21:17:54">
+              <OBJECT>
+                <SPEC-OBJECT-REF>_cb6163e8-2f39-11ef-bb40-405bd8f0a2fa</SPEC-OBJECT-REF>
+              </OBJECT>
+            </SPEC-HIERARCHY>
+          </CHILDREN>
+        </SPECIFICATION>
+      </SPECIFICATIONS>
+      <SPEC-RELATION-GROUPS/>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>

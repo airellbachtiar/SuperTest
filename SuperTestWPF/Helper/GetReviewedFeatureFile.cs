@@ -34,15 +34,13 @@ namespace SuperTestWPF.Helper
                 }
             }
 
-            CleanUpDuplicateEmptyStrings(rows);
-
-            string updatedContent = string.Join("\n", rows);
-
-            return updatedContent;
+            return CleanUpDuplicateEmptyStrings(rows);
         }
 
         private static void RemoveScenarioContent(Scenario scenario, List<string> rows)
         {
+            RemoveLines(scenario.Examples.SelectMany(e => e.TableBody).Select(r => r.Location.Line), rows);
+            RemoveLines(scenario.Examples.Select(e => e.TableHeader.Location.Line), rows);
             RemoveLines(scenario.Examples.Select(e => e.Location.Line), rows);
             RemoveLines(scenario.Steps.Select(s => s.Location.Line), rows);
             RemoveLine(scenario.Location.Line, rows);
@@ -66,15 +64,25 @@ namespace SuperTestWPF.Helper
             }
         }
 
-        private static void CleanUpDuplicateEmptyStrings(List<string> rows)
+        private static string CleanUpDuplicateEmptyStrings(List<string> rows)
         {
-            for (int i = 1; i < rows.Count; i++)
+            List<string> newRows = [];
+
+            for (int i = 0; i < rows.Count; i++)
             {
                 if (string.IsNullOrWhiteSpace(rows[i]) && string.IsNullOrWhiteSpace(rows[i - 1]))
                 {
-                    rows.RemoveAt(i - 1);
+                    continue;
                 }
+                
+                if (i != 0 && rows[i] == "\r" && rows[i-1] == "\r")
+                {
+                    continue;
+                }
+                newRows.Add(rows[i]);
             }
+
+            return string.Join("\n", newRows);
         }
     }
 }

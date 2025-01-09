@@ -8,6 +8,7 @@ namespace SuperTestWPF.Models
         public string FeatureFileName { get; set; } = string.Empty;
         public string FeatureFileContent { get; set; } = string.Empty;
         public string FeatureFileTitle { get; set; } = string.Empty;
+        public string FeatureFileDescription { get; set; } = string.Empty;
         public ObservableCollection<string> FeatureFileEvaluationScoreDetails { get; set; } = [];
         public string FeatureFileEvaluationSummary { get; set; } = string.Empty;
 

@@ -8,8 +8,14 @@ namespace SuperTestLibrary.Services.Generators
         public string? FeatureFile { get; set; }
         public Dictionary<string, string> GeneratedCSharpCode { get; set; } = [];
 
-        protected override string JsonPromptClaude35Sonnet => "Prompts/GenerateSpecFlowBindingFile/Claude_3_5_Sonnet.json";
-        protected override string JsonPromptGPT4o => "Prompts/GenerateSpecFlowBindingFile/GPT_4o.json";
+        protected override string JsonPromptClaude35Sonnet
+        {
+            get { return GetPromptPath(); }
+        }
+        protected override string JsonPromptGPT4o
+        {
+            get { return GetPromptPath(); }
+        }
         protected override string JsonPromptGemini15 => throw new NotImplementedException("Gemini 1.5 is not supported for generating binding file.");
 
         protected override IEnumerable<string> SetupPrompt(string jsonPromptPath)
@@ -19,6 +25,15 @@ namespace SuperTestLibrary.Services.Generators
             var prompts = new SpecFlowBindingFilePromptBuilder(FeatureFile!, GeneratedCSharpCode).BuildPrompt(prompt);
 
             return prompts;
+        }
+
+        private string GetPromptPath()
+        {
+            if (GeneratedCSharpCode.Count == 0)
+            {
+                return "Prompts/GenerateSpecFlowBindingFile/BindingFilePromptNoCode.json";
+            }
+            return "Prompts/GenerateSpecFlowBindingFile/BindingFilePrompt.json";
         }
     }
 }
