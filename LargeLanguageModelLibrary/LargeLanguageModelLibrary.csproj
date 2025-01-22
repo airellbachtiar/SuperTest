@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="LargeLanguageModels\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="System.Memory.Data" Version="1.0.2" />
   </ItemGroup>
 

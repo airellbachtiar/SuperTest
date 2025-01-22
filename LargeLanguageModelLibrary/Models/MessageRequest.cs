@@ -3,10 +3,10 @@
     public class MessageRequest
     {
         public string Model { get; set; }
-        public double MaxTokens { get; set; }
-        public double Temperature { get; set; }
-        public double TopP { get; set; }
-        public double TopK { get; set; }
+        public int? MaxTokens { get; set; } = null;
+        public double? Temperature { get; set; } = null;
+        public double? TopP { get; set; } = null;
+        public int? TopK { get; set; } = null;
         public ChatMessage[] Messages { get; set; }
     }
 }

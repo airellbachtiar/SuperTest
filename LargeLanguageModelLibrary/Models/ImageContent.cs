@@ -1,4 +1,6 @@
-﻿namespace LargeLanguageModelLibrary.Models
+﻿using System;
+
+namespace LargeLanguageModelLibrary.Models
 {
     public class ImageContent
     {
