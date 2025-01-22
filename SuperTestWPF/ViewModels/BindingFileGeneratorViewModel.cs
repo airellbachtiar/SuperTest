@@ -43,6 +43,7 @@ namespace SuperTestWPF.ViewModels
             ClearAllUploadedFilesCommand = new RelayCommand(ClearAllUpLoadedFiles);
             SaveBindingFileCommand = new RelayCommand(SaveBindingFile);
             ViewFeatureFileCommand = new RelayCommand(ViewFeatureFile);
+            SelectSaveLocationCommand = new RelayCommand(SelectSaveLocation);
 
             var loggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
             loggerFactory.AddProvider(new ListBoxLoggerProvider(LogMessages));
@@ -106,6 +107,7 @@ namespace SuperTestWPF.ViewModels
         public ICommand ClearAllUploadedFilesCommand { get; }
         public ICommand SaveBindingFileCommand { get; }
         public ICommand ViewFeatureFileCommand { get; }
+        public ICommand SelectSaveLocationCommand { get; }
 
         public void OnTreeViewItemSelected(object selectedItem)
         {
@@ -207,6 +209,11 @@ namespace SuperTestWPF.ViewModels
         private void ViewFeatureFile()
         {
             SelectedUploadedFile = UploadedFeatureFile;
+        }
+
+        private void SelectSaveLocation()
+        {
+            SavePath = _fileService.SelectFolderLocation(SavePath);
         }
     }
 }
