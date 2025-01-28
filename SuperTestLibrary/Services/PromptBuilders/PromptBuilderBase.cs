@@ -1,4 +1,5 @@
-﻿using SuperTestLibrary.Helpers;
+﻿using LargeLanguageModelLibrary.Models;
+using SuperTestLibrary.Helpers;
 
 namespace SuperTestLibrary.Services.PromptBuilders
 {
@@ -6,7 +7,7 @@ namespace SuperTestLibrary.Services.PromptBuilders
     {
         protected Prompt? _prompt;
 
-        public IEnumerable<string> BuildPrompt(Prompt prompt)
+        public MessageRequest BuildPrompt(Prompt prompt)
         {
             ArgumentNullException.ThrowIfNull(prompt);
             _prompt = prompt;
@@ -18,7 +19,14 @@ namespace SuperTestLibrary.Services.PromptBuilders
                 prompts.AddRange(GetListOfInteractions.BuildInteractions(prompt));
             }
 
-            return prompts;
+            MessageRequest request = new();
+
+            foreach (var promptStr in prompts)
+            {
+                request.Messages.Add(ChatMessage.CreateUserChatMessage(promptStr));
+            }
+
+            return request;
         }
 
         protected abstract string BuildContext();

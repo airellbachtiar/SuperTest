@@ -157,7 +157,7 @@ namespace LargeLanguageModelLibrary.LargeLanguageModels
                         role = m.Role.ToString().ToLower(),
                         content = CreateContentPayload(m.Content)
                     }).ToArray() },
-                { "max_tokens", request.MaxTokens }
+                { "max_tokens", request.MaxTokens ?? 8192 }
             };
 
             if (request.Temperature != null)

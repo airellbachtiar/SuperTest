@@ -1,8 +1,10 @@
-﻿namespace SuperTestLibrary.Models
+﻿using LargeLanguageModelLibrary.Models;
+
+namespace SuperTestLibrary.Models
 {
-    public class GeneratorResponse (string response, IEnumerable<string> prompts)
+    public class GeneratorResponse (MessageResponse response, MessageRequest request)
     {
-        public string ResponseString { get; } = response;
-        public IEnumerable<string> Prompts { get; } = prompts;
+        public MessageResponse Response { get; } = response;
+        public MessageRequest Request { get; } = request;
     }
 }

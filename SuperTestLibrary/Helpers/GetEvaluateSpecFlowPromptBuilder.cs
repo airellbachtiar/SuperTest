@@ -1,10 +1,11 @@
-﻿using SuperTestLibrary.Services.PromptBuilders;
+﻿using LargeLanguageModelLibrary.Models;
+using SuperTestLibrary.Services.PromptBuilders;
 
 namespace SuperTestLibrary.Helpers
 {
     public static class GetEvaluateSpecFlowPromptBuilder
     {
-        public static IEnumerable<string> SetupPrompt(string jsonPromptPath, string requirements, string featureFile)
+        public static MessageRequest SetupPrompt(string jsonPromptPath, string requirements, string featureFile)
         {
             var prompt = GetPromptFromJson.ConvertJson(jsonPromptPath);
 

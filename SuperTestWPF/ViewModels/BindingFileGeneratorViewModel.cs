@@ -1,4 +1,4 @@
-﻿using LlmLibrary.Models;
+﻿using LargeLanguageModelLibrary.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Logger;
@@ -17,10 +17,10 @@ namespace SuperTestWPF.ViewModels
         public string Title { get; set; } = "Binding File Generator";
 
         private const string FeatureFileFilter = "Feature File (*.feature)|*.feature|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-        private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName]);
+        private readonly ObservableCollection<string> _llmList = new([ModelName.GPT4o.GetDescription(), ModelName.Claude35Sonnet.GetDescription()]);
         private readonly ILogger<BindingFileGeneratorViewModel> _logger;
 
-        private string _selectedLLM = GPT_4o.ModelName;
+        private string _selectedLLM = ModelName.GPT4o.GetDescription();
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
         private string _generatedBindingFile = string.Empty;
         private ObservableCollection<FileInformation> _uploadedFiles = [];

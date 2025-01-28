@@ -54,7 +54,7 @@ namespace SuperTestWPF.Services
             }
             catch (Exception)
             {
-                _logger.LogError($"Exception while generating requirement using {_controller.SelectedLLM!.Id}");
+                _logger.LogError($"Exception while generating requirement using {_controller.SelectedLLM.ToString()}");
                 throw;
             }
         }

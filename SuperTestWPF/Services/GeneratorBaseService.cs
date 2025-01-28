@@ -1,4 +1,4 @@
-﻿using LlmLibrary.Models;
+﻿using LargeLanguageModelLibrary.Enums;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary;
 
@@ -19,15 +19,18 @@ namespace SuperTestWPF.Services
         {
             switch (selectedLlmString)
             {
-                case GPT_4o.ModelName:
-                    _controller.SelectedLLM = new GPT_4o();
+                case string gpt4o when gpt4o == ModelName.GPT4o.GetDescription():
+                    _controller.SelectedLLM = ModelName.GPT4o;
                     break;
-                case Claude_3_5_Sonnet.ModelName:
-                    _controller.SelectedLLM = new Claude_3_5_Sonnet();
+                case string claude when claude == ModelName.Claude35Sonnet.GetDescription():
+                    _controller.SelectedLLM = ModelName.Claude35Sonnet;
                     break;
-                case Gemini_1_5.ModelName:
-                    _controller.SelectedLLM = new Gemini_1_5();
+                case string gemini when gemini == ModelName.Gemini15.GetDescription():
+                    _controller.SelectedLLM = ModelName.Gemini15;
                     break;
+                default:
+                    _logger.LogWarning($"Invalid LLM selection: {selectedLlmString}");
+                    return;
             }
 
             _logger.LogInformation($"Selected LLM: {selectedLlmString}");

@@ -1,4 +1,5 @@
-﻿using SuperTestLibrary.Helpers;
+﻿using LargeLanguageModelLibrary.Models;
+using SuperTestLibrary.Helpers;
 using SuperTestLibrary.Services.PromptBuilders;
 
 namespace SuperTestLibrary.Services.Generators
@@ -18,7 +19,7 @@ namespace SuperTestLibrary.Services.Generators
         }
         protected override string JsonPromptGemini15 => throw new NotImplementedException("Gemini 1.5 is not supported for generating binding file.");
 
-        protected override IEnumerable<string> SetupPrompt(string jsonPromptPath)
+        protected override MessageRequest SetupPrompt(string jsonPromptPath)
         {
             var prompt = GetPromptFromJson.ConvertJson(jsonPromptPath);
 

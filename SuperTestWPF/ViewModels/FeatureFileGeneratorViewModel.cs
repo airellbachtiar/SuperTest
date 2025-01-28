@@ -1,4 +1,4 @@
-﻿using LlmLibrary.Models;
+﻿using LargeLanguageModelLibrary.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Logger;
@@ -17,11 +17,11 @@ namespace SuperTestWPF.ViewModels
         public string Title { get; set; } = "Feature File Generator";
 
         private const string ReqIFFileFilter = "ReqIF (*.reqif)|*.reqif|Text Files (*.txt)|*.txt|All Files (*.*)|*.*";
-        private readonly ObservableCollection<string> _llmList = new([GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName]);
+        private readonly ObservableCollection<string> _llmList = new([ModelName.GPT4o.GetDescription(), ModelName.GPT4o.GetDescription()]);
         private readonly ILogger<FeatureFileGeneratorViewModel> _logger;
 
         private string _chosenFile = string.Empty;
-        private string _selectedLLM = GPT_4o.ModelName;
+        private string _selectedLLM = ModelName.GPT4o.GetDescription();
         private string _savePath = Environment.GetEnvironmentVariable("USERPROFILE") + "\\Downloads";
         private string _evaluationSummary = string.Empty;
         private ObservableCollection<string?> _onLoadedRequirementTitles = [];
@@ -242,7 +242,7 @@ namespace SuperTestWPF.ViewModels
 
             foreach (var featureFile in SpecFlowFeatureFiles)
             {
-                foreach (var llm in new[] { GPT_4o.ModelName, Claude_3_5_Sonnet.ModelName })
+                foreach (var llm in new[] { ModelName.GPT4o.GetDescription(), ModelName.GPT4o.GetDescription() })
                 {
                     // Evaluate feature file
                     _logger.LogInformation($"Evaluating {featureFile.FeatureFileName} feature file using GPT-4o...");

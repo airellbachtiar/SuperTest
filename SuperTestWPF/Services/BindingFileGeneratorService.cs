@@ -60,7 +60,7 @@ namespace SuperTestWPF.Services
             }
             catch (Exception)
             {
-                _logger.LogError($"Exception while generating binding file for {featureFile.Path} using {_controller.SelectedLLM!.Id}");
+                _logger.LogError($"Exception while generating binding file for {featureFile.Path} using {_controller.SelectedLLM.ToString()}");
                 throw;
             }
         }

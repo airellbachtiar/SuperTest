@@ -1,4 +1,4 @@
-﻿using LlmLibrary;
+﻿using LargeLanguageModelLibrary.Enums;
 using SuperTestLibrary.Models;
 using SuperTestLibrary.Services.Generators;
 
@@ -7,7 +7,7 @@ namespace SuperTestLibrary
     public interface ISuperTestController
     {
         IGenerator? SelectedGenerator { get; }
-        ILargeLanguageModel? SelectedLLM { get; set; }
+        ModelName? SelectedLLM { get; set; }
         Task<SpecFlowFeatureFileResponse> GenerateSpecFlowFeatureFileAsync(string requirements, CancellationToken cancellationToken);
         Task<EvaluateSpecFlowFeatureFileResponse> EvaluateSpecFlowFeatureFileAsync(string requirements, string featureFile, CancellationToken cancellationToken);
         Task<EvaluateSpecFlowScenarioResponse> EvaluateSpecFlowScenarioAsync(string requirements, string featureFile, CancellationToken cancellationToken);

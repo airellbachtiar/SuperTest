@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LlmLibrary\LlmLibrary.csproj" />
+    <ProjectReference Include="..\LargeLanguageModelLibrary\LargeLanguageModelLibrary.csproj" />
   </ItemGroup>
 
 	<ItemGroup>
