@@ -7,6 +7,6 @@
         public double? Temperature { get; set; } = null;
         public double? TopP { get; set; } = null;
         public int? TopK { get; set; } = null;
-        public ChatMessage[] Messages { get; set; }
+        public List<ChatMessage> Messages { get; set; } = [];
     }
 }

@@ -1,17 +1,20 @@
 ﻿using LargeLanguageModelLibrary.Enums;
+using LargeLanguageModelLibrary.LargeLanguageModels;
 using LargeLanguageModelLibrary.Models;
 namespace LargeLanguageModelLibrary
 {
-    public class LargeLanguageModel
+    public class LargeLanguageModel : ILargeLanguageModel
     {
-        public Task<MessageResponse> ChatAsync(ModelName modelName, MessageRequest messageRequest, CancellationToken cancellationToken = default)
+        private readonly OpenAIClient openAIClient = new();
+
+        public Task<MessageResponse> ChatAsync(ModelName modelName, MessageRequest messageRequest, bool debugMode = false, CancellationToken cancellationToken = default)
         {
             try
             {
                 switch (modelName)
                 {
                     case ModelName.GPT4o:
-                        throw new NotImplementedException();
+                        return openAIClient.CompleteChatAsync(messageRequest, debugMode: debugMode, cancellationToken: cancellationToken);
                     case ModelName.Claude35Sonnet:
                         throw new NotImplementedException();
                     default:
