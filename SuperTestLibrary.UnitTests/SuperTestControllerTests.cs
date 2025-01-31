@@ -1,12 +1,14 @@
 using Gherkin;
 using Moq;
-using LlmLibrary;
+using LargeLanguageModelLibrary;
 using SuperTestLibrary.Storages;
 using SuperTestLibrary.UnitTests.TestData;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Models;
 using SuperTestLibrary.Models.SpecFlowScenarioEvaluationCriteria;
+using LargeLanguageModelLibrary.Enums;
+using LargeLanguageModelLibrary.Models;
 
 namespace SuperTestLibrary.UnitTests
 {
@@ -20,9 +22,9 @@ namespace SuperTestLibrary.UnitTests
         public void Setup()
         {
             _mockReqIFStorage = new Mock<IReqIFStorage>();
-            _controller = new SuperTestController(_mockReqIFStorage.Object, new Mock<ILogger<SuperTestController>>().Object);
             _mockLLM = new Mock<ILargeLanguageModel>();
-            _controller.SelectedLLM = _mockLLM.Object;
+            _controller = new SuperTestController(_mockReqIFStorage.Object, _mockLLM.Object, new Mock<ILogger<SuperTestController>>().Object);
+            _controller.SelectedLLM = ModelName.GPT4o;
         }
 
         #region GenerateSpecFlowFeatureFileAsync Tests
@@ -30,8 +32,7 @@ namespace SuperTestLibrary.UnitTests
         public async Task GenerateSpecFlowFeatureFileAsync_ValidInput_ReturnsFeatureFileResponse()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
 
             // Act
             SpecFlowFeatureFileResponse result = await _controller.GenerateSpecFlowFeatureFileAsync(Requirement.ValidRequirement);
@@ -62,8 +63,7 @@ namespace SuperTestLibrary.UnitTests
         public void GenerateSpecFlowFeatureFileAsync_IncompleteLlmResponse_ThrowsJsonException()
         {
             //Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteFeatureFile);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.IncompleteFeatureFile);
 
             // Act & Assert
             Assert.ThrowsAsync<JsonException>(async () =>
@@ -74,8 +74,7 @@ namespace SuperTestLibrary.UnitTests
         public void GenerateSpecFlowFeatureFileAsync_InvalidSpecFlowFileResponse_ThrowsCompositeParserException()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.InvalidSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.InvalidSpecFlowFeatureFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<CompositeParserException>(async () =>
@@ -104,8 +103,7 @@ namespace SuperTestLibrary.UnitTests
                     Percentage = 80d
                 }
             };
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowFeatureFileResponse);
 
             // Act
             EvaluateSpecFlowFeatureFileResponse result = await _controller.EvaluateSpecFlowFeatureFileAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile);
@@ -152,8 +150,7 @@ namespace SuperTestLibrary.UnitTests
         public void EvaluateSpecFlowFeatureFileAsync_IncompleteLlmResponse_ThrowsInvalidOperationException()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowFeatureFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -164,8 +161,7 @@ namespace SuperTestLibrary.UnitTests
         public void EvaluateSpecFlowFeatureFileAsync_InvalidEvaluateSpecFlowFeatureFileResponse_ThrowsInvalidOperationException()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowFeatureFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -210,8 +206,7 @@ namespace SuperTestLibrary.UnitTests
                     }
                     ]
             };
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowScenarioResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.ValidEvaluateSpecFlowScenarioResponse);
 
             // Act
             EvaluateSpecFlowScenarioResponse result = await _controller.EvaluateSpecFlowScenarioAsync(Requirement.ValidRequirement, FeatureFile.ValidSpecFlowFeatureFile);
@@ -266,8 +261,7 @@ namespace SuperTestLibrary.UnitTests
         public void EvaluateSpecFlowScenarioAsync_IncompleteLlmResponse_ThrowsInvalidOperationException()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowScenarioResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.IncompleteEvaluateSpecFlowScenarioResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -278,8 +272,7 @@ namespace SuperTestLibrary.UnitTests
         public void EvaluateSpecFlowScenarioAsync_InvalidEvaluateSpecFlowScenarioResponse_ThrowsInvalidOperationException()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowScenarioResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.MismatchEvaluateSpecFlowScenarioResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<InvalidOperationException>(async () =>
@@ -292,8 +285,7 @@ namespace SuperTestLibrary.UnitTests
         public async Task GenerateSpecFlowBindingFileAsync_ValidInput_ReturnsFeatureFileResponse()
         {
             // Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidSpecFlowBindingFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.ValidSpecFlowBindingFileResponse);
 
             // Act
             SpecFlowBindingFileResponse result = await _controller.GenerateSpecFlowBindingFileAsync(FeatureFile.ValidSpecFlowFeatureFile, []);
@@ -322,8 +314,7 @@ namespace SuperTestLibrary.UnitTests
         public void GenerateSpecFlowBindingFileAsync_IncompleteLlmResponse_ThrowsJsonException()
         {
             //Arrange
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.IncompleteSpecFlowBindingFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.IncompleteSpecFlowBindingFileResponse);
 
             // Act & Assert
             Assert.ThrowsAsync<JsonException>(async () =>
@@ -337,12 +328,11 @@ namespace SuperTestLibrary.UnitTests
         {
             // Arrange
             var realReqIFStorage = new GitReqIFStorage("C:\\Dev\\GitLocalFolderTest");
-            var controller = new SuperTestController(realReqIFStorage, new Mock<ILogger<SuperTestController>>().Object)
+            var controller = new SuperTestController(realReqIFStorage, _mockLLM.Object, new Mock<ILogger<SuperTestController>>().Object)
             {
-                SelectedLLM = _mockLLM.Object
+                SelectedLLM = ModelName.GPT4o
             };
-            _mockLLM.Setup(llm => llm.Id).Returns(LLMResponse.ValidId);
-            _mockLLM.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
+            _mockLLM.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(LLMResponse.ValidSpecFlowFeatureFileResponse);
 
             // Act
             var reqIfFiles = await controller.GetAllReqIFFilesAsync();

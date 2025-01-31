@@ -1,4 +1,4 @@
-﻿using LlmLibrary.Models;
+﻿using LargeLanguageModelLibrary.Enums;
 using Microsoft.Extensions.Logging;
 using Moq;
 using SuperTestLibrary;
@@ -107,8 +107,8 @@ namespace SuperTestWPF.UnitTests.ServiceTests
                 .ThrowsAsync(new Exception("Test exception"));
 
             _mockController
-                .Setup(c => c.SelectedLLM!.Id)
-                .Returns(selectedLlmString);
+                .Setup(c => c.SelectedLLM!)
+                .Returns(ModelName.GPT4o);
 
             // Act & Assert
             Assert.ThrowsAsync<Exception>(async () =>

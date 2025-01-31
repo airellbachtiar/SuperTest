@@ -2,6 +2,7 @@
 using SuperTestLibrary;
 using SuperTestWPF.Retry;
 using SuperTestWPF.Models;
+using LargeLanguageModelLibrary.Enums;
 
 namespace SuperTestWPF.Services
 {
@@ -54,7 +55,7 @@ namespace SuperTestWPF.Services
             }
             catch (Exception)
             {
-                _logger.LogError($"Exception while generating requirement using {_controller.SelectedLLM.ToString()}");
+                _logger.LogError($"Exception while generating requirement using {((ModelName)_controller.SelectedLLM!).GetDescription()}");
                 throw;
             }
         }

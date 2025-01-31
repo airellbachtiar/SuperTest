@@ -12,21 +12,22 @@ namespace SuperTestLibrary
     public class SuperTestController : ISuperTestController
     {
         private readonly IReqIFStorage _reqIFStorage;
+        private readonly ILargeLanguageModel _largeLanguageModel;
         private readonly SpecFlowFeatureFileGenerator specFlowFeatureFileGenerator = new();
         private readonly EvaluateSpecFlowFeatureFileGenerator evaluateSpecFlowFeatureFileGenerator = new();
         private readonly EvaluateSpecFlowScenarioGenerator evaluateSpecFlowScenarioGenerator = new();
         private readonly SpecFlowBindingFileGenerator specFlowBindingFileGenerator = new();
         private readonly RequirementGenerator requirementGenerator = new();
-        private readonly LargeLanguageModel largeLanguageModel = new();
 
         private readonly ILogger<SuperTestController> _logger;
 
         public IGenerator? SelectedGenerator { get; private set; }
         public ModelName? SelectedLLM { get; set; }
 
-        public SuperTestController(IReqIFStorage reqIFStorage, ILogger<SuperTestController> logger)
+        public SuperTestController(IReqIFStorage reqIFStorage, ILargeLanguageModel largeLanguageModel, ILogger<SuperTestController> logger)
         {
             _reqIFStorage = reqIFStorage;
+            _largeLanguageModel = largeLanguageModel;
             _logger = logger;
         }
 
@@ -166,7 +167,7 @@ namespace SuperTestLibrary
             CheckLLM();
             CheckGenerator();
 
-            var response = await SelectedGenerator!.GenerateAsync(largeLanguageModel, (ModelName)SelectedLLM!, cancellationToken);
+            var response = await SelectedGenerator!.GenerateAsync(_largeLanguageModel, (ModelName)SelectedLLM!, cancellationToken);
             _logger.LogInformation("Response generation completed successfully.");
             return response;
         }

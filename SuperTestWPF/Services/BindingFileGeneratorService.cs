@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using LargeLanguageModelLibrary.Enums;
+using Microsoft.Extensions.Logging;
 using SuperTestLibrary;
 using SuperTestWPF.Models;
 using SuperTestWPF.Retry;
@@ -60,7 +61,7 @@ namespace SuperTestWPF.Services
             }
             catch (Exception)
             {
-                _logger.LogError($"Exception while generating binding file for {featureFile.Path} using {_controller.SelectedLLM.ToString()}");
+                _logger.LogError($"Exception while generating binding file for {featureFile.Path} using {((ModelName)_controller.SelectedLLM!).GetDescription()}");
                 throw;
             }
         }

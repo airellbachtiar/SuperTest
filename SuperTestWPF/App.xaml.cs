@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using LargeLanguageModelLibrary;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -55,6 +56,7 @@ namespace SuperTestWPF
                     services.AddTransient<IRetryService, RetryService>();
                     services.AddTransient<IFileService, FileService>();
                     services.AddTransient<IReqIFConverterService, ReqIFConverterService>();
+                    services.AddTransient<ILargeLanguageModel, LargeLanguageModel>();
                 })
                 .Build();
         }

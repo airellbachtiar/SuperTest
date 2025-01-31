@@ -107,10 +107,6 @@ namespace SuperTestWPF.UnitTests.ServiceTests
                     It.IsAny<TimeSpan>(), It.IsAny<int>()))
                 .ThrowsAsync(new Exception("Test exception"));
 
-            _mockController
-                .Setup(c => c.SelectedLLM!.Id)
-                .Returns(selectedLlmString);
-
             // Act & Assert
             Assert.ThrowsAsync<Exception>(async () =>
                 await _service.EvaluateFeatureFileAsync(selectedLlmString, featureFile, requirements));
@@ -205,10 +201,6 @@ namespace SuperTestWPF.UnitTests.ServiceTests
                     It.IsAny<Func<Task<EvaluateSpecFlowScenarioResponse>>>(),
                     It.IsAny<TimeSpan>(), It.IsAny<int>()))
                 .ThrowsAsync(new Exception("Test exception"));
-
-            _mockController
-                .Setup(c => c.SelectedLLM!.Id)
-                .Returns(selectedLlmString);
 
             // Act & Assert
             Assert.ThrowsAsync<Exception>(async () =>

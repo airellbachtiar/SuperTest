@@ -1,8 +1,10 @@
 ﻿using Moq;
-using LlmLibrary;
+using LargeLanguageModelLibrary;
 using SuperTestLibrary.Storages;
 using Microsoft.Extensions.Logging;
 using SuperTestLibrary.Models;
+using LargeLanguageModelLibrary.Enums;
+using LargeLanguageModelLibrary.Models;
 
 namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
 {
@@ -20,21 +22,28 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         private string _errorMessage = string.Empty;
 
         private const string _llmId = "Claude 3.5 Sonnet";
-        private const string _llmResponse = "{\"Readability\": 4, \"Consistency\": 4, \"Focus\": 4, \"Structure\": 0, \"Maintainability\": 0, \"Coverage\": 4, \"Score\": {\"MaximumScore\": 20, \"TotalScore\": 16}, \"Summary\": \"The feature file is generally well-written and meets most of the evaluation criteria. However, there are a few recommendations for improvement. The feature name is descriptive and provides a clear understanding of its purpose, resulting in high readability and focus. It maintains consistent naming and format, which adds to its clarity. There is no use of Background steps or step reusability in this feature file, which might reduce maintainability and the potential for streamlined steps across scenarios. Coverage is good, as it considers various scenarios including error conditions. Consider using Background steps if there are common preconditions across scenarios and explore step reuse opportunities to enhance maintainability.\"}";
+        private static MessageResponse _llmResponse = new()
+        {
+            Messages = [
+                new()
+                {
+                    Text = "{\"Readability\": 4, \"Consistency\": 4, \"Focus\": 4, \"Structure\": 0, \"Maintainability\": 0, \"Coverage\": 4, \"Score\": {\"MaximumScore\": 20, \"TotalScore\": 16}, \"Summary\": \"The feature file is generally well-written and meets most of the evaluation criteria. However, there are a few recommendations for improvement. The feature name is descriptive and provides a clear understanding of its purpose, resulting in high readability and focus. It maintains consistent naming and format, which adds to its clarity. There is no use of Background steps or step reusability in this feature file, which might reduce maintainability and the potential for streamlined steps across scenarios. Coverage is good, as it considers various scenarios including error conditions. Consider using Background steps if there are common preconditions across scenarios and explore step reuse opportunities to enhance maintainability.\"}"
+                }
+                ]
+        };
 
         #region Generate evaluation score for a valid SpecFlow feature file
 
         public GenerateEvaluationSpecFlowFeatureFileSteps()
         {
-            _superTestController = new SuperTestController(_mockReqIFStorage.Object, _mockLogger.Object);
+            _superTestController = new SuperTestController(_mockReqIFStorage.Object, _mockLargeLanguageModel.Object, _mockLogger.Object);
         }
 
         [BeforeScenario("Generate evaluation score for a valid SpecFlow feature file")]
         public void SetupGenerateEvaluationScoreForAValidSpecFlowFeatureFile()
         {
-            _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
-            _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(_llmResponse);
-            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
+            _mockLargeLanguageModel.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(_llmResponse);
+            _superTestController.SelectedLLM = ModelName.GPT4o;
         }
 
         [Given(@"I have a set of requirements")]
@@ -73,7 +82,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         [BeforeScenario("Attempt to generate evaluation score without requirements")]
         public void SetupAttemptToGenerateEvaluationScoreWithoutRequirements()
         {
-            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
+            _superTestController.SelectedLLM = ModelName.GPT4o;
         }
 
         [Given(@"I don't have any requirements")]
@@ -99,8 +108,7 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         [BeforeScenario("Attempt to generate evaluation score without a SpecFlow feature file")]
         public void SetupAttemptToGenerateEvaluationScoreWithoutASpecFlowFeatureFile()
         {
-            _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
-            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
+            _superTestController.SelectedLLM = ModelName.GPT4o;
         }
 
         [Given(@"I don't have a SpecFlow feature file")]
@@ -120,9 +128,8 @@ namespace SuperTestLibrary.SpecFlowTests.StepDefinitions
         [BeforeScenario("Generate evaluation score with detailed feedback")]
         public void SetupGenerateEvaluationScoreWithDetailedFeedback()
         {
-            _mockLargeLanguageModel.Setup(llm => llm.Id).Returns(_llmId);
-            _mockLargeLanguageModel.Setup(llm => llm.CallAsync(It.IsAny<IEnumerable<string>>(), CancellationToken.None)).ReturnsAsync(_llmResponse);
-            _superTestController.SelectedLLM = _mockLargeLanguageModel.Object;
+            _mockLargeLanguageModel.Setup(llm => llm.ChatAsync(It.IsAny<ModelName>(), It.IsAny<MessageRequest>(), It.IsAny<bool>(), It.IsAny<CancellationToken>())).ReturnsAsync(_llmResponse);
+            _superTestController.SelectedLLM = ModelName.GPT4o;
         }
 
         [Then(@"provide detailed feedback")]
