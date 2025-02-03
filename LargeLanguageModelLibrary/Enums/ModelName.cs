@@ -9,7 +9,9 @@ namespace LargeLanguageModelLibrary.Enums
         [Description("Claude 3.5 Sonnet")]
         Claude35Sonnet,
         [Description("Gemini 1.5")]
-        Gemini15
+        Gemini15,
+        [Description("DeepSeek R1 - 8B")]
+        DeepSeekR18B,
     }
 
     public static class EnumExtensions

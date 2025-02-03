@@ -14,6 +14,8 @@ namespace SuperTestLibrary.Services.Generators
                 ModelName.Claude35Sonnet => JsonPromptClaude35Sonnet,
                 ModelName.GPT4o => JsonPromptGPT4o,
                 ModelName.Gemini15 => JsonPromptGemini15,
+                // ModelName.DeepSeekR18B => JsonPromptDeepSeekR18B,
+                ModelName.DeepSeekR18B => JsonPromptGPT4o,
                 _ => throw new InvalidOperationException("Unknown LLM."),
             };
 
@@ -23,6 +25,7 @@ namespace SuperTestLibrary.Services.Generators
             {
                 ModelName.Claude35Sonnet => "claude-3-5-sonnet-20241022",
                 ModelName.GPT4o => "gpt-4o",
+                ModelName.DeepSeekR18B => "deepseek-r1:8b",
                 _ => throw new InvalidOperationException("Unknown LLM."),
             };
 

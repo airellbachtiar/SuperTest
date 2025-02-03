@@ -7,6 +7,7 @@ namespace LargeLanguageModelLibrary
     {
         private readonly OpenAIClient openAIClient = new();
         private readonly AnthropicClient anthropicClient = new();
+        private readonly OllamaClient ollamaClient = new();
 
         public Task<MessageResponse> ChatAsync(ModelName modelName, MessageRequest messageRequest, bool debugMode = false, CancellationToken cancellationToken = default)
         {
@@ -16,6 +17,7 @@ namespace LargeLanguageModelLibrary
                 {
                     ModelName.GPT4o => openAIClient.CompleteChatAsync(messageRequest, debugMode: debugMode, cancellationToken: cancellationToken),
                     ModelName.Claude35Sonnet => anthropicClient.CompleteChatAsync(messageRequest, debugMode: debugMode, cancellationToken: cancellationToken),
+                    ModelName.DeepSeekR18B => ollamaClient.CompleteChatAsync(messageRequest, debugMode: false, cancellationToken: cancellationToken),
                     _ => throw new ArgumentException("Invalid model name"),
                 };
             }

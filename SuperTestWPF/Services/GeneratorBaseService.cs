@@ -28,6 +28,9 @@ namespace SuperTestWPF.Services
                 case string gemini when gemini == ModelName.Gemini15.GetDescription():
                     _controller.SelectedLLM = ModelName.Gemini15;
                     break;
+                case string deepSeek when deepSeek == ModelName.DeepSeekR18B.GetDescription():
+                    _controller.SelectedLLM = ModelName.DeepSeekR18B;
+                    break;
                 default:
                     _logger.LogWarning($"Invalid LLM selection: {selectedLlmString}");
                     return;
