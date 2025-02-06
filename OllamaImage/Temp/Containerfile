@@ -1,0 +1,8 @@
+FROM ollama/ollama as builder
+ENV MODEL_NAME=deepseek-r1:1.5b
+RUN ollama serve & sleep 3 && ollama run $MODEL_NAME
+
+FROM ollama/ollama
+ENV MODEL_NAME=deepseek-r1:1.5b
+COPY --from=builder /root/.ollama /root/.ollama
+ENTRYPOINT ["/bin/sh", "-c", "ollama serve & sleep 2 && ollama run $MODEL_NAME"]

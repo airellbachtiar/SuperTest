@@ -1,0 +1,14 @@
+# Use Ollama as the base image
+FROM ollama/ollama
+
+# Copy the pre-downloaded model files into the image
+COPY ollama-export /root/.ollama
+
+# Ensure correct permissions
+RUN chmod -R 777 /root/.ollama
+
+# Start the Ollama server and run the model
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh && sed -i 's/\r$//' /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
